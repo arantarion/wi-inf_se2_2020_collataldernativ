@@ -7,9 +7,13 @@ import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
 import com.vaadin.navigator.Navigator;
+import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
 import org.bonn.se2.gui.views.LoginView;
 import org.bonn.se2.gui.views.MainView;
 import org.bonn.se2.model.objects.dto.User;
@@ -23,6 +27,8 @@ public class MyUI extends UI {
 
     private User user = null;
 
+    private TextField filterText = new TextField();
+
     public User getUser() {
         return user;
     }
@@ -33,13 +39,20 @@ public class MyUI extends UI {
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
+        final VerticalLayout layout = new VerticalLayout();
 
-        Navigator navi = new Navigator(this, this);
+        filterText.setCaption("filter by name...");
+
+        Button clearFilterTextBtn = new Button(FontAwesome.TIMES);
+        clearFilterTextBtn.setDescription("Clear the current filter");
+        layout.addComponents(filterText, clearFilterTextBtn);
+        this.setContent(layout);
+        //Navigator navi = new Navigator(this, this);
 
         //navi.addView(Views.MAIN, MainView.class);
         //navi.addView(Views.LOGIN, LoginView.class);
 
-        UI.getCurrent().getNavigator().navigateTo(Views.LOGIN);
+        //UI.getCurrent().getNavigator().navigateTo(Views.LOGIN);
     }
 
     public MyUI getMyUI() {

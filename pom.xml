@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>org.bonn.se2</groupId>
-	<artifactId>Coll@Aldernativ_Project</artifactId>
+	<artifactId>CollAtAldernativ_Project</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
 	<name>Coll@Aldernativ_Project</name>
