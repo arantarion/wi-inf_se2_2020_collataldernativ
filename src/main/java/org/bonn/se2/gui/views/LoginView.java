@@ -9,7 +9,7 @@ import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.process.control.exceptions.NoSuchUserOrPasswordException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 
 public class LoginView extends VerticalLayout implements View {
@@ -62,7 +62,7 @@ public class LoginView extends VerticalLayout implements View {
 
                 LoginControl.checkAuthentication(login, password);
 
-            } catch (NoSuchUserOrPasswordException noSuchUserOrPasswordException) {
+            } catch (InvalidCredentialsException invalidCredentialsException) {
 
                 Notification.show("Dies ist keine gültige Kombination", Notification.Type.ERROR_MESSAGE);
                 passwd.setValue("");

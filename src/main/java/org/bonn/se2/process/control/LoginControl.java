@@ -4,7 +4,7 @@ import com.vaadin.ui.UI;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.process.control.exceptions.NoSuchUserOrPasswordException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.db.JDBCConnection;
 import org.bonn.se2.services.util.Configuration;
 
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class LoginControl {
 
-    public static void checkAuthentication(String user, String pw) throws NoSuchUserOrPasswordException, DatabaseException {
+    public static void checkAuthentication(String user, String pw) throws InvalidCredentialsException, DatabaseException {
 
         ResultSet set;
 
@@ -43,7 +43,7 @@ public class LoginControl {
                 userDTO.setVorname(set.getString(3));
 
             } else {
-                throw new NoSuchUserOrPasswordException();
+                throw new InvalidCredentialsException();
             }
         } catch (SQLException ex) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);
