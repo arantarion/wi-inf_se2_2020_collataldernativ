@@ -1,4 +1,6 @@
 package org.bonn.se2.gui.views;
 
-public class MainView {
+import com.vaadin.navigator.View;
+
+public class MainView implements View {
 }

@@ -1,23 +1,10 @@
 package org.bonn.se2.process.control.exceptions;
 
-public class DatabaseException extends Exception {
-
-    private String reason = null;
+public class DatabaseException extends CollException {
 
     public DatabaseException() {
-        super("There was an error with the database!");
+        super("Es gibt ein Problem mit der Datenbank");
     }
-
-    public DatabaseException(String reason) {
-        this.reason = reason;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    public DatabaseException(String msg){ super(msg);}
 
 }
