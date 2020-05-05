@@ -1,7 +1,7 @@
 package org.bonn.se2.services.db;
 
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.services.util.*;
+import org.bonn.se2.services.util.Configuration;
 
 import java.sql.*;
 import java.util.Properties;

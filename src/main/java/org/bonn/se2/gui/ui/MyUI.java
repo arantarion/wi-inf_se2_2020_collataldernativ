@@ -1,12 +1,9 @@
 package org.bonn.se2.gui.ui;
 
-import javax.servlet.annotation.WebServlet;
-
 import com.vaadin.annotations.PreserveOnRefresh;
 import com.vaadin.annotations.Theme;
 import com.vaadin.annotations.Title;
 import com.vaadin.annotations.VaadinServletConfiguration;
-import com.vaadin.navigator.Navigator;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
@@ -14,10 +11,9 @@ import com.vaadin.ui.Button;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
-import org.bonn.se2.gui.views.LoginView;
-import org.bonn.se2.gui.views.MainView;
 import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.services.util.Configuration;
+
+import javax.servlet.annotation.WebServlet;
 
 
 @Theme("mytheme")

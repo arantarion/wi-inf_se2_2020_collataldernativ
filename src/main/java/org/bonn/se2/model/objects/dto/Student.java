@@ -17,15 +17,16 @@ public class Student extends User implements Serializable {
     private Integer fachsemester;
     private Integer studentID;
 
-    public Student(){}
+    public Student() {
+    }
 
-    public Student(User user){
+    public Student(User user) {
         super(user.getUsername(), user.getEmail(), user.getPasswort());
     }
 
     public Student(String vorname, String nachname, String studienfach,
                    String job, String arbeitgeber, LocalDate bday,
-                   Integer fachsemester, Integer ID ){
+                   Integer fachsemester, Integer ID) {
 
         this.vorname = vorname;
         this.nachname = nachname;

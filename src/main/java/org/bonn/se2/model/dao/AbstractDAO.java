@@ -32,11 +32,11 @@ public abstract class AbstractDAO<T> {
         try {
             resultSet = statement.executeQuery(sql);
         } catch (SQLException ex) {
-           throw new DatabaseException("Es gibt ein Problem mit dem ResultSet");
+            throw new DatabaseException("Es gibt ein Problem mit dem ResultSet");
         }
 
         try {
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 results.add(create(resultSet));
             }
             return results;
