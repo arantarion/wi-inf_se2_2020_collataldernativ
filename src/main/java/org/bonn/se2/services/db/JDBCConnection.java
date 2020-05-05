@@ -1,7 +1,7 @@
 package org.bonn.se2.services.db;
 
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.services.util.Credentials;
+import org.bonn.se2.services.util.*;
 
 import java.sql.*;
 import java.util.Properties;
@@ -11,9 +11,9 @@ import java.util.logging.Logger;
 public class JDBCConnection implements JDBCConnectionInterface {
 
     private static JDBCConnection connection = null;
-    private final String login = Credentials.USERNAME;
-    private final String password = Credentials.PASSWORD;
-    private final String URL = "jdbc:postgresql://dumbo.inf.h-brs.de/jvetmi2s";
+    private final String login = Configuration.DB_Credentials.USERNAME;
+    private final String password = Configuration.DB_Credentials.PASSWORD;
+    private final String URL = Configuration.DB_Credentials.URL;
 
     private Connection conn;
 

@@ -6,7 +6,7 @@ import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.NoSuchUserOrPasswordException;
 import org.bonn.se2.services.db.JDBCConnection;
-import org.bonn.se2.services.util.Views;
+import org.bonn.se2.services.util.Configuration;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -53,7 +53,7 @@ public class LoginControl {
 
         ((MyUI) UI.getCurrent()).setUser(userDTO);
 
-        UI.getCurrent().getNavigator().navigateTo(Views.MAIN);
+        UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
 
     }
 

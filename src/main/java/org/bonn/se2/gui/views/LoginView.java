@@ -10,7 +10,7 @@ import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.NoSuchUserOrPasswordException;
-import org.bonn.se2.services.util.Views;
+import org.bonn.se2.services.util.Configuration;
 
 public class LoginView extends VerticalLayout implements View {
 
@@ -20,7 +20,7 @@ public class LoginView extends VerticalLayout implements View {
         User user = ((MyUI) UI.getCurrent()).getUser();
 
         if (user != null){
-            UI.getCurrent().getNavigator().navigateTo(Views.MAIN);
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
         }
 
         this.setUp();

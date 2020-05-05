@@ -17,7 +17,7 @@ import com.vaadin.ui.VerticalLayout;
 import org.bonn.se2.gui.views.LoginView;
 import org.bonn.se2.gui.views.MainView;
 import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.services.util.Views;
+import org.bonn.se2.services.util.Configuration;
 
 
 @Theme("mytheme")
