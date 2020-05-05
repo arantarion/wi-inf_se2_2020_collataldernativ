@@ -29,7 +29,7 @@ public class LoginControl {
                     "AND realm.user.password = \'" + pw + "\'");
 
         } catch (SQLException ex) {
-            Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
             throw new DatabaseException("Fehler im SQL Befehl");
         }
 
@@ -39,8 +39,8 @@ public class LoginControl {
             if (set.next()) {
 
                 userDTO = new User();
-                userDTO.setLogin(set.getString(1));
-                userDTO.setVorname(set.getString(3));
+                userDTO.setUsername(set.getString(1));
+                //userDTO.setVorname(set.getString(3));
 
             } else {
                 throw new InvalidCredentialsException();
