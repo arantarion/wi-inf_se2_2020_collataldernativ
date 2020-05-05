@@ -5,5 +5,6 @@ public class InvalidCredentialsException extends Exception {
     public InvalidCredentialsException(){
         super("Die angegebenen Login-Daten sind nicht korrekt. Versuchen Sie es erneut.");
     }
+    public InvalidCredentialsException(String msg){ super(msg);}
 
 }
