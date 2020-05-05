@@ -22,6 +22,7 @@ public class LoginControl {
 
         try {
             Statement state = JDBCConnection.getInstance().getStatement();
+            //TODO
             set = state.executeQuery("SELECT * " +
                     "FROM realm.user " +
                     "WHERE realm.user.login = \'" + user + "\'" +

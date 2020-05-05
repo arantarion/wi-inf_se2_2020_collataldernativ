@@ -32,6 +32,7 @@ public class RoleDAO extends AbstractDAO {
         ResultSet rs = null;
 
         try {
+            //TODO
             rs = statement.executeQuery("SELECT * FROM realm.user_to_rolle WHERE realm.user_to_rolle.login = \'" + user.getLogin() + "\' ");
         } catch (SQLException ex) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);
