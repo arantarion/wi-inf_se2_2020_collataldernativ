@@ -12,6 +12,7 @@ import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.services.util.Configuration;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -23,7 +24,7 @@ public class MyUI extends UI {
 
     private User user = null;
 
-    private TextField filterText = new TextField();
+    private final TextField filterText = new TextField();
 
     public User getUser() {
         return user;
@@ -48,7 +49,7 @@ public class MyUI extends UI {
         //navi.addView(Views.MAIN, MainView.class);
         //navi.addView(Views.LOGIN, LoginView.class);
 
-        //UI.getCurrent().getNavigator().navigateTo(Views.LOGIN);
+        //UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
     }
 
     public MyUI getMyUI() {

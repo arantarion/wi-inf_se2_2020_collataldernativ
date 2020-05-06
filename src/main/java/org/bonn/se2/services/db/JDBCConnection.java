@@ -11,10 +11,6 @@ import java.util.logging.Logger;
 public class JDBCConnection implements JDBCConnectionInterface {
 
     private static JDBCConnection connection = null;
-    private final String login = Configuration.DB_Credentials.USERNAME;
-    private final String password = Configuration.DB_Credentials.PASSWORD;
-    private final String URL = Configuration.DB_Credentials.URL;
-
     private Connection conn;
 
     private JDBCConnection() throws DatabaseException {
@@ -44,14 +40,15 @@ public class JDBCConnection implements JDBCConnectionInterface {
         try {
 
             Properties probs = new Properties();
-            probs.setProperty("user", this.login);
-            probs.setProperty("password", this.password);
+            probs.setProperty("user", Configuration.DB_Credentials.USERNAME);
+            probs.setProperty("password", Configuration.DB_Credentials.PASSWORD);
 
-            this.conn = DriverManager.getConnection(this.URL, probs);
+            String URL = Configuration.DB_Credentials.URL;
+            this.conn = DriverManager.getConnection(URL, probs);
 
         } catch (SQLException ex) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);
-            throw new DatabaseException("Fehler bei Zugriff auf die Datenbank. Ist eine sichere Verbindung vorhanden?");
+            throw new DatabaseException("Fehler bei Zugriff auf die Datenbank. Ist eine sichere Verbindung hergestellt?");
         }
     }
 
