@@ -128,5 +128,5 @@ TODO
 TODO
 
 <h2>Status</h2>
-Sprint 1 - 30.04 bis 28.05
+Sprint 1 - 30.04 bis 28.05 <br>
 Spring 2 - ? bis ?
