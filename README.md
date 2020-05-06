@@ -1,10 +1,10 @@
-##Name
+<h2>Name</h2>
 Coll@Aldernativ - Eine neue und inovative Version von Coll@H-BRS
 
-##Beschreibung
+<h2>Beschreibung</h2>
 TODO
 
-##Mitglieder
+<h2>Mitglieder</h2>
 <table>
 <tbody>
 <tr>
@@ -121,12 +121,12 @@ TODO
 <p>&nbsp;</p>
 
 
-##Installation
+<h2>Installation</h2>
 TODO
 
-##Nutzung
+<h2>Nutzung</h2>
 TODO
 
-##Status
+<h2>Status</h2>
 Sprint 1 - 30.04 bis 28.05
 Spring 2 - ? bis ?
