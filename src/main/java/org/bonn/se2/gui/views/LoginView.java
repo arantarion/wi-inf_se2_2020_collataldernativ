@@ -19,7 +19,7 @@ public class LoginView extends VerticalLayout implements View {
 
         User user = ((MyUI) UI.getCurrent()).getUser();
 
-        if (user != null){
+        if (user != null) {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
         }
 
