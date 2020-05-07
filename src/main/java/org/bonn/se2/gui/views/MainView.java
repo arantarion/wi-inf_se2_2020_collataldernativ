@@ -1,4 +1,4 @@
-package views;
+package org.bonn.se2.gui.views;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
