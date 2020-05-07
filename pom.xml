@@ -66,6 +66,7 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-themes</artifactId>
         </dependency>
+        <!-- If there are no local customizations, this can also be "fetch" or "cdn" -->
 
         <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
