@@ -10,7 +10,7 @@ public class UserAtLogin extends User {
         this.password = password;
     }
 
-    public String getLogin() {
+    public String getEmail() {
         return email;
     }
     public String getPassword() {

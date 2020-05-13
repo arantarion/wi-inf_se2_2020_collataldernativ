@@ -1,4 +1,4 @@
-package org.bonn.se2.gui.components;
+package org.bonn.se2.services.util;
 
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
@@ -9,6 +9,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 public class Uploader extends VerticalLayout {
+
+    // https://github.com/vaadin/book-examples/blob/master/src/com/vaadin/book/examples/component/UploadExample.java
 
     void basic() {
         final Embedded image = new Embedded("Uploaded Image");
