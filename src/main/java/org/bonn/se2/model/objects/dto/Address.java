@@ -11,6 +11,10 @@ public class Address implements Serializable {
     private String stadt;
     private String land;
 
+    public Address(){
+
+    }
+
     public Address(String strasse, String hausnummer, String plz, String stadt, String land) {
         this.strasse = strasse;
         this.hausnummer = hausnummer;
