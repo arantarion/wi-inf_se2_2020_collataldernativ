@@ -9,6 +9,7 @@ import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.CryptoFunctions;
 import org.bonn.se2.services.util.SessionFunctions;
+import org.bonn.se2.services.util.UIFunctions;
 
 public class LoginControl {
 
@@ -18,7 +19,7 @@ public class LoginControl {
         if (CryptoFunctions.checkPw(loginUser.getPassword(), user.getPasswort())) {
             SessionFunctions.setCurrentUser(user);
             //SessionFunctions.setCurrentRole(getRole(loginUser))
-            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
+            UIFunctions.gotoMain();
         } else {
             throw new InvalidCredentialsException();
         }

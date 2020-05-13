@@ -1,11 +1,15 @@
 package org.bonn.se2.gui.components;
 
+import com.vaadin.server.FileResource;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.LoginControl;
+import org.bonn.se2.services.util.UIFunctions;
+
+import java.io.File;
 
 public class TopPanel extends HorizontalLayout {
 
@@ -41,6 +45,14 @@ public class TopPanel extends HorizontalLayout {
         this.addComponent(horLayout);
         this.setComponentAlignment(horLayout, Alignment.TOP_RIGHT);
 
+    }
+
+    private Image createImage() {
+        FileResource resource = new FileResource(new File(
+                "/WEB-INF/images/image.png"));
+        Image icon = new Image(null, resource);
+        icon.addClickListener(e -> UIFunctions.gotoMain());
+        return icon;
     }
 
 }

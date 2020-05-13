@@ -1,6 +1,7 @@
 package org.bonn.se2.services.util;
 
 import com.vaadin.server.VaadinSession;
+import com.vaadin.ui.UI;
 import org.bonn.se2.model.objects.dto.User;
 
 public class SessionFunctions {
