@@ -8,9 +8,9 @@ TODO
 <table>
 <tbody>
 <tr>
-<td>&nbsp;Name</td>
-<td>E-Mail Adresse</td>
-<td>Funktion </td>
+<td><b>Name</b></td>
+<td><b>E-Mail Adresse</b></td>
+<td><b>Funktion</b></td>
 </tr>
 <tr>
 <td>&nbsp;
