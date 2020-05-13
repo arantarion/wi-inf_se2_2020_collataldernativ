@@ -48,7 +48,7 @@ public abstract class AbstractDAO<T> {
     }
 
     //TODO!!!
-    protected List<T> executePrepared(String sql) throws DatabaseException {
+    protected List<T> executePrepared(String sql, Object... values) throws DatabaseException {
         List<T> results = new ArrayList<>();
         PreparedStatement preparedStatement = this.getPreparedStatement(sql);
         return results;
