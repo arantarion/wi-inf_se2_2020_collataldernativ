@@ -2,10 +2,11 @@ package org.bonn.se2.gui.components;
 
 import com.vaadin.server.FileResource;
 import com.vaadin.server.Page;
-import com.vaadin.server.StreamResource;
 import com.vaadin.ui.*;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 public class Uploader extends VerticalLayout {
 
