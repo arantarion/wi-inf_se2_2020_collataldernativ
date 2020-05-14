@@ -7,6 +7,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.model.objects.dto.UserAtLogin;
 import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
@@ -59,8 +60,8 @@ public class LoginView extends VerticalLayout implements View {
             String password = passwd.getValue();
 
             try {
-
-                LoginControl.checkAuthentication(login, password);
+                UserAtLogin user = new UserAtLogin("","");
+                LoginControl.checkAuthentication(user);
 
             } catch (InvalidCredentialsException invalidCredentialsException) {
 
