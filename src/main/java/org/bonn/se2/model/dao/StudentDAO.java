@@ -32,6 +32,11 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     }
 
     @Override
+    public Student retrieve(String attribute) throws Exception {
+        return null;
+    }
+
+    @Override
     public List<Student> retrieveAll() throws DatabaseException {
         //TODO
         String sql = "SELECT *\n" +
