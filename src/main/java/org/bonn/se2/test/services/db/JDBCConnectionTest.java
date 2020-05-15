@@ -9,7 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class JDBCConnectionTest {
 
@@ -21,7 +22,7 @@ class JDBCConnectionTest {
     }
 
     @Test
-    void getInstanceRegisterDriveOpenConncetion(){
+    void getInstanceRegisterDriveOpenConnection() {
         assertNotNull(connection);
     }
 
@@ -29,7 +30,7 @@ class JDBCConnectionTest {
     void getStatement() {
 
         Statement statement = null;
-        try{
+        try {
             statement = connection.getStatement();
         } catch (DatabaseException e) {
             e.printStackTrace();
@@ -41,7 +42,7 @@ class JDBCConnectionTest {
     @Test
     void getPreparedStatement() {
         PreparedStatement preparedStatement = null;
-        try{
+        try {
             preparedStatement = connection.getPreparedStatement("SELECT * FROM * WHERE *");
         } catch (DatabaseException e) {
             e.printStackTrace();
