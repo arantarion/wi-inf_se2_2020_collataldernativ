@@ -16,7 +16,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public Company retrieve(int id) throws Exception {
+    public Company retrieve(int id) throws DatabaseException {
         String sql =
                 "SELECT * FROM \"CollDB\".\"user\"\n" +
                         "         JOIN \"CollDB\".company ON \"user\".userID = company.userID\n" +
@@ -31,7 +31,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public Company retrieve(String attribute) throws Exception {
+    public Company retrieve(String attribute) throws DatabaseException {
         String query =
                 "SELECT * FROM \"CollDB\".company\n" +
                         "JOIN \"CollDB\".user ON company.userID = \"user\".userID\n" +
@@ -48,7 +48,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public List<Company> retrieveAll() throws Exception {
+    public List<Company> retrieveAll() throws DatabaseException {
         String query =
                 "SELECT * FROM \"CollDB\".company\n" +
                         "JOIN \"CollDB\".\"user\" ON company.userID = \"user\".userID\n" +
@@ -72,7 +72,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public Company delete(Company company) throws Exception {
+    public Company delete(Company company) throws DatabaseException {
         final String deleteQuery =
                 "DELETE FROM \"CollDB\".user\n" +
                         "WHERE username = ?\n" +

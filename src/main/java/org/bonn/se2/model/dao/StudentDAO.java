@@ -11,7 +11,7 @@ import java.util.List;
 
 public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Student> {
 
-    protected StudentDAO() throws DatabaseException {
+    public StudentDAO() throws DatabaseException {
     }
 
     @Override
