@@ -29,6 +29,10 @@
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
 
+$v-app-loading-text: "Coll@Aldernativ";
+$mat-custom-color: #fff;
+$v-font-color: #32373a;
+
 @import "../valo/valo.scss";
 
 @mixin mytheme {
