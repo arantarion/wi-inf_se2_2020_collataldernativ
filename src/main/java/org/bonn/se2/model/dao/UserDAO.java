@@ -29,7 +29,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 
     @Override
     public User retrieve(String attribute) throws DatabaseException, InvalidCredentialsException {
-        String selectQuery =
+        final String selectQuery =
                 "SELECT * FROM \"collDB\".\"user\"\n" +
                         "FULL OUTER JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
                         "WHERE username = ?\n" +
@@ -43,7 +43,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 
     @Override
     public List<User> retrieveAll() throws Exception {
-        String sql =
+        final String sql =
                 "SELECT * FROM \"CollDB\".\"user\"\n" +
                         "JOIN \"CollDB\".address ON \"user\".userID = address.userID;";
         return execute(sql);
