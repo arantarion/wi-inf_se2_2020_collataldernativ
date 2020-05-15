@@ -8,6 +8,10 @@ import java.util.List;
 
 public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Company> {
 
+    //TODO fix Exceptions
+    //TODO complete classes
+    //TODO maybe fix delete
+
     public CompanyDAO() throws DatabaseException {
     }
 
