@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -49,8 +50,8 @@ class JDBCConnectionTest {
     }
 
     @Test
-    void closeConnection() {
+    void closeConnection() throws SQLException {
         connection.closeConnection();
-        assertThrows(DatabaseException.class, () -> connection.getStatement());
+        assertTrue(connection.isClosed());
     }
 }

@@ -89,4 +89,9 @@ public class JDBCConnection implements JDBCConnectionInterface {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public boolean isClosed() throws SQLException {
+        return this.conn.isClosed();
+    }
+
 }
