@@ -1,6 +1,8 @@
 package org.bonn.se2.process.control;
 
 import com.vaadin.ui.UI;
+import org.bonn.se2.model.dao.CompanyDAO;
+import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
@@ -11,6 +13,9 @@ import org.bonn.se2.services.util.CryptoFunctions;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class LoginControl {
 
     public static void checkAuthentication(UserAtLogin loginUser) throws InvalidCredentialsException, DatabaseException {
@@ -18,7 +23,7 @@ public class LoginControl {
 
         if (CryptoFunctions.checkPw(loginUser.getPassword(), user.getPasswort())) {
             SessionFunctions.setCurrentUser(user);
-            //SessionFunctions.setCurrentRole(getRole(loginUser))
+            SessionFunctions.setCurrentRole(getRole(loginUser));
             UIFunctions.gotoMain();
         } else {
             throw new InvalidCredentialsException();
@@ -30,11 +35,19 @@ public class LoginControl {
         UI.getCurrent().getPage().setLocation("");
     }
 
-    static String getRole(UserAtLogin user) {
-        // TODO
-        // ? mit DAO lösen und einfach in die Exceptions reinlaufen lassen?
-        //   Rolle als Attribut hinzufügen?
-        return "";
+    static String getRole(UserAtLogin user) throws DatabaseException {
+        try {
+            new StudentDAO().retrieve(user.getEmail());
+            return Configuration.Roles.STUDENT;
+        } catch (DatabaseException e) {
+            try {
+                new CompanyDAO().retrieve(user.getEmail());
+                return Configuration.Roles.COMPANY;
+            } catch (DatabaseException ex) {
+                Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
+                throw new DatabaseException("Konnte die Rolle des Nutzers nicht feststellen @.@");
+            }
+        }
     }
 
     // Original checkAuth Function
