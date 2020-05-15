@@ -60,7 +60,7 @@ public class LoginView extends VerticalLayout implements View {
             String password = passwd.getValue();
 
             try {
-                UserAtLogin user = new UserAtLogin("","");
+                UserAtLogin user = new UserAtLogin("", "");
                 LoginControl.checkAuthentication(user);
 
             } catch (InvalidCredentialsException invalidCredentialsException) {
