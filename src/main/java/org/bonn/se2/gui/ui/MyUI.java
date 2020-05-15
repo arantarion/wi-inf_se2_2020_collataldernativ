@@ -12,6 +12,7 @@ import org.bonn.se2.gui.views.LoginView;
 import org.bonn.se2.gui.views.MainView;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.CryptoFunctions;
 
 import javax.servlet.annotation.WebServlet;
 
@@ -38,6 +39,8 @@ public class MyUI extends UI {
 
         navi.addView(Configuration.Views.MAIN, MainView.class);
         navi.addView(Configuration.Views.LOGIN, LoginView.class);
+
+        System.out.println(CryptoFunctions.hash("123456"));
 
         UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
     }

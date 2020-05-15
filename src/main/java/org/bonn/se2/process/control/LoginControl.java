@@ -19,7 +19,10 @@ import java.util.logging.Logger;
 public class LoginControl {
 
     public static void checkAuthentication(UserAtLogin loginUser) throws InvalidCredentialsException, DatabaseException {
+        System.out.println("Wir sind hier!");
         User user = new UserDAO().retrieve(loginUser.getEmail());
+
+        System.out.println("und jetzt hier: " + user.getUsername() + " " + user.getPasswort());
 
         if (CryptoFunctions.checkPw(loginUser.getPassword(), user.getPasswort())) {
             SessionFunctions.setCurrentUser(user);
