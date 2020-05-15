@@ -34,9 +34,11 @@ public class LoginView extends VerticalLayout implements View {
 
         final TextField userLogin = new TextField();
         userLogin.setCaption("UserID:");
+        userLogin.setPlaceholder("E-Mail oder Username");
 
         final PasswordField passwd = new PasswordField();
         passwd.setCaption("Passwort:");
+        passwd.setPlaceholder("Passwort");
 
         VerticalLayout layout = new VerticalLayout();
         layout.addComponents(userLogin, passwd);
@@ -52,7 +54,7 @@ public class LoginView extends VerticalLayout implements View {
         layout.addComponent(loginButton);
         layout.setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
         loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
-        //Panel auf Feldgröße anpassen
+
         panel.setSizeUndefined();
 
         loginButton.addClickListener(e -> {
@@ -60,12 +62,12 @@ public class LoginView extends VerticalLayout implements View {
             String password = passwd.getValue();
 
             try {
-                UserAtLogin user = new UserAtLogin("", "");
-                LoginControl.checkAuthentication(user);
 
-            } catch (InvalidCredentialsException invalidCredentialsException) {
+                LoginControl.checkAuthentication(new UserAtLogin(login, password));
 
-                Notification.show("Dies ist keine gültige Kombination", Notification.Type.ERROR_MESSAGE);
+            } catch (InvalidCredentialsException ex) {
+
+                Notification.show("Die Zugangsdaten sind nicht korrekt", Notification.Type.ERROR_MESSAGE);
                 passwd.setValue("");
 
             } catch (DatabaseException ex) {
