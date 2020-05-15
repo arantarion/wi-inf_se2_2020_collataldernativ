@@ -38,7 +38,6 @@ public class JDBCConnection implements JDBCConnectionInterface {
     @Override
     public void openConnection() throws DatabaseException {
         try {
-
             Properties probs = new Properties();
             probs.setProperty("user", Configuration.DB_Credentials.USERNAME);
             probs.setProperty("password", Configuration.DB_Credentials.PASSWORD);
