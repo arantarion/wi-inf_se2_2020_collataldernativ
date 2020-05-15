@@ -6,12 +6,25 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import com.vaadin.ui.*;
+import org.bonn.se2.gui.ui.MyUI;
+import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.services.util.Configuration;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
 
 public class MainView extends VerticalLayout implements View {
+
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
+
+        User user = ((MyUI) UI.getCurrent()).getUser();
+
+        //direkter Zugriff vermeiden
+        if (user == null) {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
+        }
+
         this.setUp();
     }
 
@@ -77,7 +90,5 @@ public class MainView extends VerticalLayout implements View {
                 addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
             }
         });
-
     }
-
 }

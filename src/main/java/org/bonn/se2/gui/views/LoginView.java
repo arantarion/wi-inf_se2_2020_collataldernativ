@@ -29,7 +29,6 @@ public class LoginView extends VerticalLayout implements View {
 
     private void setUp() {
 
-        //Layout auf ges. Bildschirm ausweiten
         this.setSizeFull();
 
         final TextField userLogin = new TextField();
@@ -62,14 +61,10 @@ public class LoginView extends VerticalLayout implements View {
             String password = passwd.getValue();
 
             try {
-
                 LoginControl.checkAuthentication(new UserAtLogin(login, password));
-
             } catch (InvalidCredentialsException ex) {
-
                 Notification.show("Die Zugangsdaten sind nicht korrekt", Notification.Type.ERROR_MESSAGE);
                 passwd.setValue("");
-
             } catch (DatabaseException ex) {
                 Notification.show("DB-Fehler", ex.getReason(), Notification.Type.ERROR_MESSAGE);
                 userLogin.setValue("");
@@ -77,7 +72,5 @@ public class LoginView extends VerticalLayout implements View {
             }
 
         });
-
     }
-
 }
