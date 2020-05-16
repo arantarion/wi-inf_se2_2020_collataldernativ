@@ -40,8 +40,6 @@ public class MyUI extends UI {
         navi.addView(Configuration.Views.MAIN, MainView.class);
         navi.addView(Configuration.Views.LOGIN, LoginView.class);
 
-        System.out.println(CryptoFunctions.hash("123456"));
-
         UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
     }
 

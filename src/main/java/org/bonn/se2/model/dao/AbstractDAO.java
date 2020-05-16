@@ -8,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public abstract class AbstractDAO<T> {
@@ -28,7 +29,8 @@ public abstract class AbstractDAO<T> {
     protected List<T> execute(String sql) throws DatabaseException {
         List<T> results = new ArrayList<>();
         Statement statement = this.getStatement();
-        ResultSet resultSet;
+        ResultSet resultSet = null;
+
         try {
             resultSet = statement.executeQuery(sql);
         } catch (SQLException ex) {

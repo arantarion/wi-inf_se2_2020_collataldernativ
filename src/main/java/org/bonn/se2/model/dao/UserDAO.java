@@ -1,6 +1,5 @@
 package org.bonn.se2.model.dao;
 
-import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
@@ -18,10 +17,11 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 
     @Override
     public User retrieve(int id) throws Exception {
+        //language=PostgreSQL
         final String selectQuery =
                 "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "FULL OUTER JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
-                        "WHERE userID = ?;";
+                        "FULL OUTER JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\"\n" +
+                        "WHERE \"userID\" = ?;";
         List<User> result = executePrepared(selectQuery, id);
         if (result.size() < 1) {
             throw new InvalidCredentialsException();
@@ -31,16 +31,12 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 
     @Override
     public User retrieve(String attribute) throws DatabaseException, InvalidCredentialsException {
+        //language=PostgreSQL
         String sql =
-                "SELECT * FROM collDB.user WHERE collDB.user.username = \'" + attribute + "\' OR collDB.user.email = = \'" + attribute + "\';";
+                "SELECT * FROM \"collDB\".user WHERE \"collDB\".user.username = '" + attribute + "' OR \"collDB\".user.email = '" + attribute + "'";
         //"FULL OUTER JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
         //List<User> result = executePrepared(selectQuery, attribute, attribute);
         List<User> result = execute(sql);
-        System.out.println("We did the Query thing and it worked " + result.size());
-
-        for(User i:result){
-            System.out.println(i.toString());
-        }
 
         if (result.size() < 1) {
             throw new InvalidCredentialsException();

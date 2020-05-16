@@ -24,7 +24,7 @@ public class LoginControl {
 
         System.out.println("und jetzt hier: " + user.getUsername() + " " + user.getPasswort());
 
-        if (CryptoFunctions.checkPw(loginUser.getPassword(), user.getPasswort())) {
+        if (CryptoFunctions.checkPw(CryptoFunctions.hash(loginUser.getPassword()), user.getPasswort())) {
             SessionFunctions.setCurrentUser(user);
             SessionFunctions.setCurrentRole(getRole(loginUser));
             UIFunctions.gotoMain();
