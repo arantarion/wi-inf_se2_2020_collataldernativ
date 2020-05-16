@@ -8,8 +8,10 @@ import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
+import org.bonn.se2.services.util.UIFunctions;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -36,7 +38,7 @@ public class MainView extends VerticalLayout implements View {
 
         //Erzeugung der Variablen
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button loginButton = new Button("Login", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        Button logoutButton = new Button("Logout", FontAwesome.COFFEE);
         Button registrierungsButton = new Button("Registrierung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button suche = new Button("Suchen", FontAwesome.SEARCH);
         TextField name = new TextField();
@@ -71,8 +73,8 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayout1.addComponent(suche);
 
         //Rechts oben
-        horizontalLayout.addComponent(loginButton);
-        horizontalLayout.setComponentAlignment(loginButton, Alignment.TOP_RIGHT);
+        horizontalLayout.addComponent(logoutButton);
+        horizontalLayout.setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
         horizontalLayout.addComponent(registrierungsButton);
         horizontalLayout.setComponentAlignment(registrierungsButton, Alignment.TOP_RIGHT);
 
@@ -88,5 +90,10 @@ public class MainView extends VerticalLayout implements View {
                 addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
             }
         });
+        
+        logoutButton.addClickListener(e -> {
+            LoginControl.logoutUser();
+        });
+        
     }
 }
