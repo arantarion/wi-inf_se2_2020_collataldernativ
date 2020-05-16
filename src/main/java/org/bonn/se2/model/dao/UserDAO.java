@@ -18,11 +18,12 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     @Override
     public User retrieve(int id) throws Exception {
         //language=PostgreSQL
-        final String selectQuery =
-                "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "FULL OUTER JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\"\n" +
-                        "WHERE \"userID\" = ?;";
-        List<User> result = executePrepared(selectQuery, id);
+        final String sql =
+                "SELECT * FROM \"collDB\".\"user\" " +
+                        "FULL OUTER JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
+                        "WHERE \"userID\" = '" + id + "';";
+
+        List<User> result = execute(sql);
         if (result.size() < 1) {
             throw new InvalidCredentialsException();
         }
@@ -33,11 +34,12 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     public User retrieve(String attribute) throws DatabaseException, InvalidCredentialsException {
         //language=PostgreSQL
         String sql =
-                "SELECT * FROM \"collDB\".user WHERE \"collDB\".user.username = '" + attribute + "' OR \"collDB\".user.email = '" + attribute + "'";
+                "SELECT * FROM \"collDB\".user " +
+                        "WHERE \"collDB\".user.username = '" + attribute + "' " +
+                        "OR \"collDB\".user.email = '" + attribute + "'";
         //"FULL OUTER JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
-        //List<User> result = executePrepared(selectQuery, attribute, attribute);
-        List<User> result = execute(sql);
 
+        List<User> result = execute(sql);
         if (result.size() < 1) {
             throw new InvalidCredentialsException();
         }
@@ -46,17 +48,18 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 
     @Override
     public List<User> retrieveAll() throws Exception {
+        //language=PostgreSQL
         final String sql =
-                "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "JOIN \"collDB\".address ON \"user\".userID = address.userID;";
+                "SELECT * FROM \"collDB\".user " +
+                        "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
         return execute(sql);
     }
 
     @Override
     public User create(User user) throws Exception {
-        // Adresse fehlt!
-        final String insertQuery = "INSERT INTO \"collDB\".user (username, email, passwort)\n" +
-                "VALUES (?, ?, ?)\n" +
+        //language=PostgreSQL
+        final String insertQuery = "INSERT INTO \"collDB\".user (username, email, passwort) " +
+                "VALUES (?, ?, ?) " +
                 "RETURNING *";
 
         List<User> result = executePrepared(insertQuery, user.getUsername(), user.getEmail(), user.getPasswort());
@@ -91,9 +94,10 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 
     @Override
     public User delete(User user) throws Exception {
+        //language=PostgreSQL
         final String deleteQuery =
-                "DELETE FROM \"collDB\".user\n" +
-                        "WHERE username = ?\n" +
+                "DELETE FROM \"collDB\".user " +
+                        "WHERE username = ? " +
                         "RETURNING *;";
 
         List<User> result = executePrepared(deleteQuery, user.getUsername());

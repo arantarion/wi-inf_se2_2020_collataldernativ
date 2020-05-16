@@ -1,5 +1,6 @@
 package org.bonn.se2.model.dao;
 
+import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
@@ -7,6 +8,7 @@ import org.bonn.se2.process.control.exceptions.DatabaseException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Student> {
@@ -22,8 +24,6 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
                         "WHERE student.\"studentID\" = '" + id + "';";
 
-        //SELECT * FROM "collDB".user JOIN "collDB".student ON "user"."userID" = student."userID" WHERE student."studentID" = '1'
-
         //"JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
         // LEFT OUTER JOIN ... etc
 
@@ -37,12 +37,13 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
     @Override
     public Student retrieve(String attribute) throws DatabaseException {
+        //language=PostgreSQL
         final String sql =
-                "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "JOIN \"collDB\".student ON \"user\".userID = student.userID\n" +
-                        "JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
+                "SELECT * FROM \"collDB\".user " +
+                        "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
+                        "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
                         // LEFT OUTER JOIN ... etc
-                        "WHERE username = ?\n" +
+                        "WHERE username = ? " +
                         "OR email = ?;";
 
         List<Student> result = executePrepared(sql, attribute, attribute);
@@ -54,10 +55,11 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
     @Override
     public List<Student> retrieveAll() throws DatabaseException {
+        //language=PostgreSQL
         String sql =
-                "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "INNER JOIN \"collDB\".student ON \"user\".userID = student.userID\n" +
-                        "INNER JOIN \"collDB\".address ON \"user\".userID = address.userID\n";
+                "SELECT * FROM \"collDB\".user " +
+                        "INNER JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
+                        "INNER JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\"";
         // LEFT OUTER JOIN ...
         return execute(sql);
     }
@@ -66,25 +68,51 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     public Student create(Student student) throws Exception {
         User user = new UserDAO().create(student);
 
+        //language=PostgreSQL
         final String query =
-                "INSERT INTO \"CollDB\".student (vorname, nachname, geburtstag, userID)\n" +
-                        "VALUES (?,?,?,?)\n" +
-                        "RETURNING studentid";
+                "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\")\n" +
+                        "VALUES (?,?,?,?) " +
+                        "RETURNING \"studentID\"";
         
         PreparedStatement preparedStatement = this.getPreparedStatement(query);
         preparedStatement.setString(1, student.getVorname());
         preparedStatement.setString(2, student.getNachname());
         preparedStatement.setDate(3, Date.valueOf(student.getGeburtstag()));
         preparedStatement.setInt(4, user.getUserID());
-        ResultSet set = preparedStatement.executeQuery();
-        if (!set.next())
-            throw new DatabaseException("[" + StudentDAO.class.toString() + "] Student has not been created!");
-        return retrieve(set.getInt(1));
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next())
+            throw new DatabaseException("create(Student student) in StudentDAO failed");
+        return retrieve(resultSet.getInt(1));
     }
 
     @Override
     protected Student create(ResultSet resultSet) throws DatabaseException {
-        return null;
+        Student dto = new Student();
+        
+        try {
+            dto.setUserID(resultSet.getInt("userID"));
+            dto.setStudentID(resultSet.getInt("studentID"));
+            dto.setVorname(resultSet.getString("vorname"));
+            dto.setNachname(resultSet.getString("nachname"));
+            dto.setGeburtstag(new java.sql.Date(resultSet.getDate("geburtstag").getTime()).toLocalDate());
+            dto.setStudienfach(resultSet.getString("studienfach"));
+            dto.setFachsemester(resultSet.getInt("fachsemester"));
+            dto.setJob(resultSet.getString("job"));
+
+
+            User user = new UserDAO().retrieve(dto.getUserID());
+            dto.setEmail(user.getEmail());
+            dto.setUsername(user.getUsername());
+            dto.setPwHash(user.getPasswort());
+
+            Address address = new AddressDAO().retrieve(user.getUserID());
+            dto.setAdresse(address);
+
+        } catch (Exception e) {
+            throw new DatabaseException("create(ResultSet resultSet) in StudentDAO failed");
+        }
+        return dto;
     }
 
     @Override
@@ -94,8 +122,9 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
     @Override
     public Student delete(Student student) throws Exception {
+        //language=PostgreSQL
         final String deleteQuery =
-                "DELETE FROM \"CollDB\".user\n" +
+                "DELETE FROM \"collDB\".user\n" +
                         "WHERE username = ?\n" +
                         "RETURNING *;";
 
