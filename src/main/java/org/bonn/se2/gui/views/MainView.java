@@ -9,6 +9,7 @@ import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.SessionFunctions;
 
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -18,14 +19,11 @@ public class MainView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
 
-        User user = ((MyUI) UI.getCurrent()).getUser();
-
-        //direkter Zugriff vermeiden
-        if (user == null) {
+        if (!SessionFunctions.isLoggedIn()) {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
+        } else {
+            this.setUp();
         }
-
-        this.setUp();
     }
 
     public void setUp() {

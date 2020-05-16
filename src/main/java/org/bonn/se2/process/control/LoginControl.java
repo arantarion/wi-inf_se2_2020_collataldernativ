@@ -22,11 +22,9 @@ public class LoginControl {
 
         User user = new UserDAO().retrieve(loginUser.getEmail());
 
-        System.out.println("und jetzt hier: " + user.getUsername() + " " + user.getPasswort());
-
         if (CryptoFunctions.checkPw(CryptoFunctions.hash(loginUser.getPassword()), user.getPasswort())) {
             SessionFunctions.setCurrentUser(user);
-            SessionFunctions.setCurrentRole(getRole(loginUser));
+            SessionFunctions.setCurrentRole(getRole(user));
             UIFunctions.gotoMain();
         } else {
             throw new InvalidCredentialsException();
@@ -38,13 +36,15 @@ public class LoginControl {
         UI.getCurrent().getPage().setLocation("");
     }
 
-    static String getRole(UserAtLogin user) throws DatabaseException {
+    static String getRole(User user) throws DatabaseException {
+
         try {
-            new StudentDAO().retrieve(user.getEmail());
+            new StudentDAO().retrieve(user.getUserID());
             return Configuration.Roles.STUDENT;
         } catch (DatabaseException e) {
+
             try {
-                new CompanyDAO().retrieve(user.getEmail());
+                new CompanyDAO().retrieve(user.getUserID());
                 return Configuration.Roles.COMPANY;
             } catch (DatabaseException ex) {
                 Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);

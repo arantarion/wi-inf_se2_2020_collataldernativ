@@ -16,14 +16,19 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
     @Override
     public Student retrieve(int id) throws DatabaseException {
+        //language=PostgreSQL
         final String sql =
-                "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "JOIN \"collDB\".student ON \"user\".userID = student.userID\n" +
-                        "JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
-                        // LEFT OUTER JOIN ... etc
-                        "WHERE student.studentID = ?;";
+                "SELECT * FROM \"collDB\".user " +
+                        "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
+                        "WHERE student.\"studentID\" = '" + id + "';";
 
-        List<Student> result = executePrepared(sql, id);
+        //SELECT * FROM "collDB".user JOIN "collDB".student ON "user"."userID" = student."userID" WHERE student."studentID" = '1'
+
+        //"JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
+        // LEFT OUTER JOIN ... etc
+
+        //List<Student> result = executePrepared(sql, id);
+        List<Student> result = execute(sql);
         if (result.size() < 1) {
             throw new DatabaseException("retrieve(int id) did not return a DTO");
         }
