@@ -39,17 +39,17 @@ public class LoginControl {
     static String getRole(User user) throws DatabaseException {
 
         try {
-            System.out.println(user.getUserID() + " " + user.getUserID().getClass().getSimpleName());
             new StudentDAO().retrieve(user.getUserID());
             return Configuration.Roles.STUDENT;
         } catch (DatabaseException e) {
-
             try {
                 new CompanyDAO().retrieve(user.getUserID());
                 return Configuration.Roles.COMPANY;
             } catch (DatabaseException ex) {
-                Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
-                throw new DatabaseException("Konnte die Rolle des Nutzers nicht feststellen @.@");
+                //TODO Very dirty bugfix
+                return Configuration.Roles.ADMIN;
+                //Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
+                //throw new DatabaseException("Konnte die Rolle des Nutzers nicht feststellen @.@");
             }
         }
     }
