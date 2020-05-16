@@ -8,7 +8,6 @@ import org.bonn.se2.process.control.exceptions.DatabaseException;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
 public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Student> {
@@ -73,7 +72,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
                 "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\")\n" +
                         "VALUES (?,?,?,?) " +
                         "RETURNING \"studentID\"";
-        
+
         PreparedStatement preparedStatement = this.getPreparedStatement(query);
         preparedStatement.setString(1, student.getVorname());
         preparedStatement.setString(2, student.getNachname());
@@ -89,7 +88,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     @Override
     protected Student create(ResultSet resultSet) throws DatabaseException {
         Student dto = new Student();
-        
+
         try {
             dto.setUserID(resultSet.getInt("userID"));
             dto.setStudentID(resultSet.getInt("studentID"));

@@ -57,11 +57,11 @@ public class Company extends User implements Serializable {
         this.bewertung = bewertung;
     }
 
-    public Integer getID() {
+    public Integer getcompanyID() {
         return companyID;
     }
 
-    public void setID(Integer companyID) {
+    public void setcompanyID(Integer companyID) {
         this.companyID = companyID;
     }
 
