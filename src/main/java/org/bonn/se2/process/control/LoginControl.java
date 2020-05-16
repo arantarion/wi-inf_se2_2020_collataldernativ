@@ -52,46 +52,4 @@ public class LoginControl {
             }
         }
     }
-
-    // Original checkAuth Function
-//    public static void checkAuthentication(String user, String pw) throws InvalidCredentialsException, DatabaseException {
-//
-//        ResultSet set;
-//
-//        try {
-//            Statement state = JDBCConnection.getInstance().getStatement();
-//            set = state.executeQuery("SELECT * " +
-//                    "FROM realm.user " +
-//                    "WHERE realm.user.login = \'" + user + "\'" +
-//                    "AND realm.user.password = \'" + pw + "\'");
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
-//            throw new DatabaseException("Fehler im SQL Befehl");
-//        }
-//
-//        User userDTO = null;
-//
-//        try {
-//            if (set.next()) {
-//
-//                userDTO = new User();
-//                userDTO.setUsername(set.getString(1));
-//                //userDTO.setVorname(set.getString(3));
-//
-//            } else {
-//                throw new InvalidCredentialsException();
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            JDBCConnection.getInstance().closeConnection();
-//        }
-//
-//        ((MyUI) UI.getCurrent()).setUser(userDTO);
-//
-//        UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
-//
-//    }
-
 }
