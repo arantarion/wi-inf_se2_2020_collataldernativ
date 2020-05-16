@@ -1,10 +1,12 @@
 package org.bonn.se2.model.dao;
 
+import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
@@ -29,12 +31,17 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 
     @Override
     public User retrieve(String attribute) throws DatabaseException, InvalidCredentialsException {
-        final String selectQuery =
-                "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "FULL OUTER JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
-                        "WHERE username = ?\n" +
-                        "OR email = ?;";
-        List<User> result = executePrepared(selectQuery, attribute, attribute);
+        String sql =
+                "SELECT * FROM collDB.user WHERE collDB.user.username = \'" + attribute + "\' OR collDB.user.email = = \'" + attribute + "\';";
+        //"FULL OUTER JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
+        //List<User> result = executePrepared(selectQuery, attribute, attribute);
+        List<User> result = execute(sql);
+        System.out.println("We did the Query thing and it worked " + result.size());
+
+        for(User i:result){
+            System.out.println(i.toString());
+        }
+
         if (result.size() < 1) {
             throw new InvalidCredentialsException();
         }
@@ -44,8 +51,8 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     @Override
     public List<User> retrieveAll() throws Exception {
         final String sql =
-                "SELECT * FROM \"CollDB\".\"user\"\n" +
-                        "JOIN \"CollDB\".address ON \"user\".userID = address.userID;";
+                "SELECT * FROM \"collDB\".\"user\"\n" +
+                        "JOIN \"collDB\".address ON \"user\".userID = address.userID;";
         return execute(sql);
     }
 
@@ -65,7 +72,18 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 
     @Override
     protected User create(ResultSet resultSet) throws DatabaseException {
-        return null;
+        User dto;
+        try {
+            dto = new User(resultSet.getString("username"), resultSet.getString("email"), resultSet.getString("passwort"));
+            dto.setUserID(resultSet.getInt("userID"));
+            dto.setRegistrationsDatum(resultSet.getDate("registrationsDatum").toLocalDate());
+
+            //Address address = new AddressDAO().getOne(dto.getAddressid());
+            //dto.setAddress(address);
+            return dto;
+        } catch (SQLException e) {
+            throw new DatabaseException("couldn't create UserDTO from resultset: " + e.getMessage());
+        }
     }
 
     @Override
