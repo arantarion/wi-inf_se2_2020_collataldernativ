@@ -21,13 +21,17 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         final String sql =
                 "SELECT * FROM \"collDB\".user " +
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
-                        "WHERE student.\"studentID\" = '" + id + "';";
-
-        //"JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
-        // LEFT OUTER JOIN ... etc
+                        "WHERE student.\"studentID\" = '" + id + "'";
 
         //List<Student> result = executePrepared(sql, id);
         List<Student> result = execute(sql);
+
+        System.out.println("Size " + result.size() );
+        for(Student s: result){
+
+            System.out.println(s.toString());
+        }
+
         if (result.size() < 1) {
             throw new DatabaseException("retrieve(int id) did not return a DTO");
         }
@@ -98,7 +102,6 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             dto.setStudienfach(resultSet.getString("studienfach"));
             dto.setFachsemester(resultSet.getInt("fachsemester"));
             dto.setJob(resultSet.getString("job"));
-
 
             User user = new UserDAO().retrieve(dto.getUserID());
             dto.setEmail(user.getEmail());

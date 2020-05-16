@@ -117,4 +117,17 @@ public class Student extends User implements Serializable {
         return super.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "vorname='" + vorname + '\'' +
+                ", nachname='" + nachname + '\'' +
+                ", studienfach='" + studienfach + '\'' +
+                ", job='" + job + '\'' +
+                ", arbeitgeber='" + arbeitgeber + '\'' +
+                ", geburtstag=" + geburtstag +
+                ", fachsemester=" + fachsemester +
+                ", studentID=" + studentID +
+                '}';
+    }
 }

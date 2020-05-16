@@ -39,6 +39,7 @@ public class LoginControl {
     static String getRole(User user) throws DatabaseException {
 
         try {
+            System.out.println(user.getUserID() + " " + user.getUserID().getClass().getSimpleName());
             new StudentDAO().retrieve(user.getUserID());
             return Configuration.Roles.STUDENT;
         } catch (DatabaseException e) {

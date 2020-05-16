@@ -16,7 +16,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     }
 
     @Override
-    public User retrieve(int id) throws Exception {
+    public User retrieve(int id) throws DatabaseException, InvalidCredentialsException {
         //language=PostgreSQL
         final String sql =
                 "SELECT * FROM \"collDB\".\"user\" " +

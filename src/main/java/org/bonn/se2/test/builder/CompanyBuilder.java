@@ -49,7 +49,7 @@ public class CompanyBuilder extends AbsUserBuilder {
         dto.setEmail(email);
         dto.setPasswort(password);
         dto.setAdresse(address);
-        dto.setID(userid);
+        dto.setcompanyID(userid);
         dto.setRegistrationsDatum(registrationdate);
         dto.setName(name);
         dto.setBeschreibung(description);
