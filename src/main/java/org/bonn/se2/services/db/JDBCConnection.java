@@ -8,6 +8,13 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer generic class
+ */
+
 public class JDBCConnection implements JDBCConnectionInterface {
 
     private static JDBCConnection connection = null;

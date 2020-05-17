@@ -1,3 +1,4 @@
+
 package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.Address;
@@ -9,6 +10,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
 
 public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Company> {
 

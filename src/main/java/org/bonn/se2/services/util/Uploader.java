@@ -8,6 +8,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
+
 public class Uploader extends VerticalLayout {
 
     // https://github.com/vaadin/book-examples/blob/master/src/com/vaadin/book/examples/component/UploadExample.java

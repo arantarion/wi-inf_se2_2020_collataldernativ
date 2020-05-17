@@ -8,6 +8,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
+
 public class AddressDAO extends AbstractDAO<Address> implements DAOInterface<Address>{
 
     public AddressDAO() throws DatabaseException {

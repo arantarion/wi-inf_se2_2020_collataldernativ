@@ -2,6 +2,13 @@ package org.bonn.se2.services.util;
 
 import com.vaadin.ui.UI;
 
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
+
 public class UIFunctions {
 
     public static void gotoMain() {

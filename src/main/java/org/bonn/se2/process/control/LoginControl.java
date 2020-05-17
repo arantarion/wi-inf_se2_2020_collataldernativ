@@ -1,3 +1,4 @@
+
 package org.bonn.se2.process.control;
 
 import com.vaadin.ui.UI;
@@ -15,6 +16,13 @@ import org.bonn.se2.services.util.UIFunctions;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
 
 public class LoginControl {
 

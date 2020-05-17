@@ -1,3 +1,4 @@
+
 package org.bonn.se2.gui.views;
 
 import com.vaadin.event.ShortcutAction;
@@ -12,6 +13,13 @@ import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
+
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer
+ */
 
 public class LoginView extends VerticalLayout implements View {
 

@@ -1,13 +1,3 @@
-/**
- * The Main UI class of the project this will get started
- * All available views must be added to the navigator object
- * to be accessible.
- *
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer generic class
- */
-
 package org.bonn.se2.gui.ui;
 
 import com.vaadin.annotations.PreserveOnRefresh;
@@ -25,8 +15,14 @@ import org.bonn.se2.services.util.Configuration;
 
 import javax.servlet.annotation.WebServlet;
 
-
 /**
+ * The Main UI class of the project this will get started
+ * All available views must be added to the navigator object
+ * to be accessible.
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer generic class
  * @Theme specifies the CSS theme
  * @Title specifies the tab name of the application.
  * @PreservOnRefresh saves the session when the website is refreshed

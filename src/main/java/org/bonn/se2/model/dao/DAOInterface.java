@@ -2,6 +2,13 @@ package org.bonn.se2.model.dao;
 
 import java.util.List;
 
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
+
 public interface DAOInterface<T> {
 
     T retrieve(int id) throws Exception;
