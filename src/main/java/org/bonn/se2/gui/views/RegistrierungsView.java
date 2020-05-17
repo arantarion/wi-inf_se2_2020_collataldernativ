@@ -4,6 +4,19 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.bonn.se2.gui.ui.MyUI;
+import org.bonn.se2.model.dao.StudentDAO;
+import org.bonn.se2.model.dao.UserDAO;
+import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
+import org.bonn.se2.services.util.Configuration;
+
+import javax.xml.transform.Result;
+import java.sql.ResultSet;
+
+import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 public class RegistrierungsView extends VerticalLayout implements View {
 
@@ -14,13 +27,12 @@ public class RegistrierungsView extends VerticalLayout implements View {
     public void setUp() {
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Label labelAllg = new Label("Bitte füllen Sie alle Felder aus:");
-        Button rButton = new Button("Registrieren", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        Button rButton = new Button("Weiter", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         //CheckBox
         CheckBox chkU = new CheckBox("Unternehmer");
         CheckBox chkS = new CheckBox("Student");
         HorizontalLayout h1 = new HorizontalLayout();
-        TextField vn; //für Vorname
-        TextField nn; //für Nachname
+        TextField vn; //für Nutzername
         TextField em; //für Email
         TextField pw1;//für Passwort
         TextField pw2;//für Passwort wiederholen
@@ -40,12 +52,11 @@ public class RegistrierungsView extends VerticalLayout implements View {
         setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
 
         FormLayout content = new FormLayout();
-        content.addComponent(vn = new TextField("Vorname:"));
-        content.addComponent(nn = new TextField("Nachname:"));
+        content.addComponent(vn = new TextField("Nutzername:"));
         //content.addComponent(new TextField("Adresse:"));
         content.addComponent(em = new TextField("Email:"));
-        content.addComponent(pw1 = new TextField("Passwort:"));
-        content.addComponent(pw2 = new TextField("Passwort wiederholen:"));
+        content.addComponent(pw1 = new PasswordField("Passwort:"));
+        content.addComponent(pw2 = new PasswordField("Passwort wiederholen:"));
         content.addComponent(rButton);
         content.setSizeUndefined();
 
@@ -53,14 +64,42 @@ public class RegistrierungsView extends VerticalLayout implements View {
         panel.setContent(content);
 
         rButton.addClickListener(e -> {
-            if ((!vn.getValue().equals("")) && (!nn.getValue().equals("")) && (!em.getValue().equals("")) && (!pw1.getValue().equals("")) && (!pw2.getValue().equals(""))) {
+            if (!vn.getValue().equals("") && !em.getValue().equals("") && !pw1.getValue().equals("") && !pw2.getValue().equals("") && pw1.getValue().equals(pw2.getValue()) && (chkU.getValue() == true ^ chkS.getValue() == true)) {
                 addComponent(new Label("Vielen Dank für die Registrierung. Sie können sich nun einloggen"));
-                //addComponent(startseiteButton);
+                String pw = hash(pw1.getValue());
+                User user = new User(vn.getValue(),em.getValue(),pw);
+                try {
+                    User dto = generateUser(user);
+                    User test = new UserDAO().retrieve(dto.getEmail());
+                } catch (Exception exception) {
+                    exception.printStackTrace();
+                }
+                if(chkU.getValue() == true){//Nutzer ist Unternehmer
+
+                }
+                if(chkS.getValue() == true){//Nutzer ist Student
+                    UI.getCurrent().getNavigator().navigateTo(Configuration.Views.STUDDAT);
+                }
+                addComponent(startseiteButton);
             } else {
-                addComponent(new Label("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe"));
+                Notification.show("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe.", Notification.Type.ERROR_MESSAGE);
             }
 
         });
+
+        startseiteButton.addClickListener(e -> {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
+        });
+    }
+    public static User generateUser(User user) throws Exception {
+        User dto = new UserDAO().create(user);
+
+        return dto;
+    }
+    public static Student generateStudent(Student user) throws Exception {
+        Student dto = new StudentDAO().create(user);
+
+        return dto;
     }
 
 }

@@ -77,7 +77,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
                     resultSet.getString("email"),
                     resultSet.getString("passwort"));
             dto.setUserID(resultSet.getInt("userID"));
-            dto.setRegistrationsDatum(resultSet.getDate("registrationsDatum").toLocalDate());
+            //dto.setRegistrationsDatum(resultSet.getDate("registrationsDatum").toLocalDate());
 
             //Address address = new AddressDAO().getOne(dto.getAddressid());
             //dto.setAddress(address);

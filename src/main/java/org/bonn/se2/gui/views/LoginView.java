@@ -54,6 +54,11 @@ public class LoginView extends VerticalLayout implements View {
         layout.setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
         loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
+
+        Button registrierungsButton = new Button("Registrierung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        layout.addComponent(registrierungsButton);
+        layout.setComponentAlignment(registrierungsButton, Alignment.MIDDLE_CENTER);
+
         panel.setSizeUndefined();
 
         loginButton.addClickListener(e -> {
@@ -72,5 +77,13 @@ public class LoginView extends VerticalLayout implements View {
             }
 
         });
+
+
+        registrierungsButton.addClickListener(e -> {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.REGIST);
+        });
+
+
     }
+
 }

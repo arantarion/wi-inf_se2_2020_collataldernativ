@@ -10,6 +10,8 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
 import org.bonn.se2.gui.views.LoginView;
 import org.bonn.se2.gui.views.MainView;
+import org.bonn.se2.gui.views.RegistrierungsView;
+import org.bonn.se2.gui.views.StudentDatenEingabeView;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.CryptoFunctions;
@@ -39,6 +41,8 @@ public class MyUI extends UI {
 
         navi.addView(Configuration.Views.MAIN, MainView.class);
         navi.addView(Configuration.Views.LOGIN, LoginView.class);
+        navi.addView(Configuration.Views.REGIST, RegistrierungsView.class);
+        navi.addView(Configuration.Views.STUDDAT, StudentDatenEingabeView.class);
 
         UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
     }

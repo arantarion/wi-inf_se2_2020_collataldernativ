@@ -17,6 +17,8 @@ public class Configuration {
     public static class Views {
         public static final String MAIN = "main";
         public static final String LOGIN = "login";
+        public static final String REGIST = "registration";
+        public static final String STUDDAT = "studentenDaten";
     }
 
 }

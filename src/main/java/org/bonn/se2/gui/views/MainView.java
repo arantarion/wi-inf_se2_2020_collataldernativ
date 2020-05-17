@@ -39,7 +39,6 @@ public class MainView extends VerticalLayout implements View {
         //Erzeugung der Variablen
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button logoutButton = new Button("Logout", FontAwesome.COFFEE);
-        Button registrierungsButton = new Button("Registrierung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button suche = new Button("Suchen", FontAwesome.SEARCH);
         TextField name = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
@@ -75,8 +74,6 @@ public class MainView extends VerticalLayout implements View {
         //Rechts oben
         horizontalLayout.addComponent(logoutButton);
         horizontalLayout.setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
-        horizontalLayout.addComponent(registrierungsButton);
-        horizontalLayout.setComponentAlignment(registrierungsButton, Alignment.TOP_RIGHT);
 
         //Mitte rechts
         addComponent(h3);
@@ -94,6 +91,8 @@ public class MainView extends VerticalLayout implements View {
         logoutButton.addClickListener(e -> {
             LoginControl.logoutUser();
         });
+
+
         
     }
 }
