@@ -1,3 +1,4 @@
+
 package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.User;
@@ -7,6 +8,13 @@ import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
 
 public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
 

@@ -16,6 +16,13 @@ import org.bonn.se2.services.util.UIFunctions;
 import java.time.LocalDateTime;
 import java.util.Locale;
 
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer
+ */
+
 public class MainView extends VerticalLayout implements View {
 
     @Override

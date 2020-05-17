@@ -1,8 +1,16 @@
+
 package org.bonn.se2.model.objects.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
 
 // prolly later Comparable for function
 public class Student extends User implements Serializable {

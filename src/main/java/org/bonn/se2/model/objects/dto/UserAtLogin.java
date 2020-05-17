@@ -1,6 +1,15 @@
 package org.bonn.se2.model.objects.dto;
 
-public class UserAtLogin extends User {
+import java.io.Serializable;
+
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
+
+public class UserAtLogin extends User implements Serializable {
 
     private String email;
     private String password;

@@ -3,6 +3,13 @@ package org.bonn.se2.model.objects.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
+
 public class Company extends User implements Serializable {
 
     private String name;

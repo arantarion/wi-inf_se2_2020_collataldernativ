@@ -8,6 +8,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann
+ */
 public abstract class AbstractDAO<T> {
 
     private JDBCConnection connection = JDBCConnection.getInstance();

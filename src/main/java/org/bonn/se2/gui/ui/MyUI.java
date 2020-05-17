@@ -14,11 +14,21 @@ import org.bonn.se2.gui.views.RegistrierungsView;
 import org.bonn.se2.gui.views.StudentDatenEingabeView;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
-import org.bonn.se2.services.util.CryptoFunctions;
 
 import javax.servlet.annotation.WebServlet;
 
-
+/**
+ * The Main UI class of the project this will get started
+ * All available views must be added to the navigator object
+ * to be accessible.
+ *
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer generic class
+ * @Theme specifies the CSS theme
+ * @Title specifies the tab name of the application.
+ * @PreservOnRefresh saves the session when the website is refreshed
+ */
 @Theme("mytheme")
 @Title("Coll@Aldernativ Webapp")
 @PreserveOnRefresh
