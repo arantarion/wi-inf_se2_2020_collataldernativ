@@ -7,6 +7,11 @@ import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.objects.dto.User;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer
+ */
 
 public class ProfilView extends VerticalLayout implements View {
 

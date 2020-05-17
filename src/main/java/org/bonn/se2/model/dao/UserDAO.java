@@ -10,10 +10,9 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
- * @Programmer Henry Weckermann
+ * @version 0.1a
+ * @Programmer Henry Weckermann, Anton Drees
  */
 
 public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {

@@ -1,10 +1,9 @@
 package org.bonn.se2.services.util;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
- * @Programmer Henry Weckermann
+ * @version 0.1a
+ * @Programmer Henry Weckermann, Anton Drees
  */
 
 public class Configuration {

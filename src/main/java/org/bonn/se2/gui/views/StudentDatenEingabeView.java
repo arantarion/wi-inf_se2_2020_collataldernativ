@@ -6,14 +6,15 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.dao.StudentDAO;
-import org.bonn.se2.model.dao.UserDAO;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 
-import static org.bonn.se2.services.util.CryptoFunctions.hash;
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer
+ */
 
 public class StudentDatenEingabeView extends VerticalLayout implements View {
 
@@ -59,7 +60,7 @@ public class StudentDatenEingabeView extends VerticalLayout implements View {
         panel.setContent(content2);
 
         rButton.addClickListener(e -> {
-            if (!vm.getValue().equals("") && !sf.getValue().equals("") && !nn.getValue().equals("") && !gb.getValue().equals("") && !fs.getValue().equals("") ) {
+            if (!vm.getValue().equals("") && !sf.getValue().equals("") && !nn.getValue().equals("") && !gb.getValue().equals("") && !fs.getValue().equals("")) {
                 addComponent(new Label("Vielen Dank für die Registrierung. Sie können sich nun einloggen"));
                 addComponent(startseiteButton);
                 //Student user = new Student(vn,nn,sf,jb,ag,gb,fs);
@@ -75,6 +76,7 @@ public class StudentDatenEingabeView extends VerticalLayout implements View {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
         });
     }
+
     public static User generateStudent(Student user) throws Exception {
         Student dto = new StudentDAO().create(user);
 

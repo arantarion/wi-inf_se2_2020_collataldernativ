@@ -5,6 +5,12 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer
+ */
+
 public class KontoverwaltungView extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         this.setUp();

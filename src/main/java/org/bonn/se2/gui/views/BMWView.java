@@ -6,6 +6,12 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer
+ */
+
 public class BMWView extends VerticalLayout implements View {
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {

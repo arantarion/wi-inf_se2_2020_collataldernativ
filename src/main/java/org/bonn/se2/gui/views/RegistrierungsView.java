@@ -4,19 +4,19 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 
-import javax.xml.transform.Result;
-import java.sql.ResultSet;
-
 import static org.bonn.se2.services.util.CryptoFunctions.hash;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer
+ */
 
 public class RegistrierungsView extends VerticalLayout implements View {
 
@@ -67,17 +67,17 @@ public class RegistrierungsView extends VerticalLayout implements View {
             if (!vn.getValue().equals("") && !em.getValue().equals("") && !pw1.getValue().equals("") && !pw2.getValue().equals("") && pw1.getValue().equals(pw2.getValue()) && (chkU.getValue() == true ^ chkS.getValue() == true)) {
                 addComponent(new Label("Vielen Dank für die Registrierung. Sie können sich nun einloggen"));
                 String pw = hash(pw1.getValue());
-                User user = new User(vn.getValue(),em.getValue(),pw);
+                User user = new User(vn.getValue(), em.getValue(), pw);
                 try {
                     User dto = generateUser(user);
                     User test = new UserDAO().retrieve(dto.getEmail());
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
-                if(chkU.getValue() == true){//Nutzer ist Unternehmer
+                if (chkU.getValue() == true) {//Nutzer ist Unternehmer
 
                 }
-                if(chkS.getValue() == true){//Nutzer ist Student
+                if (chkS.getValue() == true) {//Nutzer ist Student
                     UI.getCurrent().getNavigator().navigateTo(Configuration.Views.STUDDAT);
                 }
                 addComponent(startseiteButton);
@@ -91,11 +91,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
         });
     }
+
     public static User generateUser(User user) throws Exception {
         User dto = new UserDAO().create(user);
 
         return dto;
     }
+
     public static Student generateStudent(Student user) throws Exception {
         Student dto = new StudentDAO().create(user);
 
