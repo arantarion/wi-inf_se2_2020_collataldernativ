@@ -25,6 +25,7 @@ public class Configuration {
         public static final String LOGIN = "login";
         public static final String REGIST = "registration";
         public static final String STUDDAT = "studentenDaten";
+        public static final String COMPDAT = "companyDaten";
     }
 
 }

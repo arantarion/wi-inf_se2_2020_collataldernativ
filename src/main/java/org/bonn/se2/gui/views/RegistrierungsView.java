@@ -15,7 +15,7 @@ import static org.bonn.se2.services.util.CryptoFunctions.hash;
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer
+ * @Programmer Anton Drees
  */
 
 public class RegistrierungsView extends VerticalLayout implements View {
@@ -69,12 +69,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 String pw = hash(pw1.getValue());
                 User user = new User(vn.getValue(), em.getValue(), pw);
                 try {
-                    User dto = generateUser(user);
-                    User test = new UserDAO().retrieve(dto.getEmail());
+                    //User dto = generateUser(user);
+                    //User test = new UserDAO().retrieve(dto.getEmail());
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
                 if (chkU.getValue() == true) {//Nutzer ist Unternehmer
+                    UI.getCurrent().getNavigator().navigateTo((Configuration.Views.COMPDAT));
 
                 }
                 if (chkS.getValue() == true) {//Nutzer ist Student
@@ -98,10 +99,5 @@ public class RegistrierungsView extends VerticalLayout implements View {
         return dto;
     }
 
-    public static Student generateStudent(Student user) throws Exception {
-        Student dto = new StudentDAO().create(user);
-
-        return dto;
-    }
 
 }
