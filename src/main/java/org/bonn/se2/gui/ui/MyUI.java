@@ -46,6 +46,9 @@ public class MyUI extends UI {
 
         Navigator navi = new Navigator(this, this);
 
+        /*
+         * Please add new views to the Configuration -> Views class and use them from there
+         */
         navi.addView(Configuration.Views.MAIN, MainView.class);
         navi.addView(Configuration.Views.LOGIN, LoginView.class);
         navi.addView(Configuration.Views.REGIST, RegistrierungsView.class);
