@@ -42,6 +42,7 @@ class UserDAOTest {
     @BeforeEach
     void beforeEach() {
         testUser = null;
+        updateUser = null;
     }
 
     @Test
