@@ -22,11 +22,17 @@ class CompanyDAOTest {
 
     static int companyID;
 
+    void test_a_company() {
+
+        assertNotEquals(0, company.getcompanyID());
+
+    }
+
     @BeforeAll
     static void beforeAll() {
         try {
             companyDAO = new CompanyDAO();
-        } catch (Exception e){
+        } catch (Exception e) {
             fail();
         }
         newCompany = CompanyBuilder.getInstance().createDefaultCompany().done();
@@ -67,7 +73,12 @@ class CompanyDAOTest {
 
     @Test
     void retrieve() {
+        try {
+            company = companyDAO.retrieve(companyID);
+
+        } catch (Exception e) {
+            fail();
+        }
 
     }
-
 }
