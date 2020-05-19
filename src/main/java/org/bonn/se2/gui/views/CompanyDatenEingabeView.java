@@ -76,8 +76,6 @@ public class CompanyDatenEingabeView extends VerticalLayout implements View {
     }
 
     public static User generateCompany(Company user) throws Exception {
-        Company dto = new CompanyDAO().create(user);
-
-        return dto;
+        return new CompanyDAO().create(user);
     }
 }
