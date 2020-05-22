@@ -11,10 +11,8 @@ import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 
-import static org.bonn.se2.gui.views.StudentDatenEingabeView.generateStudent;
 import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 /**
@@ -25,7 +23,7 @@ import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 public class RegistrierungsView extends VerticalLayout implements View {
 
-    int ID ;
+    int ID;
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         try {
@@ -159,11 +157,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         return dto;
     }
+
     public static User generateStudent(Student user) throws Exception {
         Student dto = new StudentDAO().create(user);
 
         return dto;
     }
+
     public static User generateCompany(Company user) throws Exception {
         Company dto = new CompanyDAO().create(user);
 
