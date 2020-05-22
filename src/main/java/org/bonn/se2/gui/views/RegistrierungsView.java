@@ -132,6 +132,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                             addComponent(startseiteButton);
                             try {
                                 Student user2 = new Student(vm.getValue(), nn.getValue(), sf.getValue(), jb.getValue(), ag.getValue(), gb.getValue(), Integer.parseInt(fs.getValue()), ID);
+                                System.out.println(user2);
                                 User dto = generateStudent(user2);
                                 System.out.println(ID);
                                 System.out.println(user2);
