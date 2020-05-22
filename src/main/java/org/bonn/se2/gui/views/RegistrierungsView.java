@@ -4,12 +4,17 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
+import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 
+import static org.bonn.se2.gui.views.StudentDatenEingabeView.generateStudent;
 import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 /**
@@ -20,11 +25,17 @@ import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 public class RegistrierungsView extends VerticalLayout implements View {
 
+    int ID ;
+
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.setUp();
+        try {
+            this.setUp();
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setUp() {
+    public void setUp() throws DatabaseException {
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Label labelAllg = new Label("Bitte füllen Sie alle Felder aus:");
         Button rButton = new Button("Weiter", FontAwesome.ARROW_CIRCLE_O_RIGHT);
@@ -69,8 +80,8 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 String pw = hash(pw1.getValue());
                 User user = new User(vn.getValue(), em.getValue(), pw);
                 try {
-                    //User dto = generateUser(user);
-                    //User test = new UserDAO().retrieve(dto.getEmail());
+                    User dto = generateUser(user);
+                    ID = dto.getUserID();
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -79,17 +90,67 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
                 }
                 if (chkS.getValue() == true) {//Nutzer ist Student
-                    UI.getCurrent().getNavigator().navigateTo(Configuration.Views.STUDDAT);
+                    Button wButton = new Button("Weiter", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+                    HorizontalLayout h2 = new HorizontalLayout();
+                    TextField sf; //für Studienfach
+                    TextField vm; //für Vorname
+                    TextField nn;//für Nachname
+                    DateField gb;//für Geburtstag
+                    TextField jb; //für Job
+                    TextField ag; //für Arbeitgeber
+                    TextField fs; //für Fachsemester muss noch auf Integer überprüft werden
+
+                    addComponent(h1);
+                    setComponentAlignment(h1, Alignment.TOP_LEFT);
+                    h1.addComponent(startseiteButton);
+                    addComponent(labelAllg);
+
+
+                    Panel panel2 = new Panel();
+                    panel2.setSizeUndefined();
+                    addComponent(panel2);
+                    setComponentAlignment(panel2, Alignment.MIDDLE_CENTER);
+
+                    FormLayout content2 = new FormLayout();
+                    content2.addComponent(sf = new TextField("Studienfach:"));
+                    content2.addComponent(vm = new TextField("Vorname:"));
+                    content2.addComponent(nn = new TextField("Nachname:"));
+                    content2.addComponent(gb = new DateField("Geburtstag:"));
+                    content2.addComponent(jb = new TextField("Job (Optional):"));
+                    content2.addComponent(ag = new TextField("Arbeitgeber (Optional):"));
+                    content2.addComponent(fs = new TextField("Fachsemester:"));
+                    content2.addComponent(wButton);
+                    content2.setSizeUndefined();
+
+                    content2.setMargin(true);
+                    panel2.setContent(content2);
+                    //UI.getCurrent().getNavigator().navigateTo(Configuration.Views.STUDDAT);
+
+                    wButton.addClickListener(d -> {
+                        if (!vm.getValue().equals("") && !sf.getValue().equals("") && !nn.getValue().equals("") && !gb.getValue().equals("") && !fs.getValue().equals("") && !em.getValue().equals("")) {
+                            addComponent(new Label("Vielen Dank für die Registrierung. Sie können sich nun einloggen"));
+                            addComponent(startseiteButton);
+                            try {
+                                Student user2 = new Student(vm.getValue(), nn.getValue(), sf.getValue(), jb.getValue(), ag.getValue(), gb.getValue(), Integer.parseInt(fs.getValue()), ID);
+                                System.out.println(user2);
+                                User dto = generateStudent(user2);
+                                System.out.println(ID);
+                                System.out.println(user2);
+                            } catch (Exception exception) {
+                                exception.printStackTrace();
+                            }
+
+                        } else {
+                            Notification.show("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe.", Notification.Type.ERROR_MESSAGE);
+                        }
+                    });
+                    addComponent(startseiteButton);
+                } else {
+                    Notification.show("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe.", Notification.Type.ERROR_MESSAGE);
                 }
-                addComponent(startseiteButton);
-            } else {
-                Notification.show("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe.", Notification.Type.ERROR_MESSAGE);
+
             }
 
-        });
-
-        startseiteButton.addClickListener(e -> {
-            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
         });
     }
 
@@ -98,6 +159,14 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         return dto;
     }
+    public static User generateStudent(Student user) throws Exception {
+        Student dto = new StudentDAO().create(user);
 
+        return dto;
+    }
+    public static User generateCompany(Company user) throws Exception {
+        Company dto = new CompanyDAO().create(user);
 
+        return dto;
+    }
 }
