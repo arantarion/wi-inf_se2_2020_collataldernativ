@@ -74,7 +74,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
                 "VALUES (?,?,?,?,?,?,?) " +
                 "RETURNING \"companyID\"";
         System.out.println(company);
-        List<Company> result = executePrepared(insertQuery2, company.getName(),company.getWebURL(),company.getBeschreibung(),company.getBranche(),company.getAnsprechpartner(),company.getUserID(),company.getBewertung());
+        List<Company> result = executePrepared(insertQuery2, company.getName(),company.getWebURL(),company.getBeschreibung(),company.getBranche(),company.getAnsprechpartner(),company.getcompanyID(),company.getBewertung());
         if (result.size() < 1) {
             throw new DatabaseException("create(Company company) did not return a DTO");
         }
