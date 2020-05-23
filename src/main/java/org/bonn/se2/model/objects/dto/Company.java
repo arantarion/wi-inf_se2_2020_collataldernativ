@@ -34,7 +34,17 @@ public class Company extends User implements Serializable {
         this.bewertung = bewertung;
     }
 
-    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner, Integer userID){
+    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner, Integer ID){
+        this.name = name;
+        this.webURL = webURL;
+        this.beschreibung = beschreibung;
+        this.branche = branche;
+        this.ansprechpartner = ansprechpartner;
+        this.bewertung = 0;
+        this.companyID = ID;
+    }
+
+    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner){
         this.name = name;
         this.webURL = webURL;
         this.beschreibung = beschreibung;
