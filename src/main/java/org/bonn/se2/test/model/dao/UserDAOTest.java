@@ -92,19 +92,21 @@ public class UserDAOTest {
     }
 
 //    @Test
+//    @Order(4)
 //    void update() {
-//    try {
-//        testUser = userDAO.retrieve(testUserID);
-//        testUser.setUsername("mein ganz ganz toller test user");
-//        testUser.setEmail("blablabla@bla.de");
-//        updateUser = userDAO.update(testUser);
+//        try {
+//            testUser = userDAO.retrieve(testUserID);
+//            testUser.setUsername("mein ganz ganz toller test user");
+//            testUser.setEmail("blablabla@bla.de");
+//            updateUser = userDAO.update(testUser);
 //
-//        assertEquals(testUserID, updateUser.getUserID());
-//        assertEquals("mein ganz ganz toller test user", updateUser.getUsername());
-//        assertEquals("blablabla@bla.de", updateUser.getEmail());
+//            assertEquals(testUserID, updateUser.getUserID());
+//            assertEquals("mein ganz ganz toller test user", updateUser.getUsername());
+//            assertEquals("blablabla@bla.de", updateUser.getEmail());
 //
-//    } catch (Exception e) {
-//        fail();
+//        } catch (Exception e) {
+//            fail();
+//        }
 //    }
 
     @Test
@@ -116,6 +118,7 @@ public class UserDAOTest {
             assertThrows(InvalidCredentialsException.class, () -> userDAO.retrieve(testUserID));
 
         } catch (Exception e) {
+            e.printStackTrace();
             fail();
         }
     }

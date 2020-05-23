@@ -19,7 +19,6 @@ public class Company extends User implements Serializable {
     private Integer companyID;
     private String branche;
     private String ansprechpartner;
-    private Integer userID;
 
     public Company() {
     }
@@ -41,7 +40,6 @@ public class Company extends User implements Serializable {
         this.beschreibung = beschreibung;
         this.branche = branche;
         this.ansprechpartner = ansprechpartner;
-        this.userID = userID;
         this.bewertung = 0;
     }
     public String getBranche(){return branche;}
@@ -51,10 +49,6 @@ public class Company extends User implements Serializable {
     public String getAnsprechpartner(){return ansprechpartner;}
 
     public void setAnsprechpartner(String ansprechpartner){this.ansprechpartner = ansprechpartner;}
-
-    public Integer getUserID(){return userID;}
-
-    public void setUserID(int userID){this.userID = userID;}
 
     public String getName() {
         return name;
@@ -104,7 +98,6 @@ public class Company extends User implements Serializable {
                 ", beschreibung='" + beschreibung + '\'' +
                 ", webURL='" + webURL + '\'' +
                 ", bewertung=" + bewertung +
-                ", userID='" + userID + '\'' +
                 ", ansprechpartner='" + ansprechpartner + '\'' +
                 ", branche='" + branche + '\'' +
                 '}';

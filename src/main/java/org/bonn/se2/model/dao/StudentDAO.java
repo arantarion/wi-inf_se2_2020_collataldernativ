@@ -97,7 +97,11 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
                 "VALUES (?,?,?,?,?,?,?,?) " +
                 "RETURNING \"studentID\"";
 
-        List<Student> result = executePrepared(insertQuery, student.getStudienfach(), student.getVorname(), student.getNachname(), student.getGeburtstag(), student.getJob(), student.getArbeitgeber(), student.getFachsemester(), student.getStudentID());
+        List<Student> result = executePrepared(insertQuery, student.getStudienfach(),
+                student.getVorname(), student.getNachname(),
+                student.getGeburtstag(), student.getJob(),
+                student.getArbeitgeber(), student.getFachsemester(),
+                student.getStudentID());
         if (result.size() < 1) {
             throw new DatabaseException("create(Student student) did not return a DTO");
         }
