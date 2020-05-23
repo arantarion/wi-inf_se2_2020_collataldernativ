@@ -4,17 +4,12 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
-import org.bonn.se2.model.dao.CompanyDAO;
-import org.bonn.se2.model.dao.StudentDAO;
-import org.bonn.se2.model.dao.UserDAO;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.services.util.Configuration;
 
 import static org.bonn.se2.process.control.RegistrierungsControl.*;
-import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 /**
  * @author Coll@Aldernativ
@@ -26,6 +21,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
     int ID;
     User user;
+    String auswahl = "";
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         try {
@@ -40,6 +36,8 @@ public class RegistrierungsView extends VerticalLayout implements View {
         Label labelAllg = new Label("Bitte füllen Sie alle Felder aus:");
         Button rButton = new Button("Weiter", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         //CheckBox
+        RadioButtonGroup<String> radioGroup = new RadioButtonGroup<>();
+        radioGroup.setItems("Student", "Unternehmer");
         CheckBox chkU = new CheckBox("Unternehmer");
         CheckBox chkS = new CheckBox("Student");
         HorizontalLayout h1 = new HorizontalLayout();
@@ -54,8 +52,14 @@ public class RegistrierungsView extends VerticalLayout implements View {
         addComponent(labelAllg);
         chkU.setValue(false);
         chkS.setValue(false);
-        addComponent(chkU);
-        addComponent(chkS);
+        //addComponent(chkU);
+        //addComponent(chkS);
+        addComponent(radioGroup);
+
+        radioGroup.addValueChangeListener(event -> {
+            this.auswahl = event.getValue();
+            System.out.println(auswahl);
+        });
 
         Panel panel = new Panel();
         panel.setSizeUndefined();
@@ -74,18 +78,19 @@ public class RegistrierungsView extends VerticalLayout implements View {
         panel.setContent(content);
 
         rButton.addClickListener(e -> {
-            if (!vn.getValue().equals("") && !em.getValue().equals("") && !pw1.getValue().equals("") && !pw2.getValue().equals("") && pw1.getValue().equals(pw2.getValue()) && (chkU.getValue() == true ^ chkS.getValue() == true)) {
+            if (!vn.getValue().equals("") && !em.getValue().equals("") && !pw1.getValue().equals("") && !pw2.getValue().equals("") && pw1.getValue().equals(pw2.getValue()) && !auswahl.equals("")) { // && (chkU.getValue() == true ^ chkS.getValue() == true)
                 h1.setVisible(false);
                 panel.setVisible(false);
                 content.setVisible(false);
                 chkU.setVisible(false);
                 chkS.setVisible(false);
+                radioGroup.setVisible(false);
                 try {
-                    user = generateUser(vn.getValue(),em.getValue(), pw1.getValue());
+                    user = generateUser(vn.getValue(), em.getValue(), pw1.getValue());
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
-                if (chkU.getValue() == true) {//Nutzer ist Unternehmer
+                if (auswahl.equals("Unternehmer")) {//Nutzer ist Unternehmer chkU.getValue() == true
                     Button cButton = new Button("Weiter", FontAwesome.ARROW_CIRCLE_O_RIGHT);
                     HorizontalLayout h3 = new HorizontalLayout();
                     TextField name;
@@ -116,23 +121,21 @@ public class RegistrierungsView extends VerticalLayout implements View {
                     content3.setMargin(true);
                     panel3.setContent(content3);
 
-                    cButton.addClickListener(f ->{
-                        if (!name.getValue().equals("") && !webURL.getValue().equals("") && !beschreibung.getValue().equals("") && !branche.getValue().equals("") && !ansprechpartner.getValue().equals("")){
+                    cButton.addClickListener(f -> {
+                        if (!name.getValue().equals("") && !webURL.getValue().equals("") && !beschreibung.getValue().equals("") && !branche.getValue().equals("") && !ansprechpartner.getValue().equals("")) {
                             try {
-                                Company dto = generateCompany(name.getValue(),webURL.getValue(),beschreibung.getValue(), branche.getValue(), ansprechpartner.getValue(), user);
+                                Company dto = generateCompany(name.getValue(), webURL.getValue(), beschreibung.getValue(), branche.getValue(), ansprechpartner.getValue(), user);
                             } catch (Exception exception) {
                                 exception.printStackTrace();
                             }
-                        }else {
+                        } else {
                             Notification.show("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe.", Notification.Type.ERROR_MESSAGE);
                         }
                     });
                 }
 
 
-
-
-                if (chkS.getValue() == true) {//Nutzer ist Student
+                if (auswahl.equals("Student")) {//Nutzer ist Student chkS.getValue() == true
                     Button wButton = new Button("Weiter", FontAwesome.ARROW_CIRCLE_O_RIGHT);
                     HorizontalLayout h2 = new HorizontalLayout();
                     TextField sf; //für Studienfach
@@ -168,7 +171,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                     panel2.setContent(content2);
 
                     wButton.addClickListener(d -> {
-                        if (!vm.getValue().equals("") && !sf.getValue().equals("") && !nn.getValue().equals("") && !gb.getValue().equals("") && !fs.getValue().equals("") && !em.getValue().equals("") ) {
+                        if (!vm.getValue().equals("") && !sf.getValue().equals("") && !nn.getValue().equals("") && !gb.getValue().equals("") && !fs.getValue().equals("") && !em.getValue().equals("")) {
                             addComponent(new Label("Vielen Dank für die Registrierung. Sie können sich nun einloggen"));
                             addComponent(startseiteButton);
                             try {
@@ -184,7 +187,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                     addComponent(startseiteButton);
                 }
 
-            }else {
+            } else {
                 Notification.show("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe.", Notification.Type.ERROR_MESSAGE);
             }
 
