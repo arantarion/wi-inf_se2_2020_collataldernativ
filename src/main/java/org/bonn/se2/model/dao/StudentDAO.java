@@ -127,8 +127,8 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             dto.setUsername(user.getUsername());
             dto.setPwHash(user.getPasswort());
 
-            Address address = new AddressDAO().retrieve(user.getUserID());
-            dto.setAdresse(address);
+            //Address address = new AddressDAO().retrieve(user.getUserID());
+            //dto.setAdresse(address);
 
         } catch (Exception e) {
             throw new DatabaseException("create(ResultSet resultSet) in StudentDAO failed");

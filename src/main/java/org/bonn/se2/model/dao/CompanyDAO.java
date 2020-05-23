@@ -3,6 +3,7 @@ package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
+import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
@@ -69,32 +70,15 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
 
     @Override
     public Company create(Company company) throws Exception {
-        //TODO ich bin verwirrt
-        User user = new UserDAO().create(company);
-
-        //language=PostgreSQL
-        String query = "INSERT INTO \"collDB\".company (name, beschreibung, \"companyID\", \"userID\", \"webURL\") " +
-                "VALUES ('" + company.getName() + "','" + company.getBeschreibung() +
-                "', DEFAULT, '" + user.getUserID() + "', '" + company.getWebURL() + "') " +
-                "RETURNING *";
-
-        PreparedStatement preparedStatement = this.getPreparedStatement(query);
-        ResultSet resultSet = preparedStatement.executeQuery();
-
-        if (resultSet.next()) {
-            Company company2 = new Company();
-            company2.setUserID(resultSet.getInt(1));
-            company2.setUserID(resultSet.getInt("userID"));
-            company2.setName(resultSet.getString("name"));
-            company2.setBeschreibung(resultSet.getString("beschreibung"));
-            company2.setcompanyID(resultSet.getInt("companyID"));
-            company2.setWebURL(resultSet.getString("webURL"));
-            System.out.println("gespeichert");
-            return company2;
-        } else {
-            System.out.println("create(Company company) in CompanyDAO failed");
-            return null;
+        final String insertQuery2 = "INSERT INTO \"collDB\".company (name, \"webURL\", beschreibung, branche, ansprechpartner, \"userID\", bewertung) " +
+                "VALUES (?,?,?,?,?,?,?) " +
+                "RETURNING \"companyID\"";
+        System.out.println(company);
+        List<Company> result = executePrepared(insertQuery2, company.getName(),company.getWebURL(),company.getBeschreibung(),company.getBranche(),company.getAnsprechpartner(),company.getUserID(),company.getBewertung());
+        if (result.size() < 1) {
+            throw new DatabaseException("create(Company company) did not return a DTO");
         }
+        return result.get(0);
     }
 
     @Override
@@ -108,8 +92,10 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             dto.setUserID(resultSet.getInt("userID"));
             dto.setUsername(resultSet.getString("username"));
             dto.setEmail(resultSet.getString("email"));
-            Address address = new AddressDAO().retrieve(resultSet.getInt("addressid"));
-            dto.setAdresse(address);
+            dto.setAnsprechpartner(resultSet.getString("ansprechpartner"));
+            dto.setBranche(resultSet.getString("branche"));
+            //Address address = new AddressDAO().retrieve(resultSet.getInt("addressid"));
+            //dto.setAdresse(address);
         } catch (SQLException e) {
             throw new DatabaseException("create(ResultSet resultSet) in CompanyDAO failed");
         }
