@@ -28,7 +28,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
         final String sql =
                 "SELECT * FROM \"collDB\".\"user\" " +
                         "FULL OUTER JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
-                        "WHERE \"userID\" = '" + id + "';";
+                        "WHERE \"user\".\"userID\" = '" + id + "';";
 
         List<User> result = execute(sql);
         if (result.size() < 1) {
@@ -57,8 +57,8 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     public List<User> retrieveAll() throws Exception {
         //language=PostgreSQL
         final String sql =
-                "SELECT * FROM \"collDB\".user " +
-                        "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
+                "SELECT * FROM \"collDB\".user ";// +
+                       // "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
         return execute(sql);
     }
 

@@ -16,7 +16,7 @@ import java.util.List;
  */
 public abstract class AbstractDAO<T> {
 
-    private JDBCConnection connection = JDBCConnection.getInstance();
+    protected JDBCConnection connection = JDBCConnection.getInstance();
 
     protected AbstractDAO() throws DatabaseException {
     }

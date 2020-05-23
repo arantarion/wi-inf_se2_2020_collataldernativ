@@ -1,11 +1,3 @@
-/*
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer
- *
- *
- */
-
 package org.bonn.se2.test.model.dao;
 
 import org.bonn.se2.model.dao.UserDAO;
@@ -13,16 +5,16 @@ import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.test.builder.UserBuilder;
-import org.junit.jupiter.api.*;
+import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.fail;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class UserDAOTest {
+class UserDAOTest_old {
 
     User testUser;
     User updateUser;
@@ -54,7 +46,6 @@ public class UserDAOTest {
     }
 
     @Test
-    @Order(1)
     public void retrieveAll() {
         List<User> users = new ArrayList<>();
 
@@ -68,7 +59,6 @@ public class UserDAOTest {
     }
 
     @Test
-    @Order(2)
     public void create() {
         try {
             testUser = userDAO.create(newUser);
@@ -81,7 +71,6 @@ public class UserDAOTest {
     }
 
     @Test
-    @Order(3)
     public void retrieve() {
         try {
             testUser = userDAO.retrieve(testUserID);
@@ -108,7 +97,6 @@ public class UserDAOTest {
 //    }
 
     @Test
-    @Order(4)
     public void delete() {
         try {
             testUser = userDAO.retrieve(testUserID);
@@ -119,4 +107,5 @@ public class UserDAOTest {
             fail();
         }
     }
+
 }

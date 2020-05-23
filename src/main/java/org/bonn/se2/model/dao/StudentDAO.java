@@ -6,15 +6,12 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 
@@ -34,8 +31,8 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         //List<Student> result = executePrepared(sql, id);
         List<Student> result = execute(sql);
 
-        System.out.println("Size " + result.size() );
-        for(Student s: result){
+        System.out.println("Size " + result.size());
+        for (Student s : result) {
 
             System.out.println(s.toString());
         }

@@ -101,6 +101,11 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0-M1</version>
+        </dependency>
 
     </dependencies>
 
