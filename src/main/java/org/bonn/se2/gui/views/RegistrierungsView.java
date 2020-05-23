@@ -13,6 +13,7 @@ import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 
+import static org.bonn.se2.process.control.RegistrierungsControl.*;
 import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 /**
@@ -24,6 +25,7 @@ import static org.bonn.se2.services.util.CryptoFunctions.hash;
 public class RegistrierungsView extends VerticalLayout implements View {
 
     int ID;
+    User user;
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         try {
@@ -62,7 +64,6 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         FormLayout content = new FormLayout();
         content.addComponent(vn = new TextField("Nutzername:"));
-        //content.addComponent(new TextField("Adresse:"));
         content.addComponent(em = new TextField("Email:"));
         content.addComponent(pw1 = new PasswordField("Passwort:"));
         content.addComponent(pw2 = new PasswordField("Passwort wiederholen:"));
@@ -74,16 +75,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         rButton.addClickListener(e -> {
             if (!vn.getValue().equals("") && !em.getValue().equals("") && !pw1.getValue().equals("") && !pw2.getValue().equals("") && pw1.getValue().equals(pw2.getValue()) && (chkU.getValue() == true ^ chkS.getValue() == true)) {
-                String pw = hash(pw1.getValue());
-                User user = new User(vn.getValue(), em.getValue(), pw);
                 h1.setVisible(false);
                 panel.setVisible(false);
                 content.setVisible(false);
                 chkU.setVisible(false);
                 chkS.setVisible(false);
                 try {
-                    User dto = generateUser(user);
-                    ID = dto.getUserID();
+                    user = generateUser(vn.getValue(),em.getValue(), pw1.getValue());
                 } catch (Exception exception) {
                     exception.printStackTrace();
                 }
@@ -121,8 +119,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                     cButton.addClickListener(f ->{
                         if (!name.getValue().equals("") && !webURL.getValue().equals("") && !beschreibung.getValue().equals("") && !branche.getValue().equals("") && !ansprechpartner.getValue().equals("")){
                             try {
-                                Company company = new Company(name.getValue(),webURL.getValue(),beschreibung.getValue(), branche.getValue(), ansprechpartner.getValue(), ID);
-                                Company dto = generateCompany(company);
+                                Company dto = generateCompany(name.getValue(),webURL.getValue(),beschreibung.getValue(), branche.getValue(), ansprechpartner.getValue(), user);
                             } catch (Exception exception) {
                                 exception.printStackTrace();
                             }
@@ -171,12 +168,11 @@ public class RegistrierungsView extends VerticalLayout implements View {
                     panel2.setContent(content2);
 
                     wButton.addClickListener(d -> {
-                        if (!vm.getValue().equals("") && !sf.getValue().equals("") && !nn.getValue().equals("") && !gb.getValue().equals("") && !fs.getValue().equals("") && !em.getValue().equals("")) {
+                        if (!vm.getValue().equals("") && !sf.getValue().equals("") && !nn.getValue().equals("") && !gb.getValue().equals("") && !fs.getValue().equals("") && !em.getValue().equals("") ) {
                             addComponent(new Label("Vielen Dank für die Registrierung. Sie können sich nun einloggen"));
                             addComponent(startseiteButton);
                             try {
-                                Student user2 = new Student(vm.getValue(), nn.getValue(), sf.getValue(), jb.getValue(), ag.getValue(), gb.getValue(), Integer.parseInt(fs.getValue()), ID);
-                                Student dto = generateStudent(user2);
+                                Student dto = generateStudent(vm.getValue(), nn.getValue(), sf.getValue(), jb.getValue(), ag.getValue(), gb.getValue(), Integer.parseInt(fs.getValue()), user);
                             } catch (Exception exception) {
                                 exception.printStackTrace();
                             }
@@ -195,21 +191,4 @@ public class RegistrierungsView extends VerticalLayout implements View {
         });
     }
 
-    public static User generateUser(User user) throws Exception {
-        User dto = new UserDAO().create(user);
-
-        return dto;
-    }
-
-    public static Student generateStudent(Student user) throws Exception {
-        Student dto = new StudentDAO().create(user);
-
-        return dto;
-    }
-
-    public static Company generateCompany(Company user) throws Exception {
-        Company dto = new CompanyDAO().create(user);
-
-        return dto;
-    }
 }
