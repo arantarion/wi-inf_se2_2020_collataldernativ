@@ -11,6 +11,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
+import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
@@ -18,6 +19,7 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.PasswordValidator;
+import org.bonn.se2.services.util.UIFunctions;
 
 import static org.bonn.se2.process.control.RegistrierungsControl.*;
 
@@ -41,6 +43,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
     private final Panel auswahlPanel = new Panel("Schritt 1: Registrieren als");
     private final Panel userCreationPanel = new Panel("Schritt 2: Geben Sie Ihre Daten ein");
     private final Panel studentCreationPanel = new Panel("Schritt 3: Geben Sie Ihre persönlichen Daten an");
+    private final Panel companyCreationPanel = new Panel("Geben Sie Daten Ihres Unternehmens ein");
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
 //        try {
@@ -155,7 +158,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
             if (isStudent) {
                 setUpStep3_Student(myUser);
             } else {
-                setUpStep3_Company();
+                setUpStep3_Company(myUser);
             }
 
             userCreationPanel.setVisible(false);
@@ -219,7 +222,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 student.setAdresse(address);
                 StudentDAO studentDAO = new StudentDAO();
                 studentDAO.create(student);
-                //weiter
+                setUpStep4();
             } catch (ValidationException e1) {
                 isValidEntry = false;
             } catch (DatabaseException e2) {
@@ -236,10 +239,80 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
     }
 
-    public void setUpStep3_Company() {
+    public void setUpStep3_Company(User myUser) {
+        companyCreationPanel.setVisible(true);
+        this.addComponent(companyCreationPanel);
+        this.setComponentAlignment(companyCreationPanel, Alignment.MIDDLE_CENTER);
+        VerticalLayout layout = new VerticalLayout();
+        companyCreationPanel.setContent(layout);
+
+        TextField unternehmensName = new TextField("Name Ihres Unternehmens:");
+        CompanyBinder.forField(unternehmensName)
+                .asRequired("Bitte geben Sie den Namen Ihres Unternehmens an.")
+                .bind(Company::getName, Company::setName);
+        layout.addComponent(unternehmensName);
+
+        RichTextArea beschreibung = new RichTextArea("Beschreibung Ihres Unternehmens:");
+        beschreibung.setSizeFull();
+        CompanyBinder.forField(beschreibung)
+                .asRequired("Bitte geben Sie eine kurze Beschreibung Ihres Unternehmens an.")
+                .bind(Company::getBeschreibung, Company::setBeschreibung);
+        layout.addComponent(beschreibung);
+
+        TextField webURL = new TextField("Website ihres Unternehmens");
+        webURL.setSizeFull();
+        CompanyBinder.forField(webURL)
+                .bind(Company::getWebURL, Company::setWebURL);
+        layout.addComponent(webURL);
+
+        addAddress(layout);
+
+        Button completeButton = new Button("Abschließen");
+        layout.addComponent(completeButton);
+        layout.setComponentAlignment(completeButton, Alignment.BOTTOM_RIGHT);
+
+        completeButton.addClickListener(clickEvent -> {
+            boolean isValidEntry = true;
+            Company company = new Company(myUser);
+            Address address = new Address();
+
+            try {
+                AdressBinder.writeBean(address);
+            } catch (ValidationException e) {
+                isValidEntry = false;
+            }
+
+            try {
+                CompanyBinder.writeBean(company);
+                company.setAdresse(address);
+
+                CompanyDAO companyDAO = new CompanyDAO();
+                companyDAO.create(company);
+                setUpStep4();
+            } catch (ValidationException e1) {
+                isValidEntry = false;
+            } catch (DatabaseException e2) {
+                System.out.println(e2.getReason());
+            }
+
+            if (!isValidEntry) {
+                Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
+                notification.setPosition(Position.BOTTOM_CENTER);
+                notification.setDelayMsec(4000);
+                notification.show(Page.getCurrent());
+            }
+
+        });
 
     }
 
+    private void setUpStep4() {
+        Notification notification = new Notification("Sie haben sich erfolgreich registriert", Notification.Type.ASSISTIVE_NOTIFICATION);
+        notification.setPosition(Position.MIDDLE_CENTER);
+        notification.setDelayMsec(2000);
+        notification.show(Page.getCurrent());
+        UIFunctions.gotoLogin();
+    }
 
     private void addAddress(Layout layout) {
 
