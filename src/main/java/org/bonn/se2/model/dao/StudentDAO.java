@@ -6,6 +6,8 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
+import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 
@@ -73,39 +75,51 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     }
 
     @Override
-    public Student create(Student student) throws DatabaseException {
+    public Student create(Student student) throws Exception {
+        User user = new UserDAO().create(student);
+
+        System.out.println("Ich kann nen user machen: " + user );
+        //language=PostgreSQL
+        final String query =
+                "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\")\n" +
+                        "VALUES (?,?,?,?) " +
+                        "RETURNING \"studentID\"";
+
+        System.out.println("StudentDAO "+ student);
+        PreparedStatement preparedStatement = this.getPreparedStatement(query);
+        preparedStatement.setString(1, student.getVorname());
+        preparedStatement.setString(2, student.getNachname());
+        preparedStatement.setDate(3, Date.valueOf(student.getGeburtstag()));
+        preparedStatement.setInt(4, user.getUserID());
+        ResultSet resultSet = preparedStatement.executeQuery();
+
+        if (!resultSet.next())
+            throw new DatabaseException("create(Student student) in StudentDAO failed");
+        return retrieve(resultSet.getInt(1));
+
 //        User user = new UserDAO().create(student);
 //
+//        final String insertQuery = "INSERT INTO \"collDB\".student (studienfach, vorname, nachname, geburtstag, job, arbeitgeber, fachsemester, \"userID\") " +
+//                "VALUES (?,?,?,?,?,?,?,?) " +
+//                "RETURNING \"studentID\"";
+//
 //        //language=PostgreSQL
-//        final String query =
-//                "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\")\n" +
-//                        "VALUES (?,?,?,?) " +
-//                        "RETURNING \"studentID\"";
+//        final String que = "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\") " +
+//                "VALUES (?,?,?,?) " +
+//                "RETURNING \"studentID\"";
 //
-//        PreparedStatement preparedStatement = this.getPreparedStatement(query);
-//        preparedStatement.setString(1, student.getVorname());
-//        preparedStatement.setString(2, student.getNachname());
-//        preparedStatement.setDate(3, Date.valueOf(student.getGeburtstag()));
-//        preparedStatement.setInt(4, user.getUserID());
-//        ResultSet resultSet = preparedStatement.executeQuery();
+////        List<Student> result = executePrepared(insertQuery, student.getStudienfach(),
+////                student.getVorname(), student.getNachname(),
+////                student.getGeburtstag(), student.getJob(),
+////                student.getArbeitgeber(), student.getFachsemester(),
+////                student.getStudentID());
 //
-//        if (!resultSet.next())
-//            throw new DatabaseException("create(Student student) in StudentDAO failed");
-//        return retrieve(resultSet.getInt(1));
-
-        final String insertQuery = "INSERT INTO \"collDB\".student (studienfach, vorname, nachname, geburtstag, job, arbeitgeber, fachsemester, \"userID\") " +
-                "VALUES (?,?,?,?,?,?,?,?) " +
-                "RETURNING \"studentID\"";
-
-        List<Student> result = executePrepared(insertQuery, student.getStudienfach(),
-                student.getVorname(), student.getNachname(),
-                student.getGeburtstag(), student.getJob(),
-                student.getArbeitgeber(), student.getFachsemester(),
-                student.getStudentID());
-        if (result.size() < 1) {
-            throw new DatabaseException("create(Student student) did not return a DTO");
-        }
-        return result.get(0);
+//        List<Student> result = executePrepared(que, student.getVorname(), student.getNachname(), Date.valueOf(student.getGeburtstag()), user.getUserID());
+//
+//        if (result.size() < 1) {
+//            throw new DatabaseException("create(Student student) did not return a DTO");
+//        }
+//        return result.get(0);
 
     }
 

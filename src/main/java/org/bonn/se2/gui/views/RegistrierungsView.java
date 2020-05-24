@@ -183,7 +183,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         TextField nachname = new TextField("Nachname");
         nachname.setRequiredIndicatorVisible(true);
         StudentBinder.forField(nachname).asRequired("Bitte geben Sie Ihren Nachnamen an")
-                .bind(Student::getNachname, Student::setVorname);
+                .bind(Student::getNachname, Student::setNachname);
 
         nameLayout.addComponents(vorname, nachname);
 
@@ -216,12 +216,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
             try {
                 StudentBinder.writeBean(student);
                 student.setAdresse(address);
+                System.out.println(student);
                 StudentDAO studentDAO = new StudentDAO();
                 studentDAO.create(student);
                 setUpStep4();
             } catch (ValidationException e1) {
                 isValidEntry = false;
-            } catch (DatabaseException e2) {
+            } catch (Exception e2) {
                 e2.printStackTrace();
             }
 
