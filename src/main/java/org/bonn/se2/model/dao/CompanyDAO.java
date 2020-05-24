@@ -68,7 +68,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public Company create(Company company) throws Exception {
+    public Company create(Company company) throws DatabaseException {
         final String insertQuery2 = "INSERT INTO \"collDB\".company (name, \"webURL\", beschreibung, branche, ansprechpartner, \"userID\", bewertung) " +
                 "VALUES (?,?,?,?,?,?,?) " +
                 "RETURNING \"companyID\"";
