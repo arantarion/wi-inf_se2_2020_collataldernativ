@@ -288,8 +288,8 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 setUpStep4();
             } catch (ValidationException e1) {
                 isValidEntry = false;
-            } catch (DatabaseException e2) {
-                System.out.println(e2.getReason());
+            } catch (Exception e2) {
+                e2.printStackTrace();
             }
 
             if (!isValidEntry) {

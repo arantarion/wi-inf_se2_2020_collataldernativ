@@ -1,5 +1,7 @@
 package org.bonn.se2.model.objects.dto;
 
+import org.bonn.se2.services.util.CryptoFunctions;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
@@ -59,8 +61,7 @@ public class User implements Serializable {
     }
 
     public void setPasswort(String passwort) {
-        //TODO: implement HASH instead
-        this.passwort = passwort;
+        this.passwort = CryptoFunctions.hash(passwort);
     }
 
     public void setPwHash(String passwort) {

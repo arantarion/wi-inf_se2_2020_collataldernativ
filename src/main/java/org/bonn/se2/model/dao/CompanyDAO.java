@@ -69,16 +69,41 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public Company create(Company company) throws DatabaseException {
-        final String insertQuery2 = "INSERT INTO \"collDB\".company (name, \"webURL\", beschreibung, branche, ansprechpartner, \"userID\", bewertung) " +
-                "VALUES (?,?,?,?,?,?,?) " +
-                "RETURNING \"companyID\"";
-        System.out.println(company);
-        List<Company> result = executePrepared(insertQuery2, company.getName(),company.getWebURL(),company.getBeschreibung(),company.getBranche(),company.getAnsprechpartner(),company.getcompanyID(),company.getBewertung());
-        if (result.size() < 1) {
-            throw new DatabaseException("create(Company company) did not return a DTO");
+    public Company create(Company company) throws Exception {
+
+        User user = new UserDAO().create(company);
+
+        //language=PostgreSQL
+        String query = "INSERT INTO \"collDB\".company (name, beschreibung, \"companyID\", \"userID\", \"webURL\") " +
+                "VALUES ('" + company.getName() + "','" + company.getBeschreibung() + "', DEFAULT, '" + user.getUserID() + "', '" + company.getWebURL() + "') " +
+                "RETURNING *";
+        PreparedStatement pst = this.getPreparedStatement(query);
+        ResultSet set = pst.executeQuery();
+        if (set.next()) {
+            Company company2 = new Company();
+            company2.setUserID(set.getInt(1));
+            company2.setName(set.getString("name"));
+            company2.setBeschreibung(set.getString("beschreibung"));
+            company2.setUserID(set.getInt("userID"));
+            company2.setcompanyID(set.getInt("companyID"));
+            company2.setWebURL(set.getString("webURL"));
+            System.out.println("Company erfolgreich gespeichert!");
+            return company;
+        } else {
+            System.out.println("Company-Objekt konnte nicht richtig gespeichert werden!");
+            return null;
         }
-        return result.get(0);
+
+
+//        final String insertQuery2 = "INSERT INTO \"collDB\".company (name, \"webURL\", beschreibung, branche, ansprechpartner, \"userID\", bewertung) " +
+//                "VALUES (?,?,?,?,?,?,?) " +
+//                "RETURNING \"companyID\"";
+//
+//        List<Company> result = executePrepared(insertQuery2, company.getName(),company.getWebURL(),company.getBeschreibung(),company.getBranche(),company.getAnsprechpartner(),company.getcompanyID(),company.getBewertung());
+//        if (result.size() < 1) {
+//            throw new DatabaseException("create(Company company) did not return a DTO");
+//        }
+//        return result.get(0);
     }
 
     @Override
