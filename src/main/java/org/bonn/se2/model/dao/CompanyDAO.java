@@ -28,10 +28,9 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     public Company retrieve(int id) throws DatabaseException {
         //language=PostgreSQL
         String sql =
-                "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "         JOIN \"collDB\".company ON \"user\".\"userID\" = company.\"userID\" " +
-                        "         JOIN \"collDB\".address on \"user\".\"userID\" = address.\"userID\" " +
-                        "WHERE \"userID\" = " + id + ";";
+                "SELECT * FROM \"collDB\".user " +
+                        "JOIN \"collDB\".company ON \"user\".\"userID\" = company.\"userID\" " +
+                        "WHERE company.\"userID\" = '" + id + "'";
 
         List<Company> result = execute(sql);
         if (result.size() < 1) {
