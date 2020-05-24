@@ -139,16 +139,8 @@ public class RegistrierungsView extends VerticalLayout implements View {
             if (!name.getValue().equals("") && !webURL.getValue().equals("") && !beschreibung.getValue().equals("") && !branche.getValue().equals("") && !ansprechpartner.getValue().equals("")) {
                 try {
                     generateCompany(name.getValue(), webURL.getValue(), beschreibung.getValue(), branche.getValue(), ansprechpartner.getValue(), user);
-                    LoginControl.checkAuthentication(new UserAtLogin(user.getUsername(), user.getUsername()));
                 } catch (Exception exception) {
                     exception.printStackTrace();
-                }
-                try {
-                    LoginControl.checkAuthentication(new UserAtLogin(user.getUsername(), user.getUsername()));
-                } catch (InvalidCredentialsException e) {
-                    e.printStackTrace();
-                } catch (DatabaseException e) {
-                    e.printStackTrace();
                 }
             } else {
                 Notification.show("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe.", Notification.Type.ERROR_MESSAGE);
@@ -204,13 +196,6 @@ public class RegistrierungsView extends VerticalLayout implements View {
                     generateStudent(vorname.getValue(), nachname.getValue(), studienfach.getValue(), job.getValue(), arbeitgeber.getValue(), geburtstag.getValue(), Integer.parseInt(fachsemester.getValue()), user);
                 } catch (Exception exception) {
                     exception.printStackTrace();
-                }
-                try {
-                    LoginControl.checkAuthentication(new UserAtLogin(user.getUsername(), user.getUsername()));
-                } catch (InvalidCredentialsException e) {
-                    e.printStackTrace();
-                } catch (DatabaseException e) {
-                    e.printStackTrace();
                 }
 
             } else {

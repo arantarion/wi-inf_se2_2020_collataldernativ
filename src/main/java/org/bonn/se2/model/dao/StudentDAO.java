@@ -156,4 +156,18 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         }
         return result.get(0);
     }
+
+    public Student delete(int ID) throws Exception {
+        //language=PostgreSQL
+        final String deleteQuery =
+                "DELETE FROM \"collDB\".student\n" +
+                        "WHERE \"userID\" = ?\n" +
+                        "RETURNING *;";
+
+        List<Student> result = executePrepared(deleteQuery, ID);
+        if (result.size() < 1) {
+            throw new DatabaseException("delete(int ID) failed");
+        }
+        return result.get(0);
+    }
 }

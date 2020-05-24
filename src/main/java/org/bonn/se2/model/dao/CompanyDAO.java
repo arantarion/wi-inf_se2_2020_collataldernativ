@@ -133,4 +133,18 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         return result.get(0);
     }
 
+    public Company delete(int ID) throws Exception {
+        //language=PostgreSQL
+        final String deleteQuery =
+                "DELETE FROM \"collDB\".company\n" +
+                        "WHERE \"userID\" = ?\n" +
+                        "RETURNING *;";
+
+        List<Company> result = executePrepared(deleteQuery, ID);
+        if (result.size() < 1) {
+            throw new DatabaseException("delete(int ID) failed");
+        }
+        return result.get(0);
+    }
+
 }
