@@ -3,6 +3,7 @@ package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
@@ -28,12 +29,11 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         final String sql =
                 "SELECT * FROM \"collDB\".user " +
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
-                        "WHERE student.\"userID\" = '" + id + "'";
+                        "WHERE student.\"studentID\" = '" + id + "'";
 
         //List<Student> result = executePrepared(sql, id);
         List<Student> result = execute(sql);
 
-        System.out.println("Size " + result.size());
         for (Student s : result) {
 
             System.out.println(s.toString());
@@ -78,14 +78,12 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     public Student create(Student student) throws Exception {
         User user = new UserDAO().create(student);
 
-        System.out.println("Ich kann nen user machen: " + user );
         //language=PostgreSQL
         final String query =
                 "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\")\n" +
                         "VALUES (?,?,?,?) " +
                         "RETURNING \"studentID\"";
 
-        System.out.println("StudentDAO "+ student);
         PreparedStatement preparedStatement = this.getPreparedStatement(query);
         preparedStatement.setString(1, student.getVorname());
         preparedStatement.setString(2, student.getNachname());
