@@ -73,7 +73,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     }
 
     @Override
-    public Student create(Student student) throws Exception {
+    public Student create(Student student) throws DatabaseException {
 //        User user = new UserDAO().create(student);
 //
 //        //language=PostgreSQL
