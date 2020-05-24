@@ -28,7 +28,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         final String sql =
                 "SELECT * FROM \"collDB\".user " +
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
-                        "WHERE student.\"studentID\" = '" + id + "'";
+                        "WHERE student.\"userID\" = '" + id + "'";
 
         //List<Student> result = executePrepared(sql, id);
         List<Student> result = execute(sql);
@@ -167,6 +167,20 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         List<Student> result = executePrepared(deleteQuery, student.getUsername());
         if (result.size() < 1) {
             throw new DatabaseException("delete(Student student) failed");
+        }
+        return result.get(0);
+    }
+
+    public Student delete(int ID) throws Exception {
+        //language=PostgreSQL
+        final String deleteQuery =
+                "DELETE FROM \"collDB\".student\n" +
+                        "WHERE \"userID\" = ?\n" +
+                        "RETURNING *;";
+
+        List<Student> result = executePrepared(deleteQuery, ID);
+        if (result.size() < 1) {
+            throw new DatabaseException("delete(int ID) failed");
         }
         return result.get(0);
     }

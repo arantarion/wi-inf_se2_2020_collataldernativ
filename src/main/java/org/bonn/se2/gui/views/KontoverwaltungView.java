@@ -11,6 +11,7 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
+import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
 /**
@@ -36,7 +37,7 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         Button z = new Button("Zurück", FontAwesome.ARROW_CIRCLE_O_LEFT);
         Button s = new Button("Speichern", FontAwesome.ARROW_CIRCLE_O_RIGHT);
 
-        String passwort =  (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getPasswort();
+
         PasswordField pwAlt;
         PasswordField pwNeu;
         PasswordField pwNeu2;
@@ -83,6 +84,14 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         h2.addComponent(s);
 
         s.addClickListener(e -> {
+            String passwort = null;
+            try {
+                passwort = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getPasswort();
+            } catch (DatabaseException databaseException) {
+                databaseException.printStackTrace();
+            } catch (InvalidCredentialsException invalidCredentialsException) {
+                invalidCredentialsException.printStackTrace();
+            }
             if ((!pwAlt.getValue().equals("")) && (!pwNeu.getValue().equals("")) && (!pwNeu2.getValue().equals("")) && pwNeu.getValue().equals(pwNeu2.getValue()) && hash(pwAlt.getValue()).equals(passwort)) {
                 addComponent(new Label("Das Passwort wurde erfolgreich geändert."));
                 System.out.println(passwort);
@@ -93,5 +102,8 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         });
 
+        konto.addClickListener(e -> {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
+        });
     }
 }

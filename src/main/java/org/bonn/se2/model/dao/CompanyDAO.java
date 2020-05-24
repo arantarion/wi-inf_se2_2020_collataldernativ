@@ -28,10 +28,9 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     public Company retrieve(int id) throws DatabaseException {
         //language=PostgreSQL
         String sql =
-                "SELECT * FROM \"collDB\".\"user\"\n" +
-                        "         JOIN \"collDB\".company ON \"user\".\"userID\" = company.\"userID\" " +
-                        "         JOIN \"collDB\".address on \"user\".\"userID\" = address.\"userID\" " +
-                        "WHERE \"companyID\" = " + id + ";";
+                "SELECT * FROM \"collDB\".user " +
+                        "JOIN \"collDB\".company ON \"user\".\"userID\" = company.\"userID\" " +
+                        "WHERE company.\"userID\" = '" + id + "'";
 
         List<Company> result = execute(sql);
         if (result.size() < 1) {
@@ -154,6 +153,20 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         List<Company> result = executePrepared(deleteQuery, company.getUsername());
         if (result.size() < 1) {
             throw new DatabaseException("delete(Company company) failed");
+        }
+        return result.get(0);
+    }
+
+    public Company delete(int ID) throws Exception {
+        //language=PostgreSQL
+        final String deleteQuery =
+                "DELETE FROM \"collDB\".company\n" +
+                        "WHERE \"userID\" = ?\n" +
+                        "RETURNING *;";
+
+        List<Company> result = executePrepared(deleteQuery, ID);
+        if (result.size() < 1) {
+            throw new DatabaseException("delete(int ID) failed");
         }
         return result.get(0);
     }

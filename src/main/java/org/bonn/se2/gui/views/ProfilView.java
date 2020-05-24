@@ -37,8 +37,8 @@ public class ProfilView extends VerticalLayout implements View {
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button logoutButton = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button kverwaltenButton = new Button("Kontoverwaltung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button abbruchButton = new Button("Abbruch", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button speichernButton = new Button("Speichern", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //Button abbruchButton = new Button("Abbruch", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //Button speichernButton = new Button("Speichern", FontAwesome.ARROW_CIRCLE_O_RIGHT);
 
 
         HorizontalLayout h = new HorizontalLayout();
@@ -85,8 +85,8 @@ public class ProfilView extends VerticalLayout implements View {
         HorizontalLayout h3 = new HorizontalLayout();
         addComponent(h3);
         setComponentAlignment(h3, Alignment.BOTTOM_RIGHT);
-        h3.addComponent(abbruchButton);
-        h3.addComponent(speichernButton);
+        //h3.addComponent(abbruchButton);
+        //h3.addComponent(speichernButton);
 
         startseiteButton.addClickListener(e ->{
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
@@ -99,6 +99,8 @@ public class ProfilView extends VerticalLayout implements View {
         kverwaltenButton.addClickListener(e -> {
            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
         });
+
+
     }
 
 }

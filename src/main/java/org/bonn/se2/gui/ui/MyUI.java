@@ -11,6 +11,7 @@ import com.vaadin.ui.UI;
 import org.bonn.se2.gui.views.*;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
+import sun.security.krb5.Config;
 
 import javax.servlet.annotation.WebServlet;
 import java.sql.PreparedStatement;
@@ -55,6 +56,7 @@ public class MyUI extends UI {
         navi.addView(Configuration.Views.REGIST, RegistrierungsView.class);
         navi.addView(Configuration.Views.PROFIL, ProfilView.class);
         navi.addView(Configuration.Views.KVERWALTUNG, KontoverwaltungView.class);
+        navi.addView(Configuration.Views.DELETION, DeletionView.class);
 
         UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
     }
