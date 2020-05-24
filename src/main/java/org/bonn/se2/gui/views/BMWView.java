@@ -4,7 +4,13 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import org.bonn.se2.model.dao.StudentDAO;
+import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.process.control.LoginControl;
+import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.SessionFunctions;
 
 /**
  * @author Coll@Aldernativ
@@ -19,32 +25,30 @@ public class BMWView extends VerticalLayout implements View {
     }
 
     public void setUp() {
-        Button startseite = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button log = new Button("Login", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button registrieren = new Button("Registrierung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button suche = new Button("Suchen", FontAwesome.SEARCH);
-        Button eb = new Button("Email Bewerbung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button z = new Button("Zurück", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        final TextField textField = new TextField();
+        Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        Button logoutButton = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        Button kverwaltenButton = new Button("Kontoverwaltung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        Button jobofferButton = new Button("Neue Stellenanzeige erstellen");
+        //Button loginButton = new Button("Login", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //Button registrieren = new Button("Registrierung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //Button suche = new Button("Suchen", FontAwesome.SEARCH);
+        //Button eb = new Button("Email Bewerbung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //Button z = new Button("Zurück", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //final TextField textField = new TextField();
 
         HorizontalLayout h = new HorizontalLayout();
         addComponent(h);
         setComponentAlignment(h, Alignment.TOP_LEFT);
-        h.addComponent(startseite);
+        h.addComponent(startseiteButton);
 
         HorizontalLayout h2 = new HorizontalLayout();
         addComponent(h2);
         setComponentAlignment(h2, Alignment.TOP_RIGHT);
-        h2.addComponent(log);
-        h2.addComponent(registrieren);
+        h2.addComponent(logoutButton);
+        h2.addComponent(kverwaltenButton);
+        //h2.addComponent(log);
+        //h2.addComponent(registrieren);
 
-
-        HorizontalLayout h1 = new HorizontalLayout();
-        h1.addComponent(textField);
-        h1.addComponent(new Label("&nbsp", ContentMode.HTML));
-        h1.addComponent(suche);
-        addComponent(h1);
-        setComponentAlignment(h1, Alignment.TOP_CENTER);
 
         HorizontalLayout h4 = new HorizontalLayout();
         addComponent(h4);
@@ -59,14 +63,43 @@ public class BMWView extends VerticalLayout implements View {
         content.setMargin(true);
         panel.setContent(content);
 
-        HorizontalLayout h5 = new HorizontalLayout();
-        addComponent(h5);
-        setComponentAlignment(h5, Alignment.BOTTOM_LEFT);
-        h5.addComponent(eb);
+        HorizontalLayout h3 = new HorizontalLayout();
+        addComponent(h3);
+        setComponentAlignment(h3, Alignment.BOTTOM_LEFT);
+        h3.addComponent(jobofferButton);
 
-        HorizontalLayout h6 = new HorizontalLayout();
-        addComponent(h6);
-        setComponentAlignment(h6, Alignment.BOTTOM_RIGHT);
-        h6.addComponent(z);
+
+//        Grid<Student> grid = new Grid<>();
+//        Student liste =  new StudentDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
+//        grid.setItems(liste);
+//        grid.addColumn(Student::getVorname).setCaption("Vorname");
+//        grid.addColumn(Student::getNachname).setCaption("Nachname");
+//        grid.addColumn(Student::getStudienfach).setCaption("Studienfach");
+//        grid.addColumn(Student::getFachsemester).setCaption("Fachsemester");
+//        grid.addColumn(Student::getGeburtstag).setCaption("Geburtstag");
+//        grid.addColumn(Student::getJob).setCaption("Job");
+//        grid.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
+//        grid.addColumn(Student::getEmail).setCaption("Email");
+//        grid.setSizeFull();
+//        grid.setHeightMode(HeightMode.UNDEFINED);
+//        addComponent(grid);
+
+
+
+        startseiteButton.addClickListener(e ->{
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
+        });
+
+        logoutButton.addClickListener(e -> {
+            LoginControl.logoutUser();
+        });
+
+        kverwaltenButton.addClickListener(e -> {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
+        });
+
+        jobofferButton.addClickListener(e -> {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.OFFERCREATION);
+        });
     }
 }

@@ -34,7 +34,6 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         Button log = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button profil = new Button("Profil", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button konto = new Button("Konto löschen", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button z = new Button("Zurück", FontAwesome.ARROW_CIRCLE_O_LEFT);
         Button s = new Button("Speichern", FontAwesome.ARROW_CIRCLE_O_RIGHT);
 
 
@@ -80,7 +79,6 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         addComponent(h2);
         setComponentAlignment(h2, Alignment.BOTTOM_RIGHT);
-        h2.addComponent(z);
         h2.addComponent(s);
 
         s.addClickListener(e -> {
@@ -104,6 +102,10 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         konto.addClickListener(e -> {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
+        });
+
+        startseiteButton.addClickListener(e ->{
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
         });
     }
 }

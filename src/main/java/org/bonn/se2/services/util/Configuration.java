@@ -27,6 +27,8 @@ public class Configuration {
         public static final String PROFIL = "profil";
         public static final String KVERWALTUNG = "kontoverwaltung";
         public static final String DELETION = "deletion";
+        public static final String COMPPROFIL = "companyProfil";
+        public static final String OFFERCREATION = "jobOfferCreation";
     }
 
 }
