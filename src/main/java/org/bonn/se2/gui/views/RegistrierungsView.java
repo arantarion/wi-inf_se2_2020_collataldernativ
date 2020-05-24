@@ -1,13 +1,22 @@
 package org.bonn.se2.gui.views;
 
+import com.vaadin.data.Binder;
+import com.vaadin.data.ValidationException;
+import com.vaadin.data.validator.EmailValidator;
+import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
+import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.services.util.PasswordValidator;
 
 import static org.bonn.se2.process.control.RegistrierungsControl.*;
 
@@ -22,14 +31,155 @@ public class RegistrierungsView extends VerticalLayout implements View {
     int ID;
     User user;
     String auswahl = "";
+    boolean isStudent;
+
+    private Binder<User> binder = new Binder<>();
+    private Binder<Student> StudentBinder = new Binder<>();
+    private Binder<Address> AdressBinder = new Binder<>();
+    private Binder<Company> CompanyBinder = new Binder<>();
+    private final Panel auswahlPanel = new Panel("Schritt 1: Registrieren als");
+    private final Panel userCreationPanel = new Panel("Schritt 2: Geben Sie Ihre Daten ein");
+    private final Panel studentCreationPanel = new Panel("Schritt 3: Geben Sie Ihre persönlichen Daten an");
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        try {
-            this.setUp();
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            this.setUp();
+//        } catch (DatabaseException e) {
+//            e.printStackTrace();
+//        }
+        this.setUpStep1();
     }
+
+    public void setUpStep1() {
+
+        auswahlPanel.setVisible(true);
+
+        this.setSizeFull();
+        this.addComponent(auswahlPanel);
+        this.setComponentAlignment(auswahlPanel, Alignment.MIDDLE_CENTER);
+
+        auswahlPanel.setWidth(37, Unit.PERCENTAGE);
+        auswahlPanel.setHeight(20, Unit.PERCENTAGE);
+
+        VerticalLayout content = new VerticalLayout();
+        content.setSizeFull();
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        content.addComponent(buttonLayout);
+
+        auswahlPanel.setContent(buttonLayout);
+        buttonLayout.setSizeFull();
+
+        Button studentButton = new Button("Student");
+        Button companyButton = new Button("Unternehmen");
+
+        buttonLayout.setSpacing(false);
+        buttonLayout.addComponents(studentButton, companyButton);
+
+        studentButton.setWidth(100, Unit.PERCENTAGE);
+        companyButton.setWidth(100, Unit.PERCENTAGE);
+
+        studentButton.setHeight(90, Unit.PERCENTAGE);
+        companyButton.setHeight(90, Unit.PERCENTAGE);
+
+        buttonLayout.setDefaultComponentAlignment(Alignment.BOTTOM_CENTER);
+
+        studentButton.addClickListener(event -> {
+            auswahlPanel.setVisible(false);
+            this.isStudent = true;
+            setUpStep2();
+        });
+
+        companyButton.addClickListener(event -> {
+            auswahlPanel.setVisible(false);
+            this.isStudent = false;
+            setUpStep2();
+        });
+    }
+
+    public void setUpStep2() {
+
+        userCreationPanel.setVisible(true);
+        this.setSizeUndefined();
+        this.addComponent(userCreationPanel);
+        this.setComponentAlignment(userCreationPanel, Alignment.MIDDLE_CENTER);
+
+        Button weiterButton1 = new Button("Fortfahren", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        weiterButton1.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+        FormLayout content = new FormLayout();
+        content.setSizeUndefined();
+
+        TextField usernameField = new TextField("Nutzername");
+        binder.forField(usernameField).asRequired(new StringLengthValidator("Ihr Nutzername mindestens 5 Buchstaben haben", 5, 1000))
+                .bind(User::getUsername, User::setUsername);
+
+        TextField emailField = new TextField("E-Mail Adresse");
+        binder.forField(emailField).asRequired(new EmailValidator("Bitte geben Sie eine gültige E-Mail Adresse an"))
+                .bind(User::getEmail, User::setEmail);
+
+        PasswordField passwordField = new PasswordField("Passwort");
+        binder.forField(passwordField).asRequired(new PasswordValidator())
+                .bind(User::getPasswort, User::setPasswort);
+
+        PasswordField passwordCheckField = new PasswordField("Passwort wiederholen");
+
+        content.addComponents(usernameField, emailField, passwordField, passwordCheckField, weiterButton1);
+        content.setSizeUndefined();
+
+        content.setMargin(true);
+        userCreationPanel.setContent(content);
+
+        this.setComponentAlignment(userCreationPanel, Alignment.MIDDLE_CENTER);
+
+        weiterButton1.addClickListener(clickEvent -> {
+            if (!passwordField.getValue().equals(passwordCheckField.getValue())) {
+                Notification notification = new Notification("Die Passwörter stimmen nicht überein.", Notification.Type.ERROR_MESSAGE);
+                notification.setPosition(Position.BOTTOM_CENTER);
+                notification.setDelayMsec(4000);
+                notification.show(Page.getCurrent());
+                return;
+            }
+
+            User myUser = new User();
+            try {
+                //user = generateUser(usernameField.getValue(), emailField.getValue(), passwordField.getValue());
+                binder.writeBean(myUser);
+                System.out.println(myUser);
+            } catch (ValidationException exception) {
+                Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
+                notification.setPosition(Position.BOTTOM_CENTER);
+                notification.setDelayMsec(4000);
+                notification.show(Page.getCurrent());
+                return;
+            }
+
+            if (isStudent){
+                setUpStep3_Student();
+            } else {
+                setUpStep3_Company();
+            }
+
+            userCreationPanel.setVisible(false);
+
+        });
+
+
+    }
+
+    public void setUpStep3_Student() {
+        studentCreationPanel.setVisible(true);
+        this.addComponent(studentCreationPanel);
+        this.setComponentAlignment(studentCreationPanel, Alignment.MIDDLE_CENTER);
+
+        VerticalLayout layout = new VerticalLayout();
+        studentCreationPanel.setContent(layout);
+
+
+    }
+
+    public void setUpStep3_Company() {
+
+    }
+
 
     public void setUp() throws DatabaseException {
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
@@ -64,7 +214,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         Panel panel = new Panel();
         panel.setSizeUndefined();
         addComponent(panel);
-        setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
+        this.setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
 
         FormLayout content = new FormLayout();
         content.addComponent(vn = new TextField("Nutzername:"));
