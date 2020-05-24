@@ -44,7 +44,7 @@ public class LoginControl {
         UI.getCurrent().getPage().setLocation("");
     }
 
-    static String getRole(User user) throws DatabaseException {
+    public static String getRole(User user) throws DatabaseException {
 
         try {
             new StudentDAO().retrieve(user.getUserID());

@@ -1,9 +1,17 @@
 package org.bonn.se2.gui.views;
 
+import static org.bonn.se2.services.util.CryptoFunctions.hash;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.bonn.se2.model.dao.StudentDAO;
+import org.bonn.se2.model.dao.UserDAO;
+import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
+import org.bonn.se2.services.util.SessionFunctions;
 
 /**
  * @author Coll@Aldernativ
@@ -13,10 +21,14 @@ import com.vaadin.ui.*;
 
 public class KontoverwaltungView extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.setUp();
+        try {
+            this.setUp();
+        } catch (DatabaseException | InvalidCredentialsException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setUp() {
+    public void setUp() throws DatabaseException, InvalidCredentialsException {
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button log = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button profil = new Button("Profil", FontAwesome.ARROW_CIRCLE_O_RIGHT);
@@ -24,9 +36,10 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         Button z = new Button("Zurück", FontAwesome.ARROW_CIRCLE_O_LEFT);
         Button s = new Button("Speichern", FontAwesome.ARROW_CIRCLE_O_RIGHT);
 
-        TextField palt;
-        TextField pneu;
-        TextField pneu2;
+        String passwort =  (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getPasswort();
+        PasswordField pwAlt;
+        PasswordField pwNeu;
+        PasswordField pwNeu2;
 
         CheckBox j = new CheckBox("regelmäßig Emails über neue Angebote bekommen");
         CheckBox n = new CheckBox("Alle Benachrichtigungen ausschalten");
@@ -52,9 +65,9 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
 
         FormLayout content = new FormLayout();
-        content.addComponent(palt = new TextField("Altes Passwort:"));
-        content.addComponent(pneu = new TextField("Neues Passwort:"));
-        content.addComponent(pneu2 = new TextField("Neues Passwort wiederholen"));
+        content.addComponent(pwAlt = new PasswordField("Altes Passwort:"));
+        content.addComponent(pwNeu = new PasswordField("Neues Passwort:"));
+        content.addComponent(pwNeu2 = new PasswordField("Neues Passwort wiederholen"));
         content.setSizeUndefined();
 
         content.setMargin(true);
@@ -70,8 +83,9 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         h2.addComponent(s);
 
         s.addClickListener(e -> {
-            if ((!palt.getValue().equals("")) && (!pneu.getValue().equals("")) && (!pneu2.getValue().equals("")) && pneu.getValue().equals(pneu2.getValue())) {
+            if ((!pwAlt.getValue().equals("")) && (!pwNeu.getValue().equals("")) && (!pwNeu2.getValue().equals("")) && pwNeu.getValue().equals(pwNeu2.getValue()) && hash(pwAlt.getValue()).equals(passwort)) {
                 addComponent(new Label("Das Passwort wurde erfolgreich geändert."));
+                System.out.println(passwort);
                 //addComponent(startseiteButton);
             } else {
                 addComponent(new Label("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe"));
