@@ -11,6 +11,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
+import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
@@ -143,7 +144,6 @@ public class RegistrierungsView extends VerticalLayout implements View {
             try {
                 //user = generateUser(usernameField.getValue(), emailField.getValue(), passwordField.getValue());
                 binder.writeBean(myUser);
-                System.out.println(myUser);
             } catch (ValidationException exception) {
                 Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
                 notification.setPosition(Position.BOTTOM_CENTER);
@@ -152,8 +152,8 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 return;
             }
 
-            if (isStudent){
-                setUpStep3_Student();
+            if (isStudent) {
+                setUpStep3_Student(myUser);
             } else {
                 setUpStep3_Company();
             }
@@ -165,7 +165,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
     }
 
-    public void setUpStep3_Student() {
+    public void setUpStep3_Student(User myUser) {
         studentCreationPanel.setVisible(true);
         this.addComponent(studentCreationPanel);
         this.setComponentAlignment(studentCreationPanel, Alignment.MIDDLE_CENTER);
@@ -173,6 +173,66 @@ public class RegistrierungsView extends VerticalLayout implements View {
         VerticalLayout layout = new VerticalLayout();
         studentCreationPanel.setContent(layout);
 
+        HorizontalLayout nameLayout = new HorizontalLayout();
+        nameLayout.setSizeFull();
+
+        TextField vorname = new TextField("Vorname:");
+        vorname.setRequiredIndicatorVisible(true);
+        StudentBinder.forField(vorname).asRequired("Bitte geben Sie Ihren Vornamen an")
+                .bind(Student::getVorname, Student::setVorname);
+
+        TextField nachname = new TextField("Nachname");
+        nachname.setRequiredIndicatorVisible(true);
+        StudentBinder.forField(nachname).asRequired("Bitte geben Sie Ihren Nachnamen an")
+                .bind(Student::getNachname, Student::setVorname);
+
+        nameLayout.addComponents(vorname, nachname);
+
+        DateField geburtstag = new DateField("Geburtstag");
+        geburtstag.setDateFormat("dd.MM.yyyy");
+        geburtstag.setPlaceholder("dd.mm.yyyy");
+        geburtstag.setParseErrorMessage("Bitte Datum im richtigen Format angeben");
+        StudentBinder.forField(geburtstag).asRequired("Bitte geben Sie Ihr Geburtsdatum an")
+                .bind(Student::getGeburtstag, Student::setGeburtstag);
+
+        layout.addComponents(nameLayout, geburtstag);
+
+        addAddress(layout);
+
+        Button completeButton = new Button("Abschließen");
+        layout.addComponent(completeButton);
+        layout.setComponentAlignment(completeButton, Alignment.BOTTOM_RIGHT);
+
+        completeButton.addClickListener(clickEvent -> {
+            boolean isValidEntry = true;
+            Student student = new Student(myUser);
+            Address address = new Address();
+
+            try {
+                AdressBinder.writeBean(address);
+            } catch (ValidationException e) {
+                isValidEntry = false;
+            }
+
+            try {
+                StudentBinder.writeBean(student);
+                student.setAdresse(address);
+                StudentDAO studentDAO = new StudentDAO();
+                studentDAO.create(student);
+                //weiter
+            } catch (ValidationException e1) {
+                isValidEntry = false;
+            } catch (DatabaseException e2) {
+                e2.printStackTrace();
+            }
+
+            if (!isValidEntry) {
+                Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
+                notification.setPosition(Position.BOTTOM_CENTER);
+                notification.setDelayMsec(4000);
+                notification.show(Page.getCurrent());
+            }
+        });
 
     }
 
@@ -180,6 +240,54 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
     }
 
+
+    private void addAddress(Layout layout) {
+
+        HorizontalLayout addressLayout1 = new HorizontalLayout();
+        addressLayout1.setSizeFull();
+        layout.addComponent(addressLayout1);
+
+        TextField strasse = new TextField("Straße:");
+        AdressBinder.forField(strasse)
+                .asRequired("Bitte geben Sie die Straße an.")
+                .bind(Address::getStrasse, Address::setStrasse);
+        addressLayout1.addComponent(strasse);
+
+
+        TextField hausnummer = new TextField("Hausnummer");
+        addressLayout1.addComponent(hausnummer);
+        hausnummer.setMaxLength(4);
+        AdressBinder.forField(hausnummer)
+                .asRequired("Bitte geben Sie die Hausnummer an.")
+                .bind(Address::getHausnummer, Address::setHausnummer);
+
+
+        HorizontalLayout addressLayout2 = new HorizontalLayout();
+        addressLayout2.setSizeFull();
+        layout.addComponent(addressLayout2);
+
+        TextField plz = new TextField("Postleitzahl:");
+        plz.setMaxLength(5);
+        addressLayout2.addComponent(plz);
+        AdressBinder.forField(plz)
+                .asRequired("Bitte geben Sie die Postleitzahl an!")
+                .bind(Address::getPlz, Address::setPlz);
+
+
+        TextField stadt = new TextField("Ort:");
+        addressLayout2.addComponent(stadt);
+        AdressBinder.forField(stadt)
+                .asRequired("Bitte geben Sie Ihre Stadt an.")
+                .bind(Address::getStadt, Address::setStadt);
+
+
+        TextField land = new TextField("Land:");
+        addressLayout2.addComponent(land);
+        AdressBinder.forField(land)
+                .asRequired("Bitte geben Sie das Land an.")
+                .bind(Address::getLand, Address::setLand);
+
+    }
 
     public void setUp() throws DatabaseException {
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
