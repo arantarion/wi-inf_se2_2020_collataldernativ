@@ -24,6 +24,8 @@ public class Configuration {
         public static final String MAIN = "main";
         public static final String LOGIN = "login";
         public static final String REGIST = "registration";
+        public static final String PROFIL = "profil";
+        public static final String KVERWALTUNG = "kontoverwaltung";
     }
 
 }

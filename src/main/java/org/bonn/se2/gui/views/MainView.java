@@ -6,12 +6,22 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import com.vaadin.ui.*;
+import org.bonn.se2.gui.ui.MyUI;
+import org.bonn.se2.model.dao.StudentDAO;
+import org.bonn.se2.model.dao.UserDAO;
+import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.LoginControl;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
+import java.sql.SQLOutput;
 import java.time.LocalDateTime;
 import java.util.Locale;
+
+import static org.bonn.se2.process.control.LoginControl.getRole;
 
 /**
  * @author Coll@Aldernativ
@@ -27,11 +37,15 @@ public class MainView extends VerticalLayout implements View {
         if (!SessionFunctions.isLoggedIn()) {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
         } else {
-            this.setUp();
+            try {
+                this.setUp();
+            } catch (DatabaseException | InvalidCredentialsException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    public void setUp() {
+    public void setUp() throws DatabaseException, InvalidCredentialsException {
         //final VerticalLayout layout = new VerticalLayout();
         //Erzeugung der HorizontalLayouts
         HorizontalLayout horizontalLayout = new HorizontalLayout();
@@ -40,11 +54,14 @@ public class MainView extends VerticalLayout implements View {
         HorizontalLayout h3 = new HorizontalLayout();
 
         //Erzeugung der Variablen
+        Button profilButton = new Button("Profil", FontAwesome.AUTOMOBILE);
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button logoutButton = new Button("Logout", FontAwesome.COFFEE);
         Button suche = new Button("Suchen", FontAwesome.SEARCH);
         TextField name = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
+        Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
+        Label role = new Label(SessionFunctions.getCurrentRole());
 
         //Kalender
         InlineDateTimeField sample = new InlineDateTimeField();
@@ -75,6 +92,9 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayout1.addComponent(suche);
 
         //Rechts oben
+        horizontalLayout.addComponent(role);
+        horizontalLayout.addComponent(username);
+        horizontalLayout.addComponent(profilButton);
         horizontalLayout.addComponent(logoutButton);
         horizontalLayout.setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
 
@@ -89,6 +109,10 @@ public class MainView extends VerticalLayout implements View {
             } else {
                 addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
             }
+        });
+
+        profilButton.addClickListener(e -> {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.PROFIL);
         });
 
         logoutButton.addClickListener(e -> {
