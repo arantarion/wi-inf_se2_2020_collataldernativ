@@ -31,7 +31,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
                 "SELECT * FROM \"collDB\".\"user\"\n" +
                         "         JOIN \"collDB\".company ON \"user\".\"userID\" = company.\"userID\" " +
                         "         JOIN \"collDB\".address on \"user\".\"userID\" = address.\"userID\" " +
-                        "WHERE \"companyID\" = " + id + ";";
+                        "WHERE \"userID\" = " + id + ";";
 
         List<Company> result = execute(sql);
         if (result.size() < 1) {
