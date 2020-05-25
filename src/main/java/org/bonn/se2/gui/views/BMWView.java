@@ -6,11 +6,19 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import org.bonn.se2.model.dao.CompanyDAO;
+import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
+import org.bonn.se2.model.objects.dto.Company;
+import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.LoginControl;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
+
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * @author Coll@Aldernativ
@@ -21,10 +29,16 @@ import org.bonn.se2.services.util.SessionFunctions;
 public class BMWView extends VerticalLayout implements View {
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.setUp();
+        try {
+            this.setUp();
+        } catch (DatabaseException e) {
+            e.printStackTrace();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
-    public void setUp() {
+    public void setUp() throws DatabaseException, SQLException {
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button logoutButton = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button kverwaltenButton = new Button("Kontoverwaltung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
@@ -69,8 +83,12 @@ public class BMWView extends VerticalLayout implements View {
         h3.addComponent(jobofferButton);
 
 
+        Company comp =  new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
+        int ID = comp.getcompanyID();
+
 //        Grid<Student> grid = new Grid<>();
-//        Student liste =  new StudentDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
+//        List<JobOffer> liste =  new OfferDAO().retrieveCompanyOffers(ID);
+//        System.out.println(liste);
 //        grid.setItems(liste);
 //        grid.addColumn(Student::getVorname).setCaption("Vorname");
 //        grid.addColumn(Student::getNachname).setCaption("Nachname");
