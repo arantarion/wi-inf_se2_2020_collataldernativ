@@ -11,9 +11,15 @@ package org.bonn.se2.gui.components;
 import com.vaadin.event.MouseEvents;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ThemeResource;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Image;
+import com.vaadin.ui.MenuBar;
+import org.bonn.se2.gui.views.ProfilView;
 import org.bonn.se2.process.control.LoginControl;
+import org.bonn.se2.process.control.ProfilControl;
 import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
 public class NavigationBar extends HorizontalLayout {
@@ -26,9 +32,9 @@ public class NavigationBar extends HorizontalLayout {
         this.setComponentAlignment(logo, Alignment.MIDDLE_LEFT);
 
         MenuBar menuBar = new MenuBar();
-        MenuBar.MenuItem help = menuBar.addItem("Profil verwalten", clickEvent ->
-                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.PROFIL));
-        help.setIcon(VaadinIcons.PENCIL);
+        MenuBar.MenuItem verwaltung = menuBar.addItem("Profil verwalten", clickEvent ->
+                ProfilControl.studentProfile());
+        verwaltung.setIcon(VaadinIcons.PENCIL);
 
         MenuBar.MenuItem logout = menuBar.addItem("Logout", clickEvent -> LoginControl.logoutUser());
         logout.setIcon(VaadinIcons.SIGN_OUT);

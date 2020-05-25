@@ -44,7 +44,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         final String sql =
                 "SELECT * FROM \"collDB\".user " +
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
-                        "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
+                        //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
                         // LEFT OUTER JOIN ... etc
                         "WHERE username = ? " +
                         "OR email = ?;";
