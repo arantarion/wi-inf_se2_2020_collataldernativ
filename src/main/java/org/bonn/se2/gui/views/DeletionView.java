@@ -119,7 +119,7 @@ public class DeletionView extends VerticalLayout implements View {
                     } catch (InvalidCredentialsException invalidCredentialsException) {
                         invalidCredentialsException.printStackTrace();
                     }
-                    if(SessionFunctions.getCurrentRole() == "student"){
+                    if(SessionFunctions.getCurrentRole().equals("student")){
                         try {
                             new StudentDAO().delete(ID);
                             new UserDAO().delete(ID);
@@ -128,7 +128,7 @@ public class DeletionView extends VerticalLayout implements View {
                         }
                         LoginControl.logoutUser();
                     }
-                    if(SessionFunctions.getCurrentRole() == "company"){
+                    if(SessionFunctions.getCurrentRole().equals("company")){
                         try {
                             new CompanyDAO().delete(ID);
                             new UserDAO().delete(ID);

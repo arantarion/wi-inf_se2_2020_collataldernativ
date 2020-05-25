@@ -5,11 +5,14 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.datefield.DateTimeResolution;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.gui.ui.MyUI;
+import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
+import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.LoginControl;
@@ -20,6 +23,7 @@ import org.bonn.se2.services.util.SessionFunctions;
 
 import java.sql.SQLOutput;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Locale;
 
 import static org.bonn.se2.process.control.LoginControl.getRole;
@@ -94,6 +98,26 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayout1.addComponent(name);
         horizontalLayout1.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
         horizontalLayout1.addComponent(suche);
+
+        Grid<JobOffer> grid = new Grid<>();
+        List<JobOffer> liste = null;
+        try {
+            liste = new OfferDAO().retrieveAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(liste);
+        grid.setItems(liste);
+        grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+        grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+        grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+        grid.addColumn(JobOffer::getName).setCaption("Name");
+        grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+        grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+        grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+        grid.setSizeFull();
+        grid.setHeightMode(HeightMode.UNDEFINED);
+        addComponent(grid);
 
         //Rechts oben
         horizontalLayout.addComponent(role);
