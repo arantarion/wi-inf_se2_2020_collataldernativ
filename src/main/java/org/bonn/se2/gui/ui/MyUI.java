@@ -11,7 +11,6 @@ import com.vaadin.ui.UI;
 import org.bonn.se2.gui.views.*;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
-import sun.security.krb5.Config;
 
 import javax.servlet.annotation.WebServlet;
 import java.sql.PreparedStatement;

@@ -27,7 +27,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         final String sql =
                 "SELECT * FROM \"collDB\".user " +
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
-                        "WHERE student.\"studentID\" = '" + id + "'";
+                        "WHERE student.\"userID\" = '" + id + "'";
 
         //List<Student> result = executePrepared(sql, id);
         List<Student> result = execute(sql);
