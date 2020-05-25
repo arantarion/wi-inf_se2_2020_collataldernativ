@@ -51,7 +51,48 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 System.out.println("companyID");
                 dto.setCreationDate(null);
                 System.out.println("creationDate");
-                dto.setBeginDate(null);
+                dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
+                System.out.println("beginDate");
+                dto.setGehalt(resultSet.getString("gehalt"));
+                System.out.println("gehalt");
+                System.out.println(dto);
+                liste.add(dto);
+            }
+        }catch (Exception e) {
+            throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
+        }
+        return liste;
+    }
+
+    public List<JobOffer> retrieveCompanyOffers(String attribute) throws DatabaseException, SQLException {
+        Statement statement = this.getStatement();
+        ResultSet resultSet = null;
+        //language=PostgreSQL
+        String insert = "SELECT * " +
+                "FROM \"collDB\".joboffer " +
+                "WHERE \"companyID\" = \'" + id + "\' ";
+        resultSet = statement.executeQuery(insert);
+        List<JobOffer> liste = new ArrayList<>();
+        JobOffer dto = null;
+
+        try{
+            while(resultSet.next()){
+                dto = new JobOffer();
+                dto.setBereich(resultSet.getString("bereich"));
+                System.out.println("Bereich");
+                dto.setKontakt(resultSet.getString("kontakt"));
+                System.out.println("Kontakt");
+                dto.setBeschreibung(resultSet.getString("beschreibung"));
+                System.out.println("Beschreibung");
+                dto.setJobofferID(resultSet.getInt("jobofferID"));
+                System.out.println("jobOfferID");
+                dto.setName(resultSet.getString("name"));
+                System.out.println("name");
+                dto.setCompanyID(resultSet.getInt("companyID"));
+                System.out.println("companyID");
+                dto.setCreationDate(null);
+                System.out.println("creationDate");
+                dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
                 System.out.println("beginDate");
                 dto.setGehalt(resultSet.getString("gehalt"));
                 System.out.println("gehalt");
@@ -92,7 +133,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             dto.setName(resultSet.getString("name"));
             dto.setCompanyID(resultSet.getInt("companyID"));
             dto.setCreationDate(null);
-            dto.setBeginDate(null); //new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate()
+            dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
             dto.setGehalt(resultSet.getString("gehalt"));
 
 

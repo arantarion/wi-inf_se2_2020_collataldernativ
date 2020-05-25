@@ -30,9 +30,10 @@ public class jobOfferCreationView extends VerticalLayout implements View {
 
         TextField bereich;
         TextField kontakt;
-        TextField beschreibung;
+        RichTextArea beschreibung;
         TextField name;
         TextField gehalt;
+        DateField beginDate;
 
         Company liste = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
         int ID = liste.getcompanyID();
@@ -60,9 +61,10 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         FormLayout content = new FormLayout();
         content.addComponent(bereich = new TextField("Bereich:"));
         content.addComponent(kontakt = new TextField("Kontakt:"));
-        content.addComponent(beschreibung = new TextField("Beschreibung"));
+        content.addComponent(beschreibung = new RichTextArea("Beschreibung"));
         content.addComponent(name = new TextField("Name"));
         content.addComponent(gehalt = new TextField("Gehalt"));
+        content.addComponent(beginDate = new DateField("Start Datum"));
         content.addComponent(speicherButton);
         content.setSizeUndefined();
 
@@ -88,7 +90,7 @@ public class jobOfferCreationView extends VerticalLayout implements View {
 
         speicherButton.addClickListener(e -> {
             try {
-                JobOffer dto = new JobOffer(bereich.getValue(), kontakt.getValue(), beschreibung.getValue(), name.getValue(), gehalt.getValue());
+                JobOffer dto = new JobOffer(bereich.getValue(), kontakt.getValue(), beschreibung.getValue(), name.getValue(), gehalt.getValue(), beginDate.getValue());
                 dto.setCompanyID(ID);
                 System.out.println(dto);
                 new OfferDAO().create(dto);

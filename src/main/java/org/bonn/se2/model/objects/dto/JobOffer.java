@@ -25,12 +25,13 @@ public class JobOffer {
         this.beschreibung = beschreibung;
     }
 
-    public JobOffer(String bereich, String kontakt, String beschreibung, String name, String gehalt) {
+    public JobOffer(String bereich, String kontakt, String beschreibung, String name, String gehalt, LocalDate beginDate) {
         this.bereich = bereich;
         this.kontakt = kontakt;
         this.beschreibung = beschreibung;
         this.name = name;
         this.gehalt = gehalt;
+        this.beginDate = beginDate;
     }
 
     public void setBereich(String bereich) {
