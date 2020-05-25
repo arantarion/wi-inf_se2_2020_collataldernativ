@@ -4,6 +4,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.components.AccountManagement;
+import org.bonn.se2.gui.windows.EditStudentWindow;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
@@ -58,7 +59,6 @@ public class ProfilView extends VerticalLayout implements View {
 
     public void setUp() throws DatabaseException {
 
-        System.out.println("Hello im here");
         this.setSizeFull();
 
         layout = new GridLayout(1, 2);

@@ -136,67 +136,67 @@ public class EditStudentWindow extends Window {
         grid.setSpacing(true);
 
 
-        Label laddress = new Label("Adresse");
-        grid.addComponent(laddress, 0, 6);
-        Label lstreet = new Label("Straße");
-        TextField tfstreet = new TextField();
-        addressBinder.forField(tfstreet)
-                .asRequired("Bitte geben Sie Ihre Straße an.")
-                .bind(Address::getStrasse, Address::setStrasse);
-        tfstreet.setRequiredIndicatorVisible(false);
-        tfstreet.setWidth("100%");
-        tfstreet.setValue(address.getStrasse());
-        grid.addComponent(lstreet, 0, 7);
-        grid.addComponent(tfstreet, 1, 7, 1, 7);
-        grid.setComponentAlignment(lstreet, Alignment.MIDDLE_CENTER);
-
-
-        Label lhousenumber = new Label("Hausnummer");
-        TextField tfhousenumber = new TextField();
-        addressBinder.forField(tfhousenumber)
-                .asRequired("Bitte geben Sie Ihre Hausnummer an.")
-                .bind(Address::getHausnummer, Address::setHausnummer);
-        tfhousenumber.setRequiredIndicatorVisible(false);
-        tfhousenumber.setValue(address.getHausnummer());
-        grid.addComponent(lhousenumber, 2, 7);
-        grid.addComponent(tfhousenumber, 3, 7);
-        grid.setComponentAlignment(lhousenumber, Alignment.MIDDLE_CENTER);
-
-
-        Label lpostalcode = new Label("Postleitzahl");
-        TextField tfpostalcode = new TextField();
-        addressBinder.forField(tfpostalcode)
-                .asRequired("Bitte geben Sie Ihre Straße an.")
-                .bind(Address::getPlz, Address::setPlz);
-        tfpostalcode.setRequiredIndicatorVisible(false);
-        tfpostalcode.setValue(address.getPlz());
-        grid.addComponent(lpostalcode, 0, 8);
-        grid.addComponent(tfpostalcode, 1, 8);
-        grid.setComponentAlignment(lpostalcode, Alignment.MIDDLE_CENTER);
-
-
-        Label lcity = new Label("Stadt");
-        TextField tfcity = new TextField();
-        addressBinder.forField(tfcity)
-                .asRequired("Bitte geben Sie Ihre Stadt ein.")
-                .bind(Address::getStadt, Address::setStadt);
-        tfcity.setRequiredIndicatorVisible(false);
-        tfcity.setValue(address.getStadt());
-        grid.addComponent(lcity, 2, 8);
-        grid.addComponent(tfcity, 3, 8);
-        grid.setComponentAlignment(lcity, Alignment.MIDDLE_CENTER);
-
-
-        Label lcountry = new Label("Land");
-        TextField tfcountry = new TextField();
-        addressBinder.forField(tfcountry)
-                .asRequired("Bitte geben Sie Ihr Land ein.")
-                .bind(Address::getLand, Address::setLand);
-        tfcountry.setRequiredIndicatorVisible(false);
-        tfcountry.setValue(address.getLand());
-        grid.addComponent(lcountry, 0, 9);
-        grid.addComponent(tfcountry, 1, 9);
-        grid.setComponentAlignment(lcountry, Alignment.MIDDLE_CENTER);
+//        Label laddress = new Label("Adresse");
+//        grid.addComponent(laddress, 0, 6);
+//        Label lstreet = new Label("Straße");
+//        TextField tfstreet = new TextField();
+//        addressBinder.forField(tfstreet)
+//                .asRequired("Bitte geben Sie Ihre Straße an.")
+//                .bind(Address::getStrasse, Address::setStrasse);
+//        tfstreet.setRequiredIndicatorVisible(false);
+//        tfstreet.setWidth("100%");
+//        tfstreet.setValue(address.getStrasse());
+//        grid.addComponent(lstreet, 0, 7);
+//        grid.addComponent(tfstreet, 1, 7, 1, 7);
+//        grid.setComponentAlignment(lstreet, Alignment.MIDDLE_CENTER);
+//
+//
+//        Label lhousenumber = new Label("Hausnummer");
+//        TextField tfhousenumber = new TextField();
+//        addressBinder.forField(tfhousenumber)
+//                .asRequired("Bitte geben Sie Ihre Hausnummer an.")
+//                .bind(Address::getHausnummer, Address::setHausnummer);
+//        tfhousenumber.setRequiredIndicatorVisible(false);
+//        tfhousenumber.setValue(address.getHausnummer());
+//        grid.addComponent(lhousenumber, 2, 7);
+//        grid.addComponent(tfhousenumber, 3, 7);
+//        grid.setComponentAlignment(lhousenumber, Alignment.MIDDLE_CENTER);
+//
+//
+//        Label lpostalcode = new Label("Postleitzahl");
+//        TextField tfpostalcode = new TextField();
+//        addressBinder.forField(tfpostalcode)
+//                .asRequired("Bitte geben Sie Ihre Straße an.")
+//                .bind(Address::getPlz, Address::setPlz);
+//        tfpostalcode.setRequiredIndicatorVisible(false);
+//        tfpostalcode.setValue(address.getPlz());
+//        grid.addComponent(lpostalcode, 0, 8);
+//        grid.addComponent(tfpostalcode, 1, 8);
+//        grid.setComponentAlignment(lpostalcode, Alignment.MIDDLE_CENTER);
+//
+//
+//        Label lcity = new Label("Stadt");
+//        TextField tfcity = new TextField();
+//        addressBinder.forField(tfcity)
+//                .asRequired("Bitte geben Sie Ihre Stadt ein.")
+//                .bind(Address::getStadt, Address::setStadt);
+//        tfcity.setRequiredIndicatorVisible(false);
+//        tfcity.setValue(address.getStadt());
+//        grid.addComponent(lcity, 2, 8);
+//        grid.addComponent(tfcity, 3, 8);
+//        grid.setComponentAlignment(lcity, Alignment.MIDDLE_CENTER);
+//
+//
+//        Label lcountry = new Label("Land");
+//        TextField tfcountry = new TextField();
+//        addressBinder.forField(tfcountry)
+//                .asRequired("Bitte geben Sie Ihr Land ein.")
+//                .bind(Address::getLand, Address::setLand);
+//        tfcountry.setRequiredIndicatorVisible(false);
+//        tfcountry.setValue(address.getLand());
+//        grid.addComponent(lcountry, 0, 9);
+//        grid.addComponent(tfcountry, 1, 9);
+//        grid.setComponentAlignment(lcountry, Alignment.MIDDLE_CENTER);
 
 
         Label lDocument = new Label("Lebenslauf");
@@ -238,33 +238,33 @@ public class EditStudentWindow extends Window {
             studentDTO.setStudienfach(fachTf.getValue());
             studentDTO.setFachsemester(Integer.parseInt(fachsemesterTF.getValue()));
 
-            Address a = new Address();
-            if (!tfcity.getValue().equals("")) {
-                a.setStadt(tfcity.getValue());
-
-            } else {
-                isValid = false;
-            }
-            if (!tfcountry.getValue().equals("")) {
-                a.setLand(tfcountry.getValue());
-            } else {
-                isValid = false;
-            }
-            if (!tfhousenumber.getValue().equals("")) {
-                a.setHausnummer(tfhousenumber.getValue());
-            } else {
-                isValid = false;
-            }
-            if (!tfpostalcode.getValue().equals("")) {
-                a.setPlz(tfpostalcode.getValue());
-            } else {
-                isValid = false;
-            }
-            if (!tfstreet.getValue().equals("")) {
-                a.setStrasse(tfstreet.getValue());
-            } else {
-                isValid = false;
-            }
+//            Address a = new Address();
+//            if (!tfcity.getValue().equals("")) {
+//                a.setStadt(tfcity.getValue());
+//
+//            } else {
+//                isValid = false;
+//            }
+//            if (!tfcountry.getValue().equals("")) {
+//                a.setLand(tfcountry.getValue());
+//            } else {
+//                isValid = false;
+//            }
+//            if (!tfhousenumber.getValue().equals("")) {
+//                a.setHausnummer(tfhousenumber.getValue());
+//            } else {
+//                isValid = false;
+//            }
+//            if (!tfpostalcode.getValue().equals("")) {
+//                a.setPlz(tfpostalcode.getValue());
+//            } else {
+//                isValid = false;
+//            }
+//            if (!tfstreet.getValue().equals("")) {
+//                a.setStrasse(tfstreet.getValue());
+//            } else {
+//                isValid = false;
+//            }
 
 //            a.setAddressid(Session.getCurrentUser().getAddressid());
 //            studentDTO.setImage(Session.getCurrentUser().getImage());
