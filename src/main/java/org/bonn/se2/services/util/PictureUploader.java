@@ -15,7 +15,7 @@ import java.io.OutputStream;
  * @Programmer Henry Weckermann
  */
 
-public class Uploader extends VerticalLayout {
+public class PictureUploader extends VerticalLayout {
 
     // https://github.com/vaadin/book-examples/blob/master/src/com/vaadin/book/examples/component/UploadExample.java
 

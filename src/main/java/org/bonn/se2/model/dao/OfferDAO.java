@@ -31,7 +31,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 "FROM \"collDB\".joboffer " +
                 "WHERE \"companyID\" = \'" + id + "\' ";
         resultSet = statement.executeQuery(insert);
-        List<JobOffer> liste = new ArrayList<JobOffer>();
+        List<JobOffer> liste = new ArrayList<>();
         JobOffer dto = null;
 
         try{
