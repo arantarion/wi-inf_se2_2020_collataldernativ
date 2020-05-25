@@ -23,12 +23,21 @@ import java.util.ArrayList;
 
 public class AccountManagement extends VerticalLayout {
 
-    public AccountManagement(Student student){
-        setUp(student);
+    public AccountManagement(Student student) {
+        try {
+            setUp(student);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    public AccountManagement(Company company){
-        setUp(company);
+
+    public AccountManagement(Company company) throws Exception {
+        try {
+            setUp(company);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private <T extends User> void setUp(T dto) throws Exception {
