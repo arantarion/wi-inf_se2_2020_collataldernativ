@@ -85,10 +85,8 @@ public class KontoverwaltungView extends VerticalLayout implements View {
             String passwort = null;
             try {
                 passwort = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getPasswort();
-            } catch (DatabaseException databaseException) {
+            } catch (DatabaseException | InvalidCredentialsException databaseException) {
                 databaseException.printStackTrace();
-            } catch (InvalidCredentialsException invalidCredentialsException) {
-                invalidCredentialsException.printStackTrace();
             }
             if ((!pwAlt.getValue().equals("")) && (!pwNeu.getValue().equals("")) && (!pwNeu2.getValue().equals("")) && pwNeu.getValue().equals(pwNeu2.getValue()) && hash(pwAlt.getValue()).equals(passwort)) {
                 addComponent(new Label("Das Passwort wurde erfolgreich geändert."));

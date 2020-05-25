@@ -1,19 +1,17 @@
 package org.bonn.se2.gui.views;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Student;
-import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
-
-import java.util.List;
+import org.bonn.se2.services.util.UIFunctions;
 
 /**
  * @author Coll@Aldernativ
@@ -23,20 +21,50 @@ import java.util.List;
 
 public class ProfilView extends VerticalLayout implements View {
 
+    public GridLayout layout;
+
+    private static Student student;
+
+    public static void setStudent(Student dto) {
+        ProfilView.student = dto;
+    }
+
+    public static Student getStudent() {
+        return ProfilView.student;
+    }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        try {
-            this.setUp();
-        } catch (DatabaseException e) {
-            e.printStackTrace();
+        if (!SessionFunctions.isLoggedIn()) {
+            UIFunctions.gotoLogin();
+        } else {
+            try {
+                this.setUp();
+            } catch (DatabaseException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     public void setUp() throws DatabaseException {
+//
+//        System.out.println("Hello im here");
+//        this.setSizeFull();
+//
+//        layout = new GridLayout(1, 2);
+//        layout.setSpacing(true);
+//        layout.setSizeFull();
+//        this.addComponent(layout);
+//
+//        HorizontalLayout bodyLayout = new HorizontalLayout();
+//        bodyLayout.setWidth("100%");
+//        StudentAccountManagement bodyStudent = new StudentAccountManagement(ProfilView.getStudent());
+//        bodyLayout.addComponent(bodyStudent);
+//        layout.addComponent(bodyLayout, 0, 1);
 
-        Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button logoutButton = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button kverwaltenButton = new Button("Kontoverwaltung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+
+        Button startseiteButton = new Button("Startseite", VaadinIcons.HOME);
+        Button logoutButton = new Button("Logout", VaadinIcons.SIGN_OUT);
+        Button kverwaltenButton = new Button("Kontoverwaltung", VaadinIcons.PENCIL);
         //Button abbruchButton = new Button("Abbruch", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         //Button speichernButton = new Button("Speichern", FontAwesome.ARROW_CIRCLE_O_RIGHT);
 
@@ -54,7 +82,7 @@ public class ProfilView extends VerticalLayout implements View {
 
         //Grid<User> grid = new Grid<User>(User.class);
         Grid<Student> grid = new Grid<>();
-        Student liste =  new StudentDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
+        Student liste = new StudentDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
         grid.setItems(liste);
         grid.addColumn(Student::getVorname).setCaption("Vorname");
         grid.addColumn(Student::getNachname).setCaption("Nachname");
@@ -88,7 +116,7 @@ public class ProfilView extends VerticalLayout implements View {
         //h3.addComponent(abbruchButton);
         //h3.addComponent(speichernButton);
 
-        startseiteButton.addClickListener(e ->{
+        startseiteButton.addClickListener(e -> {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
         });
 
@@ -97,7 +125,7 @@ public class ProfilView extends VerticalLayout implements View {
         });
 
         kverwaltenButton.addClickListener(e -> {
-           UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
         });
 
 

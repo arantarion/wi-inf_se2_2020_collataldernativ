@@ -17,6 +17,7 @@ public class Student extends User implements Serializable {
 
     private String vorname;
     private String nachname;
+    private String vollstName;
     private String studienfach;
     private String job;
     private String arbeitgeber;
@@ -61,6 +62,10 @@ public class Student extends User implements Serializable {
 
     public void setNachname(String nachname) {
         this.nachname = nachname;
+    }
+
+    public String getVollstName() {
+        return getVorname() + " " + getNachname();
     }
 
     public String getStudienfach() {
