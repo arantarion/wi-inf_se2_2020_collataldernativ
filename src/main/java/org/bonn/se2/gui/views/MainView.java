@@ -6,6 +6,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import com.vaadin.ui.*;
+import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
@@ -48,6 +49,11 @@ public class MainView extends VerticalLayout implements View {
     public void setUp() throws DatabaseException, InvalidCredentialsException {
         //final VerticalLayout layout = new VerticalLayout();
         //Erzeugung der HorizontalLayouts
+
+        NavigationBar navigationBar = new NavigationBar();
+        this.addComponent(navigationBar);
+        this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
+
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         HorizontalLayout horizontalLayout1 = new HorizontalLayout();
         HorizontalLayout h2 = new HorizontalLayout();

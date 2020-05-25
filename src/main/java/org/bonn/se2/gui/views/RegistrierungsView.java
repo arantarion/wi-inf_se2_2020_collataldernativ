@@ -5,9 +5,9 @@ import com.vaadin.data.ValidationException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
@@ -17,7 +17,6 @@ import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.PasswordValidator;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
@@ -103,7 +102,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         this.addComponent(userCreationPanel);
         this.setComponentAlignment(userCreationPanel, Alignment.MIDDLE_CENTER);
 
-        Button weiterButton1 = new Button("Fortfahren", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        Button weiterButton1 = new Button("Fortfahren", VaadinIcons.ARROW_RIGHT);
         weiterButton1.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         FormLayout content = new FormLayout();
         content.setSizeUndefined();
@@ -141,7 +140,6 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
             User myUser = new User();
             try {
-                //user = generateUser(usernameField.getValue(), emailField.getValue(), passwordField.getValue());
                 binder.writeBean(myUser);
             } catch (ValidationException exception) {
                 Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
@@ -358,6 +356,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 .bind(Address::getLand, Address::setLand);
 
     }
+
 
 //    public void setUp() throws DatabaseException {
 //        Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
