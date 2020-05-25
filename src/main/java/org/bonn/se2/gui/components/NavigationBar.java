@@ -32,9 +32,29 @@ public class NavigationBar extends HorizontalLayout {
         this.setComponentAlignment(logo, Alignment.MIDDLE_LEFT);
 
         MenuBar menuBar = new MenuBar();
-        MenuBar.MenuItem verwaltung = menuBar.addItem("Profil verwalten", clickEvent ->
-                ProfilControl.studentProfile());
-        verwaltung.setIcon(VaadinIcons.PENCIL);
+
+        MenuBar.Command userProfile = clickEvent -> {
+            ProfilView.setMyProfile(true);
+            ProfilControl.studentProfile();
+        };
+
+        MenuBar.Command companyProfile = clickEvent -> {
+            ProfilView.setMyProfile(true);
+            ProfilControl.companyProfile();
+        };
+
+        if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT)) {
+            MenuBar.MenuItem profile = menuBar.addItem("Mein Profil", userProfile);
+            profile.setIcon(VaadinIcons.USER);
+        } else {
+            MenuBar.MenuItem profile = menuBar.addItem("Mein Profil - Company", companyProfile);
+            profile.setIcon(VaadinIcons.USER);
+        }
+
+//        MenuBar menuBar = new MenuBar();
+//        MenuBar.MenuItem verwaltung = menuBar.addItem("Profil verwalten", clickEvent ->
+//                ProfilControl.studentProfile());
+//        verwaltung.setIcon(VaadinIcons.PENCIL);
 
         MenuBar.MenuItem logout = menuBar.addItem("Logout", clickEvent -> LoginControl.logoutUser());
         logout.setIcon(VaadinIcons.SIGN_OUT);

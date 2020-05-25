@@ -42,7 +42,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         String query =
                 "SELECT * FROM \"collDB\".company\n" +
                         "JOIN \"collDB\".user ON company.\"userID\" = \"user\".\"userID\" " +
-                        "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
+                        //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
                         "WHERE username = '" + attribute + "' " +
                         "OR email = '" + attribute + "' " +
                         "OR name = '" + attribute + "';";

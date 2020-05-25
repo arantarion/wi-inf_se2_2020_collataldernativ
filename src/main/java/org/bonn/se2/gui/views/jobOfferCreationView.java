@@ -3,17 +3,12 @@ package org.bonn.se2.gui.views;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
-import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
-import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
-import org.bonn.se2.model.objects.dto.Student;
-import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.LoginControl;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
