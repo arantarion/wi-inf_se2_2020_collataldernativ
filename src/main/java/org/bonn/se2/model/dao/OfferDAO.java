@@ -6,18 +6,51 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
+import javax.swing.plaf.nimbus.State;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobOffer>  {
     public OfferDAO() throws DatabaseException {
     }
 
-
-
     @Override
     public JobOffer retrieve(int id) throws Exception {
         return null;
+    }
+
+    public List<JobOffer> retrieveCompanyOffers(int id) throws DatabaseException, SQLException {
+        Statement statement = this.getStatement();
+        ResultSet resultSet = null;
+        //language=PostgreSQL
+        String insert = "SELECT * " +
+                "FROM \"collDB\".joboffer " +
+                "WHERE \"companyID\" = \'" + id + "\' ";
+        resultSet = statement.executeQuery(insert);
+        List<JobOffer> liste = new ArrayList<JobOffer>();
+        JobOffer dto = null;
+
+        try{
+            while(resultSet.next()){
+                dto.setBereich(resultSet.getString("bereich"));
+                dto.setKontakt(resultSet.getString("kontakt"));
+                dto.setBeschreibung(resultSet.getString("beschreibung"));
+                dto.setJobofferID(resultSet.getInt("jobofferID"));
+                dto.setName(resultSet.getString("name"));
+                dto.setCompanyID(resultSet.getInt("companyID"));
+                dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate());
+                dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
+                dto.setGehalt(resultSet.getString("gehalt"));
+                liste.add(dto);
+            }
+        }catch (Exception e) {
+            throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
+        }
+        return liste;
     }
 
     @Override
@@ -54,7 +87,30 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
 
     @Override
     public JobOffer create(JobOffer dto) throws Exception {
-        return null;
+        //language=PostgreSQL
+        String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\", gehalt) " +
+                "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + dto.getGehalt() + "') " +
+                "RETURNING \"jobofferID\"";
+        PreparedStatement pst = this.getPreparedStatement(insertQuery2);
+        ResultSet resultSet = pst.executeQuery();
+        if (resultSet.next()) {
+            JobOffer offer = new JobOffer();
+            offer.setBereich(resultSet.getString("bereich"));
+            offer.setKontakt(resultSet.getString("kontakt"));
+            offer.setBeschreibung(resultSet.getString("beschreibung"));
+            offer.setJobofferID(resultSet.getInt("jobofferID"));
+            offer.setName(resultSet.getString("name"));
+            offer.setCompanyID(resultSet.getInt("companyID"));
+            offer.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate());
+            offer.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
+            offer.setGehalt(resultSet.getString("gehalt"));
+            System.out.println("Offer erfolgreich gespeichert!");
+            return offer;
+        } else {
+            System.out.println("JobOffer-Objekt konnte nicht richtig gespeichert werden!");
+            return null;
+        }
+
     }
 
     @Override
