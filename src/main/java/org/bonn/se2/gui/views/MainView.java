@@ -106,7 +106,6 @@ public class MainView extends VerticalLayout implements View {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(liste);
         grid.setItems(liste);
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
@@ -118,6 +117,44 @@ public class MainView extends VerticalLayout implements View {
         grid.setSizeFull();
         grid.setHeightMode(HeightMode.UNDEFINED);
         addComponent(grid);
+        suche.addClickListener(e -> {
+            if (!name.getValue().equals("")) {
+                String attribute = name.getValue();
+                grid.removeAllColumns();
+                List<JobOffer> liste2 = null;
+                try {
+                    liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                grid.setItems(liste2);
+                grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+                grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+                grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+                grid.addColumn(JobOffer::getName).setCaption("Name");
+                grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+                grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+                grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+                addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
+            } else {
+                grid.removeAllColumns();
+                List<JobOffer> liste3 = null;
+                try{
+                    liste3 = new OfferDAO().retrieveAll();
+                } catch (Exception ex){
+                    ex.printStackTrace();
+                }
+                grid.setItems(liste3);
+                grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+                grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+                grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+                grid.addColumn(JobOffer::getName).setCaption("Name");
+                grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+                grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+                grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+                addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
+            }
+        });
 
         //Rechts oben
         horizontalLayout.addComponent(role);
@@ -131,13 +168,7 @@ public class MainView extends VerticalLayout implements View {
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
         h3.addComponent(sample);
 
-        suche.addClickListener(e -> {
-            if (!name.getValue().equals("")) {
-                addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
-            } else {
-                addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
-            }
-        });
+
 
 
         profilButton.addClickListener(e -> {
@@ -156,4 +187,5 @@ public class MainView extends VerticalLayout implements View {
 
 
     }
+
 }

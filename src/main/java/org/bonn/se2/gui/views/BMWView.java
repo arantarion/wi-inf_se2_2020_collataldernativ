@@ -57,8 +57,6 @@ public class BMWView extends VerticalLayout implements View {
         setComponentAlignment(h2, Alignment.TOP_RIGHT);
         h2.addComponent(logoutButton);
         h2.addComponent(kverwaltenButton);
-        //h2.addComponent(log);
-        //h2.addComponent(registrieren);
 
 
         HorizontalLayout h4 = new HorizontalLayout();
@@ -70,8 +68,6 @@ public class BMWView extends VerticalLayout implements View {
 
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste =  new OfferDAO().retrieveCompanyOffers(ID);
-        //List<JobOffer> liste = new OfferDAO().retrieveAll();
-        System.out.println(liste);
         grid.setItems(liste);
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");

@@ -38,23 +38,14 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             while(resultSet.next()){
                 dto = new JobOffer();
                 dto.setBereich(resultSet.getString("bereich"));
-                System.out.println("Bereich");
                 dto.setKontakt(resultSet.getString("kontakt"));
-                System.out.println("Kontakt");
                 dto.setBeschreibung(resultSet.getString("beschreibung"));
-                System.out.println("Beschreibung");
                 dto.setJobofferID(resultSet.getInt("jobofferID"));
-                System.out.println("jobOfferID");
                 dto.setName(resultSet.getString("name"));
-                System.out.println("name");
                 dto.setCompanyID(resultSet.getInt("companyID"));
-                System.out.println("companyID");
-                dto.setCreationDate(null);
-                System.out.println("creationDate");
+                dto.setCreationDate(null); //creationDate
                 dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
-                System.out.println("beginDate");
                 dto.setGehalt(resultSet.getString("gehalt"));
-                System.out.println("gehalt");
                 System.out.println(dto);
                 liste.add(dto);
             }
@@ -70,9 +61,8 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         //language=PostgreSQL
         String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
-                "WHERE bereich = \'" + attribute + "\' OR kontakt = \'" + attribute + "\' OR beschreibung = \'" + attribute + "\' " +
-                "OR name = \'" + attribute + "\' OR \"creationDate\" = \'" + attribute + "\' OR \"beginDate\" = \'" + attribute + "\'" +
-                "OR gehalt = \'" + attribute + "\'";
+                "WHERE bereich LIKE \'%" + attribute + "%\' OR kontakt LIKE \'%" + attribute + "%\' OR beschreibung LIKE \'%" + attribute + "%\' " +
+                "OR name LIKE \'%" + attribute + "%\' OR gehalt LIKE \'%" + attribute + "%\'";
         resultSet = statement.executeQuery(insert);
         List<JobOffer> liste = new ArrayList<>();
         JobOffer dto = null;
@@ -81,23 +71,14 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             while(resultSet.next()){
                 dto = new JobOffer();
                 dto.setBereich(resultSet.getString("bereich"));
-                System.out.println("Bereich");
                 dto.setKontakt(resultSet.getString("kontakt"));
-                System.out.println("Kontakt");
                 dto.setBeschreibung(resultSet.getString("beschreibung"));
-                System.out.println("Beschreibung");
                 dto.setJobofferID(resultSet.getInt("jobofferID"));
-                System.out.println("jobOfferID");
                 dto.setName(resultSet.getString("name"));
-                System.out.println("name");
                 dto.setCompanyID(resultSet.getInt("companyID"));
-                System.out.println("companyID");
-                dto.setCreationDate(null);
-                System.out.println("creationDate");
+                dto.setCreationDate(null); //creationDate
                 dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
-                System.out.println("beginDate");
                 dto.setGehalt(resultSet.getString("gehalt"));
-                System.out.println("gehalt");
                 System.out.println(dto);
                 liste.add(dto);
             }
