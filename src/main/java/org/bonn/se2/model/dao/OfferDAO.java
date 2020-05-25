@@ -70,7 +70,9 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         //language=PostgreSQL
         String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
-                "WHERE \"companyID\" = \'" + id + "\' ";
+                "WHERE bereich = \'" + attribute + "\' OR kontakt = \'" + attribute + "\' OR beschreibung = \'" + attribute + "\' " +
+                "OR name = \'" + attribute + "\' OR \"creationDate\" = \'" + attribute + "\' OR \"beginDate\" = \'" + attribute + "\'" +
+                "OR gehalt = \'" + attribute + "\'";
         resultSet = statement.executeQuery(insert);
         List<JobOffer> liste = new ArrayList<>();
         JobOffer dto = null;
