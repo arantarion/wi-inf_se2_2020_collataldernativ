@@ -5,6 +5,8 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.objects.dto.User;
@@ -75,7 +77,10 @@ public class LoginView extends VerticalLayout implements View {
             try {
                 LoginControl.checkAuthentication(new UserAtLogin(login, password));
             } catch (InvalidCredentialsException ex) {
-                Notification.show("Die Zugangsdaten sind nicht korrekt", Notification.Type.ERROR_MESSAGE);
+                Notification notification = new Notification("Die Zugangsdaten sind nicht korrekt", Notification.Type.ERROR_MESSAGE);
+                notification.setPosition(Position.BOTTOM_CENTER);
+                notification.setDelayMsec(4000);
+                notification.show(Page.getCurrent());
                 passwd.setValue("");
             } catch (DatabaseException ex) {
                 Notification.show("DB-Fehler", ex.getReason(), Notification.Type.ERROR_MESSAGE);

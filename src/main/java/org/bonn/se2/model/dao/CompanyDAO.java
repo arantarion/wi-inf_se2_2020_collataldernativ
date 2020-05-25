@@ -1,9 +1,7 @@
 
 package org.bonn.se2.model.dao;
 
-import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
-import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
@@ -13,9 +11,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 
@@ -63,7 +60,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         String query =
                 "SELECT * FROM \"collDB\".company " +
                         "JOIN \"collDB\".\"user\" ON company.\"userID\" = \"user\".\"userID\" "; //+
-                        //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
+        //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
         return execute(query);
     }
 
@@ -112,23 +109,14 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         System.out.println("hahaha noobs");
         try {
             dto.setName(resultSet.getString("name"));
-            System.out.println("name");
             dto.setBeschreibung(resultSet.getString("beschreibung"));
-            System.out.println("nbeschr");
             dto.setcompanyID(resultSet.getInt("companyID"));
-            System.out.println("comüpID");
             dto.setWebURL(resultSet.getString("webURL"));
-            System.out.println("url");
             dto.setUserID(resultSet.getInt("userID"));
-            System.out.println("UserID");
             dto.setUsername(resultSet.getString("username"));
-            System.out.println("username");
             dto.setEmail(resultSet.getString("email"));
-            System.out.println("email");
             dto.setAnsprechpartner(resultSet.getString("ansprechpartner"));
-            System.out.println("ansprechpartenr");
             dto.setBranche(resultSet.getString("branche"));
-            System.out.println("branche");
             //Address address = new AddressDAO().retrieve(resultSet.getInt("addressid"));
             //dto.setAdresse(address);
         } catch (SQLException e) {
