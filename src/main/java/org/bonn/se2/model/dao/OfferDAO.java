@@ -6,11 +6,11 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
-import javax.swing.plaf.nimbus.State;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -148,8 +148,8 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     @Override
     public JobOffer create(JobOffer dto) throws Exception {
         //language=PostgreSQL
-        String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\", gehalt) " +
-                "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + dto.getGehalt() + "') " +
+        String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\",  \"beginDate\", gehalt) " +
+                "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + dto.getBeginDate() + "', '" + dto.getGehalt() + "') " +
                 "RETURNING \"jobofferID\"";
         PreparedStatement pst = this.getPreparedStatement(insertQuery2);
         ResultSet resultSet = pst.executeQuery();
