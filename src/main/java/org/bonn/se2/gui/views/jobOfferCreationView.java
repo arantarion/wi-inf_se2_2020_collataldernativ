@@ -28,8 +28,8 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         this.addComponent(navigationBar);
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
-        Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button logoutButton = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //Button logoutButton = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button kverwaltenButton = new Button("Kontoverwaltung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button speicherButton = new Button("Speichern");
 
@@ -46,12 +46,12 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         HorizontalLayout h = new HorizontalLayout();
         addComponent(h);
         setComponentAlignment(h, Alignment.TOP_LEFT);
-        h.addComponent(startseiteButton);
+        //h.addComponent(startseiteButton);
 
         HorizontalLayout h2 = new HorizontalLayout();
         addComponent(h2);
         setComponentAlignment(h2, Alignment.TOP_RIGHT);
-        h2.addComponent(logoutButton);
+        //h2.addComponent(logoutButton);
         h2.addComponent(kverwaltenButton);
 
         HorizontalLayout h3 = new HorizontalLayout();
@@ -81,13 +81,13 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         addComponent(h4);
         setComponentAlignment(h4, Alignment.BOTTOM_RIGHT);
 
-        startseiteButton.addClickListener(e -> {
-            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
-        });
-
-        logoutButton.addClickListener(e -> {
-            LoginControl.logoutUser();
-        });
+//        startseiteButton.addClickListener(e -> {
+//            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
+//        });
+//
+//        logoutButton.addClickListener(e -> {
+//            LoginControl.logoutUser();
+//        });
 
         kverwaltenButton.addClickListener(e -> {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);

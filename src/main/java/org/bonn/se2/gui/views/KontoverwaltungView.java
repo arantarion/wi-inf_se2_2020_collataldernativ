@@ -1,6 +1,8 @@
 package org.bonn.se2.gui.views;
 
 import static org.bonn.se2.services.util.CryptoFunctions.hash;
+
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
@@ -35,11 +37,11 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         this.addComponent(navigationBar);
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
-        Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button log = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button profil = new Button("Profil", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button konto = new Button("Konto löschen", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button s = new Button("Speichern", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        //Button startseiteButton = new Button("Startseite", VaadinIcons.ARROW_CIRCLE_RIGHT);
+        //Button log = new Button("Logout", VaadinIcons.ARROW_CIRCLE_RIGHT);
+        Button profil = new Button("Profil", VaadinIcons.ARROW_CIRCLE_RIGHT);
+        Button konto = new Button("Konto löschen", VaadinIcons.ARROW_CIRCLE_RIGHT);
+        Button s = new Button("Speichern", VaadinIcons.ARROW_CIRCLE_RIGHT);
 
 
         PasswordField pwAlt;
@@ -55,7 +57,7 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         addComponent(h);
         setComponentAlignment(h, Alignment.TOP_LEFT);
-        h.addComponent(startseiteButton);
+        //h.addComponent(startseiteButton);
 
         addComponent(h1);
         setComponentAlignment(h1, Alignment.MIDDLE_LEFT);
@@ -107,8 +109,8 @@ public class KontoverwaltungView extends VerticalLayout implements View {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
         });
 
-        startseiteButton.addClickListener(e ->{
-            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
-        });
+//        startseiteButton.addClickListener(e ->{
+//            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
+//        });
     }
 }
