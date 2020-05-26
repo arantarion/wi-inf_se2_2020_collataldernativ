@@ -31,4 +31,8 @@ public class Configuration {
         public static final String OFFERCREATION = "jobOfferCreation";
     }
 
+    public static class ImagePaths {
+        public static final String PLACEHOLDER = "images/placeholder.png";
+        public static final String CORPORATE = "images/logo.png";
+    }
 }

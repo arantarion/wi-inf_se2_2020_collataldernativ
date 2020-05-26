@@ -20,6 +20,7 @@ import static org.bonn.se2.services.util.CryptoFunctions.hash;
  * @Programmer Anton Drees
  */
 
+@Deprecated
 public class RegistrierungsControl {
 
     public static User generateUser(String username, String email, String password) throws Exception {

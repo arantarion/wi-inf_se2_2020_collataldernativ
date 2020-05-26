@@ -15,15 +15,12 @@ import com.vaadin.ui.*;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.services.util.Utils;
 
-import javax.xml.stream.util.StreamReaderDelegate;
-import javax.xml.transform.stream.StreamResult;
 import java.util.ArrayList;
 
-public class AccountManagement extends VerticalLayout {
+public class AccountOverviewBody extends VerticalLayout {
 
-    public AccountManagement(Student student) {
+    public AccountOverviewBody(Student student) {
         try {
             setUp(student);
         } catch (Exception e) {
@@ -32,7 +29,7 @@ public class AccountManagement extends VerticalLayout {
     }
 
 
-    public AccountManagement(Company company) throws Exception {
+    public AccountOverviewBody(Company company) throws Exception {
         try {
             setUp(company);
         } catch (Exception e) {
@@ -118,7 +115,7 @@ public class AccountManagement extends VerticalLayout {
     private <T> Panel createPanel(ArrayList<T> list, String name) {
         Panel panel = new Panel(name);
         VerticalLayout layout = new VerticalLayout();
-        for (T i : list){
+        for (T i : list) {
             layout.addComponent(new Label(VaadinIcons.ARROWS_LONG_RIGHT.getHtml() + " " + i.toString(), ContentMode.HTML));
         }
         panel.setContent(layout);
@@ -140,15 +137,16 @@ public class AccountManagement extends VerticalLayout {
         panel.setContent(layout);
         return panel;
     }
+
     private Panel createPanel(StreamResource file, String filename) {
         Panel panel;
         VerticalLayout layout = new VerticalLayout();
 
-        if (file.getBufferSize() <= 0){
+        if (file.getBufferSize() <= 0) {
             panel = createPanel("Dokumente");
         } else {
             panel = new Panel("Dokumente");
-            if(filename != null || !filename.equals("")){
+            if (filename != null || !filename.equals("")) {
                 Link link = new Link(filename + ".pdf", file);
                 layout.addComponent(link);
             }

@@ -2,13 +2,14 @@ package org.bonn.se2.gui.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.*;
-import org.bonn.se2.gui.components.AccountManagement;
-import org.bonn.se2.gui.components.NavigationBar;
-import org.bonn.se2.gui.windows.EditStudentWindow;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
+import org.bonn.se2.gui.components.AccountOverviewBody;
+import org.bonn.se2.gui.components.AccountOverviewHead;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
@@ -23,25 +24,31 @@ public class ProfilView extends VerticalLayout implements View {
     public GridLayout layout;
 
     private static Student student;
+
     public static void setStudent(Student dto) {
         ProfilView.student = dto;
     }
+
     public static Student getStudent() {
         return ProfilView.student;
     }
 
     private static Company company;
+
     public static void setCompany(Company dto) {
         ProfilView.company = dto;
     }
+
     public static Company getCompany() {
         return ProfilView.company;
     }
-    
+
     private static boolean myProfile = true;
+
     public static void setMyProfile(boolean profile) {
         ProfilView.myProfile = profile;
     }
+
     public static boolean getMyProfile() {
         return ProfilView.myProfile;
     }
@@ -52,13 +59,13 @@ public class ProfilView extends VerticalLayout implements View {
         } else {
             try {
                 this.setUp();
-            } catch (DatabaseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void setUp() throws DatabaseException {
+    public void setUp() throws Exception {
 
         this.setSizeFull();
 
@@ -67,11 +74,45 @@ public class ProfilView extends VerticalLayout implements View {
         layout.setSizeFull();
         this.addComponent(layout);
 
+        if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT) && ProfilView.getMyProfile()) {
+            setUpStudent();
+        } else {
+            setUpCompany();
+        }
+    }
+
+    private void setUpStudent() {
+
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        headerLayout.setWidth("100%");
+        AccountOverviewHead headStudent = new AccountOverviewHead(ProfilView.getStudent());
+        headerLayout.addComponent(headStudent);
+        layout.addComponent(headerLayout, 0, 0);
+
         HorizontalLayout bodyLayout = new HorizontalLayout();
         bodyLayout.setWidth("100%");
-        AccountManagement bodyStudent = new AccountManagement(ProfilView.getStudent());
+        AccountOverviewBody bodyStudent = new AccountOverviewBody(ProfilView.getStudent());
         bodyLayout.addComponent(bodyStudent);
         layout.addComponent(bodyLayout, 0, 1);
+
+    }
+
+    private void setUpCompany() throws Exception {
+
+        HorizontalLayout headerLayout = new HorizontalLayout();
+        headerLayout.setWidth("100%");
+        AccountOverviewHead headCompany = new AccountOverviewHead(ProfilView.getCompany());
+        headerLayout.addComponent(headCompany);
+        layout.addComponent(headerLayout, 0, 0);
+
+        HorizontalLayout bodyLayout = new HorizontalLayout();
+        bodyLayout.setWidth("100%");
+        AccountOverviewBody bodyCompany = new AccountOverviewBody(ProfilView.getCompany());
+        bodyLayout.addComponent(bodyCompany);
+        layout.addComponent(bodyLayout, 0, 1);
+
+    }
+}
 
 
 //        Button startseiteButton = new Button("Startseite", VaadinIcons.HOME);
@@ -140,7 +181,3 @@ public class ProfilView extends VerticalLayout implements View {
 //            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
 //        });
 
-
-    }
-
-}

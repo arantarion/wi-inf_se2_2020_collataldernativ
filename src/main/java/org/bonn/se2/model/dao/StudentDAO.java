@@ -1,14 +1,19 @@
 
 package org.bonn.se2.model.dao;
 
+import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.services.util.SessionFunctions;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author Coll@Aldernativ
@@ -143,8 +148,27 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     }
 
     @Override
-    public Student update(Student student) throws Exception {
-        return null;
+    public Student update(Student updatedItem) throws Exception {
+        UserDAO userDAO = new UserDAO();
+
+        System.out.println("update StudentDAO " + updatedItem);
+        userDAO.update(new User(updatedItem.getUsername(), updatedItem.getEmail(), updatedItem.getPasswort(), updatedItem.getImage(), updatedItem.getUserID()));
+
+        //language=PostgreSQL
+        String queryStudent = "UPDATE \"collDB\".student " +
+                "SET (studienfach, fachsemester) = (?, ?) " +
+                "WHERE \"userID\" = '" + updatedItem.getUserID() + "';";
+        try {
+            PreparedStatement pst = this.getPreparedStatement(queryStudent);
+            pst.setString(1, updatedItem.getStudienfach());
+            pst.setInt(2, updatedItem.getFachsemester());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException("failed to udpate studentdata");
+        }
+
+        return this.retrieve(updatedItem.getEmail());
+
     }
 
     @Override

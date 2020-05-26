@@ -20,22 +20,21 @@ import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.services.util.FileUploader;
-import org.bonn.se2.services.util.PasswordValidator;
-import org.bonn.se2.services.util.SessionFunctions;
+import org.bonn.se2.services.util.*;
 
 public class EditStudentWindow extends Window {
 
-    private final Student student;
+    private Student student;
     private final Binder<User> binder = new Binder<>();
     private final Binder<Address> addressBinder = new Binder<>();
 
-    private static final ThemeResource resource = new ThemeResource("image/placeholder.png");
+    private static final ThemeResource resource = new ThemeResource(Configuration.ImagePaths.PLACEHOLDER);
     private static Image profilbild = new Image("Kein Bild ausgewählt", resource);
     private static final Panel profilBildPanel = new Panel();
 
     public EditStudentWindow(Student dto) {
         this.student = dto;
+        System.out.println("Student in EDITStudWin " + this.student);
         this.setUp();
     }
 
@@ -118,11 +117,12 @@ public class EditStudentWindow extends Window {
         upload_photo.addSucceededListener(receiver);
         upload_photo.setAcceptMimeTypes("image/*");
 
-//        if (student.getImage() != null && dto.getImage().length > 0) {
-//            refreshProfilePic(Utils.convertToImage(dto.getImage()));
-//        } else {
-//            refreshProfilePic(new Image("", resource));
-//        }
+        if (student.getImage() != null && student.getImage().length > 0) {
+            refreshProfilePic(Utils.convertToImg(student.getImage()));
+            System.out.println("Profilbild aktualisiert");
+        } else {
+            refreshProfilePic(new Image("", resource));
+        }
 
         GridLayout picLayout = new GridLayout(1, 2);
         picLayout.setSpacing(false);
@@ -135,7 +135,7 @@ public class EditStudentWindow extends Window {
         grid.setComponentAlignment(label_photo, Alignment.MIDDLE_CENTER);
         grid.setSpacing(true);
 
-
+//TODO
 //        Label laddress = new Label("Adresse");
 //        grid.addComponent(laddress, 0, 6);
 //        Label lstreet = new Label("Straße");
@@ -150,7 +150,7 @@ public class EditStudentWindow extends Window {
 //        grid.addComponent(tfstreet, 1, 7, 1, 7);
 //        grid.setComponentAlignment(lstreet, Alignment.MIDDLE_CENTER);
 //
-//
+//TODO
 //        Label lhousenumber = new Label("Hausnummer");
 //        TextField tfhousenumber = new TextField();
 //        addressBinder.forField(tfhousenumber)
@@ -162,7 +162,7 @@ public class EditStudentWindow extends Window {
 //        grid.addComponent(tfhousenumber, 3, 7);
 //        grid.setComponentAlignment(lhousenumber, Alignment.MIDDLE_CENTER);
 //
-//
+//TODO
 //        Label lpostalcode = new Label("Postleitzahl");
 //        TextField tfpostalcode = new TextField();
 //        addressBinder.forField(tfpostalcode)
@@ -174,7 +174,7 @@ public class EditStudentWindow extends Window {
 //        grid.addComponent(tfpostalcode, 1, 8);
 //        grid.setComponentAlignment(lpostalcode, Alignment.MIDDLE_CENTER);
 //
-//
+//TODO
 //        Label lcity = new Label("Stadt");
 //        TextField tfcity = new TextField();
 //        addressBinder.forField(tfcity)
@@ -186,7 +186,7 @@ public class EditStudentWindow extends Window {
 //        grid.addComponent(tfcity, 3, 8);
 //        grid.setComponentAlignment(lcity, Alignment.MIDDLE_CENTER);
 //
-//
+//TODO
 //        Label lcountry = new Label("Land");
 //        TextField tfcountry = new TextField();
 //        addressBinder.forField(tfcountry)
@@ -218,25 +218,32 @@ public class EditStudentWindow extends Window {
 
         close.addClickListener((Button.ClickListener) event -> this.setVisible(false)
         );
-        submit.addClickListener((Button.ClickListener) event -> this.setVisible(false)
-        );
+        //submit.addClickListener((Button.ClickListener) event -> this.setVisible(false));
 
         submit.addClickListener(clickEvent -> {
             boolean isValid = true;
             Student studentDTO = new Student();
+
             studentDTO.setUsername(student.getUsername());
+
             studentDTO.setUserID(student.getUserID());
+
             studentDTO.setEmail(emailTf.getValue());
+
+
             if (pwTf.getValue().equals("")) {
                 studentDTO.setPwHash(student.getPasswort());
             } else if (pwTf.getValue().equals(pwTf2.getValue())) {
                 studentDTO.setPasswort(pwTf.getValue());
             } else {
+                System.out.println("Hier ist der Fehler");
                 isValid = false;
             }
 
+
             studentDTO.setStudienfach(fachTf.getValue());
             studentDTO.setFachsemester(Integer.parseInt(fachsemesterTF.getValue()));
+
 
 //            Address a = new Address();
 //            if (!tfcity.getValue().equals("")) {
@@ -267,9 +274,9 @@ public class EditStudentWindow extends Window {
 //            }
 
 //            a.setAddressid(Session.getCurrentUser().getAddressid());
-//            studentDTO.setImage(Session.getCurrentUser().getImage());
-//            studentDTO.setAddress(a);
-
+            studentDTO.setImage(SessionFunctions.getCurrentUser().getImage());
+//    studentDTO.setAddress(a);
+            System.out.println("StudentDTO Class in EDITWIN" + studentDTO);
             try {
                 if (isValid) {
                     StudentDAO add = new StudentDAO();
@@ -277,7 +284,8 @@ public class EditStudentWindow extends Window {
                     SessionFunctions.setCurrentUser(dto);
                     ProfilView.setStudent(dto);
 
-                    Page.getCurrent().reload();
+                    //Page.getCurrent().reload();
+                    this.close();
                     Notification notification = new Notification("Erfolgreich gespeichert");
                     notification.setPosition(Position.MIDDLE_CENTER);
                     notification.setDelayMsec(3000);

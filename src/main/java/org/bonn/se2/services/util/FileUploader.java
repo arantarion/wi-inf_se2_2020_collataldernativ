@@ -71,23 +71,23 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+        } else if (this.mimeType.contains("image")) {
+            try {
+                SessionFunctions.getCurrentUser().setImage(toByteArray(fis));
+                notification.setDescription("Profilbild hochgeladen. Bitte speichern nicht vergessen.");
+                notification.setDelayMsec(3000);
+
+                if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT)) {
+                    EditStudentWindow.refreshProfilePic(convertToImage(SessionFunctions.getCurrentUser().getImage()));
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                notification.setDescription("Fehler");
+            }
+        } else {
+            notification.setDescription("Dieser Datentyp wird nicht akzeptiert.");
         }
-//        } else if (this.mimeType.contains("image")) {
-//            try {
-//                //SessionFunctions.getCurrentUser().setImage(toByteArray(fis));
-//                notification.setDescription("Profilbild hochgeladen. Bitte speichern nicht vergessen.");
-//
-//                if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT)) {
-//                    //EditStudentWindow.refreshProfilePic(convertToImage(SessionFunctions.getCurrentUser().getImage()));
-//                }
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                notification.setDescription("Fehler");
-//            }
-//        } else {
-//            notification.setDescription("Dieser Datentyp wird nicht akzeptiert.");
-//        }
 
         notification.setDelayMsec(20000);
         notification.setPosition(Position.BOTTOM_RIGHT);

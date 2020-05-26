@@ -67,6 +67,7 @@ public class NavigationBar extends HorizontalLayout {
         ThemeResource themeResource = new ThemeResource("images/logo.png");
         Image logo = new Image(null, themeResource);
         logo.setWidth("250px");
+        logo.addStyleName("logo");
         logo.addClickListener((MouseEvents.ClickListener) event -> {
             UIFunctions.gotoMain();
         });

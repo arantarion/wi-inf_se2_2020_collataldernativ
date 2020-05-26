@@ -141,6 +141,9 @@ public class Student extends User implements Serializable {
                 ", geburtstag=" + geburtstag +
                 ", fachsemester=" + fachsemester +
                 ", studentID=" + studentID +
+                ", username=" + getUsername() +
+                ", email=" + getEmail() +
+                ", userId=" + getUserID() +
                 '}';
     }
 }
