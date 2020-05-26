@@ -79,7 +79,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 dto.setCreationDate(null); //creationDate
                 dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
                 dto.setGehalt(resultSet.getString("gehalt"));
-                System.out.println(dto);
+                //System.out.println(dto);
                 liste.add(dto);
             }
         }catch (Exception e) {
