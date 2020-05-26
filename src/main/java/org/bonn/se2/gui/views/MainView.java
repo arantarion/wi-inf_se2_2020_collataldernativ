@@ -12,6 +12,7 @@ import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
+import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
@@ -117,6 +118,26 @@ public class MainView extends VerticalLayout implements View {
         grid.setSizeFull();
         grid.setHeightMode(HeightMode.UNDEFINED);
         addComponent(grid);
+
+        name.addValueChangeListener(d -> {
+            String attribute = name.getValue();
+            grid.removeAllColumns();
+            List<JobOffer> liste4 = null;
+            try {
+                liste4 = new OfferDAO().retrieveCompanyOffers(attribute);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            grid.setItems(liste4);
+            grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+            //grid.addColumn(Company::getName).setCaption("Unternehmen");
+            grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+            grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+            grid.addColumn(JobOffer::getName).setCaption("Name");
+            grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+            grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+            grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+        });
         suche.addClickListener(e -> {
             if (!name.getValue().equals("")) {
                 String attribute = name.getValue();
