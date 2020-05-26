@@ -43,7 +43,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 dto.setJobofferID(resultSet.getInt("jobofferID"));
                 dto.setName(resultSet.getString("name"));
                 dto.setCompanyID(resultSet.getInt("companyID"));
-                dto.setCreationDate(null); //creationDate
+                dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate()); //creationDate
                 dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
                 dto.setGehalt(resultSet.getString("gehalt"));
                 System.out.println(dto);
@@ -76,7 +76,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 dto.setJobofferID(resultSet.getInt("jobofferID"));
                 dto.setName(resultSet.getString("name"));
                 dto.setCompanyID(resultSet.getInt("companyID"));
-                dto.setCreationDate(null); //creationDate
+                dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate()); //creationDate
                 dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
                 dto.setGehalt(resultSet.getString("gehalt"));
                 //System.out.println(dto);
@@ -115,7 +115,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             dto.setJobofferID(resultSet.getInt("jobofferID"));
             dto.setName(resultSet.getString("name"));
             dto.setCompanyID(resultSet.getInt("companyID"));
-            dto.setCreationDate(null);
+            dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate());
             dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
             dto.setGehalt(resultSet.getString("gehalt"));
 
@@ -129,8 +129,8 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     @Override
     public JobOffer create(JobOffer dto) throws Exception {
         //language=PostgreSQL
-        String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\",  \"beginDate\", gehalt) " +
-                "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + dto.getBeginDate() + "', '" + dto.getGehalt() + "') " +
+        String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\", \"creationDate\", \"beginDate\", gehalt) " +
+                "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + dto.getBeginDate() + "', '" + java.sql.Date.valueOf(LocalDate.now()) + "', '"+ dto.getGehalt() + "') " +
                 "RETURNING \"jobofferID\"";
         PreparedStatement pst = this.getPreparedStatement(insertQuery2);
         ResultSet resultSet = pst.executeQuery();
