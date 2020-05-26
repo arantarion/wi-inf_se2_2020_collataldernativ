@@ -4,6 +4,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.objects.dto.Company;
@@ -23,6 +24,10 @@ public class jobOfferCreationView extends VerticalLayout implements View {
     }
 
     public void setUp() throws Exception {
+        NavigationBar navigationBar = new NavigationBar();
+        this.addComponent(navigationBar);
+        this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
+
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button logoutButton = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button kverwaltenButton = new Button("Kontoverwaltung", FontAwesome.ARROW_CIRCLE_O_RIGHT);

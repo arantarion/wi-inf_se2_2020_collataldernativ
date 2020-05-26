@@ -5,6 +5,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
 import org.bonn.se2.model.objects.dto.Student;
@@ -30,6 +31,10 @@ public class KontoverwaltungView extends VerticalLayout implements View {
     }
 
     public void setUp() throws DatabaseException, InvalidCredentialsException {
+        NavigationBar navigationBar = new NavigationBar();
+        this.addComponent(navigationBar);
+        this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
+
         Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button log = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button profil = new Button("Profil", FontAwesome.ARROW_CIRCLE_O_RIGHT);

@@ -7,6 +7,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
@@ -42,6 +43,10 @@ public class BMWView extends VerticalLayout implements View {
     }
 
     public void setUp() throws Exception {
+        NavigationBar navigationBar = new NavigationBar();
+        this.addComponent(navigationBar);
+        this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
+
         Button startseiteButton = new Button("Startseite", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button logoutButton = new Button("Logout", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button kverwaltenButton = new Button("Kontoverwaltung", VaadinIcons.ARROW_CIRCLE_RIGHT);

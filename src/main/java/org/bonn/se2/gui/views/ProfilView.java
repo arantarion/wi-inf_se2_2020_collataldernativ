@@ -4,6 +4,7 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.components.AccountManagement;
+import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.gui.windows.EditStudentWindow;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;

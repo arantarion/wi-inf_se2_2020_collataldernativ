@@ -73,10 +73,10 @@ public class MainView extends VerticalLayout implements View {
         Label role = new Label(SessionFunctions.getCurrentRole());
 
         //Kalender
-        InlineDateTimeField sample = new InlineDateTimeField();
-        sample.setValue(LocalDateTime.now());
-        sample.setLocale(Locale.GERMANY);
-        sample.setResolution(DateTimeResolution.MINUTE);
+//        InlineDateTimeField sample = new InlineDateTimeField();
+//        sample.setValue(LocalDateTime.now());
+//        sample.setLocale(Locale.GERMANY);
+//        sample.setResolution(DateTimeResolution.MINUTE);
 
         Label labelText = new Label("Willkommen auf Coll@Aldernativ! der zentralen Schnittstelle zwischen Studenten & Unternehmen."
                 + " Hier findet jeder seinen Traumjob.");
@@ -135,7 +135,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
                 grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
                 grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
-                addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
+                //addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
             } else {
                 grid.removeAllColumns();
                 List<JobOffer> liste3 = null;
@@ -152,7 +152,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
                 grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
                 grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
-                addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
+                //addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
             }
         });
 
@@ -166,7 +166,7 @@ public class MainView extends VerticalLayout implements View {
         //Mitte rechts
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
-        h3.addComponent(sample);
+        //h3.addComponent(sample);
 
 
 
