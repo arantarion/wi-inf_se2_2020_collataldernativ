@@ -26,7 +26,6 @@ public class LoginView extends VerticalLayout implements View {
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-
         User user = ((MyUI) UI.getCurrent()).getUser();
 
         if (user != null) {
