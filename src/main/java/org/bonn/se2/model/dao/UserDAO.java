@@ -8,6 +8,7 @@ import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -66,11 +67,11 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     @Override
     public User create(User user) throws Exception {
         //language=PostgreSQL
-        final String insertQuery = "INSERT INTO \"collDB\".user (username, email, passwort) " +
-                "VALUES (?, ?, ?) " +
+        final String insertQuery = "INSERT INTO \"collDB\".user (username, email, passwort, \"registrationsDatum\") " +
+                "VALUES (?, ?, ?, ?) " +
                 "RETURNING *";
 
-        List<User> result = executePrepared(insertQuery, user.getUsername(), user.getEmail(), user.getPasswort());
+        List<User> result = executePrepared(insertQuery, user.getUsername(), user.getEmail(), user.getPasswort(), LocalDate.now());
         if (result.size() < 1) {
             throw new DatabaseException("create(User user) did not return a DTO");
         }
@@ -85,7 +86,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
                     resultSet.getString("email"),
                     resultSet.getString("passwort"));
             dto.setUserID(resultSet.getInt("userID"));
-            //dto.setRegistrationsDatum(resultSet.getDate("registrationsDatum").toLocalDate());
+            dto.setRegistrationsDatum(resultSet.getDate("registrationsDatum").toLocalDate());
 
             //Address address = new AddressDAO().getOne(dto.getAddressid());
             //dto.setAddress(address);
