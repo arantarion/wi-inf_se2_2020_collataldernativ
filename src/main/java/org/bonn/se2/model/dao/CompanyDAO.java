@@ -113,10 +113,11 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             dto.setcompanyID(resultSet.getInt("companyID"));
             dto.setWebURL(resultSet.getString("webURL"));
             dto.setUserID(resultSet.getInt("userID"));
-            dto.setUsername(resultSet.getString("username"));
-            dto.setEmail(resultSet.getString("email"));
+            //dto.setUsername(resultSet.getString("username"));
+            //dto.setEmail(resultSet.getString("email"));
             dto.setAnsprechpartner(resultSet.getString("ansprechpartner"));
             dto.setBranche(resultSet.getString("branche"));
+            dto.setBewertung(resultSet.getInt("bewertung"));
             //Address address = new AddressDAO().retrieve(resultSet.getInt("addressid"));
             //dto.setAdresse(address);
         } catch (SQLException e) {
