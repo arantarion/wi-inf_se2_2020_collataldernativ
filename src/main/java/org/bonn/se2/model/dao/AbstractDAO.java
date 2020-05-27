@@ -3,16 +3,20 @@ package org.bonn.se2.model.dao;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.db.JDBCConnection;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public abstract class AbstractDAO<T> {
 
-    private JDBCConnection connection = JDBCConnection.getInstance();
+    protected JDBCConnection connection = JDBCConnection.getInstance();
 
     protected AbstractDAO() throws DatabaseException {
     }
@@ -28,7 +32,8 @@ public abstract class AbstractDAO<T> {
     protected List<T> execute(String sql) throws DatabaseException {
         List<T> results = new ArrayList<>();
         Statement statement = this.getStatement();
-        ResultSet resultSet;
+        ResultSet resultSet = null;
+
         try {
             resultSet = statement.executeQuery(sql);
         } catch (SQLException ex) {
@@ -47,10 +52,57 @@ public abstract class AbstractDAO<T> {
         }
     }
 
-    //TODO!!!
+    //TODO could be better
     protected List<T> executePrepared(String sql, Object... values) throws DatabaseException {
         List<T> results = new ArrayList<>();
         PreparedStatement preparedStatement = this.getPreparedStatement(sql);
+
+        try {
+            for (int i = 0; i < values.length; i++) {
+                if (values[i] instanceof String) {
+
+                    preparedStatement.setString(i + 1, (String) values[i]);
+
+                } else if (values[i] instanceof Integer) {
+
+                    preparedStatement.setInt(i + 1, (Integer) values[i]);
+
+                } else if (values[i] instanceof ArrayList) {
+
+                    Object[] items = ((ArrayList) values[i]).toArray();
+
+                    if (items.length > 0 && items[0] instanceof String)
+                        preparedStatement.setArray(i + 1, preparedStatement.getConnection().createArrayOf("text", items));
+                    else if (items.length > 0)
+                        preparedStatement.setArray(i + 1, preparedStatement.getConnection().createArrayOf("integer", items));
+                    else preparedStatement.setArray(i + 1, null);
+
+                } else if (values[i] instanceof byte[]) {
+
+                    preparedStatement.setBytes(i + 1, (byte[]) values[i]);
+
+                } else if (values[i] instanceof LocalDate) {
+
+                    preparedStatement.setDate(i + 1, Date.valueOf((LocalDate) values[i]));
+
+                } else if (values[i] instanceof Boolean) {
+
+                    preparedStatement.setBoolean(i + 1, (Boolean) values[i]);
+
+                }
+            }
+
+            ResultSet set = preparedStatement.executeQuery();
+            while (set.next()) {
+                results.add(create(set));
+            }
+
+        } catch (SQLException e) {
+            throw new DatabaseException("Fehler im Prepared Statement");
+        } finally {
+            connection.closeConnection();
+        }
+
         return results;
     }
 

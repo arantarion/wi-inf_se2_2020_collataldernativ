@@ -2,11 +2,16 @@ package org.bonn.se2.test.builder;
 
 import org.bonn.se2.model.objects.dto.Company;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public class CompanyBuilder extends AbsUserBuilder {
 
-    protected String name, description, website;
-
     private static CompanyBuilder instance;
+    protected String name, description, website;
 
     private CompanyBuilder() {
     }
@@ -49,7 +54,7 @@ public class CompanyBuilder extends AbsUserBuilder {
         dto.setEmail(email);
         dto.setPasswort(password);
         dto.setAdresse(address);
-        dto.setID(userid);
+        dto.setcompanyID(userid);
         dto.setRegistrationsDatum(registrationdate);
         dto.setName(name);
         dto.setBeschreibung(description);

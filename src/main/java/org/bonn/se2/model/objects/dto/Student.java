@@ -4,11 +4,18 @@ import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 // prolly later Comparable for function
 public class Student extends User implements Serializable {
 
     private String vorname;
     private String nachname;
+    private String vollstName;
     private String studienfach;
     private String job;
     private String arbeitgeber;
@@ -53,6 +60,10 @@ public class Student extends User implements Serializable {
 
     public void setNachname(String nachname) {
         this.nachname = nachname;
+    }
+
+    public String getVollstName() {
+        return getVorname() + " " + getNachname();
     }
 
     public String getStudienfach() {
@@ -117,4 +128,20 @@ public class Student extends User implements Serializable {
         return super.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "Student{" +
+                "vorname='" + vorname + '\'' +
+                ", nachname='" + nachname + '\'' +
+                ", studienfach='" + studienfach + '\'' +
+                ", job='" + job + '\'' +
+                ", arbeitgeber='" + arbeitgeber + '\'' +
+                ", geburtstag=" + geburtstag +
+                ", fachsemester=" + fachsemester +
+                ", studentID=" + studentID +
+                ", username=" + getUsername() +
+                ", email=" + getEmail() +
+                ", userId=" + getUserID() +
+                '}';
+    }
 }

@@ -1,26 +1,47 @@
 package org.bonn.se2.gui.views;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
+import org.bonn.se2.gui.components.NavigationBar;
+import org.bonn.se2.model.dao.UserDAO;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
+import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.SessionFunctions;
+
+import static org.bonn.se2.services.util.CryptoFunctions.hash;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann, Anton Drees
+ */
 
 public class KontoverwaltungView extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.setUp();
+        try {
+            this.setUp();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void setUp() {
-        Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button log = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button profil = new Button("Profil", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button konto = new Button("Konto löschen", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button z = new Button("Zurück", FontAwesome.ARROW_CIRCLE_O_LEFT);
-        Button s = new Button("Speichern", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        NavigationBar navigationBar = new NavigationBar();
+        this.addComponent(navigationBar);
+        this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
-        TextField palt;
-        TextField pneu;
-        TextField pneu2;
+        //Button startseiteButton = new Button("Startseite", VaadinIcons.ARROW_CIRCLE_RIGHT);
+        //Button log = new Button("Logout", VaadinIcons.ARROW_CIRCLE_RIGHT);
+        Button konto = new Button("Konto löschen", VaadinIcons.ARROW_CIRCLE_RIGHT);
+        Button s = new Button("Speichern", VaadinIcons.ARROW_CIRCLE_RIGHT);
+
+
+        PasswordField pwAlt;
+        PasswordField pwNeu;
+        PasswordField pwNeu2;
 
         CheckBox j = new CheckBox("regelmäßig Emails über neue Angebote bekommen");
         CheckBox n = new CheckBox("Alle Benachrichtigungen ausschalten");
@@ -31,7 +52,7 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         addComponent(h);
         setComponentAlignment(h, Alignment.TOP_LEFT);
-        h.addComponent(startseiteButton);
+        //h.addComponent(startseiteButton);
 
         addComponent(h1);
         setComponentAlignment(h1, Alignment.MIDDLE_LEFT);
@@ -46,9 +67,9 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
 
         FormLayout content = new FormLayout();
-        content.addComponent(palt = new TextField("Altes Passwort:"));
-        content.addComponent(pneu = new TextField("Neues Passwort:"));
-        content.addComponent(pneu2 = new TextField("Neues Passwort wiederholen"));
+        content.addComponent(pwAlt = new PasswordField("Altes Passwort:"));
+        content.addComponent(pwNeu = new PasswordField("Neues Passwort:"));
+        content.addComponent(pwNeu2 = new PasswordField("Neues Passwort wiederholen"));
         content.setSizeUndefined();
 
         content.setMargin(true);
@@ -60,11 +81,16 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         addComponent(h2);
         setComponentAlignment(h2, Alignment.BOTTOM_RIGHT);
-        h2.addComponent(z);
         h2.addComponent(s);
 
         s.addClickListener(e -> {
-            if ((!palt.getValue().equals("")) && (!pneu.getValue().equals("")) && (!pneu2.getValue().equals("")) && pneu.getValue().equals(pneu2.getValue())) {
+            String passwort = null;
+            try {
+                passwort = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getPasswort();
+            } catch (DatabaseException | InvalidCredentialsException databaseException) {
+                databaseException.printStackTrace();
+            }
+            if ((!pwAlt.getValue().equals("")) && (!pwNeu.getValue().equals("")) && (!pwNeu2.getValue().equals("")) && pwNeu.getValue().equals(pwNeu2.getValue()) && hash(pwAlt.getValue()).equals(passwort)) {
                 addComponent(new Label("Das Passwort wurde erfolgreich geändert."));
                 //addComponent(startseiteButton);
             } else {
@@ -73,5 +99,12 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         });
 
+        konto.addClickListener(e -> {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
+        });
+
+//        startseiteButton.addClickListener(e ->{
+//            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
+//        });
     }
 }

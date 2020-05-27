@@ -1,9 +1,17 @@
 package org.bonn.se2.model.objects.dto;
 
-public class UserAtLogin extends User {
+import java.io.Serializable;
 
-    private String email;
-    private String password;
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
+public class UserAtLogin extends User implements Serializable {
+
+    private final String email;
+    private final String password;
 
     public UserAtLogin(String login, String password) {
         this.email = login;
@@ -13,6 +21,7 @@ public class UserAtLogin extends User {
     public String getEmail() {
         return email;
     }
+
     public String getPassword() {
         return password;
     }

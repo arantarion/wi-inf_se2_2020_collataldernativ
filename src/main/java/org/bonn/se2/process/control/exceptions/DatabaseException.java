@@ -1,5 +1,11 @@
 package org.bonn.se2.process.control.exceptions;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public class DatabaseException extends CollException {
 
     public DatabaseException() {

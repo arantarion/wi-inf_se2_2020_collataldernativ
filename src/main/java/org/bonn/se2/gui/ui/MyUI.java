@@ -8,14 +8,24 @@ import com.vaadin.navigator.Navigator;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinServlet;
 import com.vaadin.ui.UI;
-import org.bonn.se2.gui.views.LoginView;
-import org.bonn.se2.gui.views.MainView;
+import org.bonn.se2.gui.views.*;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
 
 import javax.servlet.annotation.WebServlet;
 
-
+/**
+ * The Main UI class of the project this will get started
+ * All available views must be added to the navigator object
+ * to be accessible.
+ *
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer generic class
+ * @Theme specifies the CSS theme
+ * @Title specifies the tab name of the application.
+ * @PreservOnRefresh saves the session when the website is refreshed
+ */
 @Theme("mytheme")
 @Title("Coll@Aldernativ Webapp")
 @PreserveOnRefresh
@@ -36,8 +46,16 @@ public class MyUI extends UI {
 
         Navigator navi = new Navigator(this, this);
 
+        /*
+         * Please add new views to the Configuration -> Views class and use them from there
+         */
         navi.addView(Configuration.Views.MAIN, MainView.class);
         navi.addView(Configuration.Views.LOGIN, LoginView.class);
+        navi.addView(Configuration.Views.REGIST, RegistrierungsView.class);
+        navi.addView(Configuration.Views.PROFIL, ProfilView.class);
+        navi.addView(Configuration.Views.KVERWALTUNG, KontoverwaltungView.class);
+        navi.addView(Configuration.Views.DELETION, DeletionView.class);
+        navi.addView(Configuration.Views.OFFERCREATION, jobOfferCreationView.class);
 
         UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
     }

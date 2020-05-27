@@ -1,6 +1,8 @@
 package org.bonn.se2.process.control;
 
 import com.vaadin.ui.UI;
+import org.bonn.se2.model.dao.CompanyDAO;
+import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
@@ -11,14 +13,24 @@ import org.bonn.se2.services.util.CryptoFunctions;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public class LoginControl {
 
     public static void checkAuthentication(UserAtLogin loginUser) throws InvalidCredentialsException, DatabaseException {
+
         User user = new UserDAO().retrieve(loginUser.getEmail());
 
-        if (CryptoFunctions.checkPw(loginUser.getPassword(), user.getPasswort())) {
+        if (CryptoFunctions.checkPw(CryptoFunctions.hash(loginUser.getPassword()), user.getPasswort())) {
             SessionFunctions.setCurrentUser(user);
-            //SessionFunctions.setCurrentRole(getRole(loginUser))
+            SessionFunctions.setCurrentRole(getRole(user));
             UIFunctions.gotoMain();
         } else {
             throw new InvalidCredentialsException();
@@ -27,55 +39,26 @@ public class LoginControl {
 
     public static void logoutUser() {
         UI.getCurrent().close();
+        UI.getCurrent().getSession().close();
         UI.getCurrent().getPage().setLocation("");
     }
 
-    static String getRole(UserAtLogin user) {
-        // TODO
-        // ? mit DAO lösen und einfach in die Exceptions reinlaufen lassen?
-        //   Rolle als Attribut hinzufügen?
-        return "";
+    public static String getRole(User user) {
+
+        try {
+            new StudentDAO().retrieve(user.getUserID());
+            return Configuration.Roles.STUDENT;
+
+        } catch (DatabaseException e) {
+            try {
+                new CompanyDAO().retrieve(user.getUserID());
+                return Configuration.Roles.COMPANY;
+            } catch (DatabaseException ex) {
+                //return Configuration.Roles.ADMIN;
+                Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
+                //throw new DatabaseException("Konnte die Rolle des Nutzers nicht feststellen @.@");
+            }
+        }
     }
-
-    // Original checkAuth Function
-//    public static void checkAuthentication(String user, String pw) throws InvalidCredentialsException, DatabaseException {
-//
-//        ResultSet set;
-//
-//        try {
-//            Statement state = JDBCConnection.getInstance().getStatement();
-//            set = state.executeQuery("SELECT * " +
-//                    "FROM realm.user " +
-//                    "WHERE realm.user.login = \'" + user + "\'" +
-//                    "AND realm.user.password = \'" + pw + "\'");
-//
-//        } catch (SQLException ex) {
-//            Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
-//            throw new DatabaseException("Fehler im SQL Befehl");
-//        }
-//
-//        User userDTO = null;
-//
-//        try {
-//            if (set.next()) {
-//
-//                userDTO = new User();
-//                userDTO.setUsername(set.getString(1));
-//                //userDTO.setVorname(set.getString(3));
-//
-//            } else {
-//                throw new InvalidCredentialsException();
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);
-//        } finally {
-//            JDBCConnection.getInstance().closeConnection();
-//        }
-//
-//        ((MyUI) UI.getCurrent()).setUser(userDTO);
-//
-//        UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
-//
-//    }
-
 }

@@ -7,15 +7,15 @@
     <artifactId>CollAtAldernativ_Project</artifactId>
     <packaging>war</packaging>
     <version>1.0-SNAPSHOT</version>
-    <name>Coll@Aldernativ_Project</name>
+    <name>CollAtAldernativ_Project</name>
 
     <prerequisites>
         <maven>3</maven>
     </prerequisites>
 
     <properties>
-        <vaadin.version>8.4.2</vaadin.version>
-        <vaadin.plugin.version>8.4.2</vaadin.plugin.version>
+        <vaadin.version>8.7.2</vaadin.version>
+        <vaadin.plugin.version>8.7.2</vaadin.plugin.version>
         <jetty.plugin.version>9.3.9.v20160517</jetty.plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -28,6 +28,10 @@
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
+        </repository>
+        <repository>
+            <id>mvnrepository</id>
+            <url>https://mvnrepository.com/artifact/</url>
         </repository>
     </repositories>
 
@@ -66,9 +70,6 @@
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-themes</artifactId>
         </dependency>
-        <!-- If there are no local customizations, this can also be "fetch" or "cdn" -->
-
-        <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -89,7 +90,6 @@
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>RELEASE</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.platform</groupId>
@@ -101,7 +101,12 @@
             <artifactId>junit-jupiter-engine</artifactId>
             <version>RELEASE</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.7.0-M1</version>
+        </dependency>
+        
     </dependencies>
 
     <build>
@@ -155,7 +160,8 @@
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
-                <version>${jetty.plugin.version}</version>
+                <version>9.4.12.v20180830</version>
+                <!--<version>${jetty.plugin.version}</version> -->
                 <configuration>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
                 </configuration>

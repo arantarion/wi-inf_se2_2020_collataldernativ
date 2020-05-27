@@ -4,38 +4,57 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.shared.ui.datefield.DateTimeResolution;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.components.grid.MultiSelectionModel;
+import org.bonn.se2.gui.components.NavigationBar;
+import org.bonn.se2.model.dao.OfferDAO;
+import org.bonn.se2.model.objects.dto.JobOffer;
+import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.SessionFunctions;
 
-import java.time.LocalDateTime;
-import java.util.Locale;
+import java.util.List;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Anton Drees, Jelena Vetmic
+ */
 
 public class MainView extends VerticalLayout implements View {
+
+    @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        this.setUp();
+
+        if (!SessionFunctions.isLoggedIn()) {
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
+        } else {
+            try {
+                this.setUp();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void setUp() {
-        //final VerticalLayout layout = new VerticalLayout();
-        //Erzeugung der HorizontalLayouts
+
+        NavigationBar navigationBar = new NavigationBar();
+        this.addComponent(navigationBar);
+        this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
+
         HorizontalLayout horizontalLayout = new HorizontalLayout();
         HorizontalLayout horizontalLayout1 = new HorizontalLayout();
         HorizontalLayout h2 = new HorizontalLayout();
         HorizontalLayout h3 = new HorizontalLayout();
 
         //Erzeugung der Variablen
-        Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button loginButton = new Button("Login", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button registrierungsButton = new Button("Registrierung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button suche = new Button("Suchen", FontAwesome.SEARCH);
         TextField name = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
+        //Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
+        //Label role = new Label(SessionFunctions.getCurrentRole());
 
-        //Kalender
-        InlineDateTimeField sample = new InlineDateTimeField();
-        sample.setValue(LocalDateTime.now());
-        sample.setLocale(Locale.GERMANY);
-        sample.setResolution(DateTimeResolution.MINUTE);
 
         Label labelText = new Label("Willkommen auf Coll@Aldernativ! der zentralen Schnittstelle zwischen Studenten & Unternehmen."
                 + " Hier findet jeder seinen Traumjob.");
@@ -49,7 +68,6 @@ public class MainView extends VerticalLayout implements View {
         //Links oben
         addComponent(h2);
         setComponentAlignment(h2, Alignment.TOP_LEFT);
-        h2.addComponent(startseiteButton);
 
         //Mitte
         addComponent(horizontalLayout1);
@@ -59,25 +77,74 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayout1.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
         horizontalLayout1.addComponent(suche);
 
+        Grid<JobOffer> grid = new Grid<>();
+        List<JobOffer> liste = null;
+        try {
+            liste = new OfferDAO().retrieveAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        grid.setItems(liste);
+        MultiSelectionModel<JobOffer> selectionModel = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
+        grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+        grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+        grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+        grid.addColumn(JobOffer::getName).setCaption("Name");
+        grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+        grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+        grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+        grid.setSizeFull();
+        grid.setHeightMode(HeightMode.UNDEFINED);
+        addComponent(grid);
+
+        name.addValueChangeListener(d -> {
+            if (!name.getValue().equals("")) {
+                String attribute = name.getValue();
+                grid.removeAllColumns();
+                List<JobOffer> liste2 = null;
+                try {
+                    liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                grid.setItems(liste2);
+                MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
+                grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+                grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+                grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+                grid.addColumn(JobOffer::getName).setCaption("Name");
+                grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+                grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+                grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+                //addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
+            } else {
+                grid.removeAllColumns();
+                List<JobOffer> liste3 = null;
+                try {
+                    liste3 = new OfferDAO().retrieveAll();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                grid.setItems(liste3);
+                MultiSelectionModel<JobOffer> selectionModel3 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
+                grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+                grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+                grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+                grid.addColumn(JobOffer::getName).setCaption("Name");
+                grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+                grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+                grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+            }
+        });
+
         //Rechts oben
-        horizontalLayout.addComponent(loginButton);
-        horizontalLayout.setComponentAlignment(loginButton, Alignment.TOP_RIGHT);
-        horizontalLayout.addComponent(registrierungsButton);
-        horizontalLayout.setComponentAlignment(registrierungsButton, Alignment.TOP_RIGHT);
+        //horizontalLayout.addComponent(role);
+        //horizontalLayout.addComponent(username);
 
         //Mitte rechts
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
-        h3.addComponent(sample);
-
-        suche.addClickListener(e -> {
-            if (!name.getValue().equals("")) {
-                addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
-            } else {
-                addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
-            }
-        });
-
+        //h3.addComponent(sample);
     }
 
 }

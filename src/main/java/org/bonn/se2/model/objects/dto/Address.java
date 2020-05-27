@@ -3,16 +3,22 @@ package org.bonn.se2.model.objects.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public class Address implements Serializable {
 
+    private Integer ID;
     private String strasse;
     private String hausnummer;
     private String plz;
     private String stadt;
     private String land;
 
-    public Address(){
-
+    public Address() {
     }
 
     public Address(String strasse, String hausnummer, String plz, String stadt, String land) {
@@ -21,6 +27,14 @@ public class Address implements Serializable {
         this.plz = plz;
         this.stadt = stadt;
         this.land = land;
+    }
+
+    public Integer getID() {
+        return ID;
+    }
+
+    public void setID(Integer ID) {
+        this.ID = ID;
     }
 
     public String getStrasse() {
@@ -55,11 +69,11 @@ public class Address implements Serializable {
         this.stadt = stadt;
     }
 
-    public String getBundesland() {
+    public String getLand() {
         return land;
     }
 
-    public void setBundesland(String land) {
+    public void setLand(String land) {
         this.land = land;
     }
 
@@ -72,7 +86,7 @@ public class Address implements Serializable {
                 Objects.equals(getHausnummer(), address.getHausnummer()) &&
                 Objects.equals(getPlz(), address.getPlz()) &&
                 Objects.equals(getStadt(), address.getStadt()) &&
-                Objects.equals(getBundesland(), address.getBundesland());
+                Objects.equals(getLand(), address.getLand());
     }
 
     @Override

@@ -5,6 +5,12 @@ import org.bonn.se2.process.control.exceptions.DatabaseException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public interface JDBCConnectionInterface {
 
     // Implement as Singleton

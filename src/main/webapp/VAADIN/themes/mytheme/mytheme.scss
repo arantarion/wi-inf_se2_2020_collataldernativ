@@ -29,10 +29,67 @@
 // For more information, see: https://vaadin.com/book/-/page/themes.valo.html
 // Example variants can be copy/pasted from https://vaadin.com/wiki/-/wiki/Main/Valo+Examples
 
+$v-app-loading-text: "Coll@Aldernativ";
+$mat-custom-color: #fff;
+$v-font-color: #32373a;
+
 @import "../valo/valo.scss";
 
 @mixin mytheme {
   @include valo;
 
-  // Insert your own theme rules here
+  .v-image-logo {
+    cursor: pointer;
+  }
+
+  .profileImages {
+    max-width: 200px;
+    margin: 15px 15px 0 0;
+    height: auto;
+    overflow: hidden !important;
+    border: #32373a;
+  }
+
+  .profileview {
+    height: 100vh;
+    color: #fff;
+  }
+
+  .v-verticallayout-profile-components > .v-slot {
+    padding: 10px 0;
+  }
+
+  .profileview-gridlayout .v-gridlayout-spacing-on {
+    height: 10px;
+  }
+
+  .profileview .profileImages {
+    border-radius: 3px;
+  }
+
+  .profile-components {
+    background: #fff;
+    color: #32373a;
+  }
+
+  .profilebody-components .v-gridlayout-spacing-on {
+    height: 10px;
+  }
+
+  span.v-icon {
+    margin-right: 5px;
+  }
+
+  .profile-components .v-icon {
+    color: #0072C6;
+  }
+
+  .v-panel-caption-student-panel > span {
+    font-size: 24px;
+  }
+
+  .gridPadding {
+    padding: 20px;
+  }
+
 }

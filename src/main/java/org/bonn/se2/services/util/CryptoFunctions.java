@@ -1,5 +1,10 @@
 package org.bonn.se2.services.util;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
 
 public class CryptoFunctions {
 

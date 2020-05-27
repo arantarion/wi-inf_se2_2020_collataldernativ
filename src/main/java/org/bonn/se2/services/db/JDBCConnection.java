@@ -8,6 +8,12 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer generic class
+ */
+
 public class JDBCConnection implements JDBCConnectionInterface {
 
     private static JDBCConnection connection = null;
@@ -38,7 +44,6 @@ public class JDBCConnection implements JDBCConnectionInterface {
     @Override
     public void openConnection() throws DatabaseException {
         try {
-
             Properties probs = new Properties();
             probs.setProperty("user", Configuration.DB_Credentials.USERNAME);
             probs.setProperty("password", Configuration.DB_Credentials.PASSWORD);
@@ -90,4 +95,9 @@ public class JDBCConnection implements JDBCConnectionInterface {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
+    public boolean isClosed() throws SQLException {
+        return this.conn.isClosed();
+    }
+
 }

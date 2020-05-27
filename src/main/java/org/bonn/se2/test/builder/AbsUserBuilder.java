@@ -5,6 +5,12 @@ import org.bonn.se2.model.objects.dto.User;
 
 import java.time.LocalDate;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public abstract class AbsUserBuilder {
 
     protected String username, email, password;

@@ -1,15 +1,21 @@
 package org.bonn.se2.test.builder;
+
 import org.bonn.se2.model.objects.dto.Address;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
 
 public class AddressBuilder {
 
+    private static AddressBuilder instance;
     private String strasse;
     private String hausnummer;
     private String plz;
     private String stadt;
     private String land;
-
-    private static AddressBuilder instance;
 
     private AddressBuilder() {
     }

@@ -3,6 +3,12 @@ package org.bonn.se2.model.objects.dto;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public class Company extends User implements Serializable {
 
     private String name;
@@ -10,6 +16,8 @@ public class Company extends User implements Serializable {
     private String webURL;
     private Integer bewertung;
     private Integer companyID;
+    private String branche;
+    private String ansprechpartner;
 
     public Company() {
     }
@@ -23,6 +31,41 @@ public class Company extends User implements Serializable {
         this.beschreibung = beschreibung;
         this.webURL = webURL;
         this.bewertung = bewertung;
+    }
+
+    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner, Integer ID) {
+        this.name = name;
+        this.webURL = webURL;
+        this.beschreibung = beschreibung;
+        this.branche = branche;
+        this.ansprechpartner = ansprechpartner;
+        this.bewertung = 0;
+        this.companyID = ID;
+    }
+
+    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner) {
+        this.name = name;
+        this.webURL = webURL;
+        this.beschreibung = beschreibung;
+        this.branche = branche;
+        this.ansprechpartner = ansprechpartner;
+        this.bewertung = 0;
+    }
+
+    public String getBranche() {
+        return branche;
+    }
+
+    public void setBranche(String branche) {
+        this.branche = branche;
+    }
+
+    public String getAnsprechpartner() {
+        return ansprechpartner;
+    }
+
+    public void setAnsprechpartner(String ansprechpartner) {
+        this.ansprechpartner = ansprechpartner;
     }
 
     public String getName() {
@@ -57,11 +100,11 @@ public class Company extends User implements Serializable {
         this.bewertung = bewertung;
     }
 
-    public Integer getID() {
+    public Integer getcompanyID() {
         return companyID;
     }
 
-    public void setID(Integer companyID) {
+    public void setcompanyID(Integer companyID) {
         this.companyID = companyID;
     }
 
@@ -73,6 +116,8 @@ public class Company extends User implements Serializable {
                 ", beschreibung='" + beschreibung + '\'' +
                 ", webURL='" + webURL + '\'' +
                 ", bewertung=" + bewertung +
+                ", ansprechpartner='" + ansprechpartner + '\'' +
+                ", branche='" + branche + '\'' +
                 '}';
     }
 
