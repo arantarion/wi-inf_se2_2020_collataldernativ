@@ -21,6 +21,9 @@ import org.bonn.se2.services.util.PasswordValidator;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
@@ -157,7 +160,6 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         });
 
-
     }
 
     public void setUpStep3_Student(User myUser) {
@@ -194,9 +196,18 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         addAddress(layout);
 
-        Button completeButton = new Button("Abschließen");
-        layout.addComponent(completeButton);
-        layout.setComponentAlignment(completeButton, Alignment.BOTTOM_RIGHT);
+        List<Button> list = addButtons(layout);
+        Button backButton2 = list.get(0);
+        Button completeButton = list.get(1);
+
+        backButton2.addClickListener(ClickEvent -> {
+            studentCreationPanel.setVisible(false);
+            setUpStep2();
+        });
+
+//        Button completeButton = new Button("Abschließen");
+//        layout.addComponent(completeButton);
+//        layout.setComponentAlignment(completeButton, Alignment.BOTTOM_RIGHT);
 
         completeButton.addClickListener(clickEvent -> {
             boolean isValidEntry = true;
@@ -259,9 +270,18 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         addAddress(layout);
 
-        Button completeButton = new Button("Abschließen");
-        layout.addComponent(completeButton);
-        layout.setComponentAlignment(completeButton, Alignment.BOTTOM_RIGHT);
+        List<Button> list = addButtons(layout);
+        Button backButton3 = list.get(0);
+        Button completeButton = list.get(1);
+
+        backButton3.addClickListener(ClickEvent -> {
+            companyCreationPanel.setVisible(false);
+            setUpStep2();
+        });
+
+//        Button completeButton = new Button("Abschließen");
+//        layout.addComponent(completeButton);
+//        layout.setComponentAlignment(completeButton, Alignment.BOTTOM_RIGHT);
 
         completeButton.addClickListener(clickEvent -> {
             boolean isValidEntry = true;
@@ -353,5 +373,25 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 .bind(Address::getLand, Address::setLand);
 
     }
+
+    private List<Button> addButtons(Layout layout) {
+        HorizontalLayout buttonContainer = new HorizontalLayout();
+        layout.addComponent(buttonContainer);
+        buttonContainer.setSizeFull();
+
+        Button buttonToStep1 = new Button("Zurück");
+        buttonContainer.addComponent(buttonToStep1);
+        buttonContainer.setComponentAlignment(buttonToStep1, Alignment.BOTTOM_LEFT);
+
+        Button buttonToStep3 = new Button("Weiter");
+        buttonContainer.addComponent(buttonToStep3);
+        buttonContainer.setComponentAlignment(buttonToStep3, Alignment.BOTTOM_RIGHT);
+
+        List l = new ArrayList();
+        l.add(buttonToStep1);
+        l.add(buttonToStep3);
+        return l;
+    }
+
 
 }
