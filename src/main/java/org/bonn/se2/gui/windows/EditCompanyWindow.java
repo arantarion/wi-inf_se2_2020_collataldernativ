@@ -110,7 +110,7 @@ public class EditCompanyWindow extends Window {
 
         grid.addComponent(new Label("&nbsp;", ContentMode.HTML), 0, 8);
 
-        Label passwortLabel = new Label("MÖCHTEN SIE IHR PASSWORT ÄNDERN?", ContentMode.HTML);
+        Label passwortLabel = new Label("Passwort ändern?", ContentMode.HTML);
         grid.addComponent(passwortLabel, 0, 9, 3, 9);
 
         grid.addComponent(new Label("&nbsp;", ContentMode.HTML), 0, 10);

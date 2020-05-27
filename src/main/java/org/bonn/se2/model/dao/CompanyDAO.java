@@ -1,6 +1,7 @@
 
 package org.bonn.se2.model.dao;
 
+import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
@@ -137,8 +138,66 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public Company update(Company item) throws Exception {
-        return null;
+    public Company update(Company updatedItem) throws Exception {
+        Company companyNewDto = new Company();
+        Address address = updatedItem.getAdresse();
+        companyNewDto.setAdresse(address);
+
+        String query;
+
+        if (updatedItem.getPasswort() == null) {
+            //language=PostgreSQL
+            query = "UPDATE \"collDB\".\"user\"\n" +
+                    "SET (username, email, bild) = (?, ?, ?) " +
+                    "WHERE \"userID\" = '" + updatedItem.getUserID() + "';";
+
+            try {
+                PreparedStatement pst = this.getPreparedStatement(query);
+                pst.setString(1, updatedItem.getUsername());
+                pst.setString(2, updatedItem.getEmail());
+                pst.setBytes(3, updatedItem.getImage());
+                pst.executeUpdate();
+            } catch (SQLException e) {
+                throw new DatabaseException();
+            }
+        } else {
+            //language=PostgreSQL
+            query = "UPDATE \"collDB\".\"user\" " +
+                    "SET (username, email, passwort, bild) = (?, ?, ?, ?) " +
+                    "WHERE \"userID\" = '" + updatedItem.getUserID() + "';";
+
+            try {
+                PreparedStatement pst = this.getPreparedStatement(query);
+                pst.setString(1, updatedItem.getUsername());
+                pst.setString(2, updatedItem.getEmail());
+                pst.setString(3, updatedItem.getPasswort());
+                pst.setBytes(4, updatedItem.getImage());
+                pst.executeUpdate();
+            } catch (SQLException e) {
+                throw new DatabaseException();
+            }
+        }
+
+        //language=PostgreSQL
+        String queryCompany = "UPDATE \"collDB\".company\n" +
+                "SET (name, beschreibung, \"webURL\") = (?, ?, ?) " +
+                "WHERE \"userID\" = ?;";
+
+        try {
+            PreparedStatement pst = this.getPreparedStatement(queryCompany);
+            pst.setString(1, updatedItem.getName());
+            pst.setString(2, updatedItem.getBeschreibung());
+            pst.setString(3, updatedItem.getWebURL());
+            pst.setInt(4, updatedItem.getUserID());
+            pst.executeUpdate();
+        } catch (SQLException e) {
+            throw new DatabaseException();
+        } finally {
+            connection.closeConnection();
+        }
+
+        return retrieve(updatedItem.getcompanyID());
+
     }
 
     @Override
