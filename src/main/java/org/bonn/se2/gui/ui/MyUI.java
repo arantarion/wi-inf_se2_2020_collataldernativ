@@ -55,7 +55,6 @@ public class MyUI extends UI {
         navi.addView(Configuration.Views.PROFIL, ProfilView.class);
         navi.addView(Configuration.Views.KVERWALTUNG, KontoverwaltungView.class);
         navi.addView(Configuration.Views.DELETION, DeletionView.class);
-        navi.addView(Configuration.Views.COMPPROFIL, BMWView.class);
         navi.addView(Configuration.Views.OFFERCREATION, jobOfferCreationView.class);
 
         UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
