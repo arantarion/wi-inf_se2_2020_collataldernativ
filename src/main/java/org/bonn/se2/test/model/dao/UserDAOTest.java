@@ -1,11 +1,3 @@
-/*
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer
- *
- *
- */
-
 package org.bonn.se2.test.model.dao;
 
 import org.bonn.se2.model.dao.UserDAO;
@@ -19,7 +11,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.fail;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserDAOTest {

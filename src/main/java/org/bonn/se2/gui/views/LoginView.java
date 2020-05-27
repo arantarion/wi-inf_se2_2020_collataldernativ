@@ -1,4 +1,3 @@
-
 package org.bonn.se2.gui.views;
 
 import com.vaadin.event.ShortcutAction;
@@ -19,7 +18,7 @@ import org.bonn.se2.services.util.Configuration;
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer
+ * @Programmer Henry Weckermann, Anton Drees
  */
 
 public class LoginView extends VerticalLayout implements View {

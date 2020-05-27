@@ -1,4 +1,3 @@
-
 package org.bonn.se2.model.objects.dto;
 
 import java.io.Serializable;
@@ -6,9 +5,8 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 

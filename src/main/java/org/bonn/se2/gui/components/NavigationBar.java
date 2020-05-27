@@ -1,11 +1,3 @@
-/*
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer
- *
- *
- */
-
 package org.bonn.se2.gui.components;
 
 import com.vaadin.event.MouseEvents;
@@ -21,6 +13,13 @@ import org.bonn.se2.process.control.ProfilControl;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 
 public class NavigationBar extends HorizontalLayout {
 

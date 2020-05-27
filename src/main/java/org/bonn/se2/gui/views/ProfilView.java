@@ -18,7 +18,7 @@ import org.bonn.se2.services.util.UIFunctions;
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer
+ * @Programmer Henry Weckermann
  */
 
 public class ProfilView extends VerticalLayout implements View {

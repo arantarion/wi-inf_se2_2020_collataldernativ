@@ -1,11 +1,3 @@
-/*
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer
- *
- *
- */
-
 package org.bonn.se2.gui.components;
 
 import com.vaadin.icons.VaadinIcons;
@@ -23,6 +15,13 @@ import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.Utils;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann, Anton Drees
+ */
+
 
 public class AccountOverviewHead extends VerticalLayout {
 
@@ -83,52 +82,52 @@ public class AccountOverviewHead extends VerticalLayout {
             }
             jobLabel.setWidth("100%");
 
-            nameLabel = new Label(student.getVollstName()); 
+            nameLabel = new Label(student.getVollstName());
             if (address != null) {
                 ortLabel = new Label(VaadinIcons.MAP_MARKER.getHtml() + " " + address.getStadt() + ", " + address.getLand());
                 accountOverviewHeadLayout.addComponent(ortLabel, 2, 3);
             }
-            
+
             accountOverviewHeadLayout.addComponent(studienfachLabel, 1, 1);
             accountOverviewHeadLayout.addComponent(fachsemLabel, 1, 2);
             accountOverviewHeadLayout.addComponent(aboutLabel, 2, 0);
             accountOverviewHeadLayout.addComponent(jobLabel, 2, 1);
-            
-            if (ProfilView.getMyProfile()){
+
+            if (ProfilView.getMyProfile()) {
                 buildEditButton(student);
             }
 
         } else {
             Company company = (Company) dto;
             address = company.getAdresse();
-            
+
             Link webURL = new Link("Zu unserer Website", new ExternalResource("https://" + company.getWebURL()));
             webURL.setTargetName("_blank");
             webURL.setIcon(VaadinIcons.GLOBE_WIRE);
-            
+
             //Label beschreibungLabel = new Label(VaadinIcons.INFO_CIRCLE_O.getHtml() + " " + company.getBeschreibung());
             Label beschreibungLabel = new Label(company.getBeschreibung());
             nameLabel = new Label(company.getName());
 //            if (address != null) {
 //                ortLabel = new Label(VaadinIcons.MAP_MARKER.getHtml() + " " + address.getStadt() + ", " + address.getLand());
 //            }
-            
+
             //accountOverviewHeadLayout.addComponent(ortLabel, 1,2);
             accountOverviewHeadLayout.addComponent(webURL, 1, 3);
             accountOverviewHeadLayout.addComponent(beschreibungLabel, 1, 4, 3, 4);
-            
-            if(ProfilView.getMyProfile()) {
+
+            if (ProfilView.getMyProfile()) {
                 buildEditButton(company);
             }
 
             buildRateButton(company);
-            
-            
+
+
         }
-        
-        accountOverviewHeadLayout.addComponent(profilbild, 0, 0, 0,4 );
+
+        accountOverviewHeadLayout.addComponent(profilbild, 0, 0, 0, 4);
         accountOverviewHeadLayout.setComponentAlignment(profilbild, Alignment.TOP_CENTER);
-        
+
         accountOverviewHeadLayout.addComponent(nameLabel, 1, 0);
 
         accountOverviewHeadLayout.setColumnExpandRatio(0, 0.25F);
@@ -149,17 +148,17 @@ public class AccountOverviewHead extends VerticalLayout {
         accountOverviewHeadLayout.setComponentAlignment(editButton, Alignment.MIDDLE_CENTER);
 
         editButton.addClickListener(clickEvent -> {
-           if (user instanceof  Student) {
-               Student student = (Student) user;
-               EditStudentWindow window = new EditStudentWindow(student);
-               UI.getCurrent().addWindow(window);
-               window.setVisible(true);
-           } else {
-               Company company = (Company) user;
-               EditCompanyWindow window = new EditCompanyWindow(company);
-               UI.getCurrent().addWindow(window);
-               window.setVisible(true);
-           }
+            if (user instanceof Student) {
+                Student student = (Student) user;
+                EditStudentWindow window = new EditStudentWindow(student);
+                UI.getCurrent().addWindow(window);
+                window.setVisible(true);
+            } else {
+                Company company = (Company) user;
+                EditCompanyWindow window = new EditCompanyWindow(company);
+                UI.getCurrent().addWindow(window);
+                window.setVisible(true);
+            }
         });
     }
 

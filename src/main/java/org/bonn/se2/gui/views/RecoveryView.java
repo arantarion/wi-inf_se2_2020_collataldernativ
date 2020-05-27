@@ -8,7 +8,7 @@ import com.vaadin.ui.*;
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer
+ * @Programmer Anton Drees, Jelena Vetmic
  */
 
 public class RecoveryView extends VerticalLayout implements View {

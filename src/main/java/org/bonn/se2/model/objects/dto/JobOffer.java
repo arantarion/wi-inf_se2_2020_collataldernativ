@@ -1,9 +1,16 @@
 package org.bonn.se2.model.objects.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public class JobOffer {
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Anton Drees
+ */
+
+public class JobOffer implements Serializable {
 
     private String bereich;
     private String kontakt;
@@ -16,7 +23,7 @@ public class JobOffer {
     private String gehalt;
 
 
-    public JobOffer(){
+    public JobOffer() {
     }
 
     public JobOffer(String bereich, String kontakt, String beschreibung) {

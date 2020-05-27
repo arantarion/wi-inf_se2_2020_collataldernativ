@@ -19,8 +19,8 @@ import javax.servlet.annotation.WebServlet;
  * All available views must be added to the navigator object
  * to be accessible.
  *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer generic class
  * @Theme specifies the CSS theme
  * @Title specifies the tab name of the application.

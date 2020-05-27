@@ -12,6 +12,12 @@ import java.sql.Statement;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 class JDBCConnectionTest {
 
     private static JDBCConnection connection = null;

@@ -4,36 +4,21 @@ import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
-import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.dao.OfferDAO;
-import org.bonn.se2.model.dao.StudentDAO;
-import org.bonn.se2.model.dao.UserDAO;
-import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
-import org.bonn.se2.model.objects.dto.Student;
-import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.process.control.LoginControl;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
-import java.sql.SQLOutput;
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
-
-import static org.bonn.se2.process.control.LoginControl.getRole;
 
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer
+ * @Programmer Anton Drees, Jelena Vetmic
  */
 
 public class MainView extends VerticalLayout implements View {
@@ -46,15 +31,13 @@ public class MainView extends VerticalLayout implements View {
         } else {
             try {
                 this.setUp();
-            } catch (DatabaseException | InvalidCredentialsException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
 
-    public void setUp() throws DatabaseException, InvalidCredentialsException {
-        //final VerticalLayout layout = new VerticalLayout();
-        //Erzeugung der HorizontalLayouts
+    public void setUp() {
 
         NavigationBar navigationBar = new NavigationBar();
         this.addComponent(navigationBar);
@@ -72,11 +55,6 @@ public class MainView extends VerticalLayout implements View {
         Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
         Label role = new Label(SessionFunctions.getCurrentRole());
 
-        //Kalender
-//        InlineDateTimeField sample = new InlineDateTimeField();
-//        sample.setValue(LocalDateTime.now());
-//        sample.setLocale(Locale.GERMANY);
-//        sample.setResolution(DateTimeResolution.MINUTE);
 
         Label labelText = new Label("Willkommen auf Coll@Aldernativ! der zentralen Schnittstelle zwischen Studenten & Unternehmen."
                 + " Hier findet jeder seinen Traumjob.");
@@ -142,9 +120,9 @@ public class MainView extends VerticalLayout implements View {
             } else {
                 grid.removeAllColumns();
                 List<JobOffer> liste3 = null;
-                try{
+                try {
                     liste3 = new OfferDAO().retrieveAll();
-                } catch (Exception ex){
+                } catch (Exception ex) {
                     ex.printStackTrace();
                 }
                 grid.setItems(liste3);
@@ -156,7 +134,6 @@ public class MainView extends VerticalLayout implements View {
                 grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
                 grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
                 grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
-                //addComponent(new Label("Geben Sie etwas ein, damit die Suche gestartet werden kann"));
             }
         });
 
@@ -168,9 +145,6 @@ public class MainView extends VerticalLayout implements View {
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
         //h3.addComponent(sample);
-
-
-
     }
 
 }

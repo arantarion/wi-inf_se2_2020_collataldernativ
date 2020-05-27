@@ -1,11 +1,3 @@
-/*
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer
- *
- *
- */
-
 package org.bonn.se2.gui.windows;
 
 import com.vaadin.data.Binder;
@@ -27,6 +19,11 @@ import org.bonn.se2.services.util.FileUploader;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
+/**
+ * @version 0.1a
+ * @author Coll@Aldernativ
+ * @Programmer Henry Weckermann, Anton Drees
+ */
 
 public class EditCompanyWindow extends Window {
 

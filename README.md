@@ -111,10 +111,12 @@ TODO
 <td>&nbsp;
 <p><span style="font-weight: 400;">Henry Weckermann</span></p>
 </td>
-<td>
+<td>&nbsp;
 <p><span style="font-weight: 400;">henry.weckermann@smail.inf.h-brs.de</span></p>
 </td>
-<td><span style="font-weight: 400;">Test-Manager / Senior-Programmer<br /></span></td>
+<td>&nbsp;
+<p><span style="font-weight: 400;">Test-Manager / Senior Programmer<br /></span></p>
+</td>
 </tr>
 </tbody>
 </table>

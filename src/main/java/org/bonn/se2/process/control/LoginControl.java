@@ -1,4 +1,3 @@
-
 package org.bonn.se2.process.control;
 
 import com.vaadin.ui.UI;
@@ -18,9 +17,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 
@@ -45,7 +43,7 @@ public class LoginControl {
         UI.getCurrent().getPage().setLocation("");
     }
 
-    public static String getRole(User user) throws DatabaseException {
+    public static String getRole(User user) {
 
         try {
             new StudentDAO().retrieve(user.getUserID());
@@ -56,9 +54,9 @@ public class LoginControl {
                 new CompanyDAO().retrieve(user.getUserID());
                 return Configuration.Roles.COMPANY;
             } catch (DatabaseException ex) {
-                //TODO Very dirty bugfix
-                return Configuration.Roles.ADMIN;
-                //Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
+                //return Configuration.Roles.ADMIN;
+                Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
+                return null;
                 //throw new DatabaseException("Konnte die Rolle des Nutzers nicht feststellen @.@");
             }
         }

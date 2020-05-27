@@ -1,9 +1,7 @@
 package org.bonn.se2.gui.views;
 
-import com.vaadin.event.ShortcutAction;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
@@ -31,14 +29,12 @@ public class DeletionView extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         try {
             this.setUp();
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        } catch (InvalidCredentialsException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setUp() throws DatabaseException, InvalidCredentialsException{
+    public void setUp() {
 
         this.setSizeFull();
 
@@ -104,25 +100,21 @@ public class DeletionView extends VerticalLayout implements View {
                 UI.getCurrent().getNavigator().navigateTo(Configuration.Views.PROFIL);
             });
 
-            bestaetigungButton.addClickListener(f ->{
+            bestaetigungButton.addClickListener(f -> {
                 String passwort = null;
                 try {
                     passwort = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getPasswort();
-                } catch (DatabaseException databaseException) {
+                } catch (DatabaseException | InvalidCredentialsException databaseException) {
                     databaseException.printStackTrace();
-                } catch (InvalidCredentialsException invalidCredentialsException) {
-                    invalidCredentialsException.printStackTrace();
                 }
-                if(hash(passwd.getValue()).equals(passwort)){
+                if (hash(passwd.getValue()).equals(passwort)) {
                     try {
                         ID = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getUserID();
 
-                    } catch (DatabaseException databaseException) {
+                    } catch (DatabaseException | InvalidCredentialsException databaseException) {
                         databaseException.printStackTrace();
-                    } catch (InvalidCredentialsException invalidCredentialsException) {
-                        invalidCredentialsException.printStackTrace();
                     }
-                    if(SessionFunctions.getCurrentRole().equals("student")){
+                    if (SessionFunctions.getCurrentRole().equals("student")) {
                         try {
                             new StudentDAO().delete(ID);
                             new UserDAO().delete(ID);
@@ -131,7 +123,7 @@ public class DeletionView extends VerticalLayout implements View {
                         }
                         LoginControl.logoutUser();
                     }
-                    if(SessionFunctions.getCurrentRole().equals("company")){
+                    if (SessionFunctions.getCurrentRole().equals("company")) {
                         try {
                             Company comp = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
                             int id = SessionFunctions.getCurrentUser().getUserID();
@@ -144,7 +136,7 @@ public class DeletionView extends VerticalLayout implements View {
                         }
                         LoginControl.logoutUser();
                     }
-                }else{
+                } else {
                     Notification.show("Das Passwort ist nicht korrekt.", Notification.Type.ERROR_MESSAGE);
                 }
             });

@@ -1,45 +1,40 @@
 package org.bonn.se2.gui.views;
 
-import static org.bonn.se2.services.util.CryptoFunctions.hash;
-
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.components.NavigationBar;
-import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
-import org.bonn.se2.model.objects.dto.Student;
-import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
+import static org.bonn.se2.services.util.CryptoFunctions.hash;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer
+ * @Programmer Henry Weckermann, Anton Drees
  */
 
 public class KontoverwaltungView extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         try {
             this.setUp();
-        } catch (DatabaseException | InvalidCredentialsException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setUp() throws DatabaseException, InvalidCredentialsException {
+    public void setUp() {
         NavigationBar navigationBar = new NavigationBar();
         this.addComponent(navigationBar);
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
         //Button startseiteButton = new Button("Startseite", VaadinIcons.ARROW_CIRCLE_RIGHT);
         //Button log = new Button("Logout", VaadinIcons.ARROW_CIRCLE_RIGHT);
-        Button profil = new Button("Profil", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button konto = new Button("Konto löschen", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button s = new Button("Speichern", VaadinIcons.ARROW_CIRCLE_RIGHT);
 

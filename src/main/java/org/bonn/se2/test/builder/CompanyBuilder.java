@@ -2,6 +2,12 @@ package org.bonn.se2.test.builder;
 
 import org.bonn.se2.model.objects.dto.Company;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
 public class CompanyBuilder extends AbsUserBuilder {
 
     protected String name, description, website;

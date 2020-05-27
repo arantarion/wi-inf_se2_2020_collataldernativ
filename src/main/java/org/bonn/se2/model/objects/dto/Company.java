@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 
@@ -34,7 +33,7 @@ public class Company extends User implements Serializable {
         this.bewertung = bewertung;
     }
 
-    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner, Integer ID){
+    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner, Integer ID) {
         this.name = name;
         this.webURL = webURL;
         this.beschreibung = beschreibung;
@@ -44,7 +43,7 @@ public class Company extends User implements Serializable {
         this.companyID = ID;
     }
 
-    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner){
+    public Company(String name, String webURL, String beschreibung, String branche, String ansprechpartner) {
         this.name = name;
         this.webURL = webURL;
         this.beschreibung = beschreibung;
@@ -52,13 +51,22 @@ public class Company extends User implements Serializable {
         this.ansprechpartner = ansprechpartner;
         this.bewertung = 0;
     }
-    public String getBranche(){return branche;}
 
-    public void setBranche(String branche){this.branche = branche;}
+    public String getBranche() {
+        return branche;
+    }
 
-    public String getAnsprechpartner(){return ansprechpartner;}
+    public void setBranche(String branche) {
+        this.branche = branche;
+    }
 
-    public void setAnsprechpartner(String ansprechpartner){this.ansprechpartner = ansprechpartner;}
+    public String getAnsprechpartner() {
+        return ansprechpartner;
+    }
+
+    public void setAnsprechpartner(String ansprechpartner) {
+        this.ansprechpartner = ansprechpartner;
+    }
 
     public String getName() {
         return name;

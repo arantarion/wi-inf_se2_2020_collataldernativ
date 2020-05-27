@@ -1,11 +1,3 @@
-/*
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer
- *
- *
- */
-
 package org.bonn.se2.gui.windows;
 
 import com.vaadin.data.Binder;
@@ -22,6 +14,12 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.*;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann, Anton Drees
+ */
+
 public class EditStudentWindow extends Window {
 
     private Student student;
@@ -34,7 +32,6 @@ public class EditStudentWindow extends Window {
 
     public EditStudentWindow(Student dto) {
         this.student = dto;
-        //System.out.println("Student in EDITStudWin " + this.student);
         this.setUp();
     }
 
@@ -216,7 +213,7 @@ public class EditStudentWindow extends Window {
         Button delete = new Button("Profil löschen");
         Button submit = new Button("Speichern");
 
-        delete.addClickListener( event -> {
+        delete.addClickListener(event -> {
             UI.getCurrent().removeWindow(this);
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
         });

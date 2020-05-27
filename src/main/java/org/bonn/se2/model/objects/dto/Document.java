@@ -1,18 +1,17 @@
-/*
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer
- *
- *
- */
-
 package org.bonn.se2.model.objects.dto;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Objects;
 
-public class Document {
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
+
+public class Document implements Serializable {
 
     private Integer documentID;
     private Integer userID;
@@ -22,7 +21,7 @@ public class Document {
     private LocalDate date;
     private byte[] file;
 
-    public Document(){
+    public Document() {
 
     }
 

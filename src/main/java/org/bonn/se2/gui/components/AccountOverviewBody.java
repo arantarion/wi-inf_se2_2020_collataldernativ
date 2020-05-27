@@ -1,11 +1,3 @@
-/*
- * @version 0.1a
- * @author Coll@Aldernativ
- * @Programmer
- *
- *
- */
-
 package org.bonn.se2.gui.components;
 
 import com.vaadin.icons.VaadinIcons;
@@ -28,6 +20,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann, Anton Drees
+ */
 
 public class AccountOverviewBody extends VerticalLayout {
 
@@ -123,7 +121,7 @@ public class AccountOverviewBody extends VerticalLayout {
             int ID = comp.getcompanyID();
 
             Grid<JobOffer> grid = new Grid<>();
-            List<JobOffer> liste =  new OfferDAO().retrieveCompanyOffers(ID);
+            List<JobOffer> liste = new OfferDAO().retrieveCompanyOffers(ID);
             grid.setItems(liste);
             MultiSelectionModel<JobOffer> selectionModel = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
             grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
@@ -147,7 +145,7 @@ public class AccountOverviewBody extends VerticalLayout {
                 offerDeletionButton.addClickListener(d -> {
                     Set<JobOffer> list = e.getAllSelectedItems();
                     List<JobOffer> s = new ArrayList<>(list);
-                    for(int i = 0; i< s.size(); i++){
+                    for (int i = 0; i < s.size(); i++) {
                         try {
                             new OfferDAO().delete(s.get(i).getJobofferID());
                         } catch (Exception exception) {
@@ -156,7 +154,7 @@ public class AccountOverviewBody extends VerticalLayout {
                     }
                     grid.removeAllColumns();
                     try {
-                        List<JobOffer> liste2 =  new OfferDAO().retrieveCompanyOffers(ID);
+                        List<JobOffer> liste2 = new OfferDAO().retrieveCompanyOffers(ID);
                     } catch (DatabaseException databaseException) {
                         databaseException.printStackTrace();
                     } catch (SQLException throwables) {

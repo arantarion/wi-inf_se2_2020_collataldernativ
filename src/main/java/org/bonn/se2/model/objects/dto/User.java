@@ -42,7 +42,7 @@ public class User implements Serializable {
         this.passwort = passwort;
     }
 
-    public User(String username, String email, String passwort, byte[] image, Integer userID){
+    public User(String username, String email, String passwort, byte[] image, Integer userID) {
         this.username = username;
         this.email = email;
         this.passwort = passwort;

@@ -4,9 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 

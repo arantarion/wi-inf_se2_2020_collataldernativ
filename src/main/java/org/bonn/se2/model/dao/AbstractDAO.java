@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
+
 public abstract class AbstractDAO<T> {
 
     protected JDBCConnection connection = JDBCConnection.getInstance();
@@ -98,13 +98,9 @@ public abstract class AbstractDAO<T> {
             }
 
         } catch (SQLException e) {
-
             throw new DatabaseException("Fehler im Prepared Statement");
-
         } finally {
-
             connection.closeConnection();
-
         }
 
         return results;

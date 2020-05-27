@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer Henry Weckermann
+ * @Programmer Henry Weckermann, Anton Drees
  */
 
 public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Company> {
@@ -34,10 +34,10 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
 
         List<Company> result = execute(sql);
         if (result.size() < 1) {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE,"retrieve(int id) failed.");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "retrieve(int id) failed.");
             throw new DatabaseException("retrieve(int id) failed");
         }
-        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO,"Die Company mit der userID: " + id + " wurde abgerufen.");
+        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit der userID: " + id + " wurde abgerufen.");
         return result.get(0);
     }
 
@@ -53,9 +53,9 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
                         "OR name = '" + attribute + "';";
 
         List<Company> list = execute(query);
-        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO,"Die Company mit dem Attribut: " + attribute + " wurde abgerufen.");
+        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit dem Attribut: " + attribute + " wurde abgerufen.");
         if (list.size() < 1) {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE,"retrieve(String attribute) failed");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "retrieve(String attribute) failed");
             throw new DatabaseException("retrieve(String attribute) failed");
         }
         return list.get(0);
@@ -68,7 +68,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
                 "SELECT * FROM \"collDB\".company " +
                         "JOIN \"collDB\".\"user\" ON company.\"userID\" = \"user\".\"userID\" "; //+
         //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
-        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO,"Es wurden alle Companys abgerufen.");
+        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Es wurden alle Companys abgerufen.");
         return execute(query);
     }
 
@@ -92,10 +92,10 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             company2.setcompanyID(set.getInt("companyID"));
             company2.setWebURL(set.getString("webURL"));
             //System.out.println("Company erfolgreich gespeichert!");
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO,"Die Company : " + company + " konnte erfoglreich gespeichert werden.");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company + " konnte erfoglreich gespeichert werden.");
             return company;
         } else {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE,"Company-Objekt "+company+" konnte nicht richtig gespeichert werden!");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "Company-Objekt " + company + " konnte nicht richtig gespeichert werden!");
             return null;
         }
 
@@ -113,25 +113,25 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
 
     @Override
     protected Company create(ResultSet resultSet) throws DatabaseException {
-        //System.out.println("1 zeile");
+
         Company dto = new Company();
-        //System.out.println("hahaha noobs");
+
         try {
             dto.setName(resultSet.getString("name"));
             dto.setBeschreibung(resultSet.getString("beschreibung"));
             dto.setcompanyID(resultSet.getInt("companyID"));
             dto.setWebURL(resultSet.getString("webURL"));
             dto.setUserID(resultSet.getInt("userID"));
-            //dto.setUsername(resultSet.getString("username"));
-            //dto.setEmail(resultSet.getString("email"));
+            dto.setUsername(resultSet.getString("username"));
+            dto.setEmail(resultSet.getString("email"));
             dto.setAnsprechpartner(resultSet.getString("ansprechpartner"));
             dto.setBranche(resultSet.getString("branche"));
             dto.setBewertung(resultSet.getInt("bewertung"));
             //Address address = new AddressDAO().retrieve(resultSet.getInt("addressid"));
             //dto.setAdresse(address);
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO,"Die Company : " + dto + " konnte erfolgreich gespeichert werden.");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + dto + " konnte erfolgreich gespeichert werden.");
         } catch (SQLException e) {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE,"create(ResultSet resultset) in CompanyDAO failed");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in CompanyDAO failed");
             throw new DatabaseException("create(ResultSet resultSet) in CompanyDAO failed");
         }
         return dto;
@@ -210,10 +210,10 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
 
         List<Company> result = executePrepared(deleteQuery, company.getUsername());
         if (result.size() < 1) {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE,"delete(Company company) failed");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "delete(Company company) failed");
             throw new DatabaseException("delete(Company company) failed");
         }
-        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO,"Die Company : " + company + " wurde erfoglreich gelöscht.");
+        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company + " wurde erfoglreich gelöscht.");
         return result.get(0);
     }
 
@@ -226,10 +226,10 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
 
         List<Company> result = executePrepared(deleteQuery, ID);
         if (result.size() < 1) {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE,"delete(int ID) failed");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "delete(int ID) failed");
             throw new DatabaseException("delete(int ID) failed");
         }
-        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO,"Die Company mit der userID: " + ID + " wurde erfoglreich gelöscht.");
+        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit der userID: " + ID + " wurde erfoglreich gelöscht.");
         return result.get(0);
     }
 

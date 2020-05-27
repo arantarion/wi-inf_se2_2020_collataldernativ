@@ -1,5 +1,12 @@
 package org.bonn.se2.test.builder;
+
 import org.bonn.se2.model.objects.dto.Address;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Henry Weckermann
+ */
 
 public class AddressBuilder {
 

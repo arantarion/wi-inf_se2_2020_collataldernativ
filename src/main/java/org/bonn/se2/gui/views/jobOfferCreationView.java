@@ -2,7 +2,6 @@ package org.bonn.se2.gui.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.model.dao.CompanyDAO;
@@ -12,7 +11,11 @@ import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
-import static org.bonn.se2.services.util.CryptoFunctions.hash;
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Anton Drees
+ */
 
 public class jobOfferCreationView extends VerticalLayout implements View {
 

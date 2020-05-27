@@ -9,13 +9,12 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 
-public class AddressDAO extends AbstractDAO<Address> implements DAOInterface<Address>{
+public class AddressDAO extends AbstractDAO<Address> implements DAOInterface<Address> {
 
     public AddressDAO() throws DatabaseException {
     }
@@ -25,8 +24,8 @@ public class AddressDAO extends AbstractDAO<Address> implements DAOInterface<Add
         //language=PostgreSQL
         final String sql =
                 "SELECT strasse, hausnummer, plz, stadt, land, \"addressID\" " +
-                "FROM \"collDB\".address " +
-                "WHERE \"addressID\" = '" + id +"';";
+                        "FROM \"collDB\".address " +
+                        "WHERE \"addressID\" = '" + id + "';";
 
         List<Address> result = execute(sql);
         if (result.size() < 1) {
@@ -41,11 +40,11 @@ public class AddressDAO extends AbstractDAO<Address> implements DAOInterface<Add
     }
 
     @Override
-    public List<Address> retrieveAll() throws DatabaseException  {
+    public List<Address> retrieveAll() throws DatabaseException {
         //language=PostgreSQL
         final String sql =
                 "SELECT strasse, hausnummer, plz, stadt, land, \"addressID\" " +
-                "FROM \"collDB\".address;";
+                        "FROM \"collDB\".address;";
         return execute(sql);
     }
 
@@ -97,9 +96,9 @@ public class AddressDAO extends AbstractDAO<Address> implements DAOInterface<Add
         //language=PostgreSQL
         final String sql =
                 "DELETE FROM \"collDB\".address " +
-                "WHERE \"addressID\" = ? " +
-                "RETURNING *;";
-        
+                        "WHERE \"addressID\" = ? " +
+                        "RETURNING *;";
+
         List<Address> list = executePrepared(sql, address.getID());
         if (list.size() == 0)
             throw new DatabaseException("delete(Address address) in AddressDAO failed");

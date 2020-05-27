@@ -1,7 +1,6 @@
 
 package org.bonn.se2.model.dao;
 
-import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
@@ -60,7 +59,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
         //language=PostgreSQL
         final String sql =
                 "SELECT * FROM \"collDB\".user ";// +
-                       // "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
+        // "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
         return execute(sql);
     }
 
@@ -105,8 +104,6 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
                 "WHERE \"userID\" = " + user.getUserID() + " " +
                 "RETURNING *;";
 
-        //System.out.println(updateQuery);
-        //System.out.println("UserDAO update " + user);
 
         //List<User> result = executePrepared(updateQuery, user.getUsername(), user.getEmail(), user.getPasswort(), user.getImage(), user.getUserID());
         List<User> result = execute(updateQuery);

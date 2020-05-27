@@ -1,19 +1,15 @@
 
 package org.bonn.se2.model.dao;
 
-import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.services.util.SessionFunctions;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -36,14 +32,13 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
                         "WHERE student.\"userID\" = '" + id + "'" + " OR student.\"studentID\" = '" + id + "';";
 
-        //List<Student> result = executePrepared(sql, id);
         List<Student> result = execute(sql);
 
         if (result.size() < 1) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE,"retrieve(int id) did not return a DTO.");
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "retrieve(int id) did not return a DTO.");
             throw new DatabaseException("retrieve(int id) did not return a DTO");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Der Student mit der userID: " + id + " wurde erfolgreich abgerufen.");
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Der Student mit der userID: " + id + " wurde erfolgreich abgerufen.");
         return result.get(0);
     }
 
@@ -60,10 +55,10 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
         List<Student> result = executePrepared(sql, attribute, attribute);
         if (result.size() < 1) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE,"retrieve(String attribute) did not return a DTO.");
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "retrieve(String attribute) did not return a DTO.");
             throw new DatabaseException("retrieve(String attribute) did not return a DTO");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Der Student mit dem Attribut: " + attribute + " wurde erfolgreich abgerufen.");
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Der Student mit dem Attribut: " + attribute + " wurde erfolgreich abgerufen.");
         return result.get(0);
     }
 
@@ -75,7 +70,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
                         "INNER JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
                         "INNER JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\"";
         // LEFT OUTER JOIN ...
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Alle Studenten wurden abgerufen.");
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Alle Studenten wurden abgerufen.");
         return execute(sql);
     }
 
@@ -97,11 +92,10 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         ResultSet resultSet = preparedStatement.executeQuery();
 
         if (!resultSet.next()) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE,"create(Student student) in StudentDAO failed");
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "create(Student student) in StudentDAO failed");
             throw new DatabaseException("create(Student student) in StudentDAO failed");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Student: " + student + " wurde erfolgreich erstellt.");
-        //System.out.println(resultSet.getInt(1));
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Student: " + student + " wurde erfolgreich erstellt.");
         return retrieve(resultSet.getInt(1));
 
 //        User user = new UserDAO().create(student);
@@ -153,10 +147,10 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             //dto.setAdresse(address);
 
         } catch (Exception e) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE,"create(ResultSet resultset) in StudentDAO failed");
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in StudentDAO failed");
             throw new DatabaseException("create(ResultSet resultSet) in StudentDAO failed");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Student: " + dto + " wurde erfolgreich gespeichert.");
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Student: " + dto + " wurde erfolgreich gespeichert.");
         return dto;
     }
 
@@ -164,7 +158,6 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     public Student update(Student updatedItem) throws Exception {
         UserDAO userDAO = new UserDAO();
 
-        //System.out.println("update StudentDAO " + updatedItem);
         userDAO.update(new User(updatedItem.getUsername(), updatedItem.getEmail(), updatedItem.getPasswort(), updatedItem.getImage(), updatedItem.getUserID()));
 
         //language=PostgreSQL
@@ -177,10 +170,10 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             pst.setInt(2, updatedItem.getFachsemester());
             pst.executeUpdate();
         } catch (SQLException e) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE,"failed to update studentdata",e);
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "failed to update studentdata", e);
             throw new DatabaseException("failed to udpate studentdata");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Student wurde erfolgreich geändert.");
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Student wurde erfolgreich geändert.");
         return this.retrieve(updatedItem.getEmail());
 
     }
@@ -195,10 +188,10 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
         List<Student> result = executePrepared(deleteQuery, student.getUsername());
         if (result.size() < 1) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE,"delete(Student student) in StudentDAO failed");
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "delete(Student student) in StudentDAO failed");
             throw new DatabaseException("delete(Student student) failed");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Student: " + student + " wurde erfolgreich gelöscht.");
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Student: " + student + " wurde erfolgreich gelöscht.");
         return result.get(0);
     }
 
@@ -211,10 +204,10 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
         List<Student> result = executePrepared(deleteQuery, ID);
         if (result.size() < 1) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE,"delelte(int ID) in StudentDAO failed");
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "delelte(int ID) in StudentDAO failed");
             throw new DatabaseException("delete(int ID) failed");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE,"Studen mit der ID: " + ID + " wurde erfolgreich gelöscht.");
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "Studen mit der ID: " + ID + " wurde erfolgreich gelöscht.");
         return result.get(0);
     }
 }
