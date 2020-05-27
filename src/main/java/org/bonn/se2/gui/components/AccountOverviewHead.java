@@ -107,11 +107,11 @@ public class AccountOverviewHead extends VerticalLayout {
             
             Label beschreibungLabel = new Label(VaadinIcons.INFO_CIRCLE_O.getHtml() + " " + company.getBeschreibung());
             nameLabel = new Label(company.getName());
-            if (address != null) {
-                ortLabel = new Label(VaadinIcons.MAP_MARKER.getHtml() + " " + address.getStadt() + ", " + address.getLand());
-            }
+//            if (address != null) {
+//                ortLabel = new Label(VaadinIcons.MAP_MARKER.getHtml() + " " + address.getStadt() + ", " + address.getLand());
+//            }
             
-            accountOverviewHeadLayout.addComponent(ortLabel, 1,2);
+            //accountOverviewHeadLayout.addComponent(ortLabel, 1,2);
             accountOverviewHeadLayout.addComponent(webURL, 1, 3);
             accountOverviewHeadLayout.addComponent(beschreibungLabel, 1, 4, 3, 4);
             

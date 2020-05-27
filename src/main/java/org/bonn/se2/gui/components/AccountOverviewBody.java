@@ -11,12 +11,23 @@ package org.bonn.se2.gui.components;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.components.grid.MultiSelectionModel;
+import org.bonn.se2.model.dao.CompanyDAO;
+import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.objects.dto.Company;
+import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.SessionFunctions;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 public class AccountOverviewBody extends VerticalLayout {
 
@@ -105,9 +116,71 @@ public class AccountOverviewBody extends VerticalLayout {
             layout.setWidth("100%");
             this.addComponent(layout);
 
-            Label placeholder = new Label("Hier sollten dann die Jobangebote stehen");
-            this.addComponent(placeholder);
-            this.setComponentAlignment(placeholder, Alignment.MIDDLE_CENTER);
+            Button offerDeletionButton = new Button("Ausgewählte löschen");
+            Button jobofferButton = new Button("Neue Stellenanzeige erstellen");
+            Button kverwaltenButton = new Button("Kontoverwaltung", VaadinIcons.ARROW_CIRCLE_RIGHT);
+
+
+            HorizontalLayout h2 = new HorizontalLayout();
+            this.addComponent(h2);
+            setComponentAlignment(h2, Alignment.TOP_RIGHT);
+            h2.addComponent(kverwaltenButton);
+
+            Company comp = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
+            int ID = comp.getcompanyID();
+
+            Grid<JobOffer> grid = new Grid<>();
+            List<JobOffer> liste =  new OfferDAO().retrieveCompanyOffers(ID);
+            grid.setItems(liste);
+            MultiSelectionModel<JobOffer> selectionModel = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
+            grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+            grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+            grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+            grid.addColumn(JobOffer::getName).setCaption("Name");
+            grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+            grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+            grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+            grid.setSizeFull();
+            grid.setHeightMode(HeightMode.UNDEFINED);
+            addComponent(grid);
+
+            selectionModel.addMultiSelectionListener(e -> {
+                Notification.show(e.getAddedSelection().size()
+                        + " items added, "
+                        + e.getRemovedSelection().size()
+                        + " removed.");
+
+                offerDeletionButton.setEnabled(e.getNewSelection().size() > 0);
+                offerDeletionButton.addClickListener(d -> {
+                    Set<JobOffer> list = e.getAllSelectedItems();
+                    List<JobOffer> s = new ArrayList<>(list);
+                    for(int i = 0; i< s.size(); i++){
+                        try {
+                            new OfferDAO().delete(s.get(i).getJobofferID());
+                        } catch (Exception exception) {
+                            exception.printStackTrace();
+                        }
+                    }
+                    grid.removeAllColumns();
+                    try {
+                        List<JobOffer> liste2 =  new OfferDAO().retrieveCompanyOffers(ID);
+                    } catch (DatabaseException databaseException) {
+                        databaseException.printStackTrace();
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                    UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
+                });
+            });
+            this.addComponent(jobofferButton);
+            this.addComponent(offerDeletionButton);
+            this.setComponentAlignment(grid, Alignment.TOP_CENTER);
+            jobofferButton.addClickListener(e -> {
+                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.OFFERCREATION);
+            });
+            kverwaltenButton.addClickListener(e -> {
+                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
+            });
 
         }
     }

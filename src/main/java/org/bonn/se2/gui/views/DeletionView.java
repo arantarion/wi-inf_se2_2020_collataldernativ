@@ -63,7 +63,7 @@ public class DeletionView extends VerticalLayout implements View {
         panel.setSizeUndefined();
 
         noButton.addClickListener(e -> {
-            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.PROFIL);
         });
 
         yesButton.addClickListener(e -> {
@@ -101,7 +101,7 @@ public class DeletionView extends VerticalLayout implements View {
             panel2.setSizeUndefined();
 
             abbruchButton.addClickListener(d -> {
-                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
+                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.PROFIL);
             });
 
             bestaetigungButton.addClickListener(f ->{

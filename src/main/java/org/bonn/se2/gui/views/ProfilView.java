@@ -2,11 +2,13 @@ package org.bonn.se2.gui.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.ui.Alignment;
 import com.vaadin.ui.GridLayout;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.VerticalLayout;
 import org.bonn.se2.gui.components.AccountOverviewBody;
 import org.bonn.se2.gui.components.AccountOverviewHead;
+import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.services.util.Configuration;

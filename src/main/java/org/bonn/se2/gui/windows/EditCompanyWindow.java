@@ -22,6 +22,7 @@ import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.FileUploader;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
@@ -152,6 +153,11 @@ public class EditCompanyWindow extends Window {
         grid.addComponent(deleteButton, 2, 22);
         grid.setComponentAlignment(deleteButton, Alignment.BOTTOM_CENTER);
         deleteButton.setWidth("100%");
+
+        deleteButton.addClickListener(clickEvent -> {
+            UI.getCurrent().removeWindow(this);
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
+        });
 
         Button saveButton = new Button("Speichern", VaadinIcons.ARCHIVES);
         grid.addComponent(saveButton, 3, 22);
