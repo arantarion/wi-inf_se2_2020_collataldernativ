@@ -69,7 +69,7 @@ public class jobOfferCreationView extends VerticalLayout implements View {
                 if ((!bereich.getValue().equals("")) && !kontakt.getValue().equals("") && !beschreibung.getValue().equals("")) {
                     JobOffer dto = new JobOffer(bereich.getValue(), kontakt.getValue(), beschreibung.getValue(), name.getValue(), gehalt.getValue(), beginDate.getValue());
                     dto.setCompanyID(ID);
-                    UI.getCurrent().getNavigator().navigateTo(Configuration.Views.COMPPROFIL);
+                    UI.getCurrent().getNavigator().navigateTo(Configuration.Views.PROFIL);
                     new OfferDAO().create(dto);
                 } else {
                     addComponent(new Label("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe"));
