@@ -1,9 +1,8 @@
 package org.bonn.se2.process.control.exceptions;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 

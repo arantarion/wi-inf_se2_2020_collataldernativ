@@ -10,9 +10,8 @@ import org.bonn.se2.model.objects.dto.Company;
 
 public class CompanyBuilder extends AbsUserBuilder {
 
-    protected String name, description, website;
-
     private static CompanyBuilder instance;
+    protected String name, description, website;
 
     private CompanyBuilder() {
     }

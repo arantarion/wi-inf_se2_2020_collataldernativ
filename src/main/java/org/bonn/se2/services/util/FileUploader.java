@@ -27,6 +27,22 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
     public String mimeType;
     private String filename;
 
+    public static byte[] toByteArray(FileInputStream fis) throws IOException {
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len;
+        while ((len = fis.read(buffer)) != -1) {
+            bos.write(buffer, 0, len);
+        }
+        return bos.toByteArray();
+    }
+
+    public static Image convertToImage(final byte[] imageData) {
+        StreamResource.StreamSource streamSource = (StreamResource.StreamSource) () -> (imageData == null) ? null : new ByteArrayInputStream(
+                imageData);
+        return new Image(null, new StreamResource(streamSource, "streamedSourceFromByteArray"));
+    }
+
     @Override
     public OutputStream receiveUpload(String filename, String mimeType) {
 
@@ -92,22 +108,6 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
         notification.setDelayMsec(20000);
         notification.setPosition(Position.BOTTOM_RIGHT);
         notification.show(Page.getCurrent());
-    }
-
-    public static byte[] toByteArray(FileInputStream fis) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len;
-        while ((len = fis.read(buffer)) != -1) {
-            bos.write(buffer, 0, len);
-        }
-        return bos.toByteArray();
-    }
-
-    public static Image convertToImage(final byte[] imageData) {
-        StreamResource.StreamSource streamSource = (StreamResource.StreamSource) () -> (imageData == null) ? null : new ByteArrayInputStream(
-                imageData);
-        return new Image(null, new StreamResource(streamSource, "streamedSourceFromByteArray"));
     }
 
 }

@@ -20,28 +20,26 @@ import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
 /**
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann, Anton Drees
  */
 
 public class EditCompanyWindow extends Window {
 
-    private Company company;
-
-    private Binder<User> userBinder = new Binder<>();
-    private Binder<Address> addressBinder = new Binder<>();
-    private Binder<Company> companyBinder = new Binder<>();
-
     static Image profilbild = new Image("nichts ausgewählt");
-
-    public static void setProfilbild(FileResource file) {
-        profilbild.setSource(file);
-    }
+    private final Company company;
+    private final Binder<User> userBinder = new Binder<>();
+    private final Binder<Address> addressBinder = new Binder<>();
+    private final Binder<Company> companyBinder = new Binder<>();
 
     public EditCompanyWindow(Company company) {
         this.company = company;
         this.setUp();
+    }
+
+    public static void setProfilbild(FileResource file) {
+        profilbild.setSource(file);
     }
 
     private void setUp() {

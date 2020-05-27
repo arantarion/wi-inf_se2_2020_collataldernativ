@@ -41,76 +41,76 @@ public class JobOffer implements Serializable {
         this.beginDate = beginDate;
     }
 
-    public void setBereich(String bereich) {
-        this.bereich = bereich;
-    }
-
-    public void setKontakt(String kontakt) {
-        this.kontakt = kontakt;
-    }
-
-    public void setBeschreibung(String beschreibung) {
-        this.beschreibung = beschreibung.replace("<br>", "");
-    }
-
-    public void setJobofferID(int jobofferID) {
-        this.jobofferID = jobofferID;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCompanyID(int companyID) {
-        this.companyID = companyID;
-    }
-
-    public void setCreationDate(LocalDate creationDate) {
-        this.creationDate = creationDate;
-    }
-
-    public void setBeginDate(LocalDate beginDate) {
-        this.beginDate = beginDate;
-    }
-
-    public void setGehalt(String gehalt) {
-        this.gehalt = gehalt;
-    }
-
     public String getBereich() {
         return bereich;
+    }
+
+    public void setBereich(String bereich) {
+        this.bereich = bereich;
     }
 
     public String getKontakt() {
         return kontakt;
     }
 
+    public void setKontakt(String kontakt) {
+        this.kontakt = kontakt;
+    }
+
     public String getBeschreibung() {
         return beschreibung;
+    }
+
+    public void setBeschreibung(String beschreibung) {
+        this.beschreibung = beschreibung.replace("<br>", "");
     }
 
     public int getJobofferID() {
         return jobofferID;
     }
 
+    public void setJobofferID(int jobofferID) {
+        this.jobofferID = jobofferID;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getCompanyID() {
         return companyID;
     }
 
+    public void setCompanyID(int companyID) {
+        this.companyID = companyID;
+    }
+
     public LocalDate getCreationDate() {
         return creationDate;
+    }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
     }
 
     public LocalDate getBeginDate() {
         return beginDate;
     }
 
+    public void setBeginDate(LocalDate beginDate) {
+        this.beginDate = beginDate;
+    }
+
     public String getGehalt() {
         return gehalt;
+    }
+
+    public void setGehalt(String gehalt) {
+        this.gehalt = gehalt;
     }
 
     @Override

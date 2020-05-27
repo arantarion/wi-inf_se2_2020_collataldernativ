@@ -29,17 +29,15 @@ import org.bonn.se2.services.util.UIFunctions;
 
 public class RegistrierungsView extends VerticalLayout implements View {
 
-    boolean isStudent;
-
-    private Binder<User> binder = new Binder<>();
-    private Binder<Student> StudentBinder = new Binder<>();
-    private Binder<Address> AdressBinder = new Binder<>();
-    private Binder<Company> CompanyBinder = new Binder<>();
-
     private final Panel auswahlPanel = new Panel("Schritt 1: Registrieren als");
     private final Panel userCreationPanel = new Panel("Schritt 2: Geben Sie Ihre Daten ein");
     private final Panel studentCreationPanel = new Panel("Schritt 3: Geben Sie Ihre persönlichen Daten an");
     private final Panel companyCreationPanel = new Panel("Geben Sie Daten Ihres Unternehmens ein");
+    boolean isStudent;
+    private final Binder<User> binder = new Binder<>();
+    private final Binder<Student> StudentBinder = new Binder<>();
+    private final Binder<Address> AdressBinder = new Binder<>();
+    private final Binder<Company> CompanyBinder = new Binder<>();
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         if (SessionFunctions.isLoggedIn()) {

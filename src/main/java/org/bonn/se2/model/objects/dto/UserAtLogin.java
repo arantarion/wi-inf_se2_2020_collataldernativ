@@ -10,8 +10,8 @@ import java.io.Serializable;
 
 public class UserAtLogin extends User implements Serializable {
 
-    private String email;
-    private String password;
+    private final String email;
+    private final String password;
 
     public UserAtLogin(String login, String password) {
         this.email = login;

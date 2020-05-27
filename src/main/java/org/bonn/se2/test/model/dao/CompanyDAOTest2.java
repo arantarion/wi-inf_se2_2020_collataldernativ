@@ -27,13 +27,6 @@ public class CompanyDAOTest2 {
 
     static int companyID;
 
-    void test_a_company(Company comp) {
-        assertNotEquals(0, comp.getcompanyID());
-        assertEquals("Der GmbH GmbH", comp.getName());
-        assertEquals("Test Test Test", comp.getBeschreibung());
-        assertEquals("test.de", comp.getWebURL());
-    }
-
     @BeforeAll
     static void beforeAll() {
         try {
@@ -42,6 +35,13 @@ public class CompanyDAOTest2 {
             fail();
         }
         newCompany = CompanyBuilder.getInstance().createDefaultCompany().done();
+    }
+
+    void test_a_company(Company comp) {
+        assertNotEquals(0, comp.getcompanyID());
+        assertEquals("Der GmbH GmbH", comp.getName());
+        assertEquals("Test Test Test", comp.getBeschreibung());
+        assertEquals("test.de", comp.getWebURL());
     }
 
     @BeforeEach

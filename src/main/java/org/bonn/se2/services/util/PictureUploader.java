@@ -9,9 +9,8 @@ import java.io.FileOutputStream;
 import java.io.OutputStream;
 
 /**
- *
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 

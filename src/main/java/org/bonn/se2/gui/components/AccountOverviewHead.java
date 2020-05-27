@@ -25,7 +25,7 @@ import org.bonn.se2.services.util.Utils;
 
 public class AccountOverviewHead extends VerticalLayout {
 
-    private GridLayout accountOverviewHeadLayout = new GridLayout(4, 5);
+    private final GridLayout accountOverviewHeadLayout = new GridLayout(4, 5);
 
     public AccountOverviewHead(Student student) {
         setUp(student);

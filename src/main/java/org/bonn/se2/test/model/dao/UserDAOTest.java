@@ -21,18 +21,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class UserDAOTest {
 
-    User testUser;
-    User updateUser;
     static User newUser;
     static int testUserID;
     static UserDAO userDAO;
-
-    void test_a_User(User user) {
-        assertNotEquals(0, user.getUserID());
-        assertEquals("SuperMuster", user.getUsername());
-        assertEquals("test@test.de", user.getEmail());
-        assertEquals("123456", user.getPasswort());
-    }
+    User testUser;
+    User updateUser;
 
     @BeforeAll
     static void beforeAll() {
@@ -42,6 +35,13 @@ public class UserDAOTest {
             fail();
         }
         newUser = new UserBuilder().createDefaultUser().done();
+    }
+
+    void test_a_User(User user) {
+        assertNotEquals(0, user.getUserID());
+        assertEquals("SuperMuster", user.getUsername());
+        assertEquals("test@test.de", user.getEmail());
+        assertEquals("123456", user.getPasswort());
     }
 
     @BeforeEach

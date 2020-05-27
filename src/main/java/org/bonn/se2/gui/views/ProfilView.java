@@ -23,36 +23,33 @@ import org.bonn.se2.services.util.UIFunctions;
 
 public class ProfilView extends VerticalLayout implements View {
 
-    public GridLayout layout;
-
     private static Student student;
-
-    public static void setStudent(Student dto) {
-        ProfilView.student = dto;
-    }
+    private static Company company;
+    private static boolean myProfile = true;
+    public GridLayout layout;
 
     public static Student getStudent() {
         return ProfilView.student;
     }
 
-    private static Company company;
-
-    public static void setCompany(Company dto) {
-        ProfilView.company = dto;
+    public static void setStudent(Student dto) {
+        ProfilView.student = dto;
     }
 
     public static Company getCompany() {
         return ProfilView.company;
     }
 
-    private static boolean myProfile = true;
-
-    public static void setMyProfile(boolean profile) {
-        ProfilView.myProfile = profile;
+    public static void setCompany(Company dto) {
+        ProfilView.company = dto;
     }
 
     public static boolean getMyProfile() {
         return ProfilView.myProfile;
+    }
+
+    public static void setMyProfile(boolean profile) {
+        ProfilView.myProfile = profile;
     }
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {

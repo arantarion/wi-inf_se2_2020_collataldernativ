@@ -22,17 +22,27 @@ import org.bonn.se2.services.util.*;
 
 public class EditStudentWindow extends Window {
 
-    private Student student;
+    private static final ThemeResource resource = new ThemeResource(Configuration.ImagePaths.PLACEHOLDER);
+    private static final Panel profilBildPanel = new Panel();
+    private static Image profilbild = new Image("Kein Bild ausgewählt", resource);
     private final Binder<User> binder = new Binder<>();
     private final Binder<Address> addressBinder = new Binder<>();
-
-    private static final ThemeResource resource = new ThemeResource(Configuration.ImagePaths.PLACEHOLDER);
-    private static Image profilbild = new Image("Kein Bild ausgewählt", resource);
-    private static final Panel profilBildPanel = new Panel();
+    private final Student student;
 
     public EditStudentWindow(Student dto) {
         this.student = dto;
         this.setUp();
+    }
+
+    public static void refreshProfilePic(Image image) {
+        if (image != null) {
+            profilbild = image;
+            profilbild.setCaption("");
+        }
+        profilbild.setWidth("200px");
+        profilBildPanel.setContent(profilbild);
+        profilBildPanel.setWidth("200px");
+        profilBildPanel.addStyleName("profilepicpanel");
     }
 
     private void setUp() {
@@ -314,17 +324,6 @@ public class EditStudentWindow extends Window {
         buttons.setComponentAlignment(delete, Alignment.MIDDLE_RIGHT);
         buttons.setComponentAlignment(submit, Alignment.MIDDLE_RIGHT);
 
-    }
-
-    public static void refreshProfilePic(Image image) {
-        if (image != null) {
-            profilbild = image;
-            profilbild.setCaption("");
-        }
-        profilbild.setWidth("200px");
-        profilBildPanel.setContent(profilbild);
-        profilBildPanel.setWidth("200px");
-        profilBildPanel.addStyleName("profilepicpanel");
     }
 
 }

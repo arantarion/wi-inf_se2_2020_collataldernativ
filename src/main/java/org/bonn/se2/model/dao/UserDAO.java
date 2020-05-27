@@ -1,4 +1,3 @@
-
 package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.User;
@@ -100,7 +99,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
         //language=PostgreSQL
         final String updateQuery = "UPDATE \"collDB\".user " +
                 "SET (username, email, passwort, bild) = " +
-                "(\'" + user.getUsername() + "\', \'" + user.getEmail() + "\', \'" + user.getPasswort() + "\', \'" + user.getImage() + "\') " +
+                "('" + user.getUsername() + "', '" + user.getEmail() + "', '" + user.getPasswort() + "', '" + user.getImage() + "') " +
                 "WHERE \"userID\" = " + user.getUserID() + " " +
                 "RETURNING *;";
 
