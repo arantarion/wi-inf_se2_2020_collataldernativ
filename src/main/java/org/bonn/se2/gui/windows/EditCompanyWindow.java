@@ -94,6 +94,7 @@ public class EditCompanyWindow extends Window {
 
         Label emailLabel = new Label("E-Mail", ContentMode.HTML);
         TextField emailText = new TextField();
+        emailText.setRequiredIndicatorVisible(false);
         companyBinder.forField(emailText)
                 .asRequired(new EmailValidator("Keine gültige E-Mail Adresse"))
                 .bind(User::getEmail, User::setEmail);
@@ -173,7 +174,9 @@ public class EditCompanyWindow extends Window {
             tmp.setUsername(this.company.getUsername());
             tmp.setEmail(emailText.getValue());
 
-            if (!passwortField.getValue().equals("") && passwortField.getValue().equals(passwortField2.getValue())) {
+            if (passwortField.getValue().equals("")) {
+                tmp.setPwHash(company.getPasswort());
+            } else if (passwortField.getValue().equals(passwortField2.getValue())) {
                 tmp.setPasswort(passwortField.getValue());
             } else {
                 Notification notification = new Notification("Die Passwörter stimmen nicht überein.", Notification.Type.ERROR_MESSAGE);
