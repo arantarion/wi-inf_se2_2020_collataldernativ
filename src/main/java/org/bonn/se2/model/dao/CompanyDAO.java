@@ -90,7 +90,6 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             company2.setUserID(set.getInt("userID"));
             company2.setcompanyID(set.getInt("companyID"));
             company2.setWebURL(set.getString("webURL"));
-            //System.out.println("Company erfolgreich gespeichert!");
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company + " konnte erfoglreich gespeichert werden.");
             return company;
         } else {
