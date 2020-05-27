@@ -62,7 +62,6 @@ public class ProfilControl {
         try {
             if (ProfilView.getMyProfile()) {
                 StudentDAO studentDAO = new StudentDAO();
-                System.out.println(user);
                 Student student = studentDAO.retrieve(user.getEmail());
                 ProfilView.setStudent(student);
             }

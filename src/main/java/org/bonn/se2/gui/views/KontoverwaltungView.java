@@ -97,7 +97,6 @@ public class KontoverwaltungView extends VerticalLayout implements View {
             }
             if ((!pwAlt.getValue().equals("")) && (!pwNeu.getValue().equals("")) && (!pwNeu2.getValue().equals("")) && pwNeu.getValue().equals(pwNeu2.getValue()) && hash(pwAlt.getValue()).equals(passwort)) {
                 addComponent(new Label("Das Passwort wurde erfolgreich geändert."));
-                System.out.println(passwort);
                 //addComponent(startseiteButton);
             } else {
                 addComponent(new Label("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe"));

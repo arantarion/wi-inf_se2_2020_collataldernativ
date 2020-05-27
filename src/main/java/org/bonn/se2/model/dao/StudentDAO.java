@@ -101,7 +101,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             throw new DatabaseException("create(Student student) in StudentDAO failed");
         }
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Student: " + student + " wurde erfolgreich erstellt.");
-        System.out.println(resultSet.getInt(1));
+        //System.out.println(resultSet.getInt(1));
         return retrieve(resultSet.getInt(1));
 
 //        User user = new UserDAO().create(student);
@@ -164,7 +164,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     public Student update(Student updatedItem) throws Exception {
         UserDAO userDAO = new UserDAO();
 
-        System.out.println("update StudentDAO " + updatedItem);
+        //System.out.println("update StudentDAO " + updatedItem);
         userDAO.update(new User(updatedItem.getUsername(), updatedItem.getEmail(), updatedItem.getPasswort(), updatedItem.getImage(), updatedItem.getUserID()));
 
         //language=PostgreSQL

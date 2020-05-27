@@ -135,9 +135,7 @@ public class DeletionView extends VerticalLayout implements View {
                         try {
                             Company comp = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
                             int id = SessionFunctions.getCurrentUser().getUserID();
-                            System.out.println(id);
                             int compID = comp.getcompanyID();
-                            System.out.println(compID);
                             new OfferDAO().deleteCompanyOffers(compID);
                             new CompanyDAO().delete(id);
                             new UserDAO().delete(id);

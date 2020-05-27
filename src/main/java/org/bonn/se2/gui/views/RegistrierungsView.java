@@ -214,7 +214,6 @@ public class RegistrierungsView extends VerticalLayout implements View {
             try {
                 StudentBinder.writeBean(student);
                 student.setAdresse(address);
-                System.out.println(student);
                 StudentDAO studentDAO = new StudentDAO();
                 studentDAO.create(student);
                 setUpStep4();

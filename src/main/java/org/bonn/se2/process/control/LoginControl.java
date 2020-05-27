@@ -49,13 +49,11 @@ public class LoginControl {
 
         try {
             new StudentDAO().retrieve(user.getUserID());
-            System.out.println("Rolle: Student");
             return Configuration.Roles.STUDENT;
 
         } catch (DatabaseException e) {
             try {
                 new CompanyDAO().retrieve(user.getUserID());
-                System.out.println("ROlle Company");
                 return Configuration.Roles.COMPANY;
             } catch (DatabaseException ex) {
                 //TODO Very dirty bugfix

@@ -91,7 +91,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             company2.setUserID(set.getInt("userID"));
             company2.setcompanyID(set.getInt("companyID"));
             company2.setWebURL(set.getString("webURL"));
-            System.out.println("Company erfolgreich gespeichert!");
+            //System.out.println("Company erfolgreich gespeichert!");
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO,"Die Company : " + company + " konnte erfoglreich gespeichert werden.");
             return company;
         } else {
@@ -113,9 +113,9 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
 
     @Override
     protected Company create(ResultSet resultSet) throws DatabaseException {
-        System.out.println("1 zeile");
+        //System.out.println("1 zeile");
         Company dto = new Company();
-        System.out.println("hahaha noobs");
+        //System.out.println("hahaha noobs");
         try {
             dto.setName(resultSet.getString("name"));
             dto.setBeschreibung(resultSet.getString("beschreibung"));

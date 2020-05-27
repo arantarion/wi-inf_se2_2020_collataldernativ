@@ -161,12 +161,12 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             offer.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate());
             offer.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
             offer.setGehalt(resultSet.getString("gehalt"));
-            System.out.println("Offer erfolgreich gespeichert!");
+            //System.out.println("Offer erfolgreich gespeichert!");
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Joboffer-Objekt: " + offer +"wurde erfolgreich gespeichert.");
             return offer;
         } else {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"Joboffer-Objekt: " + dto +"konnte nicht richtig gespeichert werden.");
-            System.out.println("JobOffer-Objekt konnte nicht richtig gespeichert werden!");
+            //System.out.println("JobOffer-Objekt konnte nicht richtig gespeichert werden!");
             return null;
         }
 

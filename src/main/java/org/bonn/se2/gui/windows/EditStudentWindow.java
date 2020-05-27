@@ -34,7 +34,7 @@ public class EditStudentWindow extends Window {
 
     public EditStudentWindow(Student dto) {
         this.student = dto;
-        System.out.println("Student in EDITStudWin " + this.student);
+        //System.out.println("Student in EDITStudWin " + this.student);
         this.setUp();
     }
 
@@ -119,7 +119,7 @@ public class EditStudentWindow extends Window {
 
         if (student.getImage() != null && student.getImage().length > 0) {
             refreshProfilePic(Utils.convertToImg(student.getImage()));
-            System.out.println("Profilbild aktualisiert");
+            //System.out.println("Profilbild aktualisiert");
         } else {
             refreshProfilePic(new Image("", resource));
         }
@@ -238,7 +238,7 @@ public class EditStudentWindow extends Window {
             } else if (pwTf.getValue().equals(pwTf2.getValue())) {
                 studentDTO.setPasswort(pwTf.getValue());
             } else {
-                System.out.println("Hier ist der Fehler");
+                //System.out.println("Hier ist der Fehler");
                 isValid = false;
             }
 
@@ -278,7 +278,7 @@ public class EditStudentWindow extends Window {
 //            a.setAddressid(Session.getCurrentUser().getAddressid());
             studentDTO.setImage(SessionFunctions.getCurrentUser().getImage());
 //    studentDTO.setAddress(a);
-            System.out.println("StudentDTO Class in EDITWIN" + studentDTO);
+            // System.out.println("StudentDTO Class in EDITWIN" + studentDTO);
             try {
                 if (isValid) {
                     StudentDAO add = new StudentDAO();

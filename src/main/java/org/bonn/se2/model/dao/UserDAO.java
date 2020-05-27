@@ -105,8 +105,8 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
                 "WHERE \"userID\" = " + user.getUserID() + " " +
                 "RETURNING *;";
 
-        System.out.println(updateQuery);
-        System.out.println("UserDAO update " + user);
+        //System.out.println(updateQuery);
+        //System.out.println("UserDAO update " + user);
 
         //List<User> result = executePrepared(updateQuery, user.getUsername(), user.getEmail(), user.getPasswort(), user.getImage(), user.getUserID());
         List<User> result = execute(updateQuery);
