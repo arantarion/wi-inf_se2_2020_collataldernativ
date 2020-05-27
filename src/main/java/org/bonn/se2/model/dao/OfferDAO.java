@@ -56,7 +56,6 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate()); //creationDate
                 dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
                 dto.setGehalt(resultSet.getString("gehalt"));
-                System.out.println(dto);
                 liste.add(dto);
             }
         }catch (Exception e) {
@@ -89,7 +88,6 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate()); //creationDate
                 dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
                 dto.setGehalt(resultSet.getString("gehalt"));
-                //System.out.println(dto);
                 liste.add(dto);
             }
         }catch (Exception e) {

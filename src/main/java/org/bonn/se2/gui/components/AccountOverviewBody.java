@@ -118,13 +118,6 @@ public class AccountOverviewBody extends VerticalLayout {
 
             Button offerDeletionButton = new Button("Ausgewählte löschen");
             Button jobofferButton = new Button("Neue Stellenanzeige erstellen");
-            Button kverwaltenButton = new Button("Kontoverwaltung", VaadinIcons.ARROW_CIRCLE_RIGHT);
-
-
-            HorizontalLayout h2 = new HorizontalLayout();
-            this.addComponent(h2);
-            setComponentAlignment(h2, Alignment.TOP_RIGHT);
-            h2.addComponent(kverwaltenButton);
 
             Company comp = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
             int ID = comp.getcompanyID();
@@ -142,7 +135,7 @@ public class AccountOverviewBody extends VerticalLayout {
             grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
             grid.setSizeFull();
             grid.setHeightMode(HeightMode.UNDEFINED);
-            addComponent(grid);
+            layout.addComponent(grid);
 
             selectionModel.addMultiSelectionListener(e -> {
                 Notification.show(e.getAddedSelection().size()
@@ -172,15 +165,23 @@ public class AccountOverviewBody extends VerticalLayout {
                     UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
                 });
             });
-            this.addComponent(jobofferButton);
-            this.addComponent(offerDeletionButton);
-            this.setComponentAlignment(grid, Alignment.TOP_CENTER);
+
+            HorizontalLayout h3 = new HorizontalLayout();
+            addComponent(h3);
+            setComponentAlignment(h3, Alignment.BOTTOM_LEFT);
+            h3.addComponent(jobofferButton);
+            h3.addComponent(offerDeletionButton);
+            offerDeletionButton.setEnabled(false);
+            this.addComponent(h3);
+
+            //this.setComponentAlignment(grid, Alignment.TOP_CENTER);
+
             jobofferButton.addClickListener(e -> {
                 UI.getCurrent().getNavigator().navigateTo(Configuration.Views.OFFERCREATION);
             });
-            kverwaltenButton.addClickListener(e -> {
-                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
-            });
+//            kverwaltenButton.addClickListener(e -> {
+//                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
+//            });
 
         }
     }

@@ -50,8 +50,6 @@ public class BMWView extends VerticalLayout implements View {
         this.addComponent(navigationBar);
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
-        //Button startseiteButton = new Button("Startseite", VaadinIcons.ARROW_CIRCLE_RIGHT);
-        //Button logoutButton = new Button("Logout", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button kverwaltenButton = new Button("Kontoverwaltung", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button jobofferButton = new Button("Neue Stellenanzeige erstellen");
         Button offerDeletionButton = new Button("Ausgewählte löschen");
@@ -59,12 +57,10 @@ public class BMWView extends VerticalLayout implements View {
         HorizontalLayout h = new HorizontalLayout();
         addComponent(h);
         setComponentAlignment(h, Alignment.TOP_LEFT);
-        //h.addComponent(startseiteButton);
 
         HorizontalLayout h2 = new HorizontalLayout();
         addComponent(h2);
         setComponentAlignment(h2, Alignment.TOP_RIGHT);
-        //h2.addComponent(logoutButton);
         h2.addComponent(kverwaltenButton);
 
 

@@ -22,13 +22,13 @@ public class JobOffer {
     public JobOffer(String bereich, String kontakt, String beschreibung) {
         this.bereich = bereich;
         this.kontakt = kontakt;
-        this.beschreibung = beschreibung;
+        this.beschreibung = beschreibung.replace("<br>", "");
     }
 
     public JobOffer(String bereich, String kontakt, String beschreibung, String name, String gehalt, LocalDate beginDate) {
         this.bereich = bereich;
         this.kontakt = kontakt;
-        this.beschreibung = beschreibung;
+        this.beschreibung = beschreibung.replace("<br>", "");
         this.name = name;
         this.gehalt = gehalt;
         this.beginDate = beginDate;
@@ -43,7 +43,7 @@ public class JobOffer {
     }
 
     public void setBeschreibung(String beschreibung) {
-        this.beschreibung = beschreibung;
+        this.beschreibung = beschreibung.replace("<br>", "");
     }
 
     public void setJobofferID(int jobofferID) {
