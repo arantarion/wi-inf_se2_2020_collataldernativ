@@ -94,7 +94,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 dto.setGehalt(resultSet.getString("gehalt"));
                 liste.add(dto);
             }
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Alle offer mit Attribut: " + attribute + "wurden abgerufen");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Alle offer mit Attribut: " + attribute + " wurden abgerufen");
         }catch (Exception e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"retrieveCompanyOffers(int id) in JobOfferDAO failed",e);
             //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
@@ -133,7 +133,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate());
             dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
             dto.setGehalt(resultSet.getString("gehalt"));
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Joboffer-Objekt: " + dto +"wurde erfolgreich erstellt.");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Joboffer-Objekt: " + dto +" wurde erfolgreich erstellt.");
 
         } catch (Exception e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"create(ResultSet resultSet) in JobOfferDAO failed",e);

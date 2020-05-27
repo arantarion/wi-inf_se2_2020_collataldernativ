@@ -105,7 +105,8 @@ public class AccountOverviewHead extends VerticalLayout {
             Link webURL = new Link("Zu unserer Website", new ExternalResource("https://" + company.getWebURL()));
             webURL.setIcon(VaadinIcons.GLOBE_WIRE);
             
-            Label beschreibungLabel = new Label(VaadinIcons.INFO_CIRCLE_O.getHtml() + " " + company.getBeschreibung());
+            //Label beschreibungLabel = new Label(VaadinIcons.INFO_CIRCLE_O.getHtml() + " " + company.getBeschreibung());
+            Label beschreibungLabel = new Label(company.getBeschreibung());
             nameLabel = new Label(company.getName());
 //            if (address != null) {
 //                ortLabel = new Label(VaadinIcons.MAP_MARKER.getHtml() + " " + address.getStadt() + ", " + address.getLand());
