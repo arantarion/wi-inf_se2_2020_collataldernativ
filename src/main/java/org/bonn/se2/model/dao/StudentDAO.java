@@ -34,7 +34,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         final String sql =
                 "SELECT * FROM \"collDB\".user " +
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
-                        "WHERE student.\"userID\" = '" + id + "'";
+                        "WHERE student.\"userID\" = '" + id + "'" + " OR student.\"studentID\" = '" + id + "';";
 
         //List<Student> result = executePrepared(sql, id);
         List<Student> result = execute(sql);
@@ -101,6 +101,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             throw new DatabaseException("create(Student student) in StudentDAO failed");
         }
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO,"Student: " + student + " wurde erfolgreich erstellt.");
+        System.out.println(resultSet.getInt(1));
         return retrieve(resultSet.getInt(1));
 
 //        User user = new UserDAO().create(student);
