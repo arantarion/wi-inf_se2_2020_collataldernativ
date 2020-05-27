@@ -69,8 +69,8 @@ public class MainView extends VerticalLayout implements View {
         Button suche = new Button("Suchen", FontAwesome.SEARCH);
         TextField name = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
-        Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
-        Label role = new Label(SessionFunctions.getCurrentRole());
+        //Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
+        //Label role = new Label(SessionFunctions.getCurrentRole());
 
         //Kalender
 //        InlineDateTimeField sample = new InlineDateTimeField();
@@ -161,8 +161,8 @@ public class MainView extends VerticalLayout implements View {
         });
 
         //Rechts oben
-        horizontalLayout.addComponent(role);
-        horizontalLayout.addComponent(username);
+        //horizontalLayout.addComponent(role);
+        //horizontalLayout.addComponent(username);
 
         //Mitte rechts
         addComponent(h3);
