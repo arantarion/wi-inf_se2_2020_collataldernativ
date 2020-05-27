@@ -5,6 +5,7 @@ import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,7 +21,16 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
 
     @Override
     public JobOffer retrieve(int id) throws Exception {
-        return null;
+        //language=PostgreSQL
+        final String sql =
+                "SELECT * FROM \"collDB\".joboffer " +
+                        "WHERE joboffer.\"jobofferID\" = '" + id + "';";
+
+        List<JobOffer> result = execute(sql);
+        if (result.size() < 1) {
+            throw new InvalidCredentialsException();
+        }
+        return result.get(0);
     }
 
     public List<JobOffer> retrieveCompanyOffers(int id) throws DatabaseException, SQLException {
@@ -130,7 +140,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     public JobOffer create(JobOffer dto) throws Exception {
         //language=PostgreSQL
         String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\", \"creationDate\", \"beginDate\", gehalt) " +
-                "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + dto.getBeginDate() + "', '" + java.sql.Date.valueOf(LocalDate.now()) + "', '"+ dto.getGehalt() + "') " +
+                "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + java.sql.Date.valueOf(LocalDate.now()) + "', '" + dto.getBeginDate() + "', '"+ dto.getGehalt() + "') " +
                 "RETURNING \"jobofferID\"";
         PreparedStatement pst = this.getPreparedStatement(insertQuery2);
         ResultSet resultSet = pst.executeQuery();
@@ -155,12 +165,36 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     }
 
     @Override
-    public JobOffer update(JobOffer item) throws Exception {
+    public JobOffer update(JobOffer offer) throws Exception {
         return null;
     }
 
     @Override
-    public JobOffer delete(JobOffer item) throws Exception {
-        return null;
+    public JobOffer delete(JobOffer offer) throws Exception {
+        //language=PostgreSQL
+        final String deleteQuery =
+                "DELETE FROM \"collDB\".joboffer " +
+                        "WHERE \"jobofferID\" = ? " +
+                        "RETURNING *;";
+
+        List<JobOffer> result = executePrepared(deleteQuery, offer.getJobofferID());
+        if (result.size() < 1) {
+            throw new DatabaseException("delete(User user) failed");
+        }
+        return result.get(0);
+    }
+
+    public List<JobOffer> deleteCompanyOffers(int ID) throws Exception{
+        //language=PostgreSQL
+        final String deleteQuery =
+                "DELETE FROM \"collDB\".joboffer " +
+                        "WHERE \"companyID\" = ? " +
+                        "RETURNING *;";
+
+        List<JobOffer> result = executePrepared(deleteQuery, ID);
+//        if (result.size() < 1) {
+//            throw new DatabaseException("delete(User user) failed");
+//        }
+        return result;
     }
 }
