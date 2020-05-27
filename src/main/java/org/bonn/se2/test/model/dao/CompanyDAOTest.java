@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class CompanyDAOTest2 {
+public class CompanyDAOTest {
 
     static Company company;
     static Company newCompany;
