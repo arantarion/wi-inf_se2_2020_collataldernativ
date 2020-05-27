@@ -213,11 +213,13 @@ public class EditStudentWindow extends Window {
         grid.addComponent(lDocNotice, 0, 11);
         grid.setComponentAlignment(lDocNotice, Alignment.MIDDLE_CENTER);
 
-        Button close = new Button("Schließen");
+        Button delete = new Button("Profil löschen");
         Button submit = new Button("Speichern");
 
-        close.addClickListener((Button.ClickListener) event -> this.setVisible(false)
-        );
+        delete.addClickListener( event -> {
+            UI.getCurrent().removeWindow(this);
+            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
+        });
         //submit.addClickListener((Button.ClickListener) event -> this.setVisible(false));
 
         submit.addClickListener(clickEvent -> {
@@ -309,10 +311,10 @@ public class EditStudentWindow extends Window {
         });
 
         HorizontalLayout buttons = new HorizontalLayout();
-        buttons.addComponent(close);
+        buttons.addComponent(delete);
         buttons.addComponent(submit);
         grid.addComponent(buttons, 3, 20);
-        buttons.setComponentAlignment(close, Alignment.MIDDLE_RIGHT);
+        buttons.setComponentAlignment(delete, Alignment.MIDDLE_RIGHT);
         buttons.setComponentAlignment(submit, Alignment.MIDDLE_RIGHT);
 
     }

@@ -66,8 +66,6 @@ public class MainView extends VerticalLayout implements View {
         HorizontalLayout h3 = new HorizontalLayout();
 
         //Erzeugung der Variablen
-        Button profilButton = new Button("Profil", FontAwesome.AUTOMOBILE);
-        Button logoutButton = new Button("Logout", FontAwesome.COFFEE);
         Button suche = new Button("Suchen", FontAwesome.SEARCH);
         TextField name = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
@@ -165,31 +163,12 @@ public class MainView extends VerticalLayout implements View {
         //Rechts oben
         horizontalLayout.addComponent(role);
         horizontalLayout.addComponent(username);
-        horizontalLayout.addComponent(profilButton);
-        horizontalLayout.addComponent(logoutButton);
-        horizontalLayout.setComponentAlignment(logoutButton, Alignment.TOP_RIGHT);
 
         //Mitte rechts
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
         //h3.addComponent(sample);
 
-
-
-
-        profilButton.addClickListener(e -> {
-            if((SessionFunctions.getCurrentRole()).equals("student")){
-                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.PROFIL);
-            }
-            if((SessionFunctions.getCurrentRole()).equals("company")){
-                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.COMPPROFIL);
-            }
-
-        });
-
-        logoutButton.addClickListener(e -> {
-            LoginControl.logoutUser();
-        });
 
 
     }

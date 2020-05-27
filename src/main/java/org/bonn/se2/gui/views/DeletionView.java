@@ -146,6 +146,8 @@ public class DeletionView extends VerticalLayout implements View {
                         }
                         LoginControl.logoutUser();
                     }
+                }else{
+                    Notification.show("Das Passwort ist nicht korrekt.", Notification.Type.ERROR_MESSAGE);
                 }
             });
         });

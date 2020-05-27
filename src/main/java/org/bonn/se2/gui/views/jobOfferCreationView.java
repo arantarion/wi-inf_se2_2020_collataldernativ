@@ -29,9 +29,6 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         this.addComponent(navigationBar);
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
-        //Button startseiteButton = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        //Button logoutButton = new Button("Logout", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button kverwaltenButton = new Button("Kontoverwaltung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
         Button speicherButton = new Button("Speichern");
 
         TextField bereich;
@@ -43,21 +40,6 @@ public class jobOfferCreationView extends VerticalLayout implements View {
 
         Company liste = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
         int ID = liste.getcompanyID();
-
-        HorizontalLayout h = new HorizontalLayout();
-        addComponent(h);
-        setComponentAlignment(h, Alignment.TOP_LEFT);
-        //h.addComponent(startseiteButton);
-
-        HorizontalLayout h2 = new HorizontalLayout();
-        addComponent(h2);
-        setComponentAlignment(h2, Alignment.TOP_RIGHT);
-        //h2.addComponent(logoutButton);
-        h2.addComponent(kverwaltenButton);
-
-        HorizontalLayout h3 = new HorizontalLayout();
-        addComponent(h3);
-        setComponentAlignment(h3, Alignment.BOTTOM_LEFT);
 
         Panel panel = new Panel("Stellenangebot Einstellen");
         panel.setSizeUndefined();
@@ -81,10 +63,6 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         HorizontalLayout h4 = new HorizontalLayout();
         addComponent(h4);
         setComponentAlignment(h4, Alignment.BOTTOM_RIGHT);
-
-        kverwaltenButton.addClickListener(e -> {
-            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
-        });
 
         speicherButton.addClickListener(e -> {
             try {
