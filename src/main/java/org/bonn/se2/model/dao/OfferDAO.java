@@ -31,7 +31,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         if (result.size() < 1) {
             throw new InvalidCredentialsException();
         }
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"Das Joboffer-Objekt mit der jobofferID: " + id + " wurde abgerufen.");
+        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Das Joboffer-Objekt mit der jobofferID: " + id + " wurde abgerufen.");
         return result.get(0);
     }
 
@@ -60,7 +60,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 dto.setGehalt(resultSet.getString("gehalt"));
                 liste.add(dto);
             }
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"Alle offer mit der companyID: " + id + " wurden abgerufen");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Alle offer mit der companyID: " + id + " wurden abgerufen");
         }catch (Exception e) {
             //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"retrieveCompanyOffers(int id) in JobOfferDAO failed",e);
@@ -94,7 +94,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 dto.setGehalt(resultSet.getString("gehalt"));
                 liste.add(dto);
             }
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"Alle offer mit Attribut: " + attribute + "wurden abgerufen");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Alle offer mit Attribut: " + attribute + "wurden abgerufen");
         }catch (Exception e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"retrieveCompanyOffers(int id) in JobOfferDAO failed",e);
             //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
@@ -115,7 +115,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
                 "JOIN \"collDB\".company ON joboffer.\"companyID\" = company.\"companyID\"";
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"Alle Joboffer wurden abgerufen.");
+        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Alle Joboffer wurden abgerufen.");
         return execute(insert);
     }
 
@@ -133,7 +133,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate());
             dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
             dto.setGehalt(resultSet.getString("gehalt"));
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"Joboffer-Objekt: " + dto +"wurde erfolgreich erstellt.");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Joboffer-Objekt: " + dto +"wurde erfolgreich erstellt.");
 
         } catch (Exception e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"create(ResultSet resultSet) in JobOfferDAO failed",e);
@@ -162,7 +162,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             offer.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
             offer.setGehalt(resultSet.getString("gehalt"));
             System.out.println("Offer erfolgreich gespeichert!");
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"Joboffer-Objekt: " + offer +"wurde erfolgreich gespeichert.");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"Joboffer-Objekt: " + offer +"wurde erfolgreich gespeichert.");
             return offer;
         } else {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"Joboffer-Objekt: " + dto +"konnte nicht richtig gespeichert werden.");
@@ -186,7 +186,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                         "RETURNING *;";
 
         List<JobOffer> result = executePrepared(deleteQuery, offer.getJobofferID());
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"CompanyOffer : " + offer + "wurde gelöscht.");
+        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"CompanyOffer : " + offer + "wurde gelöscht.");
         if (result.size() < 1) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"delete(Joboffer offer) von "+ offer +  " failed.");
             throw new DatabaseException("delete(Joboffer offer) failed");
@@ -201,7 +201,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                         "WHERE \"jobofferID\" = ? " +
                         "RETURNING *;";
 
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"CompanyOffer mit der jobOfferID: " + id + "wurde gelöscht.");
+        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"CompanyOffer mit der jobOfferID: " + id + "wurde gelöscht.");
     }
 
     public List<JobOffer> deleteCompanyOffers(int ID) throws Exception{
@@ -215,7 +215,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
 //        if (result.size() < 1) {
 //            throw new DatabaseException("delete(User user) failed");
 //        }
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE,"CompanyOffers mit der companyID: " + ID + "wurden gelöscht.");
+        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO,"CompanyOffers mit der companyID: " + ID + "wurden gelöscht.");
         return result;
     }
 }
