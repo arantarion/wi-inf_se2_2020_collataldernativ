@@ -55,7 +55,7 @@ public class EditStudentWindow extends Window {
 
         Label emailLabel = new Label("E-Mail-Adresse");
         TextField emailTf = new TextField();
-        emailTf.setValue(this.student.getEmail());
+        emailTf.setPlaceholder(this.student.getEmail());
         emailTf.setWidth("100%");
         grid.addComponent(emailLabel, 0, 1);
         grid.addComponent(emailTf, 1, 1, 3, 1);
@@ -100,8 +100,8 @@ public class EditStudentWindow extends Window {
         Label fachsemester = new Label("Fachsemester");
         TextField fachsemesterTF = new TextField();
         fachsemesterTF.setPlaceholder("Keine Angaben vorhanden");
-        if (this.student.getFachsemester() != null && !(Integer.toString(this.student.getFachsemester()).isEmpty())) {
-            fachsemesterTF.setValue(Integer.toString(student.getFachsemester()));
+        if (this.student.getFachsemester() != null && !(Integer.toString(this.student.getFachsemester()).isEmpty()) && !(this.student.getFachsemester() == 0)) {
+            fachsemesterTF.setPlaceholder(Integer.toString(student.getFachsemester()));
         }
         fachsemesterTF.setWidth("100%");
         grid.addComponent(fachsemester, 0, 4);
