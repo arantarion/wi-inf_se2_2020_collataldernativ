@@ -44,10 +44,10 @@ public class NavigationBar extends HorizontalLayout {
         };
 
         if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT)) {
-            MenuBar.MenuItem profile = menuBar.addItem("Mein Profil", userProfile);
+            MenuBar.MenuItem profile = menuBar.addItem("Mein Profil verwalten", userProfile);
             profile.setIcon(VaadinIcons.USER);
         } else {
-            MenuBar.MenuItem profile = menuBar.addItem("Mein Profil - Company", companyProfile);
+            MenuBar.MenuItem profile = menuBar.addItem("Mein Profil verwalten", companyProfile);
             profile.setIcon(VaadinIcons.USER);
         }
 

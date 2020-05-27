@@ -103,6 +103,7 @@ public class AccountOverviewHead extends VerticalLayout {
             address = company.getAdresse();
             
             Link webURL = new Link("Zu unserer Website", new ExternalResource("https://" + company.getWebURL()));
+            webURL.setTargetName("_blank");
             webURL.setIcon(VaadinIcons.GLOBE_WIRE);
             
             //Label beschreibungLabel = new Label(VaadinIcons.INFO_CIRCLE_O.getHtml() + " " + company.getBeschreibung());

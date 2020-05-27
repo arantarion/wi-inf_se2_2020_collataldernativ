@@ -71,10 +71,17 @@ public class ProfilView extends VerticalLayout implements View {
 
         this.setSizeFull();
 
-        layout = new GridLayout(1, 2);
+        layout = new GridLayout(1, 3); //
         layout.setSpacing(true);
         layout.setSizeFull();
         this.addComponent(layout);
+
+        layout.setColumnExpandRatio(0, 0.5f);
+
+        NavigationBar navigationBar = new NavigationBar();
+        navigationBar.setHeight("10%");
+        layout.addComponent(navigationBar, 0, 0);
+        layout.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
         if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT) && ProfilView.getMyProfile()) {
             setUpStudent();
@@ -89,13 +96,13 @@ public class ProfilView extends VerticalLayout implements View {
         headerLayout.setWidth("100%");
         AccountOverviewHead headStudent = new AccountOverviewHead(ProfilView.getStudent());
         headerLayout.addComponent(headStudent);
-        layout.addComponent(headerLayout, 0, 0);
+        layout.addComponent(headerLayout, 0, 1);
 
         HorizontalLayout bodyLayout = new HorizontalLayout();
         bodyLayout.setWidth("100%");
         AccountOverviewBody bodyStudent = new AccountOverviewBody(ProfilView.getStudent());
         bodyLayout.addComponent(bodyStudent);
-        layout.addComponent(bodyLayout, 0, 1);
+        layout.addComponent(bodyLayout, 0, 2);
 
     }
 
@@ -105,13 +112,13 @@ public class ProfilView extends VerticalLayout implements View {
         headerLayout.setWidth("100%");
         AccountOverviewHead headCompany = new AccountOverviewHead(ProfilView.getCompany());
         headerLayout.addComponent(headCompany);
-        layout.addComponent(headerLayout, 0, 0);
+        layout.addComponent(headerLayout, 0, 1);
 
         HorizontalLayout bodyLayout = new HorizontalLayout();
         bodyLayout.setWidth("100%");
         AccountOverviewBody bodyCompany = new AccountOverviewBody(ProfilView.getCompany());
         bodyLayout.addComponent(bodyCompany);
-        layout.addComponent(bodyLayout, 0, 1);
+        layout.addComponent(bodyLayout, 0, 2);
 
     }
 }
