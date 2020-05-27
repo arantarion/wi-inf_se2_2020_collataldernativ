@@ -57,7 +57,7 @@ public class EditCompanyWindow extends Window {
 
         GridLayout grid = new GridLayout(4, 32);
         verticalLayout.addComponent(grid);
-        grid.setWidth("100%");
+        grid.setWidth("95%");
         grid.setColumnExpandRatio(0, 1);
         grid.setColumnExpandRatio(1, 2);
         grid.setColumnExpandRatio(2, 1);
@@ -76,6 +76,7 @@ public class EditCompanyWindow extends Window {
         nameField.setPlaceholder(company.getName());
         grid.addComponent(nameLabel, 0, 1, 1, 1);
         grid.addComponent(nameField, 2, 1, 3, 1);
+        nameField.setWidth("90%");
         grid.setComponentAlignment(nameLabel, Alignment.MIDDLE_CENTER);
 
         grid.addComponent(new Label("&nbsp;", ContentMode.HTML), 0, 2);
@@ -103,7 +104,7 @@ public class EditCompanyWindow extends Window {
 
         Label websiteLabel = new Label("Website", ContentMode.HTML);
         TextField websiteField = new TextField();
-        websiteField.setValue(company.getWebURL());
+        websiteField.setPlaceholder(company.getWebURL());
         grid.addComponent(websiteLabel, 2, 6);
         grid.addComponent(websiteField, 2, 7, 3, 7);
         websiteField.setWidth("90%");
@@ -130,8 +131,7 @@ public class EditCompanyWindow extends Window {
 
         grid.addComponent(new Label("&nbsp;", ContentMode.HTML), 0, 13);
 
-
-        Label addressLabel = new Label("ADDRESSE", ContentMode.HTML);
+        Label addressLabel = new Label("Adresse", ContentMode.HTML);
         grid.addComponent(addressLabel, 0, 14, 3, 14);
 
         grid.addComponent(new Label("&nbsp;", ContentMode.HTML), 0, 15);

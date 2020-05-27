@@ -46,7 +46,7 @@ $v-font-color: #32373a;
     max-width: 200px;
     margin: 15px 15px 0 0;
     height: auto;
-    overflow: hidden;
+    overflow: hidden !important;
     border: #32373a;
   }
 
@@ -62,9 +62,11 @@ $v-font-color: #32373a;
   .profileview-gridlayout .v-gridlayout-spacing-on {
     height: 10px;
   }
+
   .profileview .profileImages {
     border-radius: 3px;
   }
+
   .profile-components {
     background: #fff;
     color: #32373a;
@@ -77,6 +79,7 @@ $v-font-color: #32373a;
   span.v-icon {
     margin-right: 5px;
   }
+
   .profile-components .v-icon {
     color: #0072C6;
   }

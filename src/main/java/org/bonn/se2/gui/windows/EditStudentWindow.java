@@ -319,14 +319,15 @@ public class EditStudentWindow extends Window {
 
     }
 
-    public static void refreshProfilePic(Image imgage) {
-        if (imgage != null) {
-            profilbild = imgage;
+    public static void refreshProfilePic(Image image) {
+        if (image != null) {
+            profilbild = image;
             profilbild.setCaption("");
         }
         profilbild.setWidth("200px");
         profilBildPanel.setContent(profilbild);
         profilBildPanel.setWidth("200px");
+        profilBildPanel.addStyleName("profilepicpanel");
     }
 
 }
