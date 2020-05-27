@@ -6,8 +6,10 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.CompanyDAO;
+import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.UserDAO;
+import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
@@ -114,6 +116,7 @@ public class DeletionView extends VerticalLayout implements View {
                 if(hash(passwd.getValue()).equals(passwort)){
                     try {
                         ID = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getUserID();
+
                     } catch (DatabaseException databaseException) {
                         databaseException.printStackTrace();
                     } catch (InvalidCredentialsException invalidCredentialsException) {
@@ -130,8 +133,14 @@ public class DeletionView extends VerticalLayout implements View {
                     }
                     if(SessionFunctions.getCurrentRole().equals("company")){
                         try {
-                            new CompanyDAO().delete(ID);
-                            new UserDAO().delete(ID);
+                            Company comp = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
+                            int id = SessionFunctions.getCurrentUser().getUserID();
+                            System.out.println(id);
+                            int compID = comp.getcompanyID();
+                            System.out.println(compID);
+                            new OfferDAO().deleteCompanyOffers(compID);
+                            new CompanyDAO().delete(id);
+                            new UserDAO().delete(id);
                         } catch (Exception exception) {
                             exception.printStackTrace();
                         }

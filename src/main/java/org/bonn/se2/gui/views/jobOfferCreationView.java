@@ -9,9 +9,10 @@ import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
-import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
+
+import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 public class jobOfferCreationView extends VerticalLayout implements View {
 
@@ -66,10 +67,10 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         FormLayout content = new FormLayout();
         content.addComponent(bereich = new TextField("Bereich:"));
         content.addComponent(kontakt = new TextField("Kontakt:"));
-        content.addComponent(beschreibung = new RichTextArea("Beschreibung"));
-        content.addComponent(name = new TextField("Name"));
-        content.addComponent(gehalt = new TextField("Gehalt"));
-        content.addComponent(beginDate = new DateField("Start Datum"));
+        content.addComponent(beschreibung = new RichTextArea("Beschreibung:"));
+        content.addComponent(name = new TextField("Name (Optional):"));
+        content.addComponent(gehalt = new TextField("Gehalt (Optional):"));
+        content.addComponent(beginDate = new DateField("Start Datum (Optional):"));
         content.addComponent(speicherButton);
         content.setSizeUndefined();
 
@@ -81,24 +82,20 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         addComponent(h4);
         setComponentAlignment(h4, Alignment.BOTTOM_RIGHT);
 
-//        startseiteButton.addClickListener(e -> {
-//            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
-//        });
-//
-//        logoutButton.addClickListener(e -> {
-//            LoginControl.logoutUser();
-//        });
-
         kverwaltenButton.addClickListener(e -> {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
         });
 
         speicherButton.addClickListener(e -> {
             try {
-                JobOffer dto = new JobOffer(bereich.getValue(), kontakt.getValue(), beschreibung.getValue(), name.getValue(), gehalt.getValue(), beginDate.getValue());
-                dto.setCompanyID(ID);
-                System.out.println(dto);
-                new OfferDAO().create(dto);
+                if ((!bereich.getValue().equals("")) && !kontakt.getValue().equals("") && !beschreibung.getValue().equals("")) {
+                    JobOffer dto = new JobOffer(bereich.getValue(), kontakt.getValue(), beschreibung.getValue(), name.getValue(), gehalt.getValue(), beginDate.getValue());
+                    dto.setCompanyID(ID);
+                    UI.getCurrent().getNavigator().navigateTo(Configuration.Views.COMPPROFIL);
+                    new OfferDAO().create(dto);
+                } else {
+                    addComponent(new Label("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe"));
+                }
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
