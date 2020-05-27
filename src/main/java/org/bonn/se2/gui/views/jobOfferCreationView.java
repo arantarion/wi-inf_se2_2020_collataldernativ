@@ -68,9 +68,9 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         content.addComponent(bereich = new TextField("Bereich:"));
         content.addComponent(kontakt = new TextField("Kontakt:"));
         content.addComponent(beschreibung = new RichTextArea("Beschreibung:"));
-        content.addComponent(name = new TextField("Name (Optional):"));
+        content.addComponent(name = new TextField("Name:"));
         content.addComponent(gehalt = new TextField("Gehalt (Optional):"));
-        content.addComponent(beginDate = new DateField("Start Datum (Optional):"));
+        content.addComponent(beginDate = new DateField("Start Datum:"));
         content.addComponent(speicherButton);
         content.setSizeUndefined();
 

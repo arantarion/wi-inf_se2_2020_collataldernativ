@@ -7,6 +7,7 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.datefield.DateTimeResolution;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.model.dao.OfferDAO;
@@ -108,6 +109,7 @@ public class MainView extends VerticalLayout implements View {
             e.printStackTrace();
         }
         grid.setItems(liste);
+        MultiSelectionModel<JobOffer> selectionModel = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
         grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
@@ -130,6 +132,7 @@ public class MainView extends VerticalLayout implements View {
                     ex.printStackTrace();
                 }
                 grid.setItems(liste2);
+                MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
                 grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
                 grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
                 grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
@@ -147,6 +150,7 @@ public class MainView extends VerticalLayout implements View {
                     ex.printStackTrace();
                 }
                 grid.setItems(liste3);
+                MultiSelectionModel<JobOffer> selectionModel3 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
                 grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
                 grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
                 grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");

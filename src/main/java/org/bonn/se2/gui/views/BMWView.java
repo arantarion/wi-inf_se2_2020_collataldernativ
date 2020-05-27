@@ -7,6 +7,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
@@ -20,7 +21,9 @@ import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author Coll@Aldernativ
@@ -51,6 +54,7 @@ public class BMWView extends VerticalLayout implements View {
         //Button logoutButton = new Button("Logout", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button kverwaltenButton = new Button("Kontoverwaltung", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button jobofferButton = new Button("Neue Stellenanzeige erstellen");
+        Button offerDeletionButton = new Button("Ausgewählte löschen");
 
         HorizontalLayout h = new HorizontalLayout();
         addComponent(h);
@@ -74,6 +78,7 @@ public class BMWView extends VerticalLayout implements View {
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste =  new OfferDAO().retrieveCompanyOffers(ID);
         grid.setItems(liste);
+        MultiSelectionModel<JobOffer> selectionModel = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
         grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
@@ -85,6 +90,36 @@ public class BMWView extends VerticalLayout implements View {
         grid.setHeightMode(HeightMode.UNDEFINED);
         addComponent(grid);
 
+        selectionModel.addMultiSelectionListener(e -> {
+            Notification.show(e.getAddedSelection().size()
+                    + " items added, "
+                    + e.getRemovedSelection().size()
+                    + " removed.");
+
+           offerDeletionButton.setEnabled(e.getNewSelection().size() > 0);
+            offerDeletionButton.addClickListener(d -> {
+                Set<JobOffer> list = e.getAllSelectedItems();
+                List<JobOffer> s = new ArrayList<>(list);
+                for(int i = 0; i< s.size(); i++){
+                    try {
+                        new OfferDAO().delete(s.get(i).getJobofferID());
+                    } catch (Exception exception) {
+                        exception.printStackTrace();
+                    }
+                }
+                grid.removeAllColumns();
+                try {
+                    List<JobOffer> liste2 =  new OfferDAO().retrieveCompanyOffers(ID);
+                } catch (DatabaseException databaseException) {
+                    databaseException.printStackTrace();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
+            });
+        });
+
+
         FormLayout content = new FormLayout();
         content.setSizeUndefined();
         content.setMargin(true);
@@ -94,15 +129,9 @@ public class BMWView extends VerticalLayout implements View {
         addComponent(h3);
         setComponentAlignment(h3, Alignment.BOTTOM_LEFT);
         h3.addComponent(jobofferButton);
+        h3.addComponent(offerDeletionButton);
+        offerDeletionButton.setEnabled(false);
 
-
-//        startseiteButton.addClickListener(e -> {
-//            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
-//        });
-//
-//        logoutButton.addClickListener(e -> {
-//            LoginControl.logoutUser();
-//        });
 
         kverwaltenButton.addClickListener(e -> {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);

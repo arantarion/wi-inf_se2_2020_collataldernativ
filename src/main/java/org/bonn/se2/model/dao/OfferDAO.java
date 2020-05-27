@@ -184,6 +184,16 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         return result.get(0);
     }
 
+    public void delete(int id) throws Exception {
+        //language=PostgreSQL
+        final String deleteQuery =
+                "DELETE FROM \"collDB\".joboffer " +
+                        "WHERE \"jobofferID\" = ? " +
+                        "RETURNING *;";
+
+        List<JobOffer> result = executePrepared(deleteQuery, id);
+    }
+
     public List<JobOffer> deleteCompanyOffers(int ID) throws Exception{
         //language=PostgreSQL
         final String deleteQuery =

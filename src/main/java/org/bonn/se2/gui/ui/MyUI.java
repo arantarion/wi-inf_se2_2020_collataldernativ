@@ -13,7 +13,6 @@ import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
 
 import javax.servlet.annotation.WebServlet;
-import java.sql.PreparedStatement;
 
 /**
  * The Main UI class of the project this will get started
