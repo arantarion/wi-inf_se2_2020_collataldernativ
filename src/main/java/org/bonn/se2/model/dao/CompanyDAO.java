@@ -129,8 +129,8 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             //dto.setAdresse(address);
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + dto + " konnte erfolgreich gespeichert werden.");
         } catch (SQLException e) {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in CompanyDAO failed");
-            throw new DatabaseException("create(ResultSet resultSet) in CompanyDAO failed");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in CompanyDAO failed",e);
+            //throw new DatabaseException("create(ResultSet resultSet) in CompanyDAO failed");
         }
         return dto;
     }
