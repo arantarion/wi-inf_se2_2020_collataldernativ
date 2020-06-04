@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 /**
  * @version 0.1a
  * @author Coll@Aldernativ
- * @Programmer
+ * @Programmer Henry Weckermann
  */
 
 public class CryptoFunctionsTest {
