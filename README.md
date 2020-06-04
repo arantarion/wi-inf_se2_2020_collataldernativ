@@ -130,5 +130,5 @@ TODO
 TODO
 
 <h2>Status</h2>
-Sprint 1 - 30.04 bis 28.05 <br>
-Spring 2 - ? bis ?
+Sprint 1 - 30.04.2020 bis 28.05.2020 -- Abgeschlossen -- <br>
+Spring 2 - 04.06.2020 bis 02.07.2020 -- In Progrss --   
