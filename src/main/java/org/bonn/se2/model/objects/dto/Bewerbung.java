@@ -14,6 +14,17 @@ public class Bewerbung {
     private int bewerbung;
     private String notes;
 
+    public Bewerbung(int bewerbungsID, int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum, int lebenslauf, int bewerbung, String notes) {
+        this.bewerbungsID = bewerbungsID;
+        this.jobofferID = jobofferID;
+        this.companyID = companyID;
+        this.studentID = studentID;
+        this.bewerbungsdatum = bewerbungsdatum;
+        this.lebenslauf = lebenslauf;
+        this.bewerbung = bewerbung;
+        this.notes = notes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
