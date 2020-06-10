@@ -85,7 +85,7 @@ public class MainView extends VerticalLayout implements View {
             e.printStackTrace();
         }
         grid.setItems(liste);
-        MultiSelectionModel<JobOffer> selectionModel = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
+        grid.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
         grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
