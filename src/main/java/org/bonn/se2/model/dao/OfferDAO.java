@@ -114,8 +114,6 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
 
     @Override
     public List<JobOffer> retrieveAll() throws Exception {
-        Statement statement = this.getStatement();
-        ResultSet resultSet = null;
         //language=PostgreSQL
         String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +

@@ -3,6 +3,12 @@ package org.bonn.se2.model.objects.dto;
 import java.time.LocalDate;
 import java.util.Objects;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Anton Drees
+ */
+
 public class Bewerbung {
 
     private int bewerbungsID;
@@ -13,6 +19,10 @@ public class Bewerbung {
     private int lebenslauf;
     private int bewerbung;
     private String notes;
+
+    public Bewerbung(){
+
+    }
 
     public Bewerbung(int bewerbungsID, int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum, int lebenslauf, int bewerbung, String notes) {
         this.bewerbungsID = bewerbungsID;
