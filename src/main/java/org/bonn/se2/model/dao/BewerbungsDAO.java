@@ -114,4 +114,14 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         }
         return result.get(0);
     }
+
+    public Bewerbung delete(int bewerbungsID) throws Exception{
+        //language=PostgreSQL
+        final String deleteQuery = "DELETE FROM \"collDB\".bewerbung WHERE \"bewerbungsID\" = " + bewerbungsID + " RETURNING *";
+        List<Bewerbung> result = execute(deleteQuery);
+        if (result.size() < 1){
+            throw new DatabaseException("delete(int bewerbungsID) failed");
+        }
+        return result.get(0);
+    }
 }
