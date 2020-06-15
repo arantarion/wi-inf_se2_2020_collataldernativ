@@ -6,10 +6,13 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
+import org.bonn.se2.gui.windows.SendCanditureWindow;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.objects.dto.JobOffer;
+import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
@@ -22,6 +25,8 @@ import java.util.List;
  */
 
 public class MainView extends VerticalLayout implements View {
+	
+	protected JobOffer selectedJobOffer = null;
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -76,6 +81,29 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayout1.addComponent(name);
         horizontalLayout1.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
         horizontalLayout1.addComponent(suche);
+        
+        final Button bewerbenJetzt = new Button("Direkt zur Bewerbung");
+        bewerbenJetzt.setEnabled(false);
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
+        	bewerbenJetzt.setVisible(false);
+        }
+        
+        bewerbenJetzt.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				
+		        
+				
+				if (MainView.this.selectedJobOffer == null) {
+	        		return;
+	        	} else {
+	            	Window swap = new SendCanditureWindow(selectedJobOffer);
+	            	UI.getCurrent().addWindow(swap);
+	        	}
+				
+			}
+		});
 
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste = null;
@@ -136,6 +164,17 @@ public class MainView extends VerticalLayout implements View {
                 grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
             }
         });
+        
+        grid.addSelectionListener(event -> {
+        	if (event.getFirstSelectedItem().isPresent()) {
+        		selectedJobOffer = (event.getFirstSelectedItem().get());
+        		bewerbenJetzt.setEnabled(true);
+        	} else {
+        		return;
+        		
+        	}
+        	
+        });
 
         //Rechts oben
         //horizontalLayout.addComponent(role);
@@ -144,6 +183,11 @@ public class MainView extends VerticalLayout implements View {
         //Mitte rechts
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
+        
+        
+       
+        
+        addComponent(bewerbenJetzt);
         //h3.addComponent(sample);
     }
 
