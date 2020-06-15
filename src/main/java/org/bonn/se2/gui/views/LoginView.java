@@ -8,6 +8,8 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
+import org.bonn.se2.gui.windows.SendCanditureWindow;
+import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
 import org.bonn.se2.process.control.LoginControl;
@@ -30,11 +32,12 @@ public class LoginView extends VerticalLayout implements View {
         if (user != null) {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
         }
-
+        
         this.setUp();
     }
 
     private void setUp() {
+    	
 
         this.setSizeFull();
 
@@ -48,6 +51,8 @@ public class LoginView extends VerticalLayout implements View {
 
         VerticalLayout layout = new VerticalLayout();
         layout.addComponents(userLogin, passwd);
+        
+        
 
         Panel panel = new Panel("Bitte Login Daten angeben:");
 
