@@ -2,13 +2,15 @@ package org.bonn.se2.test.control;
 
 import com.vaadin.server.VaadinSession;
 import com.vaadin.ui.UI;
+import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
 import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+//import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -42,6 +44,7 @@ public class LoginControlTest {
     @Test public void testLogin () throws InvalidCredentialsException, DatabaseException {
         UserAtLogin dto = new UserAtLogin("kpierz2s", "Test1234");
         LoginControl.checkAuthentication(dto);
+        assertEquals(LoginControl.getRole(dto), Configuration.Roles.STUDENT);
     }
 
     //negativ Test
@@ -49,15 +52,15 @@ public class LoginControlTest {
         UserAtLogin dto = new UserAtLogin("", "");
         assertThrows(InvalidCredentialsException.class, () -> LoginControl.checkAuthentication(dto));
     }
-    /*
-    @Test
-    void getRole() {
+
+    /*@Test
+    public void getRole() {
         UserAtLogin studentDto = new UserAtLogin("HenryW", "123456");
         UserAtLogin companyDto = new UserAtLogin("TestCompany", "123456");
 
         assertEquals(LoginControl.getRole(companyDto), Configuration.Roles.COMPANY);
         assertEquals(LoginControl.getRole(studentDto), Configuration.Roles.STUDENT);
     }
+    */
 
-     */
 }
