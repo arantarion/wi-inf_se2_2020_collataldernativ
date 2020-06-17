@@ -58,7 +58,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
                 offer.setJobofferID(resultSet.getInt("jobofferID"));
                 offer.setCompanyID(resultSet.getInt("companyID"));
                 offer.setStudentID(resultSet.getInt("studentID"));
-                offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatem").getTime()).toLocalDate());
+                offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
                 offer.setLebenslauf(resultSet.getInt("lebenslauf"));
                 offer.setBewerbung(resultSet.getInt("bewerbung"));
                 offer.setNotes(resultSet.getString("notes"));
@@ -100,7 +100,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             offer.setJobofferID(resultSet.getInt("jobofferID"));
             offer.setCompanyID(resultSet.getInt("companyID"));
             offer.setStudentID(resultSet.getInt("studentID"));
-            offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatem").getTime()).toLocalDate());
+            offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
             offer.setLebenslauf(resultSet.getInt("lebenslauf"));
             offer.setBewerbung(resultSet.getInt("bewerbung"));
             offer.setNotes(resultSet.getString("notes"));
@@ -120,7 +120,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             dto.setJobofferID(resultSet.getInt("jobofferID"));
             dto.setCompanyID(resultSet.getInt("companyID"));
             dto.setStudentID(resultSet.getInt("studentID"));
-            dto.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatem").getTime()).toLocalDate());
+            dto.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
             dto.setLebenslauf(resultSet.getInt("lebenslauf"));
             dto.setBewerbung(resultSet.getInt("bewerbung"));
             dto.setNotes(resultSet.getString("notes"));
