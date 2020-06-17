@@ -5,6 +5,7 @@ import org.bonn.se2.model.objects.dto.Document;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
 import java.util.logging.Level;
@@ -43,19 +44,53 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
 
     @Override
     public List<Document> retrieveAll() throws Exception {
+        //language=PostgreSQL
         final String sql = "SELECT * FROM \"collDB\".file";
         Logger.getLogger(DocumentDAO.class.getName()).log(Level.INFO, "Alle Documents wurden abgerufen.");
         return execute(sql);
     }
 
     @Override
-    public Document create(Document dto) throws Exception {
-        return null;
+    public Document create(Document file) throws Exception {
+        //language=PostgreSQL
+        String sql = "INSERT INTO \"collDB\".file (\"fileID\", title, \"userID\", \"uploadDatum\", file, \"desc\") " +
+                "VALUES ('" + file.getDocumentID() + "','" + file.getTitle() +
+                "','" + file.getUserID() + "', '" + file.getDate() +
+                "', '" + file.getFile() + "', '" + file.getDesc() + "') " +
+                "RETURNING \"fileID\"";
+        PreparedStatement pst = this.getPreparedStatement(sql);
+        ResultSet resultSet = pst.executeQuery();
+        if (resultSet.next()) {
+            Document dto = new Document();
+            dto.setDocumentID(resultSet.getInt("fileID"));
+            dto.setTitle(resultSet.getString("title"));
+            dto.setUserID(resultSet.getInt("userID"));
+            dto.setDate(new java.sql.Date(resultSet.getDate("uploadDatum").getTime()).toLocalDate());
+            dto.setFile(resultSet.getBytes("file"));
+            dto.setDesc(resultSet.getString("desc"));
+            Logger.getLogger(DocumentDAO.class.getName()).log(Level.INFO, "Document-Objekt: " + file + "wurde erfolgreich gespeichert.");
+            return dto;
+        } else {
+            Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, "Document-Objekt: " + file + "konnte nicht richtig gespeichert werden.");
+            return null;
+        }
     }
 
     @Override
     protected Document create(ResultSet resultSet) throws DatabaseException {
-        return null;
+        Document file = new Document();
+        try{
+            file.setDocumentID(resultSet.getInt("fileID"));
+            file.setTitle(resultSet.getString("title"));
+            file.setUserID(resultSet.getInt("userID"));
+            file.setDate(new java.sql.Date(resultSet.getDate("uploadDatum").getTime()).toLocalDate());
+            file.setFile(resultSet.getBytes("file"));
+            file.setDesc(resultSet.getString("desc"));
+            Logger.getLogger(DocumentDAO.class.getName()).log(Level.INFO, "Document-Objekt: " + file + "wurde erfolgreich gespeichert.");
+        }catch (Exception e){
+            Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultSet) in DocumentDAO failed", e);
+        }
+        return file;
     }
 
     @Override
