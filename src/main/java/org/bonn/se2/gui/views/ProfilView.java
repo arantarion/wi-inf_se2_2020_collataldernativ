@@ -2,10 +2,7 @@ package org.bonn.se2.gui.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import org.bonn.se2.gui.components.AccountOverviewBody;
 import org.bonn.se2.gui.components.AccountOverviewHead;
 import org.bonn.se2.gui.components.NavigationBar;
@@ -66,7 +63,7 @@ public class ProfilView extends VerticalLayout implements View {
 
     public void setUp() throws Exception {
 
-        this.setSizeFull();
+        //this.setSizeFull();
 
         layout = new GridLayout(1, 3); //
         layout.setSpacing(true);
@@ -76,7 +73,7 @@ public class ProfilView extends VerticalLayout implements View {
         layout.setColumnExpandRatio(0, 0.5f);
 
         NavigationBar navigationBar = new NavigationBar();
-        navigationBar.setHeight("10%");
+        //navigationBar.setHeight("100%");
         layout.addComponent(navigationBar, 0, 0);
         layout.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
@@ -93,6 +90,7 @@ public class ProfilView extends VerticalLayout implements View {
         headerLayout.setWidth("100%");
         AccountOverviewHead headStudent = new AccountOverviewHead(ProfilView.getStudent());
         headerLayout.addComponent(headStudent);
+
         layout.addComponent(headerLayout, 0, 1);
 
         HorizontalLayout bodyLayout = new HorizontalLayout();
