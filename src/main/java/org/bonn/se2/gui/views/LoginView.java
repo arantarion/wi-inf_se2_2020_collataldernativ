@@ -8,6 +8,7 @@ import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
+import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
 import org.bonn.se2.process.control.LoginControl;
@@ -15,10 +16,13 @@ import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 
+import com.vaadin.server.ThemeResource;
+import com.vaadin.event.MouseEvents;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer Henry Weckermann, Anton Drees
+ * @Programmer Henry Weckermann, Anton Drees, Kevin Kazemali
  */
 
 public class LoginView extends VerticalLayout implements View {
@@ -36,7 +40,24 @@ public class LoginView extends VerticalLayout implements View {
 
     private void setUp() {
 
-        this.setSizeFull();
+        //this.setSizeFull();
+
+        //
+
+        ThemeResource themeResource = new ThemeResource("images/logo_hd_2.png");
+        Image logo = new Image(null, themeResource);
+        logo.setWidth("750px");
+        logo.addStyleName("logo");
+
+
+        Label labelText = new Label("Willkommen auf Coll@Aldernativ! der zentralen Schnittstelle zwischen Studenten & Unternehmen."
+                + " Hier findet jeder seinen Traumjob.");
+        this.addComponent(logo);
+        this.addComponent(labelText);
+        this.setComponentAlignment(logo, Alignment.MIDDLE_CENTER);
+        this.setComponentAlignment(labelText, Alignment.MIDDLE_CENTER);
+
+        //
 
         final TextField userLogin = new TextField();
         userLogin.setCaption("UserID:");
@@ -49,7 +70,7 @@ public class LoginView extends VerticalLayout implements View {
         VerticalLayout layout = new VerticalLayout();
         layout.addComponents(userLogin, passwd);
 
-        Panel panel = new Panel("Bitte Login Daten angeben:");
+        Panel panel = new Panel("Bitte Login-Daten angeben:");
 
         this.addComponent(panel);
         this.setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
