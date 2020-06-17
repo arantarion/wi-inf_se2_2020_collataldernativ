@@ -39,7 +39,7 @@ $v-app-loading-text: "Coll@Aldernativ";
 $v-background-color: #e3eeff;
 $v-app-background-color: #a7b6ff;
 $v-panel-background-color: #869aff;
-$v-focus-color: #a8b3ff;
+$v-focus-color: #c3caff; //a8b3ff
 $v-focus-style: 0 0 1px 1px rgba($v-focus-color, .5);
 $v-border-radius: 1px;
 $v-textfield-border-radius: 0;
@@ -55,7 +55,7 @@ $v-gradient: v-linear 12%;
 $v-overlay-shadow: 0 3px 8px v-shade, 0 0 0 1px (v-shade 0.7);
 $v-shadow-opacity: 20%;
 $v-selection-overlay-padding-horizontal: 0;
-$v-selection-overlay-padding-vertical: 6px;
+$v-selection-overlay-padding-vertical: 4px;
 $v-selection-item-border-radius: 0;
 $mat-custom-color: #fff;
 
