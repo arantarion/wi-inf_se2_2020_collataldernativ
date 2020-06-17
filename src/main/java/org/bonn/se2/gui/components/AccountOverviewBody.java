@@ -49,6 +49,8 @@ public class AccountOverviewBody extends VerticalLayout {
     private <T extends User> void setUp(T dto) throws Exception {
         this.setSizeFull();
 
+
+
         if (dto instanceof Student) {
 
             Student student = (Student) dto;
