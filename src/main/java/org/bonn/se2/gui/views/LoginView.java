@@ -79,9 +79,9 @@ public class LoginView extends VerticalLayout implements View {
         passwd.setSizeFull();
 
         VerticalLayout layout = new VerticalLayout();
-        layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
+        //layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
         layout.addComponents(userLogin, passwd);
-        layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
+        //layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
 
         Panel panel = new Panel("Bitte Login-Daten angeben:");
 

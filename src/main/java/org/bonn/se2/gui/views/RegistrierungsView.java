@@ -11,6 +11,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.StudentDAO;
@@ -53,10 +54,27 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
     public void setUpStep1() {
 
+        ThemeResource themeResource = new ThemeResource("images/logo_hd_3.png");
+        Image logo = new Image(null, themeResource);
+        logo.setWidth("750px");
+        logo.addStyleName("logo");
+
+        Label platzhalterLabel = new Label ("&nbsp" , ContentMode.HTML);
+
+        Label labelText = new Label("Willkommen auf Coll@Aldernativ! Der zentralen Schnittstelle zwischen Studenten & Unternehmen."
+                + " Hier findet jeder seinen Traumjob.");
+
+        this.addComponent(logo);
+        this.addComponent(labelText);
+
         auswahlPanel.setVisible(true);
 
-        this.setSizeFull();
+        //this.setSizeFull();
+        this.addComponent(platzhalterLabel);
+        platzhalterLabel.setHeight("40px");
         this.addComponent(auswahlPanel);
+        this.setComponentAlignment(logo, Alignment.MIDDLE_CENTER);
+        this.setComponentAlignment(labelText, Alignment.MIDDLE_CENTER);
         this.setComponentAlignment(auswahlPanel, Alignment.MIDDLE_CENTER);
 
         auswahlPanel.setWidth(37, Unit.PERCENTAGE);
@@ -79,8 +97,8 @@ public class RegistrierungsView extends VerticalLayout implements View {
         studentButton.setWidth(100, Unit.PERCENTAGE);
         companyButton.setWidth(100, Unit.PERCENTAGE);
 
-        studentButton.setHeight(90, Unit.PERCENTAGE);
-        companyButton.setHeight(90, Unit.PERCENTAGE);
+        studentButton.setHeight("100px");
+        companyButton.setHeight("100px");
 
         buttonLayout.setDefaultComponentAlignment(Alignment.BOTTOM_CENTER);
 
@@ -100,31 +118,36 @@ public class RegistrierungsView extends VerticalLayout implements View {
     public void setUpStep2() {
 
         userCreationPanel.setVisible(true);
-        this.setSizeUndefined();
+        //this.setSizeUndefined();
         this.addComponent(userCreationPanel);
         this.setComponentAlignment(userCreationPanel, Alignment.MIDDLE_CENTER);
+        userCreationPanel.setWidth("500px");
 
         Button weiterButton1 = new Button("Fortfahren", VaadinIcons.ARROW_RIGHT);
         weiterButton1.setClickShortcut(ShortcutAction.KeyCode.ENTER);
         FormLayout content = new FormLayout();
-        content.setSizeUndefined();
+        //content.setSizeUndefined();
 
         TextField usernameField = new TextField("Nutzername");
         binder.forField(usernameField).asRequired(new StringLengthValidator("Ihr Nutzername mindestens 5 Buchstaben haben", 5, 1000))
                 .bind(User::getUsername, User::setUsername);
+        usernameField.setSizeFull();
 
         TextField emailField = new TextField("E-Mail Adresse");
         binder.forField(emailField).asRequired(new EmailValidator("Bitte geben Sie eine gültige E-Mail Adresse an"))
                 .bind(User::getEmail, User::setEmail);
+        emailField.setSizeFull();
 
         PasswordField passwordField = new PasswordField("Passwort");
         binder.forField(passwordField).asRequired(new PasswordValidator())
                 .bind(User::getPasswort, User::setPasswort);
+        passwordField.setSizeFull();
 
         PasswordField passwordCheckField = new PasswordField("Passwort wiederholen");
+        passwordCheckField.setSizeFull();
 
         content.addComponents(usernameField, emailField, passwordField, passwordCheckField, weiterButton1);
-        content.setSizeUndefined();
+        //content.setSizeUndefined();
 
         content.setMargin(true);
         userCreationPanel.setContent(content);
@@ -167,6 +190,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         studentCreationPanel.setVisible(true);
         this.addComponent(studentCreationPanel);
         this.setComponentAlignment(studentCreationPanel, Alignment.MIDDLE_CENTER);
+        studentCreationPanel.setWidth("750px");
 
         VerticalLayout layout = new VerticalLayout();
         studentCreationPanel.setContent(layout);
@@ -174,17 +198,22 @@ public class RegistrierungsView extends VerticalLayout implements View {
         HorizontalLayout nameLayout = new HorizontalLayout();
         nameLayout.setSizeFull();
 
+        HorizontalLayout geburtstagLayout = new HorizontalLayout();
+        geburtstagLayout.setSizeFull();
+
         TextField vorname = new TextField("Vorname:");
         vorname.setRequiredIndicatorVisible(true);
         StudentBinder.forField(vorname).asRequired("Bitte geben Sie Ihren Vornamen an")
                 .bind(Student::getVorname, Student::setVorname);
+        vorname.setSizeFull();
 
         TextField nachname = new TextField("Nachname");
         nachname.setRequiredIndicatorVisible(true);
         StudentBinder.forField(nachname).asRequired("Bitte geben Sie Ihren Nachnamen an")
                 .bind(Student::getNachname, Student::setNachname);
+        nachname.setSizeFull();
 
-        nameLayout.addComponents(vorname, nachname);
+        nameLayout.addComponents(vorname, nachname, new Label ("&nbsp" , ContentMode.HTML));
 
         DateField geburtstag = new DateField("Geburtstag");
         geburtstag.setDateFormat("dd.MM.yyyy");
@@ -192,8 +221,10 @@ public class RegistrierungsView extends VerticalLayout implements View {
         geburtstag.setParseErrorMessage("Bitte Datum im richtigen Format angeben");
         StudentBinder.forField(geburtstag).asRequired("Bitte geben Sie Ihr Geburtsdatum an")
                 .bind(Student::getGeburtstag, Student::setGeburtstag);
+        geburtstag.setSizeFull();
 
-        layout.addComponents(nameLayout, geburtstag);
+        geburtstagLayout.addComponents(geburtstag, new Label ("&nbsp" , ContentMode.HTML), new Label ("&nbsp" , ContentMode.HTML));
+        layout.addComponents(nameLayout, geburtstagLayout);
 
         addAddress(layout);
 
@@ -249,12 +280,14 @@ public class RegistrierungsView extends VerticalLayout implements View {
         this.setComponentAlignment(companyCreationPanel, Alignment.MIDDLE_CENTER);
         VerticalLayout layout = new VerticalLayout();
         companyCreationPanel.setContent(layout);
+        companyCreationPanel.setWidth("900px");
 
         TextField unternehmensName = new TextField("Name Ihres Unternehmens:");
         CompanyBinder.forField(unternehmensName)
                 .asRequired("Bitte geben Sie den Namen Ihres Unternehmens an.")
                 .bind(Company::getName, Company::setName);
-        layout.addComponent(unternehmensName);
+        unternehmensName.setSizeFull();
+        layout.addComponents(unternehmensName);
 
         RichTextArea beschreibung = new RichTextArea("Beschreibung Ihres Unternehmens:");
         beschreibung.setSizeFull();
@@ -338,6 +371,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 .asRequired("Bitte geben Sie die Straße an.")
                 .bind(Address::getStrasse, Address::setStrasse);
         addressLayout1.addComponent(strasse);
+        strasse.setSizeFull();
 
 
         TextField hausnummer = new TextField("Hausnummer");
@@ -346,6 +380,9 @@ public class RegistrierungsView extends VerticalLayout implements View {
         AdressBinder.forField(hausnummer)
                 .asRequired("Bitte geben Sie die Hausnummer an.")
                 .bind(Address::getHausnummer, Address::setHausnummer);
+        hausnummer.setSizeFull();
+
+        addressLayout1.addComponent(new Label ("&nbsp" , ContentMode.HTML));
 
 
         HorizontalLayout addressLayout2 = new HorizontalLayout();
@@ -358,6 +395,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         AdressBinder.forField(plz)
                 .asRequired("Bitte geben Sie die Postleitzahl an!")
                 .bind(Address::getPlz, Address::setPlz);
+        plz.setSizeFull();
 
 
         TextField stadt = new TextField("Ort:");
@@ -365,6 +403,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         AdressBinder.forField(stadt)
                 .asRequired("Bitte geben Sie Ihre Stadt an.")
                 .bind(Address::getStadt, Address::setStadt);
+        stadt.setSizeFull();
 
 
         TextField land = new TextField("Land:");
@@ -372,6 +411,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         AdressBinder.forField(land)
                 .asRequired("Bitte geben Sie das Land an.")
                 .bind(Address::getLand, Address::setLand);
+        land.setSizeFull();
 
     }
 
