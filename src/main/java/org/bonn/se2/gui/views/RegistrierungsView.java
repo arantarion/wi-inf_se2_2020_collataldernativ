@@ -29,7 +29,7 @@ import java.util.List;
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer Anton Drees, Henry Weckermann
+ * @Programmer Anton Drees, Henry Weckermann, Maximilian Schubert
  */
 
 public class RegistrierungsView extends VerticalLayout implements View {
