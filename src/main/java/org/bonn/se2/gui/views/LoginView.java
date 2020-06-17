@@ -44,18 +44,21 @@ public class LoginView extends VerticalLayout implements View {
 
         //
 
-        ThemeResource themeResource = new ThemeResource("images/logo_hd_2.png");
+        ThemeResource themeResource = new ThemeResource("images/logo_hd_3.png");
         Image logo = new Image(null, themeResource);
         logo.setWidth("750px");
         logo.addStyleName("logo");
 
 
-        Label labelText = new Label("Willkommen auf Coll@Aldernativ! der zentralen Schnittstelle zwischen Studenten & Unternehmen."
+        Label labelText = new Label("Willkommen auf Coll@Aldernativ! Der zentralen Schnittstelle zwischen Studenten & Unternehmen."
                 + " Hier findet jeder seinen Traumjob.");
+
         this.addComponent(logo);
         this.addComponent(labelText);
+
         this.setComponentAlignment(logo, Alignment.MIDDLE_CENTER);
         this.setComponentAlignment(labelText, Alignment.MIDDLE_CENTER);
+
 
         //
 
