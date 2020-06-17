@@ -35,7 +35,7 @@
  * @Programmer Kevin Kazemali, Maximilian Schubert
  */
 
-$v-app-loading-text: "Facebook Valo";
+$v-app-loading-text: "Coll@Aldernativ";
 $v-background-color: #e3eeff;
 $v-app-background-color: #a7b6ff;
 $v-panel-background-color: #869aff;
@@ -45,7 +45,7 @@ $v-border-radius: 1px;
 $v-textfield-border-radius: 0;
 $v-font-family: Helvetica, Arial, 'lucida grande', tahoma, verdana, arial, sans-serif;
 $v-font-size: 13px;
-$v-font-color: #37404E;
+$v-font-color: #32373a;
 $v-font-weight: 400;
 $v-link-text-decoration: none;
 $v-shadow: 0 1px 0 (v-shade 0.2);
@@ -57,11 +57,8 @@ $v-shadow-opacity: 20%;
 $v-selection-overlay-padding-horizontal: 0;
 $v-selection-overlay-padding-vertical: 6px;
 $v-selection-item-border-radius: 0;
-
-
-$v-app-loading-text: "Coll@Aldernativ";
 $mat-custom-color: #fff;
-$v-font-color: #32373a;
+
 
 @import "../valo/valo.scss";
 

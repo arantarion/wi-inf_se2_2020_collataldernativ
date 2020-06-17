@@ -6,6 +6,7 @@ import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.shared.Position;
+import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.gui.components.NavigationBar;
@@ -22,7 +23,7 @@ import com.vaadin.event.MouseEvents;
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
- * @Programmer Henry Weckermann, Anton Drees, Kevin Kazemali
+ * @Programmer Henry Weckermann, Anton Drees, Kevin Kazemali, Maximilian Schubert
  */
 
 public class LoginView extends VerticalLayout implements View {
@@ -49,6 +50,7 @@ public class LoginView extends VerticalLayout implements View {
         logo.setWidth("750px");
         logo.addStyleName("logo");
 
+        Label platzhalterLabel = new Label ("&nbsp" , ContentMode.HTML);
 
         Label labelText = new Label("Willkommen auf Coll@Aldernativ! der zentralen Schnittstelle zwischen Studenten & Unternehmen."
                 + " Hier findet jeder seinen Traumjob.");
@@ -56,19 +58,27 @@ public class LoginView extends VerticalLayout implements View {
         this.addComponent(labelText);
         this.setComponentAlignment(logo, Alignment.MIDDLE_CENTER);
         this.setComponentAlignment(labelText, Alignment.MIDDLE_CENTER);
+        this.addComponents(platzhalterLabel);
+        platzhalterLabel.setHeight("60px");
 
         //
 
         final TextField userLogin = new TextField();
         userLogin.setCaption("UserID:");
         userLogin.setPlaceholder("E-Mail oder Username");
+        //userLogin.setWidth("250px");
+        userLogin.setSizeFull();
 
         final PasswordField passwd = new PasswordField();
         passwd.setCaption("Passwort:");
         passwd.setPlaceholder("Passwort");
+        //passwd.setWidth("250px");
+        passwd.setSizeFull();
 
         VerticalLayout layout = new VerticalLayout();
+        layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
         layout.addComponents(userLogin, passwd);
+        layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
 
         Panel panel = new Panel("Bitte Login-Daten angeben:");
 
@@ -80,6 +90,8 @@ public class LoginView extends VerticalLayout implements View {
         Button loginButton = new Button("Login", FontAwesome.SEND);
         layout.addComponent(loginButton);
         layout.setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
+        layout.setComponentAlignment(userLogin, Alignment.MIDDLE_CENTER);
+        layout.setComponentAlignment(passwd, Alignment.MIDDLE_CENTER);
         loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
 
@@ -88,6 +100,7 @@ public class LoginView extends VerticalLayout implements View {
         layout.setComponentAlignment(registrierungsButton, Alignment.MIDDLE_CENTER);
 
         panel.setSizeUndefined();
+        panel.setWidth("300px");
 
         loginButton.addClickListener(e -> {
             String login = userLogin.getValue();

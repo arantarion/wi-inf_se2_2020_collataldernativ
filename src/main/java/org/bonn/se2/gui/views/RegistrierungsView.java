@@ -9,6 +9,7 @@ import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.Page;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.CompanyDAO;
