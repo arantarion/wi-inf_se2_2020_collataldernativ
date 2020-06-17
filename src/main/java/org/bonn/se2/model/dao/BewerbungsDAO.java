@@ -6,6 +6,9 @@ import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +38,38 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         }
         Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Das Bewerbungs-Objekt mit der bewerbungsID: " + bewerbungsid + " wurde abgerufen.");
         return result.get(0);
+    }
+
+    public List<Bewerbung> retrieveCompanyBewerbung(int companyid) throws DatabaseException, SQLException {
+        Statement statement = this.getStatement();
+        ResultSet resultSet = null;
+        //language=PostgreSQL
+        String insert = "SELECT * " +
+                "FROM \"collDB\".bewerbung " +
+                "WHERE \"companyID\" = '" + companyid + "' ";
+        resultSet = statement.executeQuery(insert);
+        List<Bewerbung> liste = new ArrayList<>();
+        Bewerbung offer = null;
+
+        try {
+            while (resultSet.next()) {
+                offer = new Bewerbung();
+                offer.setBewerbungsID(resultSet.getInt("bewerbungsID"));
+                offer.setJobofferID(resultSet.getInt("jobofferID"));
+                offer.setCompanyID(resultSet.getInt("companyID"));
+                offer.setStudentID(resultSet.getInt("studentID"));
+                offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatem").getTime()).toLocalDate());
+                offer.setLebenslauf(resultSet.getInt("lebenslauf"));
+                offer.setBewerbung(resultSet.getInt("bewerbung"));
+                offer.setNotes(resultSet.getString("notes"));
+                liste.add(offer);
+            }
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " wurden abgerufen");
+        } catch (Exception e) {
+            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
+        }
+        return liste;
     }
 
     @Override
