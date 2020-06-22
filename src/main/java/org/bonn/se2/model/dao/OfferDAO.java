@@ -106,6 +106,42 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         }
         return liste;
     }
+    
+    //TODO
+    public List<JobOffer> retrieveCompanyOffersbyID(String attribute, int ID) throws DatabaseException, SQLException {
+    	Statement statement = this.getStatement();
+        ResultSet resultSet = null;
+        //language=PostgreSQL
+        String insert = "SELECT * " +
+                "FROM \"collDB\".joboffer " +
+                "WHERE bereich LIKE '%" + attribute + "%' OR kontakt LIKE '%" + attribute + "%' OR beschreibung LIKE '%" + attribute + "%' " +
+                "OR name LIKE '%" + attribute + "%' OR gehalt LIKE '%" + attribute + "%' AND joboffer.\"jobofferID\" = '" + ID + "';";
+        resultSet = statement.executeQuery(insert);
+        List<JobOffer> liste = new ArrayList<>();
+        JobOffer dto = null;
+
+        try {
+            while (resultSet.next()) {
+                dto = new JobOffer();
+                dto.setBereich(resultSet.getString("bereich"));
+                dto.setKontakt(resultSet.getString("kontakt"));
+                dto.setBeschreibung(resultSet.getString("beschreibung"));
+                dto.setJobofferID(resultSet.getInt("jobofferID"));
+                dto.setName(resultSet.getString("name"));
+                dto.setCompanyID(resultSet.getInt("companyID"));
+                dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate()); //creationDate
+                dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
+                dto.setGehalt(resultSet.getString("gehalt"));
+                liste.add(dto);
+            }
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit Attribut: " + attribute + " wurden abgerufen");
+        } catch (Exception e) {
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
+            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
+        }
+        return liste;
+    }
+    
 
     @Override
     public JobOffer retrieve(String attribute) throws Exception {

@@ -1,14 +1,21 @@
 package org.bonn.se2.gui.windows;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 
 import javax.swing.Icon;
 
+import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.gui.views.ProfilView;
 import org.bonn.se2.model.dao.BewerbungsDAO;
+import org.bonn.se2.model.dao.DocumentDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Bewerbung;
+import org.bonn.se2.model.objects.dto.Document;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
@@ -27,6 +34,7 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.server.Page;
 import com.vaadin.server.Resource;
 import com.vaadin.server.ThemeResource;
+import com.vaadin.server.VaadinSession;
 import com.vaadin.shared.Position;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -54,7 +62,6 @@ import com.vaadin.ui.themes.ValoTheme;
 public class SendCanditureWindow extends Window {
 	
     private final JobOffer selectedJobOffer;
-    private String motivationsschreiben = null;
 
     public SendCanditureWindow(JobOffer selectedJobOffer) {
         this.selectedJobOffer = selectedJobOffer;
@@ -119,7 +126,7 @@ public class SendCanditureWindow extends Window {
         });
         
         
-        Button no_lebenslauf = new Button("Kein Lebenslauf vorhanden",FontAwesome.FILE);
+        Button no_lebenslauf = new Button("Kein Lebenslauf vorhanden.",FontAwesome.FILE);
         no_lebenslauf.setEnabled(false);
         
         
@@ -154,10 +161,38 @@ public class SendCanditureWindow extends Window {
 
         submit.addClickListener(clickEvent -> {
         	//TODO
-        	motivationsschreiben = motivationTf.getValue();
-        	System.out.println(motivationTf.getValue());
-        	int bewerbungsid = 0,Lebenslauf = 0, bewerbungsschreiben = 0, studentID = 0;
-            Bewerbung bewerbungDTO = new Bewerbung(bewerbungsid, selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID, LocalDate.now(), Lebenslauf, bewerbungsschreiben, motivationsschreiben);
+        	int bewerbungsid = 0,Lebenslauf = 0, bewerbungsschreiben = 0;
+        	String path = receiver.getFile().getName();
+            FileInputStream input = null;
+    		try {
+    			input = new FileInputStream(path);
+    		} catch (FileNotFoundException e2) {
+    			// TODO Auto-generated catch block
+    			e2.printStackTrace();
+    		}
+            byte[] data = null;
+    		try {
+    			data = FileUploader.toByteArray(input);
+    		} catch (IOException e2) {
+    			// TODO Auto-generated catch block
+    			e2.printStackTrace();
+    		}
+    		/*
+    		System.out.println(input.toString());
+    		System.out.println(path);
+    		System.out.println(data);
+        	*/
+        	//Done
+        	//DocumentDAO lebenslauf = DocumentDAO.create(upload_anschreiben);
+        	int studentID = 0;
+        	 try {
+				Student st = new StudentDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
+				studentID = st.getStudentID();
+			} catch (DatabaseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+            Bewerbung bewerbungDTO = new Bewerbung(bewerbungsid, selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID , LocalDate.now(), Lebenslauf, bewerbungsschreiben, motivationTf.getValue());
             try {
 				BewerbungsDAO bewerbungDAO = new BewerbungsDAO();
 			} catch (DatabaseException e) {

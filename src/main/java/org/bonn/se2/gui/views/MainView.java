@@ -10,9 +10,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.gui.windows.SendCanditureWindow;
+import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
+import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
@@ -104,11 +107,23 @@ public class MainView extends VerticalLayout implements View {
 				
 			}
 		});
+        Company co = null;
+		try {
+			co = new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
+		} catch (DatabaseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		final int companyID = co.getcompanyID();
 
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste = null;
         try {
+        	 if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
+             	liste = new OfferDAO().retrieveCompanyOffers(companyID);
+             } else {
             liste = new OfferDAO().retrieveAll();
+             }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -131,7 +146,12 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste2 = null;
                 try {
-                    liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
+                	if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
+                		liste2 = new OfferDAO().retrieveCompanyOffersbyID(attribute, companyID);
+                	} else {
+                		liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
+                	}
+                    
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -149,7 +169,11 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste3 = null;
                 try {
-                    liste3 = new OfferDAO().retrieveAll();
+                	if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
+                     	liste3 = new OfferDAO().retrieveCompanyOffers(companyID);
+                     } else {
+                    	liste3 = new OfferDAO().retrieveAll();
+                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
