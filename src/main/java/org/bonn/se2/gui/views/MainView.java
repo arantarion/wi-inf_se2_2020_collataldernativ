@@ -10,8 +10,10 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.gui.windows.SendCanditureWindow;
+import org.bonn.se2.gui.windows.WatchCanditureWindow;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
+import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
@@ -86,10 +88,48 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayout1.addComponent(suche);
         
         final Button bewerbenJetzt = new Button("Direkt zur Bewerbung");
+        final Button bewerbenSehen = new Button("Direkt zu den Bewerbungen");
+        bewerbenSehen.setEnabled(false);
         bewerbenJetzt.setEnabled(false);
         if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
         	bewerbenJetzt.setVisible(false);
         }
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT){
+        	bewerbenSehen.setVisible(false);
+        }
+        
+        bewerbenSehen.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				
+		        
+				
+				if (MainView.this.selectedJobOffer == null) {
+	        		return;
+	        	} else {
+	        		try {
+						if (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID()) {
+							Window swap = new WatchCanditureWindow(selectedJobOffer);
+							UI.getCurrent().addWindow(swap);
+						} else {
+							Notification notification = new Notification("Funktion nur für eigene Jobangebote verfügbar.");
+						}
+					} catch (DatabaseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NullPointerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            	
+	        	}
+				
+			}
+		});
         
         bewerbenJetzt.addClickListener(new Button.ClickListener() {
 			
@@ -171,14 +211,25 @@ public class MainView extends VerticalLayout implements View {
         grid.addSelectionListener(event -> {
         	if (event.getFirstSelectedItem().isPresent()) {
         		selectedJobOffer = (event.getFirstSelectedItem().get());
-        		bewerbenJetzt.setEnabled(true);
+        		try {
+					if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID())){
+						bewerbenSehen.setEnabled(true);
+					} else {
+						bewerbenJetzt.setEnabled(true);
+						bewerbenSehen.setEnabled(false);
+					}
+				} catch (DatabaseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		
+        		
         	} else {
         		return;
         		
         	}
         	
         });
-
         //Rechts oben
         //horizontalLayout.addComponent(role);
         //horizontalLayout.addComponent(username);
@@ -190,7 +241,10 @@ public class MainView extends VerticalLayout implements View {
         
        
         
-        addComponent(bewerbenJetzt);
+        addComponent(bewerbenSehen);
+		addComponent(bewerbenJetzt);
+        
+        
         //h3.addComponent(sample);
     }
 
