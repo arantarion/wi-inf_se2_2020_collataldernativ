@@ -1,6 +1,7 @@
 package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.JobOffer;
+import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
@@ -67,8 +68,8 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + id + " wurden abgerufen");
         } catch (Exception e) {
-            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
+            throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
         }
         return liste;
     }
@@ -238,6 +239,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                         "WHERE \"jobofferID\" = ? " +
                         "RETURNING *;";
 
+        List<JobOffer> result = executePrepared(deleteQuery, id);
         Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "CompanyOffer mit der jobOfferID: " + id + "wurde gelöscht.");
     }
 
