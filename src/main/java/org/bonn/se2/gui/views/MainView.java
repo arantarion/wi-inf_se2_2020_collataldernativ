@@ -107,23 +107,11 @@ public class MainView extends VerticalLayout implements View {
 				
 			}
 		});
-        Company co = null;
-		try {
-			co = new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
-		} catch (DatabaseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		final int companyID = co.getcompanyID();
 
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste = null;
         try {
-        	 if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
-             	liste = new OfferDAO().retrieveCompanyOffers(companyID);
-             } else {
             liste = new OfferDAO().retrieveAll();
-             }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -146,12 +134,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste2 = null;
                 try {
-                	if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
-                		liste2 = new OfferDAO().retrieveCompanyOffersbyID(attribute, companyID);
-                	} else {
-                		liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
-                	}
-                    
+            	liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -169,11 +152,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste3 = null;
                 try {
-                	if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
-                     	liste3 = new OfferDAO().retrieveCompanyOffers(companyID);
-                     } else {
-                    	liste3 = new OfferDAO().retrieveAll();
-                     }
+                    liste3 = new OfferDAO().retrieveAll();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }

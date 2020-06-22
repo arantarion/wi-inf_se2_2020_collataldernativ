@@ -59,8 +59,8 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
                 offer.setCompanyID(resultSet.getInt("companyID"));
                 offer.setStudentID(resultSet.getInt("studentID"));
                 offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
-                offer.setLebenslauf(resultSet.getInt("lebenslauf"));
-                offer.setBewerbung(resultSet.getInt("bewerbung"));
+                //offer.setLebenslauf(resultSet.getInt("lebenslauf"));
+                //offer.setBewerbung(resultSet.getInt("bewerbung"));
                 offer.setNotes(resultSet.getString("notes"));
                 liste.add(offer);
             }
