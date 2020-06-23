@@ -59,8 +59,6 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
                 offer.setCompanyID(resultSet.getInt("companyID"));
                 offer.setStudentID(resultSet.getInt("studentID"));
                 offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
-                //offer.setLebenslauf(resultSet.getInt("lebenslauf"));
-                //offer.setBewerbung(resultSet.getInt("bewerbung"));
                 offer.setNotes(resultSet.getString("notes"));
                 liste.add(offer);
             }
@@ -89,8 +87,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         String insertQuery2 = "INSERT INTO \"collDB\".bewerbung (\"bewerbungsID\", \"jobofferID\", \"companyID\", \"studentID\", bewerbungsdatum, lebenslauf, bewerbung, notes) " +
                 "VALUES ('" + bewerbung.getBewerbungsID() + "','" + bewerbung.getJobofferID() +
                 "','" + bewerbung.getCompanyID() + "', '" + bewerbung.getStudentID() +
-                "', '" + bewerbung.getBewerbungsdatum() + "', '" + bewerbung.getLebenslauf() +
-                "', '" + bewerbung.getBewerbung() + "', '" + bewerbung.getNotes() + "') " +
+                "', '" + bewerbung.getBewerbungsdatum() + "', '" + bewerbung.getNotes() + "') " +
                 "RETURNING \"bewerbungsID\"";
         PreparedStatement pst = this.getPreparedStatement(insertQuery2);
         ResultSet resultSet = pst.executeQuery();
@@ -101,8 +98,6 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             offer.setCompanyID(resultSet.getInt("companyID"));
             offer.setStudentID(resultSet.getInt("studentID"));
             offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
-            offer.setLebenslauf(resultSet.getInt("lebenslauf"));
-            offer.setBewerbung(resultSet.getInt("bewerbung"));
             offer.setNotes(resultSet.getString("notes"));
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Bewerbungs-Objekt: " + offer + "wurde erfolgreich gespeichert.");
             return offer;
@@ -121,8 +116,6 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             dto.setCompanyID(resultSet.getInt("companyID"));
             dto.setStudentID(resultSet.getInt("studentID"));
             dto.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
-            dto.setLebenslauf(resultSet.getInt("lebenslauf"));
-            dto.setBewerbung(resultSet.getInt("bewerbung"));
             dto.setNotes(resultSet.getString("notes"));
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Bewerbungs-Objekt: " + dto + "wurde erfolgreich gespeichert.");
         }catch (Exception e){

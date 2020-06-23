@@ -16,8 +16,6 @@ public class Bewerbung {
     private int companyID;
     private int studentID;
     private LocalDate bewerbungsdatum;
-    private int lebenslauf;
-    private int bewerbung;
     private String notes;
 
     public Bewerbung(){
@@ -32,14 +30,12 @@ public class Bewerbung {
         this.bewerbungsdatum = bewerbungsdatum;
     }
 
-    public Bewerbung(int bewerbungsID, int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum, int lebenslauf, int bewerbung, String notes) {
+    public Bewerbung(int bewerbungsID, int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum, String notes) {
         this.bewerbungsID = bewerbungsID;
         this.jobofferID = jobofferID;
         this.companyID = companyID;
         this.studentID = studentID;
         this.bewerbungsdatum = bewerbungsdatum;
-        this.lebenslauf = lebenslauf;
-        this.bewerbung = bewerbung;
         this.notes = notes;
     }
 
@@ -52,15 +48,13 @@ public class Bewerbung {
                 jobofferID == bewerbung1.jobofferID &&
                 companyID == bewerbung1.companyID &&
                 studentID == bewerbung1.studentID &&
-                lebenslauf == bewerbung1.lebenslauf &&
-                bewerbung == bewerbung1.bewerbung &&
                 Objects.equals(bewerbungsdatum, bewerbung1.bewerbungsdatum) &&
                 notes.equals(bewerbung1.notes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bewerbungsID, jobofferID, companyID, studentID, bewerbungsdatum, lebenslauf, bewerbung, notes);
+        return Objects.hash(bewerbungsID, jobofferID, companyID, studentID, bewerbungsdatum, notes);
     }
 
     public int getBewerbungsID() {
@@ -101,22 +95,6 @@ public class Bewerbung {
 
     public void setBewerbungsdatum(LocalDate bewerbungsdatum) {
         this.bewerbungsdatum = bewerbungsdatum;
-    }
-
-    public int getLebenslauf() {
-        return lebenslauf;
-    }
-
-    public void setLebenslauf(int lebenslauf) {
-        this.lebenslauf = lebenslauf;
-    }
-
-    public int getBewerbung() {
-        return bewerbung;
-    }
-
-    public void setBewerbung(int bewerbung) {
-        this.bewerbung = bewerbung;
     }
 
     public String getNotes() {
