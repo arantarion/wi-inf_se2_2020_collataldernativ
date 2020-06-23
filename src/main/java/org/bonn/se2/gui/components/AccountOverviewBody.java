@@ -6,12 +6,10 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
+import org.bonn.se2.model.dao.BewerbungsDAO;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
-import org.bonn.se2.model.objects.dto.Company;
-import org.bonn.se2.model.objects.dto.JobOffer;
-import org.bonn.se2.model.objects.dto.Student;
-import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.model.objects.dto.*;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
@@ -181,6 +179,17 @@ public class AccountOverviewBody extends VerticalLayout {
 //                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
 //            });
 
+
+            Grid<Bewerbung> grid2 = new Grid<>();
+            List<Bewerbung> liste2 = new BewerbungsDAO().retrieveCompanyBewerbung(ID);
+            grid2.setItems(liste2);
+            grid2.addColumn(Bewerbung::getBewerbungsdatum).setCaption("Bewerbungsdatum");
+            grid2.addColumn(Bewerbung::getNotes).setCaption("Schreiben");
+            grid2.addColumn(Bewerbung::getJobofferID).setCaption("Stelle");
+            grid2.addColumn(Bewerbung::getStudentID).setCaption("Student");
+            grid2.setSizeFull();
+            grid2.setHeightMode(HeightMode.UNDEFINED);
+            layout.addComponent(grid2);
         }
     }
 
