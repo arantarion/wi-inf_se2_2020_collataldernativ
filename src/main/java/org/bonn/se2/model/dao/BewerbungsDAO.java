@@ -84,8 +84,8 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
 
     @Override
     public Bewerbung create(Bewerbung bewerbung) throws Exception {
-        String insertQuery2 = "INSERT INTO \"collDB\".bewerbung (\"bewerbungsID\", \"jobofferID\", \"companyID\", \"studentID\", bewerbungsdatum, lebenslauf, bewerbung, notes) " +
-                "VALUES ('" + bewerbung.getBewerbungsID() + "','" + bewerbung.getJobofferID() +
+        String insertQuery2 = "INSERT INTO \"collDB\".bewerbung ( \"jobofferID\", \"companyID\", \"studentID\", bewerbungsdatum, notes) " +
+                "VALUES ('" + bewerbung.getJobofferID() +
                 "','" + bewerbung.getCompanyID() + "', '" + bewerbung.getStudentID() +
                 "', '" + bewerbung.getBewerbungsdatum() + "', '" + bewerbung.getNotes() + "') " +
                 "RETURNING \"bewerbungsID\"";

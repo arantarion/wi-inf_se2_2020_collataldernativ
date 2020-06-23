@@ -12,6 +12,7 @@ import org.bonn.se2.gui.ui.MyUI;
 import org.bonn.se2.gui.views.ProfilView;
 import org.bonn.se2.model.dao.BewerbungsDAO;
 import org.bonn.se2.model.dao.DocumentDAO;
+import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Bewerbung;
@@ -161,22 +162,22 @@ public class SendCanditureWindow extends Window {
 
         submit.addClickListener(clickEvent -> {
         	//TODO
-        	int bewerbungsid = 0,Lebenslauf = 0, bewerbungsschreiben = 0;
-        	String path = receiver.getFile().getName();
-            FileInputStream input = null;
-    		try {
-    			input = new FileInputStream(path);
-    		} catch (FileNotFoundException e2) {
-    			// TODO Auto-generated catch block
-    			e2.printStackTrace();
-    		}
-            byte[] data = null;
-    		try {
-    			data = FileUploader.toByteArray(input);
-    		} catch (IOException e2) {
-    			// TODO Auto-generated catch block
-    			e2.printStackTrace();
-    		}
+        	int bewerbungsid = 0;
+//        	String path = "" ;//receiver.getFile().getName();
+//            FileInputStream input = null;
+//    		try {
+//    			input = new FileInputStream(path);
+//    		} catch (FileNotFoundException e2) {
+//    			// TODO Auto-generated catch block
+//    			e2.printStackTrace();
+//    		}
+//            byte[] data = null;
+//    		try {
+//    			data = FileUploader.toByteArray(input);
+//    		} catch (IOException e2) {
+//    			// TODO Auto-generated catch block
+//    			e2.printStackTrace();
+//    		}
     		/*
     		System.out.println(input.toString());
     		System.out.println(path);
@@ -192,13 +193,17 @@ public class SendCanditureWindow extends Window {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-            Bewerbung bewerbungDTO = new Bewerbung(bewerbungsid, selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID , LocalDate.now(), Lebenslauf, bewerbungsschreiben, motivationTf.getValue());
+            Bewerbung bewerbungDTO = new Bewerbung(selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID , LocalDate.now(), motivationTf.getValue());
             try {
+                new BewerbungsDAO().create(bewerbungDTO);
 				BewerbungsDAO bewerbungDAO = new BewerbungsDAO();
+				close();
 			} catch (DatabaseException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
+			} catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
         });

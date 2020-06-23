@@ -22,6 +22,14 @@ public class Bewerbung {
 
     }
 
+    public Bewerbung(int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum, String notes){
+        this.jobofferID = jobofferID;
+        this.companyID = companyID;
+        this.studentID = studentID;
+        this.bewerbungsdatum = bewerbungsdatum;
+        this.notes = notes;
+    }
+
     public Bewerbung(int bewerbungsID, int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum){
         this.bewerbungsID = bewerbungsID;
         this.jobofferID = jobofferID;
