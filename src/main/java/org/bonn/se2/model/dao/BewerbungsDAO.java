@@ -40,6 +40,33 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         return result.get(0);
     }
 
+    public List<Bewerbung> retrieveCompanyBewerbungJobOffer(int companyid, int jobofferid) throws DatabaseException, SQLException {
+        Statement statement = this.getStatement();
+        ResultSet resultSet = null;
+        //language=PostgreSQL
+        String insert = "SELECT * FROM \"collDB\".bewerbung WHERE \"companyID\" = '" + companyid + "' AND \"jobofferID\" = '\" + jobofferid + \"' ";
+        resultSet = statement.executeQuery(insert);
+        List<Bewerbung> liste = new ArrayList<>();
+        Bewerbung offer = null;
+        try {
+            while (resultSet.next()) {
+                offer = new Bewerbung();
+                offer.setBewerbungsID(resultSet.getInt("bewerbungsID"));
+                offer.setJobofferID(resultSet.getInt("jobofferID"));
+                offer.setCompanyID(resultSet.getInt("companyID"));
+                offer.setStudentID(resultSet.getInt("studentID"));
+                offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
+                offer.setNotes(resultSet.getString("notes"));
+                liste.add(offer);
+            }
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " und der jobofferid: " + jobofferid +  "wurden abgerufen");
+        } catch (Exception e) {
+            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int companyid, int jobofferid) in JobOfferDAO failed", e);
+        }
+        return liste;
+    }
+
     public List<Bewerbung> retrieveCompanyBewerbung(int companyid) throws DatabaseException, SQLException {
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
