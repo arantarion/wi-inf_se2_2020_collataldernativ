@@ -178,18 +178,6 @@ public class AccountOverviewBody extends VerticalLayout {
 //            kverwaltenButton.addClickListener(e -> {
 //                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
 //            });
-
-
-            Grid<Bewerbung> grid2 = new Grid<>();
-            List<Bewerbung> liste2 = new BewerbungsDAO().retrieveCompanyBewerbung(ID);
-            grid2.setItems(liste2);
-            grid2.addColumn(Bewerbung::getBewerbungsdatum).setCaption("Bewerbungsdatum");
-            grid2.addColumn(Bewerbung::getNotes).setCaption("Schreiben");
-            grid2.addColumn(Bewerbung::getJobofferID).setCaption("Stelle");
-            grid2.addColumn(Bewerbung::getStudentID).setCaption("Student");
-            grid2.setSizeFull();
-            grid2.setHeightMode(HeightMode.UNDEFINED);
-            layout.addComponent(grid2);
         }
     }
 
