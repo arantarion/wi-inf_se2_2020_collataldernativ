@@ -95,7 +95,7 @@ public class SendCanditureWindow extends Window {
         //Uploader
         FileUploader receiver;
         receiver = new FileUploader();
-        
+        /*
         //Anschreiben
         Label label_anschreiben = new Label("Anschreiben");
         Upload upload_anschreiben = new Upload("", receiver);
@@ -136,11 +136,11 @@ public class SendCanditureWindow extends Window {
         lebenslaufLayout.addComponent(upload_lebenslauf, 0, 0);
         lebenslaufLayout.setComponentAlignment(upload_lebenslauf, Alignment.TOP_CENTER);
         
-        /* TODO if Doa Lebelslauf findet einen Lebenslauf {
+        //TODO if Doa Lebelslauf findet einen Lebenslauf {
         
-        lebenslaufLayout.addComponent(use_lebenslauf, 1, 0);
-        lebenslaufLayout.setComponentAlignment(use_lebenslauf, Alignment.MIDDLE_CENTER);
-        */
+        //lebenslaufLayout.addComponent(use_lebenslauf, 1, 0);
+        //lebenslaufLayout.setComponentAlignment(use_lebenslauf, Alignment.MIDDLE_CENTER);
+        
         
         // else 
         lebenslaufLayout.addComponent(no_lebenslauf, 1, 0);
@@ -150,7 +150,7 @@ public class SendCanditureWindow extends Window {
         grid.addComponent(lebenslaufLayout, 1, 11);
         grid.setComponentAlignment(label_lebenslauf, Alignment.MIDDLE_CENTER);
         grid.setSpacing(true);
-
+*/
 
         Button submit = new Button("Bewerbung senden");
         Button back = new Button("Zurück zur Hauptseite");
@@ -193,7 +193,8 @@ public class SendCanditureWindow extends Window {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-            Bewerbung bewerbungDTO = new Bewerbung(selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID , LocalDate.now(), motivationTf.getValue());
+        	System.out.println(bewerbungsid + " " + selectedJobOffer.getJobofferID() + " " +  selectedJobOffer.getCompanyID() + " " + studentID  + " " + LocalDate.now() + " " + motivationTf.getValue());
+            Bewerbung bewerbungDTO = new Bewerbung(bewerbungsid, selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID , LocalDate.now(), motivationTf.getValue());
             try {
                 new BewerbungsDAO().create(bewerbungDTO);
 				BewerbungsDAO bewerbungDAO = new BewerbungsDAO();
