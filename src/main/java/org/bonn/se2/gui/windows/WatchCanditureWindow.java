@@ -77,7 +77,7 @@ public class WatchCanditureWindow extends Window {
     }
 
     private void setUp() {
-        GridLayout grid = new GridLayout(4, 21);
+        VerticalLayout grid = new VerticalLayout();
         grid.setWidth("100%");
         grid.setSpacing(true);
         grid.addStyleName("scrollable");
@@ -86,13 +86,13 @@ public class WatchCanditureWindow extends Window {
         this.setWidth("75%");
         this.center();
 
-        Label allgemein = new Label("Ihre Bewerbung für das Jobangebot '" + selectedJobOffer.getName() + "'!");
-        grid.addComponent(allgemein, 1, 0);
+        Label allgemein = new Label("Eingegangene Bewerbung für Ihr Jobangebot '" + selectedJobOffer.getName() + "'!");
+        grid.addComponent(allgemein);
 
         Grid<Bewerbung> gridBewerbung = new Grid<>();
         List<Bewerbung> liste = null;
         try {
-            liste = new BewerbungsDAO().retrieveAll();
+            liste = new BewerbungsDAO().retrieveCompanyBewerbung(selectedJobOffer.getCompanyID());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -104,8 +104,6 @@ public class WatchCanditureWindow extends Window {
         gridBewerbung.addColumn(Bewerbung::getBewerbungsdatum).setCaption("Beschreibung");
         gridBewerbung.setSizeFull();
         gridBewerbung.setHeightMode(HeightMode.UNDEFINED);
-        grid.addComponent(gridBewerbung);
-
         
         gridBewerbung.addSelectionListener(event -> {
         	if (event.getFirstSelectedItem().isPresent()) {
@@ -117,6 +115,8 @@ public class WatchCanditureWindow extends Window {
         	}
         	
         });
+        
+        grid.addComponent(gridBewerbung);
 
         Button submit = new Button("Bewerbung senden");
         Button back = new Button("Zurück zur Hauptseite");
@@ -133,7 +133,7 @@ public class WatchCanditureWindow extends Window {
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.addComponent(submit);
         buttons.addComponent(back);
-        grid.addComponent(buttons, 3, 15);
+        //grid.addComponent(buttons);
         buttons.setComponentAlignment(back, Alignment.MIDDLE_RIGHT);
         buttons.setComponentAlignment(submit, Alignment.MIDDLE_RIGHT);
 
