@@ -92,7 +92,7 @@ public class WatchCanditureWindow extends Window {
         Grid<Bewerbung> gridBewerbung = new Grid<>();
         List<Bewerbung> liste = null;
         try {
-            liste = new BewerbungsDAO().retrieveCompanyBewerbung(selectedJobOffer.getCompanyID());
+            liste = new BewerbungsDAO().retrieveCompanyBewerbungJobOffer(selectedJobOffer.getCompanyID(),selectedJobOffer.getJobofferID());
         } catch (Exception e) {
             e.printStackTrace();
         }

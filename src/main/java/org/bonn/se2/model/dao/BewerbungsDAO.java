@@ -44,7 +44,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
-        String insert = "SELECT * FROM \"collDB\".bewerbung WHERE \"companyID\" = '" + companyid + "' AND \"jobofferID\" = '\" + jobofferid + \"' ";
+        String insert = "SELECT * FROM \"collDB\".bewerbung WHERE \"companyID\" = '" + companyid + "' AND \"jobofferID\" = '" +jobofferid + "' ";
         resultSet = statement.executeQuery(insert);
         List<Bewerbung> liste = new ArrayList<>();
         Bewerbung offer = null;
