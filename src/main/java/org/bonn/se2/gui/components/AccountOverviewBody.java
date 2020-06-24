@@ -178,6 +178,7 @@ public class AccountOverviewBody extends VerticalLayout {
 //            kverwaltenButton.addClickListener(e -> {
 //                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
 //            });
+
         }
     }
 
