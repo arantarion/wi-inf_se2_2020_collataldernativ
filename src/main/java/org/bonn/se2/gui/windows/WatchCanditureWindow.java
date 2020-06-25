@@ -101,7 +101,7 @@ public class WatchCanditureWindow extends Window {
         gridBewerbung.addColumn(Bewerbung::getBewerbungsID).setCaption("BewerbungsID");
         gridBewerbung.addColumn(Bewerbung::getStudentID).setCaption("StudentID");
         gridBewerbung.addColumn(Bewerbung::getNotes).setCaption("Motivationsschreiben");
-        gridBewerbung.addColumn(Bewerbung::getBewerbungsdatum).setCaption("Beschreibung");
+        gridBewerbung.addColumn(Bewerbung::getBewerbungsdatum).setCaption("Bewerbungsdatum");
         gridBewerbung.setSizeFull();
         gridBewerbung.setHeightMode(HeightMode.UNDEFINED);
         
