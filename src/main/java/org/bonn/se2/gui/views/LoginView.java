@@ -95,8 +95,7 @@ public class LoginView extends VerticalLayout implements View {
         });
         	
         
-        this.addComponent(toggle);
-    	*/
+        this.addComponent(toggle);*/
 
         this.setSizeFull();
 
