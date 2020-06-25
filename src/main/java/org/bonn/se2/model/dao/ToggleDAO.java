@@ -93,7 +93,6 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
 	@Override
 	protected Boolean create(ResultSet resultSet) throws DatabaseException {
 		System.out.println("create rrs");
-		// TODO Auto-generated method stub
 		return null;
 	}
 

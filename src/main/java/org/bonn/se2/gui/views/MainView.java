@@ -54,13 +54,14 @@ public class MainView extends VerticalLayout implements View {
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
         HorizontalLayout horizontalLayout = new HorizontalLayout();
-        HorizontalLayout horizontalLayout1 = new HorizontalLayout();
+        HorizontalLayout horizontalLayoutCompany = new HorizontalLayout();
         HorizontalLayout h2 = new HorizontalLayout();
         HorizontalLayout h3 = new HorizontalLayout();
 
         //Erzeugung der Variablen
         Button suche = new Button("Suchen", FontAwesome.SEARCH);
         TextField name = new TextField();
+        TextField sucheStudent = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
         //Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
         //Label role = new Label(SessionFunctions.getCurrentRole());
@@ -80,23 +81,17 @@ public class MainView extends VerticalLayout implements View {
         setComponentAlignment(h2, Alignment.TOP_LEFT);
 
         //Mitte
-        addComponent(horizontalLayout1);
-        setComponentAlignment(horizontalLayout1, Alignment.MIDDLE_CENTER);
-        horizontalLayout1.addComponent(label);
-        horizontalLayout1.addComponent(name);
-        horizontalLayout1.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
-        horizontalLayout1.addComponent(suche);
+        addComponent(horizontalLayoutCompany);
+        setComponentAlignment(horizontalLayoutCompany, Alignment.MIDDLE_CENTER);
+        horizontalLayoutCompany.addComponent(label);
+        horizontalLayoutCompany.addComponent(name);
+        horizontalLayoutCompany.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
+        horizontalLayoutCompany.addComponent(suche);
         
         final Button bewerbenJetzt = new Button("Direkt zur Bewerbung");
         final Button bewerbenSehen = new Button("Direkt zu den Bewerbungen");
         bewerbenSehen.setEnabled(false);
         bewerbenJetzt.setEnabled(false);
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
-        	bewerbenJetzt.setVisible(false);
-        }
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT){
-        	bewerbenSehen.setVisible(false);
-        }
         
         bewerbenSehen.addClickListener(new Button.ClickListener() {
 			
@@ -215,8 +210,8 @@ public class MainView extends VerticalLayout implements View {
 					if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID())){
 						bewerbenSehen.setEnabled(true);
 					} else {
-						bewerbenJetzt.setEnabled(true);
 						bewerbenSehen.setEnabled(false);
+						bewerbenJetzt.setEnabled(true);
 					}
 				} catch (DatabaseException e) {
 					// TODO Auto-generated catch block
@@ -230,6 +225,71 @@ public class MainView extends VerticalLayout implements View {
         	}
         	
         });
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
+        	addComponent(bewerbenSehen);
+        }
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT){
+        	addComponent(bewerbenJetzt);
+        }
+        
+        
+        Grid<Student> gridStudent = new Grid<>();
+        List<Student> listeStudent = null;
+        try {
+        	listeStudent = new StudentDAO().retrieveAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        gridStudent.setItems(listeStudent);
+        System.out.println(listeStudent);
+        gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
+        gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+        gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
+        gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
+        gridStudent.addColumn(Student::getJob).setCaption("Rolle");
+        gridStudent.setSizeFull();
+        gridStudent.setHeightMode(HeightMode.UNDEFINED);
+        
+/*
+        sucheStudent.addValueChangeListener(d -> {
+            if (!sucheStudent.getValue().equals("")) {
+                String attribute = sucheStudent.getValue();
+                gridStudent.removeAllColumns();
+                List<Student> listeStudent2 = null;
+                try {
+                	listeStudent2 = (List<Student>) new StudentDAO().retrieve(attribute);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                gridStudent.setItems(listeStudent2);
+                System.out.println(listeStudent2);
+                MultiSelectionModel<Student> selectionModel2 = (MultiSelectionModel<Student>) gridStudent.setSelectionMode(Grid.SelectionMode.MULTI);
+                gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+                gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
+                gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
+                gridStudent.addColumn(Student::getJob).setCaption("Rolle");
+                //addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
+            } else {
+                gridStudent.removeAllColumns();
+                List<Student> listeStudent3 = null;
+                try {
+                	listeStudent3 = new StudentDAO().retrieveAll();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+                gridStudent.setItems(listeStudent3);
+                System.out.println(listeStudent3);
+                MultiSelectionModel<Student> selectionModel3 = (MultiSelectionModel<Student>) gridStudent.setSelectionMode(Grid.SelectionMode.MULTI);
+                gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+                gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
+                gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
+                gridStudent.addColumn(Student::getJob).setCaption("Rolle");
+            }
+        });*/
+        
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
+        	addComponent(gridStudent);
+        }
         //Rechts oben
         //horizontalLayout.addComponent(role);
         //horizontalLayout.addComponent(username);
@@ -241,8 +301,6 @@ public class MainView extends VerticalLayout implements View {
         
        
         
-        addComponent(bewerbenSehen);
-		addComponent(bewerbenJetzt);
         
         
         //h3.addComponent(sample);

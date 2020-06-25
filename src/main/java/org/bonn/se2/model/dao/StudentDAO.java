@@ -66,8 +66,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         //language=PostgreSQL
         String sql =
                 "SELECT * FROM \"collDB\".user " +
-                        "INNER JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
-                        "INNER JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\"";
+                        "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\"";
         // LEFT OUTER JOIN ...
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Alle Studenten wurden abgerufen.");
         return execute(sql);
