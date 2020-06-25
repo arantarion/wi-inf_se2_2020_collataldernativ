@@ -1,10 +1,10 @@
 package org.bonn.se2.gui.views;
 
 import com.vaadin.event.ShortcutAction;
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
+import com.vaadin.server.*;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
@@ -155,7 +155,7 @@ public class LoginView extends VerticalLayout implements View {
 
         panel.setContent(layout);
 
-        Button loginButton = new Button("Login", FontAwesome.SEND);
+        Button loginButton = new Button("Login", VaadinIcons.PAPERPLANE);
         layout.addComponent(loginButton);
         layout.setComponentAlignment(loginButton, Alignment.MIDDLE_CENTER);
         layout.setComponentAlignment(userLogin, Alignment.MIDDLE_CENTER);
@@ -163,7 +163,7 @@ public class LoginView extends VerticalLayout implements View {
         loginButton.setClickShortcut(ShortcutAction.KeyCode.ENTER);
 
 
-        Button registrierungsButton = new Button("Registrierung", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        Button registrierungsButton = new Button("Registrierung", VaadinIcons.ARROW_CIRCLE_RIGHT_O);
         layout.addComponent(registrierungsButton);
         layout.setComponentAlignment(registrierungsButton, Alignment.MIDDLE_CENTER);
 
@@ -191,9 +191,7 @@ public class LoginView extends VerticalLayout implements View {
         });
 
 
-        registrierungsButton.addClickListener(e -> {
-            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.REGIST);
-        });
+        registrierungsButton.addClickListener(e -> UI.getCurrent().getNavigator().navigateTo(Configuration.Views.REGIST));
 
 
     }
