@@ -15,10 +15,12 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
     }
 
     public Boolean retrieve() throws DatabaseException {
-        //language=PostgreSQL
-        final String sql =
-                "SELECT 'erlaubeBewerbung' FROM \"collDB\".Toggle " +
-                "';";
+
+//        final String sql =
+//                "SELECT 'erlaubeBewerbung' FROM \"collDB\".Toggle " +
+//                "';";
+		//language=PostgreSQL
+        final String sql = "SELECT * FROM \"collDB\".toggle";
 
         List<Boolean> result = execute(sql);
 
@@ -34,8 +36,7 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
 
         //language=PostgreSQL
         String queryStudent = "UPDATE \"collDB\".Toggle " +
-                "SET (erlaubeBewerbung) = (?) " +
-                ";";
+                "SET \"erlaubeBewerbung\" = " + updatedItem + ";";
         try {
             PreparedStatement pst = this.getPreparedStatement(queryStudent);
             pst.setBoolean(1, updatedItem);
