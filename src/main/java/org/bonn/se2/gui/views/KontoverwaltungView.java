@@ -29,6 +29,7 @@ public class KontoverwaltungView extends VerticalLayout implements View {
     }
 
     public void setUp() {
+
         NavigationBar navigationBar = new NavigationBar();
         this.addComponent(navigationBar);
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
