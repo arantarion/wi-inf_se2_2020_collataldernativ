@@ -6,10 +6,18 @@ import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
+import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
+import org.bonn.se2.gui.windows.SendCanditureWindow;
+import org.bonn.se2.gui.windows.WatchCanditureWindow;
+import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
+import org.bonn.se2.model.dao.StudentDAO;
+import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
+import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
@@ -22,6 +30,8 @@ import java.util.List;
  */
 
 public class MainView extends VerticalLayout implements View {
+	
+	protected JobOffer selectedJobOffer = null;
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -76,6 +86,67 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayout1.addComponent(name);
         horizontalLayout1.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
         horizontalLayout1.addComponent(suche);
+        
+        final Button bewerbenJetzt = new Button("Direkt zur Bewerbung");
+        final Button bewerbenSehen = new Button("Direkt zu den Bewerbungen");
+        bewerbenSehen.setEnabled(false);
+        bewerbenJetzt.setEnabled(false);
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
+        	bewerbenJetzt.setVisible(false);
+        }
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT){
+        	bewerbenSehen.setVisible(false);
+        }
+        
+        bewerbenSehen.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				
+		        
+				
+				if (MainView.this.selectedJobOffer == null) {
+	        		return;
+	        	} else {
+	        		try {
+						if (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID()) {
+							Window swap = new WatchCanditureWindow(selectedJobOffer);
+							UI.getCurrent().addWindow(swap);
+						} else {
+							Notification notification = new Notification("Funktion nur für eigene Jobangebote verfügbar.");
+						}
+					} catch (DatabaseException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IllegalArgumentException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (NullPointerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+	            	
+	        	}
+				
+			}
+		});
+        
+        bewerbenJetzt.addClickListener(new Button.ClickListener() {
+			
+			@Override
+			public void buttonClick(ClickEvent event) {
+				
+		        
+				
+				if (MainView.this.selectedJobOffer == null) {
+	        		return;
+	        	} else {
+	            	Window swap = new SendCanditureWindow(selectedJobOffer);
+	            	UI.getCurrent().addWindow(swap);
+	        	}
+				
+			}
+		});
 
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste = null;
@@ -103,7 +174,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste2 = null;
                 try {
-                    liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
+            	liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -136,7 +207,29 @@ public class MainView extends VerticalLayout implements View {
                 grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
             }
         });
-
+        
+        grid.addSelectionListener(event -> {
+        	if (event.getFirstSelectedItem().isPresent()) {
+        		selectedJobOffer = (event.getFirstSelectedItem().get());
+        		try {
+					if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID())){
+						bewerbenSehen.setEnabled(true);
+					} else {
+						bewerbenJetzt.setEnabled(true);
+						bewerbenSehen.setEnabled(false);
+					}
+				} catch (DatabaseException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		
+        		
+        	} else {
+        		return;
+        		
+        	}
+        	
+        });
         //Rechts oben
         //horizontalLayout.addComponent(role);
         //horizontalLayout.addComponent(username);
@@ -144,6 +237,14 @@ public class MainView extends VerticalLayout implements View {
         //Mitte rechts
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
+        
+        
+       
+        
+        addComponent(bewerbenSehen);
+		addComponent(bewerbenJetzt);
+        
+        
         //h3.addComponent(sample);
     }
 

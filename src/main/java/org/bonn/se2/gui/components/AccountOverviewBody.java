@@ -1,13 +1,16 @@
 package org.bonn.se2.gui.components;
 
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.StreamResource;
-import com.vaadin.shared.ui.ContentMode;
-import com.vaadin.shared.ui.grid.HeightMode;
-import com.vaadin.ui.*;
-import com.vaadin.ui.components.grid.MultiSelectionModel;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+
+import javax.swing.AbstractButton;
+import javax.swing.ButtonGroup;
+
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
+import org.bonn.se2.model.objects.dto.Admin;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
@@ -16,10 +19,23 @@ import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.StreamResource;
+import com.vaadin.shared.ui.ContentMode;
+import com.vaadin.shared.ui.grid.HeightMode;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.Button;
+import com.vaadin.ui.Grid;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.Label;
+import com.vaadin.ui.Link;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.Panel;
+import com.vaadin.ui.RadioButtonGroup;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.grid.MultiSelectionModel;
 
 /**
  * @author Coll@Aldernativ
@@ -45,11 +61,38 @@ public class AccountOverviewBody extends VerticalLayout {
             e.printStackTrace();
         }
     }
+    
+    public AccountOverviewBody(Admin admin) throws Exception {
+        try {
+            setUp(admin);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
 
     private <T extends User> void setUp(T dto) throws Exception {
         this.setSizeFull();
+        
+        if (dto instanceof Admin) {
+        	Admin admin = (Admin) dto;
 
-        if (dto instanceof Student) {
+            GridLayout layout = new GridLayout(2, 4);
+            layout.setWidth("70%");
+            layout.setHeight("100%");
+            layout.setSpacing(true);
+            this.addComponent(layout);
+            this.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
+            
+            RadioButtonGroup<String> toggle = new RadioButtonGroup<>("Bewerbungen zulassen");
+            toggle.setItems("Ja", "Nein");
+            
+            this.addComponent(toggle);
+            
+        	
+        }
+        else if (dto instanceof Student) {
 
             Student student = (Student) dto;
 
