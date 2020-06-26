@@ -3,7 +3,6 @@ package org.bonn.se2.gui.views;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.ui.*;
 
 /**
