@@ -4,6 +4,7 @@ import com.vaadin.data.Binder;
 import com.vaadin.data.ValidationException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.StringLengthValidator;
+import com.vaadin.event.MouseEvents;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
@@ -48,33 +49,17 @@ public class RegistrierungsView extends VerticalLayout implements View {
         if (SessionFunctions.isLoggedIn()) {
             UIFunctions.gotoMain();
         } else {
+            createHeader();
             this.setUpStep1();
         }
     }
 
     public void setUpStep1() {
 
-        ThemeResource themeResource = new ThemeResource("images/logo_hd_3.png");
-        Image logo = new Image(null, themeResource);
-        logo.setWidth("750px");
-        logo.addStyleName("logo");
-
-        Label platzhalterLabel = new Label ("&nbsp" , ContentMode.HTML);
-
-        Label labelText = new Label("Willkommen auf Coll@Aldernativ! Der zentralen Schnittstelle zwischen Studenten & Unternehmen."
-                + " Hier findet jeder seinen Traumjob.");
-
-        this.addComponent(logo);
-        this.addComponent(labelText);
-
         auswahlPanel.setVisible(true);
 
-        //this.setSizeFull();
-        this.addComponent(platzhalterLabel);
-        platzhalterLabel.setHeight("40px");
         this.addComponent(auswahlPanel);
-        this.setComponentAlignment(logo, Alignment.MIDDLE_CENTER);
-        this.setComponentAlignment(labelText, Alignment.MIDDLE_CENTER);
+
         this.setComponentAlignment(auswahlPanel, Alignment.MIDDLE_CENTER);
 
         auswahlPanel.setWidth(37, Unit.PERCENTAGE);
@@ -83,22 +68,31 @@ public class RegistrierungsView extends VerticalLayout implements View {
         VerticalLayout content = new VerticalLayout();
         content.setSizeFull();
         HorizontalLayout buttonLayout = new HorizontalLayout();
+        HorizontalLayout prevButtonLayout = new HorizontalLayout();
         content.addComponent(buttonLayout);
+        content.addComponent(prevButtonLayout);
+        content.setComponentAlignment(prevButtonLayout, Alignment.MIDDLE_CENTER);
 
-        auswahlPanel.setContent(buttonLayout);
+        auswahlPanel.setContent(content);
         buttonLayout.setSizeFull();
 
         Button studentButton = new Button("Student");
         Button companyButton = new Button("Unternehmen");
+        Button backButton = new Button("Zurück", VaadinIcons.ARROW_CIRCLE_LEFT);
+
+        prevButtonLayout.addComponent(backButton);
+        prevButtonLayout.setComponentAlignment(backButton, Alignment.MIDDLE_CENTER);
 
         buttonLayout.setSpacing(false);
         buttonLayout.addComponents(studentButton, companyButton);
 
         studentButton.setWidth(100, Unit.PERCENTAGE);
         companyButton.setWidth(100, Unit.PERCENTAGE);
+        backButton.setWidth(30, Unit.PERCENTAGE);
 
         studentButton.setHeight("100px");
         companyButton.setHeight("100px");
+        backButton.setHeight("40px");
 
         buttonLayout.setDefaultComponentAlignment(Alignment.BOTTOM_CENTER);
 
@@ -113,20 +107,26 @@ public class RegistrierungsView extends VerticalLayout implements View {
             this.isStudent = false;
             setUpStep2();
         });
+
+        backButton.addClickListener(event -> {
+            UIFunctions.gotoLogin();
+        });
+
     }
 
     public void setUpStep2() {
 
         userCreationPanel.setVisible(true);
-        //this.setSizeUndefined();
         this.addComponent(userCreationPanel);
         this.setComponentAlignment(userCreationPanel, Alignment.MIDDLE_CENTER);
         userCreationPanel.setWidth("500px");
 
         Button weiterButton1 = new Button("Fortfahren", VaadinIcons.ARROW_RIGHT);
         weiterButton1.setClickShortcut(ShortcutAction.KeyCode.ENTER);
+
+        Button backButton = new Button("Zurück", VaadinIcons.ARROW_LEFT);
+
         FormLayout content = new FormLayout();
-        //content.setSizeUndefined();
 
         TextField usernameField = new TextField("Nutzername");
         binder.forField(usernameField).asRequired(new StringLengthValidator("Ihr Nutzername mindestens 5 Buchstaben haben", 5, 1000))
@@ -146,13 +146,21 @@ public class RegistrierungsView extends VerticalLayout implements View {
         PasswordField passwordCheckField = new PasswordField("Passwort wiederholen");
         passwordCheckField.setSizeFull();
 
-        content.addComponents(usernameField, emailField, passwordField, passwordCheckField, weiterButton1);
-        //content.setSizeUndefined();
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        buttonLayout.addComponents(backButton, weiterButton1);
+
+        content.addComponents(usernameField, emailField, passwordField, passwordCheckField, buttonLayout);
 
         content.setMargin(true);
         userCreationPanel.setContent(content);
 
         this.setComponentAlignment(userCreationPanel, Alignment.MIDDLE_CENTER);
+
+        backButton.addClickListener(clickEvent -> {
+            userCreationPanel.setVisible(false);
+
+            setUpStep1();
+        });
 
         weiterButton1.addClickListener(clickEvent -> {
             if (!passwordField.getValue().equals(passwordCheckField.getValue())) {
@@ -213,7 +221,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 .bind(Student::getNachname, Student::setNachname);
         nachname.setSizeFull();
 
-        nameLayout.addComponents(vorname, nachname, new Label ("&nbsp" , ContentMode.HTML));
+        nameLayout.addComponents(vorname, nachname, new Label("&nbsp", ContentMode.HTML));
 
         DateField geburtstag = new DateField("Geburtstag");
         geburtstag.setDateFormat("dd.MM.yyyy");
@@ -223,7 +231,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 .bind(Student::getGeburtstag, Student::setGeburtstag);
         geburtstag.setSizeFull();
 
-        geburtstagLayout.addComponents(geburtstag, new Label ("&nbsp" , ContentMode.HTML), new Label ("&nbsp" , ContentMode.HTML));
+        geburtstagLayout.addComponents(geburtstag, new Label("&nbsp", ContentMode.HTML), new Label("&nbsp", ContentMode.HTML));
         layout.addComponents(nameLayout, geburtstagLayout);
 
         addAddress(layout);
@@ -237,9 +245,6 @@ public class RegistrierungsView extends VerticalLayout implements View {
             setUpStep2();
         });
 
-//        Button completeButton = new Button("Abschließen");
-//        layout.addComponent(completeButton);
-//        layout.setComponentAlignment(completeButton, Alignment.BOTTOM_RIGHT);
 
         completeButton.addClickListener(clickEvent -> {
             boolean isValidEntry = true;
@@ -313,9 +318,6 @@ public class RegistrierungsView extends VerticalLayout implements View {
             setUpStep2();
         });
 
-//        Button completeButton = new Button("Abschließen");
-//        layout.addComponent(completeButton);
-//        layout.setComponentAlignment(completeButton, Alignment.BOTTOM_RIGHT);
 
         completeButton.addClickListener(clickEvent -> {
             boolean isValidEntry = true;
@@ -382,7 +384,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 .bind(Address::getHausnummer, Address::setHausnummer);
         hausnummer.setSizeFull();
 
-        addressLayout1.addComponent(new Label ("&nbsp" , ContentMode.HTML));
+        addressLayout1.addComponent(new Label("&nbsp", ContentMode.HTML));
 
 
         HorizontalLayout addressLayout2 = new HorizontalLayout();
@@ -420,11 +422,11 @@ public class RegistrierungsView extends VerticalLayout implements View {
         layout.addComponent(buttonContainer);
         buttonContainer.setSizeFull();
 
-        Button buttonToStep1 = new Button("Zurück");
+        Button buttonToStep1 = new Button("Zurück", VaadinIcons.ARROW_LEFT);
         buttonContainer.addComponent(buttonToStep1);
         buttonContainer.setComponentAlignment(buttonToStep1, Alignment.BOTTOM_LEFT);
 
-        Button buttonToStep3 = new Button("Weiter");
+        Button buttonToStep3 = new Button("Weiter", VaadinIcons.ARROW_RIGHT);
         buttonContainer.addComponent(buttonToStep3);
         buttonContainer.setComponentAlignment(buttonToStep3, Alignment.BOTTOM_RIGHT);
 
@@ -434,5 +436,29 @@ public class RegistrierungsView extends VerticalLayout implements View {
         return l;
     }
 
+    public void createHeader(){
+        ThemeResource themeResource = new ThemeResource("images/logo_hd_3.png");
+        Image logo = new Image(null, themeResource);
+        logo.setWidth("750px");
+        logo.addStyleName("logo");
+        logo.addClickListener((MouseEvents.ClickListener) event -> {
+            UIFunctions.gotoLogin();
+        });
+
+        Label platzhalterLabel = new Label("&nbsp", ContentMode.HTML);
+
+        Label labelText = new Label("Willkommen auf Coll@Aldernativ! Der zentralen Schnittstelle zwischen Studenten & Unternehmen."
+                + " Hier findet jeder seinen Traumjob.");
+
+        this.addComponent(logo);
+        this.addComponent(labelText);
+
+        this.addComponent(platzhalterLabel);
+        platzhalterLabel.setHeight("40px");
+
+        this.setComponentAlignment(logo, Alignment.MIDDLE_CENTER);
+        this.setComponentAlignment(labelText, Alignment.MIDDLE_CENTER);
+
+    }
 
 }
