@@ -42,7 +42,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
     boolean isStudent;
     private final Binder<User> binder = new Binder<>();
     private final Binder<Student> StudentBinder = new Binder<>();
-    private final Binder<Address> AdressBinder = new Binder<>();
+    private final Binder<Address> AddressBinder = new Binder<>();
     private final Binder<Company> CompanyBinder = new Binder<>();
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -252,7 +252,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
             Address address = new Address();
 
             try {
-                AdressBinder.writeBean(address);
+                AddressBinder.writeBean(address);
             } catch (ValidationException e) {
                 isValidEntry = false;
             }
@@ -325,7 +325,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
             Address address = new Address();
 
             try {
-                AdressBinder.writeBean(address);
+                AddressBinder.writeBean(address);
             } catch (ValidationException e) {
                 isValidEntry = false;
             }
@@ -369,7 +369,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         layout.addComponent(addressLayout1);
 
         TextField strasse = new TextField("Straße:");
-        AdressBinder.forField(strasse)
+        AddressBinder.forField(strasse)
                 .asRequired("Bitte geben Sie die Straße an.")
                 .bind(Address::getStrasse, Address::setStrasse);
         addressLayout1.addComponent(strasse);
@@ -379,7 +379,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         TextField hausnummer = new TextField("Hausnummer");
         addressLayout1.addComponent(hausnummer);
         hausnummer.setMaxLength(4);
-        AdressBinder.forField(hausnummer)
+        AddressBinder.forField(hausnummer)
                 .asRequired("Bitte geben Sie die Hausnummer an.")
                 .bind(Address::getHausnummer, Address::setHausnummer);
         hausnummer.setSizeFull();
@@ -394,7 +394,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         TextField plz = new TextField("Postleitzahl:");
         plz.setMaxLength(5);
         addressLayout2.addComponent(plz);
-        AdressBinder.forField(plz)
+        AddressBinder.forField(plz)
                 .asRequired("Bitte geben Sie die Postleitzahl an!")
                 .bind(Address::getPlz, Address::setPlz);
         plz.setSizeFull();
@@ -402,7 +402,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         TextField stadt = new TextField("Ort:");
         addressLayout2.addComponent(stadt);
-        AdressBinder.forField(stadt)
+        AddressBinder.forField(stadt)
                 .asRequired("Bitte geben Sie Ihre Stadt an.")
                 .bind(Address::getStadt, Address::setStadt);
         stadt.setSizeFull();
@@ -410,7 +410,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         TextField land = new TextField("Land:");
         addressLayout2.addComponent(land);
-        AdressBinder.forField(land)
+        AddressBinder.forField(land)
                 .asRequired("Bitte geben Sie das Land an.")
                 .bind(Address::getLand, Address::setLand);
         land.setSizeFull();
