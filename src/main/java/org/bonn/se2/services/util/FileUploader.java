@@ -21,6 +21,7 @@ import org.bonn.se2.model.objects.dto.Document;
 import org.bonn.se2.model.objects.dto.Student;
 
 import java.io.*;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,12 +71,14 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
         try {
             fis = new FileInputStream(file);
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
 
         if (this.mimeType.contains("pdf")) {
             try {
-                Student st = new StudentDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
+                Student st = new StudentDAO().retrieve(Objects.requireNonNull(SessionFunctions.getCurrentUser()).getUsername());
+                //Student st = new StudentDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
                 if (st != null) {
                     Document doc = new Document();
                     assert fis != null;

@@ -238,7 +238,6 @@ public class MainView extends VerticalLayout implements View {
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         gridStudent.setItems(listeStudent);
-        System.out.println(listeStudent);
         gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
         gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
         gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");

@@ -44,7 +44,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
-        String insert = "SELECT * FROM \"collDB\".bewerbung WHERE \"companyID\" = '" + companyid + "' AND \"jobofferID\" = '" + jobofferid + "' ";
+        final String insert = "SELECT * FROM \"collDB\".bewerbung WHERE \"companyID\" = '" + companyid + "' AND \"jobofferID\" = '" + jobofferid + "' ";
         resultSet = statement.executeQuery(insert);
         List<Bewerbung> liste = new ArrayList<>();
         Bewerbung offer = null;
@@ -71,7 +71,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
-        String insert = "SELECT * " +
+        final String insert = "SELECT * " +
                 "FROM \"collDB\".bewerbung " +
                 "WHERE \"companyID\" = '" + companyid + "' ";
         resultSet = statement.executeQuery(insert);
@@ -91,7 +91,6 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " wurden abgerufen");
         } catch (Exception e) {
-            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
         }
         return liste;
@@ -111,7 +110,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
 
     @Override
     public Bewerbung create(Bewerbung bewerbung) throws Exception {
-        String insertQuery2 = "INSERT INTO \"collDB\".bewerbung ( \"jobofferID\", \"companyID\", \"studentID\", bewerbungsdatum, notes) " +
+        final String insertQuery2 = "INSERT INTO \"collDB\".bewerbung ( \"jobofferID\", \"companyID\", \"studentID\", bewerbungsdatum, notes) " +
                 "VALUES ('" + bewerbung.getJobofferID() +
                 "','" + bewerbung.getCompanyID() + "', '" + bewerbung.getStudentID() +
                 "', '" + bewerbung.getBewerbungsdatum() + "', '" + bewerbung.getNotes() + "') " +

@@ -37,7 +37,10 @@ public class ProfilControl {
         try {
             if (ProfilView.getMyProfile()) {
                 CompanyDAO companyDAO = new CompanyDAO();
-                Company company = companyDAO.retrieve(user.getUsername());
+                Company company = null;
+                if (user != null) {
+                    company = companyDAO.retrieve(user.getUsername());
+                }
                 ProfilView.setCompany(company);
             }
             UIFunctions.gotoProfile();
@@ -64,7 +67,10 @@ public class ProfilControl {
         try {
             if (ProfilView.getMyProfile()) {
                 StudentDAO studentDAO = new StudentDAO();
-                Student student = studentDAO.retrieve(user.getEmail());
+                Student student = null;
+                if (user != null) {
+                    student = studentDAO.retrieve(user.getEmail());
+                }
                 ProfilView.setStudent(student);
             }
             UIFunctions.gotoProfile();

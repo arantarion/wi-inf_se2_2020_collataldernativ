@@ -145,10 +145,10 @@ public class AccountOverviewBody extends VerticalLayout {
             Button jobofferButton = new Button("Neue Stellenanzeige erstellen");
 
             Company comp = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
-            int ID = comp.getcompanyID();
+            int id = comp.getcompanyID();
 
             Grid<JobOffer> grid = new Grid<>();
-            List<JobOffer> liste = new OfferDAO().retrieveCompanyOffers(ID);
+            List<JobOffer> liste = new OfferDAO().retrieveCompanyOffers(id);
             grid.setItems(liste);
             MultiSelectionModel<JobOffer> selectionModel = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
             grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
@@ -172,9 +172,10 @@ public class AccountOverviewBody extends VerticalLayout {
                 offerDeletionButton.addClickListener(d -> {
                     Set<JobOffer> list = e.getAllSelectedItems();
                     List<JobOffer> s = new ArrayList<>(list);
-                    for (int i = 0; i < s.size(); i++) {
+                    //for (int i = 0; i < s.size(); i++) { old version
+                    for (JobOffer jobOffer : s) {
                         try {
-                            new OfferDAO().delete(s.get(i).getJobofferID());
+                            new OfferDAO().delete(jobOffer.getJobofferID());
                         } catch (Exception exception) {
                             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                                     new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
@@ -182,7 +183,7 @@ public class AccountOverviewBody extends VerticalLayout {
                     }
                     grid.removeAllColumns();
                     try {
-                        List<JobOffer> liste2 = new OfferDAO().retrieveCompanyOffers(ID);
+                        List<JobOffer> liste2 = new OfferDAO().retrieveCompanyOffers(id);
                     } catch (DatabaseException | SQLException ex) {
                         Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                                 new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
@@ -199,14 +200,7 @@ public class AccountOverviewBody extends VerticalLayout {
             offerDeletionButton.setEnabled(false);
             this.addComponent(h3);
 
-            //this.setComponentAlignment(grid, Alignment.TOP_CENTER);
-
-            jobofferButton.addClickListener(e -> {
-                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.OFFERCREATION);
-            });
-//            kverwaltenButton.addClickListener(e -> {
-//                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.KVERWALTUNG);
-//            });
+            jobofferButton.addClickListener(e -> UI.getCurrent().getNavigator().navigateTo(Configuration.Views.OFFERCREATION));
 
         }
     }
@@ -245,9 +239,14 @@ public class AccountOverviewBody extends VerticalLayout {
             panel = createPanel("Dokumente");
         } else {
             panel = new Panel("Dokumente");
+
             if (filename != null || !filename.equals("")) {
                 Link link = new Link(filename + ".pdf", file);
                 layout.addComponent(link);
+            } else {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        "Filename is null.");
+                return null;
             }
         }
 

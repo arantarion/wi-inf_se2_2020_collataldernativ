@@ -44,9 +44,9 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         Button s = new Button("Speichern", VaadinIcons.ARROW_CIRCLE_RIGHT);
 
 
-        PasswordField pwAlt;
-        PasswordField pwNeu;
-        PasswordField pwNeu2;
+        PasswordField pwAlt = new PasswordField("Altes Passwort:");
+        PasswordField pwNeu = new PasswordField("Neues Passwort:");
+        PasswordField pwNeu2 = new PasswordField("Neues Passwort wiederholen");
 
         CheckBox j = new CheckBox("regelmäßig Emails über neue Angebote bekommen");
         CheckBox n = new CheckBox("Alle Benachrichtigungen ausschalten");
@@ -72,9 +72,7 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
 
         FormLayout content = new FormLayout();
-        content.addComponent(pwAlt = new PasswordField("Altes Passwort:"));
-        content.addComponent(pwNeu = new PasswordField("Neues Passwort:"));
-        content.addComponent(pwNeu2 = new PasswordField("Neues Passwort wiederholen"));
+        content.addComponents(pwAlt, pwNeu, pwNeu2);
         content.setSizeUndefined();
 
         content.setMargin(true);
