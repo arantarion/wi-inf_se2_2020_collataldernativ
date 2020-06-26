@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<Document>{
 
-    protected DocumentDAO() throws DatabaseException {
+    public DocumentDAO() throws DatabaseException {
     }
 
     @Override
