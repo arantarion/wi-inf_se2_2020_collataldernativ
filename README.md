@@ -2,7 +2,10 @@
 Coll@Aldernativ - Eine neue und inovative Version von Coll@H-BRS
 
 <h2>Beschreibung</h2>
-TODO
+Hier entsteht das Semester-Projekt im Fach Software Engineering 2 bei Prof. Dr. Sasha Alda.
+Es ist eine Plattform um Jobs als Student passende Jobs zu finden und als Unternehmen einen passenden Studenten.
+Also wirklich etwas für Jedermann. Registrieren Sie sich noch heute und finden Sie schnell und zuverlässig den richtigen Arbeitgeber / Arbeitnehmer. 
+
 
 <h2>Mitglieder</h2>
 <table>
@@ -123,11 +126,12 @@ TODO
 <p>&nbsp;</p>
 
 
-<h2>Installation</h2>
-TODO
+<h2>Dokumente</h2>
+TODO - hier sollten Links zu allen Dokumenten / Artefakten im Git hin
 
 <h2>Nutzung</h2>
-TODO
+TODO - hier könnte eine kleine Anleitung für den User entstehen, wie man einen Acc. registriert, sich anmeldet
+und auf der Seite umhernavigiert bzw. was man alles wo machen kann.
 
 <h2>Status</h2>
 Sprint 1 - 30.04.2020 bis 28.05.2020 -- Abgeschlossen -- <br>
