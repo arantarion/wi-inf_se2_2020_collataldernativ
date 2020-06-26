@@ -15,6 +15,7 @@ import com.vaadin.ui.Image;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.Upload;
 import org.bonn.se2.gui.windows.EditStudentWindow;
+import org.bonn.se2.model.dao.DocumentDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Document;
 import org.bonn.se2.model.objects.dto.Student;
@@ -79,10 +80,10 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
                     doc.setUserID(SessionFunctions.getCurrentUser().getUserID());
                     doc.setTitle(filename);
 
-                    //DocumentDAO ddoa = new DocumentDAO();
-                    //ddoa.updateOne(doc);
+                    DocumentDAO ddoa = new DocumentDAO();
+                    ddoa.update(doc);
 
-                    notification.setDescription("Lebenslauf hochgeladen. Bitte speichern nicht vergessen.");
+                    notification.setDescription("Dokument erfolgreich hochgeladen");
                 }
             } catch (Exception e) {
                 e.printStackTrace();
