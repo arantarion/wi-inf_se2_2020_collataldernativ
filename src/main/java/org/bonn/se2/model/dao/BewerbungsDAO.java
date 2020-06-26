@@ -36,7 +36,8 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         if (result.size() < 1) {
             throw new InvalidCredentialsException();
         }
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Das Bewerbungs-Objekt mit der bewerbungsID: " + bewerbungsid + " wurde abgerufen.");
+        String loggerMsg = "Das Bewerbungs-Objekt mit der bewerbungsID: " + bewerbungsid + " wurde abgerufen.";
+        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, loggerMsg);
         return result.get(0);
     }
 
@@ -61,8 +62,8 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " und der jobofferid: " + jobofferid + "wurden abgerufen");
         } catch (Exception e) {
-            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int companyid, int jobofferid) in JobOfferDAO failed", e);
+            String loggerMsg = "retrieveCompanyOffers(int companyid, int jobofferid) in JobOfferDAO failed";
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, loggerMsg, e);
         }
         return liste;
     }

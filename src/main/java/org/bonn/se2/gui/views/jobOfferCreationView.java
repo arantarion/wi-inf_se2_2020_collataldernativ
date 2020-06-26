@@ -38,12 +38,12 @@ public class jobOfferCreationView extends VerticalLayout implements View {
 
         Button speicherButton = new Button("Speichern");
 
-        TextField bereich;
-        TextField kontakt;
-        RichTextArea beschreibung;
-        TextField name;
-        TextField gehalt;
-        DateField beginDate;
+        TextField bereich = new TextField("Bereich:");
+        TextField kontakt = new TextField("Kontakt:");
+        RichTextArea beschreibung = new RichTextArea("Beschreibung:");
+        TextField name = new TextField("Name:");
+        TextField gehalt = new TextField("Gehalt (Optional):");
+        DateField beginDate = new DateField("Start Datum:");
 
         Company liste = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
         int ID = liste.getcompanyID();
@@ -54,12 +54,12 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         setComponentAlignment(panel, Alignment.MIDDLE_CENTER);
 
         FormLayout content = new FormLayout();
-        content.addComponent(bereich = new TextField("Bereich:"));
-        content.addComponent(kontakt = new TextField("Kontakt:"));
-        content.addComponent(beschreibung = new RichTextArea("Beschreibung:"));
-        content.addComponent(name = new TextField("Name:"));
-        content.addComponent(gehalt = new TextField("Gehalt (Optional):"));
-        content.addComponent(beginDate = new DateField("Start Datum:"));
+        content.addComponent(bereich);
+        content.addComponent(kontakt);
+        content.addComponent(beschreibung);
+        content.addComponent(name);
+        content.addComponent(gehalt);
+        content.addComponent(beginDate);
         content.addComponent(speicherButton);
         content.setSizeUndefined();
 

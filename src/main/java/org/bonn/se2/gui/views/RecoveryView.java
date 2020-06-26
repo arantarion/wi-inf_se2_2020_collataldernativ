@@ -21,7 +21,7 @@ public class RecoveryView extends VerticalLayout implements View {
         Button startseite = new Button("Startseite", VaadinIcons.ARROW_CIRCLE_RIGHT_O);
         Button abbrechen = new Button("Abbrechen", VaadinIcons.ARROW_CIRCLE_RIGHT_O);
         Button pw = new Button("Passwort senden", VaadinIcons.ARROW_CIRCLE_RIGHT_O);
-        TextField email;
+        TextField email = new TextField("Email:");
 
         HorizontalLayout h1 = new HorizontalLayout();
         addComponent(h1);
@@ -42,7 +42,7 @@ public class RecoveryView extends VerticalLayout implements View {
 
         FormLayout content = new FormLayout();
         //content.addComponent(h2);
-        content.addComponent(email = new TextField("Email:"));
+        content.addComponent(email);
         h2.addComponent(abbrechen);
         content.addComponent(h2);
         h2.addComponent(pw);

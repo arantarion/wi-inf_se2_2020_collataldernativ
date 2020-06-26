@@ -153,7 +153,7 @@ public class SendCanditureWindow extends Window {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                         new Throwable().getStackTrace()[0].getMethodName() + " failed", e1);
             }
-            System.out.println(bewerbungsid + " " + selectedJobOffer.getJobofferID() + " " + selectedJobOffer.getCompanyID() + " " + studentID + " " + LocalDate.now() + " " + motivationTf.getValue());
+            //System.out.println(bewerbungsid + " " + selectedJobOffer.getJobofferID() + " " + selectedJobOffer.getCompanyID() + " " + studentID + " " + LocalDate.now() + " " + motivationTf.getValue());
             Bewerbung bewerbungDTO = new Bewerbung(bewerbungsid, selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID, LocalDate.now(), motivationTf.getValue());
             try {
                 new BewerbungsDAO().create(bewerbungDTO);
