@@ -14,19 +14,17 @@
   .#{$primary-stylename}-vertical {
     @include valo-splitpanel-style($primary-stylename: $primary-stylename, $orientation: vertical);
   }
-  
+
   @if $include-additional-styles {
     .#{$primary-stylename}-horizontal.large {
       @include valo-splitpanel-style($splitter-size: round($v-unit-size/3), $splitter-handle-visible: true, $orientation: horizontal);
     }
-    
+
     .#{$primary-stylename}-vertical.large {
       @include valo-splitpanel-style($splitter-size: round($v-unit-size/3), $splitter-handle-visible: true, $orientation: vertical);
     }
   }
 }
-
-
 
 
 /**
@@ -36,7 +34,7 @@
  *
  * @group splitpanel
  */
-@mixin valo-splitpanel-global ($primary-stylename : v-splitpanel) {
+@mixin valo-splitpanel-global($primary-stylename : v-splitpanel) {
   .#{$primary-stylename}-vertical,
   .#{$primary-stylename}-horizontal {
     overflow: hidden;
@@ -113,7 +111,6 @@
 }
 
 
-
 /**
  *
  *
@@ -127,13 +124,13 @@
  * @group splitpanel
  */
 @mixin valo-splitpanel-style(
-    $primary-stylename : v-splitpanel,
-    $splitter-size: max(1px, first-number($v-border)),
-    $splitter-active-size: round($v-unit-size/3),
-    $splitter-handle-visible: false,
-    $splitter-shadow: none,
-    $orientation: vertical horizontal
-  ) {
+  $primary-stylename : v-splitpanel,
+  $splitter-size: max(1px, first-number($v-border)),
+  $splitter-active-size: round($v-unit-size/3),
+  $splitter-handle-visible: false,
+  $splitter-shadow: none,
+  $orientation: vertical horizontal
+) {
 
   $offset: round(($splitter-active-size - $splitter-size)/-2);
 
@@ -147,7 +144,7 @@
       }
 
       div {
-       &:before {
+        &:before {
           @include valo-button-style($shadow: $splitter-shadow);
           height: auto;
           padding: 0;
@@ -178,7 +175,7 @@
       }
 
       div {
-       &:before {
+        &:before {
           @include valo-button-style($shadow: $splitter-shadow);
           height: auto;
           padding: 0;
@@ -196,7 +193,6 @@
 }
 
 
-
 /**
  *
  *
@@ -205,7 +201,7 @@
  *
  * @group splitpanel
  */
-@mixin valo-splitpanel-splitter-handle-style ($horizontal: false, $include-common: true) {
+@mixin valo-splitpanel-splitter-handle-style($horizontal: false, $include-common: true) {
   @if $include-common {
     content: "";
     border: valo-border($strength: 0.6);

@@ -21,11 +21,13 @@ import org.bonn.se2.model.objects.dto.Document;
 import org.bonn.se2.model.objects.dto.Student;
 
 import java.io.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
 
-    public File file;
-    public String mimeType;
+    private File file;
+    private String mimeType;
     private String filename;
 
     public static byte[] toByteArray(FileInputStream fis) throws IOException {
@@ -53,7 +55,8 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
 
             return new FileOutputStream(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         return null;
     }
@@ -86,7 +89,8 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
                     notification.setDescription("Dokument erfolgreich hochgeladen");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }
         } else if (this.mimeType.contains("image")) {
             try {
@@ -99,7 +103,8 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
                 }
 
             } catch (IOException e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
                 notification.setDescription("Fehler");
             }
         } else {

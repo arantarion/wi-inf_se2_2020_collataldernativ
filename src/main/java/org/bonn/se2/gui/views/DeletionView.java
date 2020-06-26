@@ -14,6 +14,9 @@ import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 /**
@@ -30,7 +33,8 @@ public class DeletionView extends VerticalLayout implements View {
         try {
             this.setUp();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
 
@@ -104,22 +108,25 @@ public class DeletionView extends VerticalLayout implements View {
                 String passwort = null;
                 try {
                     passwort = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getPasswort();
-                } catch (DatabaseException | InvalidCredentialsException databaseException) {
-                    databaseException.printStackTrace();
+                } catch (DatabaseException | InvalidCredentialsException ex) {
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
                 }
                 if (hash(passwd.getValue()).equals(passwort)) {
                     try {
                         ID = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getUserID();
 
-                    } catch (DatabaseException | InvalidCredentialsException databaseException) {
-                        databaseException.printStackTrace();
+                    } catch (DatabaseException | InvalidCredentialsException ex) {
+                        Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                                new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
                     }
                     if (SessionFunctions.getCurrentRole().equals("student")) {
                         try {
                             new StudentDAO().delete(ID);
                             new UserDAO().delete(ID);
                         } catch (Exception exception) {
-                            exception.printStackTrace();
+                            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                                    new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
                         }
                         LoginControl.logoutUser();
                     }
@@ -132,7 +139,8 @@ public class DeletionView extends VerticalLayout implements View {
                             new CompanyDAO().delete(id);
                             new UserDAO().delete(id);
                         } catch (Exception exception) {
-                            exception.printStackTrace();
+                            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                                    new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
                         }
                         LoginControl.logoutUser();
                     }

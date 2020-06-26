@@ -25,7 +25,7 @@ $v-link-cursor: pointer !default;
  *
  * @group link
  */
-@mixin valo-link ($primary-stylename: v-link, $include-additional-styles: contains($v-included-additional-styles, link)) {
+@mixin valo-link($primary-stylename: v-link, $include-additional-styles: contains($v-included-additional-styles, link)) {
   .#{$primary-stylename} {
     @include valo-link-style;
 

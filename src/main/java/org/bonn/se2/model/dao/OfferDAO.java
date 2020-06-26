@@ -1,7 +1,6 @@
 package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.JobOffer;
-import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
@@ -107,10 +106,10 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         }
         return liste;
     }
-    
+
     //TODO
     public List<JobOffer> retrieveCompanyOffersbyID(String attribute, int ID) throws DatabaseException, SQLException {
-    	Statement statement = this.getStatement();
+        Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
         String insert = "SELECT * " +
@@ -142,7 +141,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         }
         return liste;
     }
-    
+
 
     @Override
     public JobOffer retrieve(String attribute) throws Exception {

@@ -1,17 +1,5 @@
 package org.bonn.se2.test.model.dao;
 
-import org.bonn.se2.model.dao.AddressDAO;
-import org.bonn.se2.model.objects.dto.Address;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.test.builder.AddressBuilder;
-import org.junit.Test;
-import org.junit.jupiter.api.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 /**
  * @author Coll@Aldernativ
  * @version 0.1a

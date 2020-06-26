@@ -11,6 +11,9 @@ import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
@@ -23,7 +26,8 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         try {
             this.setUp();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
 
@@ -79,7 +83,8 @@ public class jobOfferCreationView extends VerticalLayout implements View {
                     addComponent(new Label("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe"));
                 }
             } catch (Exception exception) {
-                exception.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
             }
 
         });

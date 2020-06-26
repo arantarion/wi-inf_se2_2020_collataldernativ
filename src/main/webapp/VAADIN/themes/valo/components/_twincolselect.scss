@@ -5,7 +5,7 @@
  *
  * @group twin-column-select
  */
-@mixin valo-twincolselect ($primary-stylename: v-select-twincol) {
+@mixin valo-twincolselect($primary-stylename: v-select-twincol) {
 
   .#{$primary-stylename} {
     white-space: normal;
@@ -16,8 +16,8 @@
 
     .v-textfield,
     .v-nativebutton {
-     width: auto !important;
-     margin-top: round($v-unit-size/4);
+      width: auto !important;
+      margin-top: round($v-unit-size/4);
     }
 
     .v-nativebutton {
@@ -120,7 +120,6 @@
     }
   }
 }
-
 
 
 /**

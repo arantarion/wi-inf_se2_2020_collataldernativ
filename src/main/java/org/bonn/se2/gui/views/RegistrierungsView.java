@@ -26,6 +26,8 @@ import org.bonn.se2.services.util.UIFunctions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Coll@Aldernativ
@@ -39,11 +41,11 @@ public class RegistrierungsView extends VerticalLayout implements View {
     private final Panel userCreationPanel = new Panel("Schritt 2: Geben Sie Ihre Daten ein");
     private final Panel studentCreationPanel = new Panel("Schritt 3: Geben Sie Ihre persönlichen Daten an");
     private final Panel companyCreationPanel = new Panel("Geben Sie Daten Ihres Unternehmens ein");
-    boolean isStudent;
     private final Binder<User> binder = new Binder<>();
     private final Binder<Student> StudentBinder = new Binder<>();
     private final Binder<Address> AddressBinder = new Binder<>();
     private final Binder<Company> CompanyBinder = new Binder<>();
+    boolean isStudent;
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         if (SessionFunctions.isLoggedIn()) {
@@ -266,7 +268,8 @@ public class RegistrierungsView extends VerticalLayout implements View {
             } catch (ValidationException e1) {
                 isValidEntry = false;
             } catch (Exception e2) {
-                e2.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e2);
             }
 
             if (!isValidEntry) {
@@ -340,7 +343,8 @@ public class RegistrierungsView extends VerticalLayout implements View {
             } catch (ValidationException e1) {
                 isValidEntry = false;
             } catch (Exception e2) {
-                e2.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e2);
             }
 
             if (!isValidEntry) {
@@ -436,7 +440,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         return l;
     }
 
-    public void createHeader(){
+    public void createHeader() {
         ThemeResource themeResource = new ThemeResource("images/logo_hd_3.png");
         Image logo = new Image(null, themeResource);
         logo.setWidth("750px");

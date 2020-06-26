@@ -5,7 +5,7 @@
  *
  * @group gridlayout
  */
-@mixin valo-gridlayout-global ($primary-stylename: v-gridlayout) {
+@mixin valo-gridlayout-global($primary-stylename: v-gridlayout) {
   .#{$primary-stylename} {
     position: relative;
   }

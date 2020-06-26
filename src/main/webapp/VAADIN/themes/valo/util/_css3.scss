@@ -6,7 +6,7 @@
  *
  * @group util
  */
-@mixin opacity ($value, $important: false) {
+@mixin opacity($value, $important: false) {
   $importantValue: null;
   @if $important {
     $importantValue: unquote("!important");
@@ -30,6 +30,6 @@
  *
  * @group util
  */
-@mixin box-shadow ($shadows...) {
+@mixin box-shadow($shadows...) {
   @include prefixer(box-shadow, $shadows, webkit spec);
 }

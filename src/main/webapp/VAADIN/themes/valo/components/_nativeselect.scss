@@ -5,7 +5,7 @@
  *
  * @group nativeselect
  */
-@mixin valo-nativeselect ($primary-stylename: v-select) {
+@mixin valo-nativeselect($primary-stylename: v-select) {
   .#{$primary-stylename} select {
     @include valo-nativeselect-select-style;
   }

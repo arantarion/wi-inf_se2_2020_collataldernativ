@@ -6,7 +6,7 @@
  *
  * @group formlayout
  */
-@mixin valo-formlayout ($primary-stylename: v-formlayout, $include-additional-styles: contains($v-included-additional-styles, formlayout)) {
+@mixin valo-formlayout($primary-stylename: v-formlayout, $include-additional-styles: contains($v-included-additional-styles, formlayout)) {
 
   @include valo-formlayout-spacing;
   @include valo-formlayout-margin;
@@ -76,7 +76,7 @@
  *
  * @group formlayout
  */
-@mixin valo-formlayout-margin ($margin: $v-layout-margin-top $v-layout-margin-right $v-layout-margin-bottom $v-layout-margin-left) {
+@mixin valo-formlayout-margin($margin: $v-layout-margin-top $v-layout-margin-right $v-layout-margin-bottom $v-layout-margin-left) {
   $top: 0;
   $right: 0;
   $bottom: 0;
@@ -143,7 +143,7 @@
  *
  * @group formlayout
  */
-@mixin valo-formlayout-spacing ($vertical: $v-layout-spacing-vertical) {
+@mixin valo-formlayout-spacing($vertical: $v-layout-spacing-vertical) {
   [class*="spacing"] > tbody > [class*="row"] > td {
     padding-top: $vertical;
   }
@@ -161,7 +161,7 @@
  *
  * @group formlayout
  */
-@mixin valo-formlayout-light-style ($row-height: $v-unit-size) {
+@mixin valo-formlayout-light-style($row-height: $v-unit-size) {
   > table {
     padding: 0;
   }

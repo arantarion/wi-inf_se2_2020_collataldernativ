@@ -10,18 +10,18 @@ $v-treegrid-class-depth: depth !default;
 
 /** Expander button visual - collapsed */
 @mixin valo-treegrid-collapsed-icon-style {
-    content: "\f0da";
-    font-family: ThemeIcons;
+  content: "\f0da";
+  font-family: ThemeIcons;
 }
 
 /** Expander button visual - expanded */
 @mixin valo-treegrid-expanded-icon-style {
-    content: "\f0d7";
-    font-family: ThemeIcons;
+  content: "\f0d7";
+  font-family: ThemeIcons;
 }
 
 
-@mixin valo-treegrid ($primary-stylename: v-treegrid) {
+@mixin valo-treegrid($primary-stylename: v-treegrid) {
 
   @include valo-grid($primary-stylename);
 

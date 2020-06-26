@@ -45,7 +45,7 @@ $v-tree-expand-animation-enabled: false !default;
  *
  * @group tree
  */
-@mixin valo-tree ($primary-stylename: v-tree) {
+@mixin valo-tree($primary-stylename: v-tree) {
 
   .#{$primary-stylename} {
     position: relative;
@@ -165,7 +165,6 @@ $v-tree-expand-animation-enabled: false !default;
   }
 
 
-
   .#{$primary-stylename}-node-selected {
     $font-color: valo-font-color($v-selection-color, 0.9);
     color: $font-color;
@@ -195,7 +194,6 @@ $v-tree-expand-animation-enabled: false !default;
       @include animation(valo-tree-node-open 400ms ease-in);
     }
   }
-
 
 
   // Drag'n'drop styles
@@ -255,7 +253,7 @@ $v-tree-expand-animation-enabled: false !default;
  *
  * @group tree
  */
-@mixin valo-tree-expanded-icon-style ($force: false) {
+@mixin valo-tree-expanded-icon-style($force: false) {
   @if $v-tree-animations-enabled == false or $force {
     content: "\f0d7";
     font-family: ThemeIcons;

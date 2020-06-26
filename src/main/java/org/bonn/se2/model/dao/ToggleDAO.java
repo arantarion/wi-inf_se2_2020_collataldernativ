@@ -1,5 +1,7 @@
 package org.bonn.se2.model.dao;
 
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,11 +9,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.bonn.se2.process.control.exceptions.DatabaseException;
+public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Boolean> {
 
-public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Boolean>{
-	
-	public ToggleDAO() throws DatabaseException {
+    public ToggleDAO() throws DatabaseException {
     }
 
     public Boolean retrieve() throws DatabaseException {
@@ -19,7 +19,7 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
 //        final String sql =
 //                "SELECT 'erlaubeBewerbung' FROM \"collDB\".Toggle " +
 //                "';";
-		//language=PostgreSQL
+        //language=PostgreSQL
         final String sql = "SELECT * FROM \"collDB\".toggle";
 
         List<Boolean> result = execute(sql);
@@ -31,7 +31,7 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
         Logger.getLogger(ToggleDAO.class.getName()).log(Level.INFO, "Der Wahrheitswert für die Togglebar wurde erfolgreich abgerufen.");
         return result.get(1);
     }
-    
+
     public void updateToggle(Boolean updatedItem) throws Exception {
 
         //language=PostgreSQL
@@ -49,51 +49,51 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
 
     }
 
-	@Override
-	public Boolean retrieve(int id) throws Exception {
-		System.out.println("retrieve int");
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Boolean retrieve(int id) throws Exception {
+        System.out.println("retrieve int");
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Boolean retrieve(String attribute) throws Exception {
-		System.out.println("retrieve string");
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Boolean retrieve(String attribute) throws Exception {
+        System.out.println("retrieve string");
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Boolean create(Boolean dto) throws Exception {
-		System.out.println("create boo");
-		return null;
-	}
+    @Override
+    public Boolean create(Boolean dto) throws Exception {
+        System.out.println("create boo");
+        return null;
+    }
 
-	@Override
-	public Boolean update(Boolean item) throws Exception {
-		System.out.println("update boo");
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Boolean update(Boolean item) throws Exception {
+        System.out.println("update boo");
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public Boolean delete(Boolean item) throws Exception {
-		System.out.println("delte");
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public Boolean delete(Boolean item) throws Exception {
+        System.out.println("delte");
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	public List<Boolean> retrieveAll() throws Exception {
-		System.out.println("retrieve all");
-		// TODO Auto-generated method stub
-		return null;
-	}
+    @Override
+    public List<Boolean> retrieveAll() throws Exception {
+        System.out.println("retrieve all");
+        // TODO Auto-generated method stub
+        return null;
+    }
 
-	@Override
-	protected Boolean create(ResultSet resultSet) throws DatabaseException {
-		System.out.println("create rrs");
-		return null;
-	}
+    @Override
+    protected Boolean create(ResultSet resultSet) throws DatabaseException {
+        System.out.println("create rrs");
+        return null;
+    }
 
 }

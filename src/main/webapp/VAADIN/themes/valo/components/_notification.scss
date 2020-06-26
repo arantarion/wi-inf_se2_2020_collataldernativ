@@ -1,7 +1,7 @@
- /**
- *
- * @group notification
- */
+/**
+*
+* @group notification
+*/
 $v-notification-title-color: $v-focus-color !default;
 
 
@@ -13,7 +13,7 @@ $v-notification-title-color: $v-focus-color !default;
  *
  * @group notification
  */
-@mixin valo-notification ($primary-stylename: v-Notification, $include-additional-styles: contains($v-included-additional-styles, notification)) {
+@mixin valo-notification($primary-stylename: v-Notification, $include-additional-styles: contains($v-included-additional-styles, notification)) {
 
   // Positional offsets
 
@@ -110,7 +110,7 @@ $v-notification-title-color: $v-focus-color !default;
   .v-icon + .#{$primary-stylename}-caption {
     margin-left: round($v-font-size);
   }
-  
+
   .#{$primary-stylename}-system {
     @include valo-notification-bar-style($primary-stylename);
     @include valo-notification-system-style($primary-stylename);
@@ -118,6 +118,7 @@ $v-notification-title-color: $v-focus-color !default;
 
   .#{$primary-stylename}.tray {
     text-align: left;
+
     .#{$primary-stylename}-caption {
       //display: block;
     }
@@ -126,6 +127,7 @@ $v-notification-title-color: $v-focus-color !default;
       display: block;
       margin: .5em 0 0;
     }
+
     @include valo-notification-tray-style;
   }
 
@@ -136,11 +138,13 @@ $v-notification-title-color: $v-focus-color !default;
   .#{$primary-stylename}.error {
     @include valo-notification-error-style($primary-stylename);
     @include valo-notification-closable-style;
+
     &:after {
       color: #fff;
       border-color: #fff;
-      border-color: rgba(255,255,255,.3);
+      border-color: rgba(255, 255, 255, .3);
     }
+
     &:active:after {
       background-color: #fff;
       color: #000;
@@ -174,8 +178,9 @@ $v-notification-title-color: $v-focus-color !default;
         &:after {
           color: #fff;
           border-color: #fff;
-          border-color: rgba(255,255,255,.3);
+          border-color: rgba(255, 255, 255, .3);
         }
+
         &:active:after {
           background-color: #fff;
           color: #000;
@@ -225,8 +230,6 @@ $v-notification-title-color: $v-focus-color !default;
 }
 
 
-
-
 /**
  *
  *
@@ -274,18 +277,15 @@ $v-notification-title-color: $v-focus-color !default;
 }
 
 
-
-
-
 /**
  *
  * @param {string} $primary-style
  *
  * @group notification
  */
-@mixin valo-notification-style ($primary-style) {
+@mixin valo-notification-style($primary-style) {
   background: $v-overlay-background-color;
-  @include box-shadow(0px 5px 15px 0px rgba(0,0,0,0.15));
+  @include box-shadow(0px 5px 15px 0px rgba(0, 0, 0, 0.15));
   padding: round($v-unit-size/2) round($v-unit-size/1.7);
 
   .#{$primary-style}-caption {
@@ -304,13 +304,13 @@ $v-notification-title-color: $v-focus-color !default;
  *
  * @group notification
  */
-@mixin valo-notification-bar-style ($primary-style) {
+@mixin valo-notification-bar-style($primary-style) {
   left: 0 !important;
   right: 0;
   max-width: 100%;
   margin: 0 !important;
   border-radius: 0;
-  @include box-shadow(0 0 20px 0 rgba(0,0,0,0.25));
+  @include box-shadow(0 0 20px 0 rgba(0, 0, 0, 0.25));
   padding: round($v-unit-size/3) round($v-unit-size/2.5);
 
   .#{$primary-style}-description, .#{$primary-style}-details {
@@ -352,7 +352,7 @@ $v-notification-title-color: $v-focus-color !default;
  *
  * @group notification
  */
-@mixin valo-notification-dark-style ($primary-style) {
+@mixin valo-notification-dark-style($primary-style) {
   background-color: #444;
   background-color: rgba(#444, .9);
   font-weight: $v-font-weight + 100;
@@ -374,7 +374,7 @@ $v-notification-title-color: $v-focus-color !default;
  *
  * @group notification
  */
-@mixin valo-notification-system-style ($primary-style) {
+@mixin valo-notification-system-style($primary-style) {
   @include valo-notification-dark-style($primary-style);
 
   // No need to underline the "click here" text, let's imply that the whole banner is clickable
@@ -389,7 +389,8 @@ $v-notification-title-color: $v-focus-color !default;
  *
  * @group notification
  */
-@mixin valo-notification-tray-style {}
+@mixin valo-notification-tray-style {
+}
 
 /**
  *
@@ -397,7 +398,7 @@ $v-notification-title-color: $v-focus-color !default;
  *
  * @group notification
  */
-@mixin valo-notification-warning-style ($primary-style) {
+@mixin valo-notification-warning-style($primary-style) {
   background: #FFF3D2;
 
   .#{$primary-style}-caption {
@@ -415,10 +416,10 @@ $v-notification-title-color: $v-focus-color !default;
  *
  * @group notification
  */
-@mixin valo-notification-error-style ($primary-style) {
+@mixin valo-notification-error-style($primary-style) {
   background: $v-error-indicator-color;
   font-weight: $v-font-weight + 100;
-  @include box-shadow(0px 5px 15px 0px rgba(0,0,0,0.25));
+  @include box-shadow(0px 5px 15px 0px rgba(0, 0, 0, 0.25));
 
   .#{$primary-style}-caption {
     color: valo-font-color($v-error-indicator-color, 1);
@@ -435,7 +436,7 @@ $v-notification-title-color: $v-focus-color !default;
  *
  * @group notification
  */
-@mixin valo-notification-small-style ($primary-style) {
+@mixin valo-notification-small-style($primary-style) {
   padding: round($v-unit-size/3.3) round($v-unit-size/2.8);
 
   .#{$primary-style}-caption {

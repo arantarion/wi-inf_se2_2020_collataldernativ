@@ -6,7 +6,7 @@
  *
  * @group datefield
  */
-@mixin valo-datefield ($primary-stylename: v-datefield, $include-additional-styles: contains($v-included-additional-styles, datefield)) {
+@mixin valo-datefield($primary-stylename: v-datefield, $include-additional-styles: contains($v-included-additional-styles, datefield)) {
 
   .#{$primary-stylename} {
     position: relative;
@@ -109,6 +109,7 @@
       .#{$primary-stylename}-textfield {
         @include valo-textfield-borderless-style;
       }
+
       .#{$primary-stylename}-button {
         border: none;
         color: inherit;
@@ -159,7 +160,7 @@
  *
  * @group datefield
  */
-@mixin valo-inline-datefield ($primary-stylename: v-inline-datefield) {
+@mixin valo-inline-datefield($primary-stylename: v-inline-datefield) {
   @include valo-datefield-calendarpanel-style(#{$primary-stylename}-calendarpanel);
 
   .#{$primary-stylename}-calendarpanel {
@@ -183,15 +184,15 @@
  *
  * @group datefield
  */
-@mixin valo-datefield-style (
-    $bevel             : $v-textfield-bevel,
-    $shadow            : $v-textfield-shadow,
-    $unit-size         : $v-unit-size,
-    $border            : $v-textfield-border,
-    $border-radius     : $v-textfield-border-radius,
-    $background-color  : $v-textfield-background-color,
-    $states            : normal focus disabled
-  ) {
+@mixin valo-datefield-style(
+  $bevel             : $v-textfield-bevel,
+  $shadow            : $v-textfield-shadow,
+  $unit-size         : $v-unit-size,
+  $border            : $v-textfield-border,
+  $border-radius     : $v-textfield-border-radius,
+  $background-color  : $v-textfield-background-color,
+  $states            : normal focus disabled
+) {
 
   height: $unit-size;
   border-radius: $border-radius;
@@ -219,6 +220,7 @@
     [class*="button"] {
       cursor: default;
       pointer-events: none;
+
       &:active:after {
         display: none;
       }
@@ -233,6 +235,7 @@
     [class*="button"] {
       cursor: default;
       pointer-events: none;
+
       &:active:after {
         display: none;
       }
@@ -258,7 +261,7 @@
  *
  * @group datefield
  */
-@mixin valo-datefield-button-style ($unit-size: $v-unit-size, $bevel: $v-bevel, $background-color: $v-textfield-background-color, $border-radius: $v-border-radius, $border: $v-textfield-border) {
+@mixin valo-datefield-button-style($unit-size: $v-unit-size, $bevel: $v-bevel, $background-color: $v-textfield-background-color, $border-radius: $v-border-radius, $border: $v-textfield-border) {
   $border-width: first-number($border) or 0;
   @include valo-tappable;
   -webkit-appearance: none;
@@ -346,7 +349,7 @@
   cursor: default;
   width: auto;
 
-   table {
+  table {
     border-collapse: collapse;
     border-spacing: 0;
     margin: 0 auto;
@@ -367,7 +370,7 @@
  *
  * @group datefield
  */
-@mixin valo-datefield-calendarpanel-style ($primary-stylename: v-datefield-calendarpanel) {
+@mixin valo-datefield-calendarpanel-style($primary-stylename: v-datefield-calendarpanel) {
   .#{$primary-stylename} {
     font-size: $v-font-size;
     text-align: center;
@@ -382,6 +385,7 @@
     display: inline-block;
     box-sizing: border-box;
     cursor: pointer;
+
     &:hover {
       @include valo-datefield-calendarpanel-day-hover-style;
     }
@@ -483,11 +487,11 @@
 
   td.#{$primary-stylename}-month {
     width: round($v-unit-size * 4);
-    cursor:default;
+    cursor: default;
     @include valo-datefield-calendarpanel-month-style;
   }
-  td.#{$primary-stylename}-month.header-month-year{
-    cursor:pointer;
+  td.#{$primary-stylename}-month.header-month-year {
+    cursor: pointer;
   }
 
   .#{$primary-stylename}-year td.#{$primary-stylename}-month {

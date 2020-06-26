@@ -2,7 +2,10 @@ package org.bonn.se2.gui.views;
 
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.ui.*;
+import com.vaadin.ui.Alignment;
+import com.vaadin.ui.GridLayout;
+import com.vaadin.ui.HorizontalLayout;
+import com.vaadin.ui.VerticalLayout;
 import org.bonn.se2.gui.components.AccountOverviewBody;
 import org.bonn.se2.gui.components.AccountOverviewHead;
 import org.bonn.se2.gui.components.NavigationBar;
@@ -23,7 +26,7 @@ public class ProfilView extends VerticalLayout implements View {
     private static Student student;
     private static Company company;
     private static boolean myProfile = true;
-    public GridLayout layout;
+    private GridLayout layout;
 
     public static Student getStudent() {
         return ProfilView.student;

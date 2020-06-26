@@ -1,14 +1,25 @@
 @-webkit-keyframes v-rotate-360 {
-   to {-webkit-transform: rotate(360deg);}
+  to {
+    -webkit-transform: rotate(360deg);
+  }
 }
+
 @-moz-keyframes v-rotate-360 {
-   to {-moz-transform: rotate(360deg);}
+  to {
+    -moz-transform: rotate(360deg);
+  }
 }
+
 @-o-keyframes v-rotate-360 {
-   to {-o-transform: rotate(360deg);}
+  to {
+    -o-transform: rotate(360deg);
+  }
 }
+
 @keyframes v-rotate-360 {
-   to {transform: rotate(360deg);}
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /**
@@ -20,7 +31,7 @@
  * @param {color} $color ($v-focus-color) - the color of the border of the spinner
  * @param {time} $speed (500ms) - the speed of the spinning animation
  */
-@mixin valo-spinner ($size: 24px, $thickness: 2px, $color: $v-focus-color, $speed: 500ms) {
+@mixin valo-spinner($size: 24px, $thickness: 2px, $color: $v-focus-color, $speed: 500ms) {
   // Make size divisible by 2, so that the rotation won't jiggle
   $size: round($size) + round($size) % 2;
   height: $size !important;
@@ -33,20 +44,6 @@
   @include animation(v-rotate-360 $speed infinite linear);
   pointer-events: none;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 /**
@@ -71,27 +68,49 @@ $v-loading-indicator-bar-height: ceil($v-unit-size/10) !default;
 $v-loading-indicator-bar-height--wait: ceil($v-unit-size/6) !default;
 
 
-
 @include keyframes(v-progress-start) {
-  0% { width: 0%; }
-  100% { width: 50%; }
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 50%;
+  }
 }
 
 @include keyframes(v-progress-delay) {
-  0% { width: 50%; }
-  100% { width: 90%; }
+  0% {
+    width: 50%;
+  }
+  100% {
+    width: 90%;
+  }
 }
 
 @include keyframes(v-progress-wait) {
-  0% { width: 90%; height: $v-loading-indicator-bar-height; }
-  3% { width: 91%; height: $v-loading-indicator-bar-height--wait; }
-  100% { width: 96%; height: $v-loading-indicator-bar-height--wait; }
+  0% {
+    width: 90%;
+    height: $v-loading-indicator-bar-height;
+  }
+  3% {
+    width: 91%;
+    height: $v-loading-indicator-bar-height--wait;
+  }
+  100% {
+    width: 96%;
+    height: $v-loading-indicator-bar-height--wait;
+  }
 }
 
 @include keyframes(v-progress-wait-pulse) {
-  0% { opacity: 1; }
-  50% { opacity: .1; }
-  100% { opacity: 1; }
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: .1;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 
 
@@ -131,17 +150,21 @@ $v-loading-indicator-bar-height--wait: ceil($v-unit-size/6) !default;
 
   .v-loading-indicator-delay {
     width: 90%;
+
     .v-ff & {
       width: 50%;
     }
+
     @include animation(v-progress-delay 3.8s forwards);
   }
 
   .v-loading-indicator-wait {
     width: 96%;
+
     .v-ff & {
       width: 90%;
     }
+
     @include animation(v-progress-wait 5s forwards, v-progress-wait-pulse 1s 4s infinite backwards);
   }
 

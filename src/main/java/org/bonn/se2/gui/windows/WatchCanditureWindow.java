@@ -7,6 +7,8 @@ import org.bonn.se2.model.objects.dto.Bewerbung;
 import org.bonn.se2.model.objects.dto.JobOffer;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Coll@Aldernativ
@@ -42,7 +44,8 @@ public class WatchCanditureWindow extends Window {
         try {
             liste = new BewerbungsDAO().retrieveCompanyBewerbungJobOffer(selectedJobOffer.getCompanyID(), selectedJobOffer.getJobofferID());
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         gridBewerbung.setItems(liste);
         gridBewerbung.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -58,8 +61,7 @@ public class WatchCanditureWindow extends Window {
                 selectedBewerbung = (event.getFirstSelectedItem().get());
                 //TODO
             } else {
-                return;
-
+                //TODO
             }
 
         });
@@ -69,9 +71,7 @@ public class WatchCanditureWindow extends Window {
         Button submit = new Button("Bewerbung senden");
         Button back = new Button("Zurück zur Hauptseite");
 
-        back.addClickListener(event -> {
-            UI.getCurrent().removeWindow(this);
-        });
+        back.addClickListener(event -> UI.getCurrent().removeWindow(this));
         //submit.addClickListener((Button.ClickListener) event -> this.setVisible(false));
 
         submit.addClickListener(clickEvent -> {

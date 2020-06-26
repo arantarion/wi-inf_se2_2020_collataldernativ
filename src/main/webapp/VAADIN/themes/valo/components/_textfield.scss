@@ -55,7 +55,7 @@ $v-textfield-disabled-opacity: $v-disabled-opacity !default;
  *
  * @group textfield
  */
-@mixin valo-textfield ($primary-stylename: v-textfield, $include-additional-styles: contains($v-included-additional-styles, textfield)) {
+@mixin valo-textfield($primary-stylename: v-textfield, $include-additional-styles: contains($v-included-additional-styles, textfield)) {
 
   .#{$primary-stylename} {
     @include valo-textfield-style;
@@ -155,24 +155,24 @@ $v-textfield-disabled-opacity: $v-disabled-opacity !default;
  *
  * @group textfield
  */
-@mixin valo-textfield-style (
-    $unit-size        : $v-unit-size,
-    $padding          : null,
+@mixin valo-textfield-style(
+  $unit-size        : $v-unit-size,
+  $padding          : null,
 
-    $font-color       : null,
-    $font-weight      : max(400, $v-font-weight),
-    $font-size        : null,
+  $font-color       : null,
+  $font-weight      : max(400, $v-font-weight),
+  $font-size        : null,
 
-    $background-color : $v-textfield-background-color,
-    $border           : $v-textfield-border,
-    $border-radius    : $v-textfield-border-radius,
+  $background-color : $v-textfield-background-color,
+  $border           : $v-textfield-border,
+  $border-radius    : $v-textfield-border-radius,
 
-    $gradient         : none,
-    $bevel            : $v-textfield-bevel,
-    $shadow           : $v-textfield-shadow,
+  $gradient         : none,
+  $bevel            : $v-textfield-bevel,
+  $shadow           : $v-textfield-shadow,
 
-    $states           : (normal, focus, disabled)
-  ) {
+  $states           : (normal, focus, disabled)
+) {
 
   @if contains($states, normal) {
     @include appearance(none);
@@ -244,7 +244,7 @@ $v-textfield-disabled-opacity: $v-disabled-opacity !default;
  *
  * @group textfield
  */
-@mixin valo-textfield-prompt-style ($background-color: $v-textfield-background-color) {
+@mixin valo-textfield-prompt-style($background-color: $v-textfield-background-color) {
   @if $background-color ==  transparent {
     color: inherit;
     @include opacity(.5);
@@ -270,7 +270,7 @@ $v-textfield-disabled-opacity: $v-disabled-opacity !default;
  *
  * @group textfield
  */
-@mixin valo-textfield-focus-style ($bevel: $v-textfield-bevel, $shadow: $v-textfield-shadow, $background-color: $v-textfield-background-color, $gradient: null) {
+@mixin valo-textfield-focus-style($bevel: $v-textfield-bevel, $shadow: $v-textfield-shadow, $background-color: $v-textfield-background-color, $gradient: null) {
   outline: none;
   @if $v-animations-enabled {
     @include transition(none);
@@ -311,7 +311,7 @@ $v-textfield-disabled-opacity: $v-disabled-opacity !default;
  *
  * @group textfield
  */
-@mixin valo-textfield-borderless-style ($background-color: transparent) {
+@mixin valo-textfield-borderless-style($background-color: transparent) {
   border: none;
   border-radius: 0;
   background: $background-color;

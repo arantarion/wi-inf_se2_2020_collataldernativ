@@ -1,41 +1,24 @@
 package org.bonn.se2.gui.components;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import javax.swing.AbstractButton;
-import javax.swing.ButtonGroup;
-
-import org.bonn.se2.model.dao.CompanyDAO;
-import org.bonn.se2.model.dao.OfferDAO;
-import org.bonn.se2.model.objects.dto.Admin;
-import org.bonn.se2.model.objects.dto.Company;
-import org.bonn.se2.model.objects.dto.JobOffer;
-import org.bonn.se2.model.objects.dto.Student;
-import org.bonn.se2.model.objects.dto.User;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.services.util.Configuration;
-import org.bonn.se2.services.util.SessionFunctions;
-
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Grid;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Link;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.RadioButtonGroup;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.*;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
+import org.bonn.se2.model.dao.CompanyDAO;
+import org.bonn.se2.model.dao.OfferDAO;
+import org.bonn.se2.model.objects.dto.*;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.SessionFunctions;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Coll@Aldernativ
@@ -49,7 +32,8 @@ public class AccountOverviewBody extends VerticalLayout {
         try {
             setUp(student);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
 
@@ -58,25 +42,26 @@ public class AccountOverviewBody extends VerticalLayout {
         try {
             setUp(company);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
-    
+
     public AccountOverviewBody(Admin admin) throws Exception {
         try {
             setUp(admin);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
-    
-    
+
 
     private <T extends User> void setUp(T dto) throws Exception {
         this.setSizeFull();
-        
+
         if (dto instanceof Admin) {
-        	Admin admin = (Admin) dto;
+            Admin admin = (Admin) dto;
 
             GridLayout layout = new GridLayout(2, 4);
             layout.setWidth("70%");
@@ -84,15 +69,14 @@ public class AccountOverviewBody extends VerticalLayout {
             layout.setSpacing(true);
             this.addComponent(layout);
             this.setComponentAlignment(layout, Alignment.MIDDLE_CENTER);
-            
+
             RadioButtonGroup<String> toggle = new RadioButtonGroup<>("Bewerbungen zulassen");
             toggle.setItems("Ja", "Nein");
-            
+
             this.addComponent(toggle);
-            
-        	
-        }
-        else if (dto instanceof Student) {
+
+
+        } else if (dto instanceof Student) {
 
             Student student = (Student) dto;
 
@@ -192,16 +176,16 @@ public class AccountOverviewBody extends VerticalLayout {
                         try {
                             new OfferDAO().delete(s.get(i).getJobofferID());
                         } catch (Exception exception) {
-                            exception.printStackTrace();
+                            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                                    new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
                         }
                     }
                     grid.removeAllColumns();
                     try {
                         List<JobOffer> liste2 = new OfferDAO().retrieveCompanyOffers(ID);
-                    } catch (DatabaseException databaseException) {
-                        databaseException.printStackTrace();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
+                    } catch (DatabaseException | SQLException ex) {
+                        Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                                new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
                     }
                     UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
                 });

@@ -5,7 +5,7 @@
  *
  * @group nativebutton
  */
-@mixin valo-nativebutton ($primary-stylename: v-nativebutton) {
+@mixin valo-nativebutton($primary-stylename: v-nativebutton) {
 
   button {
     font: inherit;

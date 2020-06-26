@@ -11,6 +11,9 @@ import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 /**
@@ -24,7 +27,8 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         try {
             this.setUp();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
 
@@ -88,8 +92,9 @@ public class KontoverwaltungView extends VerticalLayout implements View {
             String passwort = null;
             try {
                 passwort = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getPasswort();
-            } catch (DatabaseException | InvalidCredentialsException databaseException) {
-                databaseException.printStackTrace();
+            } catch (DatabaseException | InvalidCredentialsException ex) {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
             }
             if ((!pwAlt.getValue().equals("")) && (!pwNeu.getValue().equals("")) && (!pwNeu2.getValue().equals("")) && pwNeu.getValue().equals(pwNeu2.getValue()) && hash(pwAlt.getValue()).equals(passwort)) {
                 addComponent(new Label("Das Passwort wurde erfolgreich geändert."));

@@ -154,19 +154,19 @@ $v-selection-item-selection-color: $v-selection-color !default;
  * @param {list} $animate-in ($v-overlay-animate-in) - the animation used when the overlay is made visible
  * @param {list} $animate-out ($v-overlay-animate-out) - the animation used when the overlay is removed
  */
-@mixin valo-overlay-style (
-    $background-color: $v-overlay-background-color,
-    $shadow: $v-overlay-shadow,
-    $animate-in: $v-overlay-animate-in,
-    $animate-out: $v-overlay-animate-out
-  ) {
+@mixin valo-overlay-style(
+  $background-color: $v-overlay-background-color,
+  $shadow: $v-overlay-shadow,
+  $animate-in: $v-overlay-animate-in,
+  $animate-out: $v-overlay-animate-out
+) {
   padding: $v-overlay-padding-vertical $v-overlay-padding-horizontal;
   border-radius: $v-overlay-border-radius;
 
   background-color: $background-color;
   color: valo-font-color($background-color);
 
-  @include box-shadow( valo-bevel-and-shadow($bevel: null, $shadow: $shadow));
+  @include box-shadow(valo-bevel-and-shadow($bevel: null, $shadow: $shadow));
 
   @if $v-animations-enabled {
     @if $animate-in {
@@ -188,9 +188,6 @@ $v-selection-item-selection-color: $v-selection-color !default;
 }
 
 
-
-
-
 /**
  * Outputs styles for selection overlay elements.
  *
@@ -200,11 +197,10 @@ $v-selection-item-selection-color: $v-selection-color !default;
  * @param {list} $animate-in ($v-overlay-animate-in) - the animation used when the selection overlay is made visible
  * @param {list} $animate-out ($v-overlay-animate-out) - the animation used when the selection overlay is removed
  */
-@mixin valo-selection-overlay-style ($background-color: $v-selection-overlay-background-color, $animate-in: $v-overlay-animate-in, $animate-out: $v-overlay-animate-out) {
+@mixin valo-selection-overlay-style($background-color: $v-selection-overlay-background-color, $animate-in: $v-overlay-animate-in, $animate-out: $v-overlay-animate-out) {
   @include valo-overlay-style($background-color: $background-color, $animate-in: $animate-in, $animate-out: $animate-out);
   padding: $v-selection-overlay-padding-vertical $v-selection-overlay-padding-horizontal;
 }
-
 
 
 /**
@@ -245,7 +241,6 @@ $v-selection-item-selection-color: $v-selection-color !default;
 }
 
 
-
 /**
  * Outputs the styles for selected selection item elements.
  *
@@ -257,11 +252,6 @@ $v-selection-item-selection-color: $v-selection-color !default;
   color: $font-color;
   text-shadow: valo-text-shadow($font-color: $font-color, $background-color: $v-selection-item-selection-color);
 }
-
-
-
-
-
 
 
 /**
@@ -291,7 +281,7 @@ $v-selection-item-selection-color: $v-selection-color !default;
  *
  * @param {color} $background-color ($v-app-background-color) - the background color for the ghost element
  */
-@mixin valo-drag-element-style ($background-color: $v-app-background-color) {
+@mixin valo-drag-element-style($background-color: $v-app-background-color) {
   background: $background-color;
   color: valo-font-color($background-color);
   @include box-shadow(0 2px 10px rgba(#000, .2));

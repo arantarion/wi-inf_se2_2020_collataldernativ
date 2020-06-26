@@ -6,7 +6,7 @@
  *
  * @group checkbox
  */
-@mixin valo-checkbox ($primary-stylename: v-checkbox, $include-additional-styles: contains($v-included-additional-styles, checkbox)) {
+@mixin valo-checkbox($primary-stylename: v-checkbox, $include-additional-styles: contains($v-included-additional-styles, checkbox)) {
 
   .#{$primary-stylename} {
     @include valo-checkbox-style;
@@ -48,7 +48,7 @@
  * 
  * @group checkbox
  */
-@mixin valo-checkbox-style ($background-color: $v-background-color, $unit-size: $v-unit-size, $selection-color: $v-selection-color) {
+@mixin valo-checkbox-style($background-color: $v-background-color, $unit-size: $v-unit-size, $selection-color: $v-selection-color) {
 
   // So that we can use the same 'unit-size' for all component sizes
   $size: $unit-size/2;
@@ -72,7 +72,7 @@
 
   :root & > input {
     position: absolute;
-    clip: rect(0,0,0,0);
+    clip: rect(0, 0, 0, 0);
     left: .2em;
     top: .2em;
     z-index: 0;
@@ -122,7 +122,7 @@
   }
 
   & > .v-icon,
-  & > label .v-icon  {
+  & > label .v-icon {
     margin: 0 round($size/3) 0 round($size/6);
     min-width: 1em;
     cursor: pointer;

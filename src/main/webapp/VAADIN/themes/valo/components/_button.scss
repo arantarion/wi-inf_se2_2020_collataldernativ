@@ -6,7 +6,7 @@
  *
  * @group button
  */
-@mixin valo-button ($primary-stylename: v-button, $include-additional-styles: contains($v-included-additional-styles, button)) {
+@mixin valo-button($primary-stylename: v-button, $include-additional-styles: contains($v-included-additional-styles, button)) {
   .#{$primary-stylename} {
     @include valo-button-static-style;
     @include valo-button-style;
@@ -108,7 +108,7 @@
  *
  * @group button
  */
-@mixin valo-button-static-style ($states: (normal, hover, focus, active, disabled), $vertical-centering: true) {
+@mixin valo-button-static-style($states: (normal, hover, focus, active, disabled), $vertical-centering: true) {
   @if contains($states, normal) {
     position: relative;
     text-align: center;
@@ -175,7 +175,7 @@
  *
  * @group button
  */
-@mixin valo-button-style (
+@mixin valo-button-style(
   $unit-size        : $v-unit-size,
   $padding          : null,
 
@@ -269,7 +269,7 @@
  *
  * @param {color} $background-color ($v-background-color) - The background color of the normal state button
  */
-@mixin valo-button-hover-style ($background-color: $v-background-color) {
+@mixin valo-button-hover-style($background-color: $v-background-color) {
   $bg: darken($background-color, 25%);
   @if is-dark-color($background-color) {
     $bg: lighten($background-color, 15%);
@@ -287,7 +287,7 @@
  * @param {color} $background-color ($v-background-color) - The background color of the normal state button
  * @param {list} $border-fallback (inherit) - If the luminance of $v-focus-color is less than the $background-color, the focus color is also used for the border color. If not, then $border-fallback is used for the focus element's border value.
  */
-@mixin valo-button-focus-style ($background-color: $v-background-color, $border-fallback: inherit) {
+@mixin valo-button-focus-style($background-color: $v-background-color, $border-fallback: inherit) {
   $focus-color: $v-focus-color;
 
   @if color-luminance($focus-color) + 50 < color-luminance($background-color) {
@@ -308,7 +308,7 @@
  *
  * @param {color} $background-color ($v-background-color) - The background color of the normal state button
  */
-@mixin valo-button-active-style ($background-color: $v-background-color) {
+@mixin valo-button-active-style($background-color: $v-background-color) {
   $bg: scale-color($background-color, $lightness: -50%, $saturation: saturation($background-color));
   background-color: rgba($bg, .2);
 }
@@ -348,7 +348,7 @@
  *
  * @group button
  */
-@mixin valo-button-borderless-style ($font-color: inherit) {
+@mixin valo-button-borderless-style($font-color: inherit) {
   border: none;
   @include box-shadow(none);
   background: transparent;

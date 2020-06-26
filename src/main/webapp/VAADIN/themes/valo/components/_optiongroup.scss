@@ -6,7 +6,7 @@
  *
  * @group optiongroup
  */
-@mixin valo-optiongroup ($primary-stylename: v-select-optiongroup, $include-additional-styles: contains($v-included-additional-styles, optiongroup)) {
+@mixin valo-optiongroup($primary-stylename: v-select-optiongroup, $include-additional-styles: contains($v-included-additional-styles, optiongroup)) {
 
   .v-radiobutton {
     @include valo-radiobutton-style;
@@ -45,7 +45,7 @@
  *
  * @group optiongroup
  */
-@mixin valo-radiobutton-style ($background-color: $v-background-color, $unit-size: $v-unit-size, $selection-color: $v-selection-color) {
+@mixin valo-radiobutton-style($background-color: $v-background-color, $unit-size: $v-unit-size, $selection-color: $v-selection-color) {
   @include valo-checkbox-style($background-color: $background-color, $unit-size: $unit-size, $selection-color: $selection-color);
 
   :root & > input {
@@ -68,7 +68,6 @@
 }
 
 
-
 /**
  *
  *
@@ -77,7 +76,7 @@
  *
  * @group optiongroup
  */
-@mixin valo-optiongroup-style ($unit-size: $v-unit-size, $font-size: $v-font-size) {
+@mixin valo-optiongroup-style($unit-size: $v-unit-size, $font-size: $v-font-size) {
 
   @if $unit-size != $v-unit-size {
     .v-checkbox {

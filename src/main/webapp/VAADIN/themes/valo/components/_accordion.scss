@@ -5,7 +5,7 @@
  * @param {bool} $include-additional-styles - should the mixin output all the different style variations of the component
  * @group accordion
  */
-@mixin valo-accordion ($primary-stylename: v-accordion, $include-additional-styles: contains($v-included-additional-styles, accordion)) {
+@mixin valo-accordion($primary-stylename: v-accordion, $include-additional-styles: contains($v-included-additional-styles, accordion)) {
   .#{$primary-stylename} {
     @include valo-accordion-style;
   }
@@ -98,7 +98,7 @@
  * @param {color} $background-color (null) - the background color of the caption. Other styles (such as font and border colors, gradients and bevels) adapt to the background color automatically.
  * @group accordion
  */
-@mixin valo-accordion-item-caption-style ($background-color: null) {
+@mixin valo-accordion-item-caption-style($background-color: null) {
   border-radius: inherit;
 
   > .v-caption {

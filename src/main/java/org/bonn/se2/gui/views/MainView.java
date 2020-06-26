@@ -21,6 +21,8 @@ import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Coll@Aldernativ
@@ -41,7 +43,8 @@ public class MainView extends VerticalLayout implements View {
             try {
                 this.setUp();
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }
         }
     }
@@ -97,7 +100,6 @@ public class MainView extends VerticalLayout implements View {
             @Override
             public void buttonClick(ClickEvent event) {
 
-
                 if (MainView.this.selectedJobOffer == null) {
                     return;
                 } else {
@@ -108,15 +110,9 @@ public class MainView extends VerticalLayout implements View {
                         } else {
                             Notification notification = new Notification("Funktion nur für eigene Jobangebote verfügbar.");
                         }
-                    } catch (DatabaseException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (IllegalArgumentException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    } catch (NullPointerException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
+                    } catch (DatabaseException | IllegalArgumentException | NullPointerException e) {
+                        Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                                new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
                     }
 
                 }
@@ -145,7 +141,8 @@ public class MainView extends VerticalLayout implements View {
         try {
             liste = new OfferDAO().retrieveAll();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         grid.setItems(liste);
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -168,7 +165,8 @@ public class MainView extends VerticalLayout implements View {
                 try {
                     liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
                 }
                 grid.setItems(liste2);
                 MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -186,7 +184,8 @@ public class MainView extends VerticalLayout implements View {
                 try {
                     liste3 = new OfferDAO().retrieveAll();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
                 }
                 grid.setItems(liste3);
                 MultiSelectionModel<JobOffer> selectionModel3 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -211,8 +210,8 @@ public class MainView extends VerticalLayout implements View {
                         bewerbenJetzt.setEnabled(true);
                     }
                 } catch (DatabaseException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
                 }
 
 
@@ -235,7 +234,8 @@ public class MainView extends VerticalLayout implements View {
         try {
             listeStudent = new StudentDAO().retrieveAll();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         gridStudent.setItems(listeStudent);
         System.out.println(listeStudent);

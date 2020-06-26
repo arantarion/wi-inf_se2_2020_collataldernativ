@@ -11,6 +11,8 @@ import org.bonn.se2.services.util.FileUploader;
 import org.bonn.se2.services.util.SessionFunctions;
 
 import java.time.LocalDate;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Coll@Aldernativ
@@ -148,8 +150,8 @@ public class SendCanditureWindow extends Window {
                 Student st = new StudentDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
                 studentID = st.getStudentID();
             } catch (DatabaseException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e1);
             }
             System.out.println(bewerbungsid + " " + selectedJobOffer.getJobofferID() + " " + selectedJobOffer.getCompanyID() + " " + studentID + " " + LocalDate.now() + " " + motivationTf.getValue());
             Bewerbung bewerbungDTO = new Bewerbung(bewerbungsid, selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID, LocalDate.now(), motivationTf.getValue());
@@ -157,11 +159,9 @@ public class SendCanditureWindow extends Window {
                 new BewerbungsDAO().create(bewerbungDTO);
                 BewerbungsDAO bewerbungDAO = new BewerbungsDAO();
                 close();
-            } catch (DatabaseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }
 
 

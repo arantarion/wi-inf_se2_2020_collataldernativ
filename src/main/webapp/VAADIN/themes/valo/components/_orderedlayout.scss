@@ -43,11 +43,11 @@
   .v-horizontal > .v-expand > .v-slot {
     height: 100%;
   }
-  
-  /* Workaround for IE8+IE9 bug where clicking inside an input area which is inside a div with negative margin causes cursor position to jump to wrong position. See #11152 */ 
-  .v-horizontal > .v-expand > .v-slot { 
-     position: relative; 
-  } 
+
+  /* Workaround for IE8+IE9 bug where clicking inside an input area which is inside a div with negative margin causes cursor position to jump to wrong position. See #11152 */
+  .v-horizontal > .v-expand > .v-slot {
+    position: relative;
+  }
 
   .v-vertical > .v-spacing,
   .v-vertical > .v-expand > .v-spacing {
@@ -150,7 +150,6 @@
 }
 
 
-
 /**
  *
  *
@@ -158,7 +157,7 @@
  *
  * @group orderedlayout
  */
-@mixin valo-orderedlayout ($include-additional-styles: contains($v-included-additional-styles, orderedlayout) or contains($v-included-additional-styles, verticallayout) or contains($v-included-additional-styles, horizontallayout)) {
+@mixin valo-orderedlayout($include-additional-styles: contains($v-included-additional-styles, orderedlayout) or contains($v-included-additional-styles, verticallayout) or contains($v-included-additional-styles, horizontallayout)) {
 
   .v-margin-top {
     padding-top: $v-layout-margin-top;
@@ -209,14 +208,14 @@
  * @group orderedlayout
  */
 @mixin valo-horizontallayout-wrapping-style {
-    white-space: normal !important;
+  white-space: normal !important;
 
-    & > .v-spacing + .v-slot,
-    & > .v-slot:first-child {
-      margin-bottom: $v-layout-spacing-vertical;
-    }
+  & > .v-spacing + .v-slot,
+  & > .v-slot:first-child {
+    margin-bottom: $v-layout-spacing-vertical;
+  }
 
-    & > .v-slot:first-child:last-child {
-      margin-bottom: 0;
-    }
+  & > .v-slot:first-child:last-child {
+    margin-bottom: 0;
+  }
 }
