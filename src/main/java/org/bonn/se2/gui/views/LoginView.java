@@ -1,5 +1,6 @@
 package org.bonn.se2.gui.views;
 
+import com.vaadin.event.MouseEvents;
 import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
@@ -16,6 +17,7 @@ import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
+import org.bonn.se2.services.util.UIFunctions;
 
 /**
  * @author Coll@Aldernativ
@@ -97,6 +99,9 @@ public class LoginView extends VerticalLayout implements View {
         Image logo = new Image(null, themeResource);
         logo.setWidth("750px");
         logo.addStyleName("logo");
+        logo.addClickListener((MouseEvents.ClickListener) event -> {
+            UIFunctions.gotoLogin();
+        });
 
         Label platzhalterLabel = new Label("&nbsp", ContentMode.HTML);
 
@@ -111,8 +116,6 @@ public class LoginView extends VerticalLayout implements View {
         this.addComponents(platzhalterLabel);
         platzhalterLabel.setHeight("60px");
 
-
-        //
 
         final TextField userLogin = new TextField();
         userLogin.setCaption("UserID:");
