@@ -1,58 +1,16 @@
 package org.bonn.se2.gui.windows;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.time.LocalDate;
-
-import javax.swing.Icon;
-
-import org.bonn.se2.gui.ui.MyUI;
-import org.bonn.se2.gui.views.ProfilView;
+import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.BewerbungsDAO;
-import org.bonn.se2.model.dao.DocumentDAO;
-import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
-import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Bewerbung;
-import org.bonn.se2.model.objects.dto.Document;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
-import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.FileUploader;
-import org.bonn.se2.services.util.PasswordValidator;
 import org.bonn.se2.services.util.SessionFunctions;
-import org.bonn.se2.services.util.Utils;
 
-import com.vaadin.data.Binder;
-import com.vaadin.data.ValidationException;
-import com.vaadin.data.validator.EmailValidator;
-import com.vaadin.icons.VaadinIcons;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
-import com.vaadin.server.Resource;
-import com.vaadin.server.ThemeResource;
-import com.vaadin.server.VaadinSession;
-import com.vaadin.shared.Position;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.GridLayout;
-import com.vaadin.ui.HorizontalLayout;
-import com.vaadin.ui.Image;
-import com.vaadin.ui.Label;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.TextArea;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.Upload;
-import com.vaadin.ui.VerticalLayout;
-import com.vaadin.ui.Window;
-import com.vaadin.ui.themes.ValoTheme;
+import java.time.LocalDate;
 
 /**
  * @author Coll@Aldernativ
@@ -61,7 +19,7 @@ import com.vaadin.ui.themes.ValoTheme;
  */
 
 public class SendCanditureWindow extends Window {
-	
+
     private final JobOffer selectedJobOffer;
 
     public SendCanditureWindow(JobOffer selectedJobOffer) {
@@ -120,14 +78,14 @@ public class SendCanditureWindow extends Window {
         upload_lebenslauf.addSucceededListener(receiver);
         upload_lebenslauf.setAcceptMimeTypes("application/pdf");
                
-        Button use_lebenslauf = new Button("'Document' verwenden",FontAwesome.FILE);
+        Button use_lebenslauf = new Button("'Document' verwenden",VaadinIcons.FILE);
         
         use_lebenslauf.addClickListener(event -> {
             //Hochgeladenes Objekt wieder löschen, falls for
         });
         
         
-        Button no_lebenslauf = new Button("Kein Lebenslauf vorhanden.",FontAwesome.FILE);
+        Button no_lebenslauf = new Button("Kein Lebenslauf vorhanden.",VaadinIcons.FILE);
         no_lebenslauf.setEnabled(false);
         
         
@@ -161,8 +119,8 @@ public class SendCanditureWindow extends Window {
         //submit.addClickListener((Button.ClickListener) event -> this.setVisible(false));
 
         submit.addClickListener(clickEvent -> {
-        	//TODO
-        	int bewerbungsid = 0;
+            //TODO
+            int bewerbungsid = 0;
 //        	String path = "" ;//receiver.getFile().getName();
 //            FileInputStream input = null;
 //    		try {
@@ -183,26 +141,26 @@ public class SendCanditureWindow extends Window {
     		System.out.println(path);
     		System.out.println(data);
         	*/
-        	//Done
-        	//DocumentDAO lebenslauf = DocumentDAO.create(upload_anschreiben);
-        	int studentID = 0;
-        	 try {
-				Student st = new StudentDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
-				studentID = st.getStudentID();
-			} catch (DatabaseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-        	System.out.println(bewerbungsid + " " + selectedJobOffer.getJobofferID() + " " +  selectedJobOffer.getCompanyID() + " " + studentID  + " " + LocalDate.now() + " " + motivationTf.getValue());
-            Bewerbung bewerbungDTO = new Bewerbung(bewerbungsid, selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID , LocalDate.now(), motivationTf.getValue());
+            //Done
+            //DocumentDAO lebenslauf = DocumentDAO.create(upload_anschreiben);
+            int studentID = 0;
+            try {
+                Student st = new StudentDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
+                studentID = st.getStudentID();
+            } catch (DatabaseException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            System.out.println(bewerbungsid + " " + selectedJobOffer.getJobofferID() + " " + selectedJobOffer.getCompanyID() + " " + studentID + " " + LocalDate.now() + " " + motivationTf.getValue());
+            Bewerbung bewerbungDTO = new Bewerbung(bewerbungsid, selectedJobOffer.getJobofferID(), selectedJobOffer.getCompanyID(), studentID, LocalDate.now(), motivationTf.getValue());
             try {
                 new BewerbungsDAO().create(bewerbungDTO);
-				BewerbungsDAO bewerbungDAO = new BewerbungsDAO();
-				close();
-			} catch (DatabaseException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
+                BewerbungsDAO bewerbungDAO = new BewerbungsDAO();
+                close();
+            } catch (DatabaseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 

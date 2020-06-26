@@ -4,34 +4,18 @@ import com.vaadin.event.ShortcutAction;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.*;
+import com.vaadin.server.Page;
+import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
-import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
 import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
-
-import com.vaadin.event.ShortcutAction;
-import com.vaadin.navigator.View;
-import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
-import com.vaadin.server.Page;
-import com.vaadin.shared.Position;
-import com.vaadin.ui.Alignment;
-import com.vaadin.ui.Button;
-import com.vaadin.ui.Notification;
-import com.vaadin.ui.Panel;
-import com.vaadin.ui.PasswordField;
-import com.vaadin.ui.RadioButtonGroup;
-import com.vaadin.ui.TextField;
-import com.vaadin.ui.UI;
-import com.vaadin.ui.VerticalLayout;
 
 /**
  * @author Coll@Aldernativ
@@ -48,12 +32,12 @@ public class LoginView extends VerticalLayout implements View {
         if (user != null) {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
         }
-        
+
         this.setUp();
     }
 
     private void setUp() {
-    	//TODO TOGGLE
+        //TODO TOGGLE
     	/*
     	RadioButtonGroup<String> toggle = new RadioButtonGroup<>("Bewerbungen zulassen");
         toggle.setItems("Ja", "Nein");
@@ -114,7 +98,7 @@ public class LoginView extends VerticalLayout implements View {
         logo.setWidth("750px");
         logo.addStyleName("logo");
 
-        Label platzhalterLabel = new Label ("&nbsp" , ContentMode.HTML);
+        Label platzhalterLabel = new Label("&nbsp", ContentMode.HTML);
 
         Label labelText = new Label("Willkommen auf Coll@Aldernativ! Der zentralen Schnittstelle zwischen Studenten & Unternehmen."
                 + " Hier findet jeder seinen Traumjob.");
@@ -145,8 +129,7 @@ public class LoginView extends VerticalLayout implements View {
         VerticalLayout layout = new VerticalLayout();
         //layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
         layout.addComponents(userLogin, passwd);
-        
-        
+
 
         Panel panel = new Panel("Bitte Login-Daten angeben:");
 

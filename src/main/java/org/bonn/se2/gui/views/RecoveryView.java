@@ -1,5 +1,6 @@
 package org.bonn.se2.gui.views;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
 import com.vaadin.server.FontAwesome;
@@ -18,9 +19,9 @@ public class RecoveryView extends VerticalLayout implements View {
     }
 
     public void setUp() {
-        Button startseite = new Button("Startseite", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button abbrechen = new Button("Abbrechen", FontAwesome.ARROW_CIRCLE_O_RIGHT);
-        Button pw = new Button("Passwort senden", FontAwesome.ARROW_CIRCLE_O_RIGHT);
+        Button startseite = new Button("Startseite", VaadinIcons.ARROW_CIRCLE_RIGHT_O);
+        Button abbrechen = new Button("Abbrechen", VaadinIcons.ARROW_CIRCLE_RIGHT_O);
+        Button pw = new Button("Passwort senden", VaadinIcons.ARROW_CIRCLE_RIGHT_O);
         TextField email;
 
         HorizontalLayout h1 = new HorizontalLayout();

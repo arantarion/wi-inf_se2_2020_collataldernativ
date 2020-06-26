@@ -428,7 +428,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         buttonContainer.addComponent(buttonToStep3);
         buttonContainer.setComponentAlignment(buttonToStep3, Alignment.BOTTOM_RIGHT);
 
-        List l = new ArrayList();
+        List<Button> l = new ArrayList<>();
         l.add(buttonToStep1);
         l.add(buttonToStep3);
         return l;
