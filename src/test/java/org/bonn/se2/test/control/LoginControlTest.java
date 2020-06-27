@@ -25,10 +25,10 @@ import static org.mockito.Mockito.when;
  * @Programmer Henry Weckermann
  */
 
-@RunWith(MockitoJUnitRunner.class)
+//@RunWith(MockitoJUnitRunner.class)
 public class LoginControlTest {
 
-    @Mock
+    /*@Mock
     private UI myui; // erzeuge und injiziere ein „UI-Objekt“
 
     @Mock
@@ -56,7 +56,7 @@ public class LoginControlTest {
         UserAtLogin dto = new UserAtLogin("", "");
         assertThrows(InvalidCredentialsException.class, () -> LoginControl.checkAuthentication(dto));
     }
-
+*/
     /*@Test
     public void getRole() {
         UserAtLogin studentDto = new UserAtLogin("HenryW", "123456");
