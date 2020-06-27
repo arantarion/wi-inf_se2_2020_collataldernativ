@@ -41,6 +41,26 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         return result.get(0);
     }
 
+    @Override
+    public Student retrieve(String attribute) throws DatabaseException {
+        //language=PostgreSQL
+        final String sql =
+                "SELECT * FROM \"collDB\".user " +
+                        "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
+                        //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
+                        // LEFT OUTER JOIN ... etc
+                        "WHERE username = ? " +
+                        "OR email = ?;";
+
+        List<Student> result = executePrepared(sql, attribute, attribute);
+        if (result.size() < 1) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "retrieve(String attribute) did not return a DTO.");
+            throw new DatabaseException("retrieve(String attribute) did not return a DTO");
+        }
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Der Student mit dem Attribut: " + attribute + " wurde erfolgreich abgerufen.");
+        return result.get(0);
+    }
+    
     public List<Student> retrieveStudents(String attribute) throws DatabaseException {
         //language=PostgreSQL
         final String sql =
@@ -207,10 +227,4 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "Studen mit der ID: " + ID + " wurde erfolgreich gelöscht.");
         return result.get(0);
     }
-
-	@Override
-	public Student retrieve(String attribute) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }
