@@ -14,6 +14,9 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
@@ -303,7 +306,8 @@ public class EditStudentWindow extends Window {
             } catch (ValidationException e) {
                 isValid = false;
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }
 
             if (!isValid) {

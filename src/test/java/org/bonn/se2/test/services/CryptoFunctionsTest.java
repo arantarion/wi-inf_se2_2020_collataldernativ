@@ -3,11 +3,11 @@ package org.bonn.se2.test.services;
 import org.bonn.se2.services.util.CryptoFunctions;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 

@@ -54,10 +54,8 @@ public class LoginControl {
                 new CompanyDAO().retrieve(user.getUserID());
                 return Configuration.Roles.COMPANY;
             } catch (DatabaseException ex) {
-                //return Configuration.Roles.ADMIN;
                 Logger.getLogger(LoginControl.class.getName()).log(Level.SEVERE, null, ex);
                 return null;
-                //throw new DatabaseException("Konnte die Rolle des Nutzers nicht feststellen @.@");
             }
         }
     }

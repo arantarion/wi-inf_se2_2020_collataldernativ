@@ -105,13 +105,13 @@ $v-letter-spacing--h4: 0 !default;
  *
  * @group label
  */
-@mixin valo-label ($primary-stylename: v-label, $include-additional-styles: contains($v-included-additional-styles, label)) {
+@mixin valo-label($primary-stylename: v-label, $include-additional-styles: contains($v-included-additional-styles, label)) {
 
   .#{$primary-stylename} {
     @include user-select(text);
 
     &.v-disabled {
-        @include opacity($v-disabled-opacity);
+      @include opacity($v-disabled-opacity);
     }
   }
 
@@ -163,14 +163,14 @@ $v-letter-spacing--h4: 0 !default;
   }
 
   .v-csslayout {
-   > h1,
-   > h2,
-   > h3,
-   > h4
-   > .#{$primary-stylename}-h1,
-   > .#{$primary-stylename}-h2,
-   > .#{$primary-stylename}-h3,
-   > .#{$primary-stylename}-h4 {
+    > h1,
+    > h2,
+    > h3,
+    > h4
+    > .#{$primary-stylename}-h1,
+    > .#{$primary-stylename}-h2,
+    > .#{$primary-stylename}-h3,
+    > .#{$primary-stylename}-h4 {
       &:first-child {
         margin-top: $v-font-size;
       }

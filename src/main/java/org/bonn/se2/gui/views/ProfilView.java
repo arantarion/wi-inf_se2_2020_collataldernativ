@@ -26,7 +26,7 @@ public class ProfilView extends VerticalLayout implements View {
     private static Student student;
     private static Company company;
     private static boolean myProfile = true;
-    public GridLayout layout;
+    private GridLayout layout;
 
     public static Student getStudent() {
         return ProfilView.student;
@@ -66,7 +66,7 @@ public class ProfilView extends VerticalLayout implements View {
 
     public void setUp() throws Exception {
 
-        this.setSizeFull();
+        //this.setSizeFull();
 
         layout = new GridLayout(1, 3); //
         layout.setSpacing(true);
@@ -76,7 +76,7 @@ public class ProfilView extends VerticalLayout implements View {
         layout.setColumnExpandRatio(0, 0.5f);
 
         NavigationBar navigationBar = new NavigationBar();
-        navigationBar.setHeight("10%");
+        //navigationBar.setHeight("100%");
         layout.addComponent(navigationBar, 0, 0);
         layout.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
@@ -93,6 +93,7 @@ public class ProfilView extends VerticalLayout implements View {
         headerLayout.setWidth("100%");
         AccountOverviewHead headStudent = new AccountOverviewHead(ProfilView.getStudent());
         headerLayout.addComponent(headStudent);
+
         layout.addComponent(headerLayout, 0, 1);
 
         HorizontalLayout bodyLayout = new HorizontalLayout();

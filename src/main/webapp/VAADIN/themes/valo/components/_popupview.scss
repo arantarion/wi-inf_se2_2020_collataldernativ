@@ -11,7 +11,7 @@
  *
  * @group popupview
  */
-@mixin valo-popupview ($primary-stylename: v-popupview) {
+@mixin valo-popupview($primary-stylename: v-popupview) {
   .#{$primary-stylename} {
     @include valo-link-style;
   }

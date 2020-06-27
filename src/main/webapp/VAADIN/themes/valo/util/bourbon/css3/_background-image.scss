@@ -21,10 +21,9 @@
       $gradient-args: null;
 
       @if ($gradient-type == linear) or ($gradient-type == radial) {
-        $gradient-pos:  nth(nth($images, $i), 2); // Get gradient position
+        $gradient-pos: nth(nth($images, $i), 2); // Get gradient position
         $gradient-args: nth(nth($images, $i), 3); // Get actual gradient (red, blue)
-      }
-      @else {
+      } @else {
         $gradient-args: nth(nth($images, $i), 2); // Get actual gradient (red, blue)
       }
 
@@ -32,7 +31,7 @@
       $gradient: _render-gradients($gradient-positions, $gradient-args, $gradient-type, $vendor);
       $images-prefixed: append($images-prefixed, $gradient, comma);
     }
-    // If variable is a string - Image
+      // If variable is a string - Image
     @else if $type == string {
       $images-prefixed: join($images-prefixed, nth($images, $i), comma);
     }
@@ -41,8 +40,8 @@
 }
 
 //Examples:
-  //@include background-image(linear-gradient(top, orange, red));
-  //@include background-image(radial-gradient(50% 50%, cover circle, orange, red));
-  //@include background-image(url("/images/a.png"), linear-gradient(orange, red));
-  //@include background-image(url("image.png"), linear-gradient(orange, red), url("image.png"));
-  //@include background-image(linear-gradient(hsla(0, 100%, 100%, 0.25) 0%, hsla(0, 100%, 100%, 0.08) 50%, transparent 50%), linear-gradient(orange, red));
+//@include background-image(linear-gradient(top, orange, red));
+//@include background-image(radial-gradient(50% 50%, cover circle, orange, red));
+//@include background-image(url("/images/a.png"), linear-gradient(orange, red));
+//@include background-image(url("image.png"), linear-gradient(orange, red), url("image.png"));
+//@include background-image(linear-gradient(hsla(0, 100%, 100%, 0.25) 0%, hsla(0, 100%, 100%, 0.08) 50%, transparent 50%), linear-gradient(orange, red));

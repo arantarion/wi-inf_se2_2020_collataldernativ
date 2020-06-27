@@ -36,6 +36,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-lighten-color($foreground, $background) {
   @if $background > $foreground {
     $foreground: $background;
@@ -53,6 +54,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-darken-color($foreground, $background) {
   @if $background < $foreground {
     $foreground: $background;
@@ -108,11 +110,11 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-lineardodge-color($foreground, $background) {
   @if $background + $foreground > 255 {
     $foreground: 255;
-  }
-  @else {
+  } @else {
     $foreground: $background + $foreground;
   }
   @return $foreground;
@@ -128,11 +130,11 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-linearburn-color($foreground, $background) {
   @if $background + $foreground < 255 {
     $foreground: 0;
-  }
-  @else {
+  } @else {
     $foreground: $background + $foreground - 255;
   }
   @return $foreground;
@@ -159,6 +161,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-screen-color($foreground, $background) {
   @return (255 - ( ( (255 - $foreground) * (255 - $background)) / 256));
 }
@@ -173,6 +176,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-exclusion-color($foreground, $background) {
   @return $background - ($background * (2 / 255) - 1) * $foreground;
 }
@@ -187,6 +191,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-overlay-color($foreground, $background) {
   @if $background <= 255 / 2 {
     $foreground: (2 * $background * $foreground) / 255;
@@ -206,6 +211,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-softlight-color($foreground, $background) {
   @if $background < 128 {
     $foreground: (($foreground / 2) + 64) * $background * (2 / 255);
@@ -225,6 +231,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-hardlight-color($foreground, $background) {
   $tmp-blend: $foreground;
   @if $tmp-blend < 128 {
@@ -245,6 +252,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-colordodge-color($foreground, $background) {
   $tmp: $background * 256 / (255 - $foreground);
   @if $tmp > 255 or $foreground == 255 {
@@ -265,13 +273,14 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-colorburn-color($foreground, $background) {
   $tmp: (255 - ((255 - $background) * 255) / $foreground);
 
   // TODO: hacked to replicate photoshop
   @if $foreground == 0 {
     $foreground: 255;
-  } @elseif $tmp < 0 {
+  } @else if $tmp < 0 {
     $foreground: 0;
   } @else {
     $foreground: $tmp;
@@ -289,6 +298,7 @@
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-linearlight-color($foreground, $background) {
   @if $foreground < 128 {
     $foreground: blend-linearburn-color($background, 2 * $foreground);
@@ -322,9 +332,9 @@
 // Pin Light
 //--------------------------------
 @function blend-pinlight ($foreground, $background) {
-  $bm-red:   blend-pinlight-color(red($foreground), red($background));
+  $bm-red: blend-pinlight-color(red($foreground), red($background));
   $bm-green: blend-pinlight-color(green($foreground), green($background));
-  $bm-blue:  blend-pinlight-color(blue($foreground), blue($background));
+  $bm-blue: blend-pinlight-color(blue($foreground), blue($background));
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
@@ -371,7 +381,7 @@
 
   $bm-hsv: nth($foreground-hsv, 1), nth($foreground-hsv, 2), nth($background-hsv, 3);
   $bm-color: hsv-to-color($bm-hsv);
-  
+
   @return blend-normal(rgba(red($bm-color), green($bm-color), blue($bm-color), opacity($foreground)), $background);
 }
 
@@ -391,10 +401,11 @@
 @function blend-divide ($foreground, $background) {
   $bm-red: blend-divide-colors(red($foreground), red($background));
   $bm-green: blend-divide-colors(green($foreground), green($background));
-  $bm-blue:blend-divide-colors(blue($foreground), blue($background));
+  $bm-blue: blend-divide-colors(blue($foreground), blue($background));
 
   @return blend-normal(rgba($bm-red, $bm-green, $bm-blue, opacity($foreground)), $background);
 }
+
 @function blend-divide-colors($foreground, $background) {
   @return min((($background / 255) / ($foreground / 255)) * 255, 255);
 }
@@ -421,7 +432,7 @@
 
   $bm-hsv: nth($background-hsv, 1), nth($background-hsv, 2), nth($foreground-hsv, 3);
   $bm-color: hsv-to-color($bm-hsv);
-  
+
   @return blend-normal(rgba(red($bm-color), green($bm-color), blue($bm-color), opacity($foreground)), $background);
 }
 
@@ -434,7 +445,7 @@
 
   $bm-hsv: nth($background-hsv, 1), nth($foreground-hsv, 2), nth($background-hsv, 3);
   $bm-color: hsv-to-color($bm-hsv);
-  
+
   @return blend-normal(rgba(red($bm-color), green($bm-color), blue($bm-color), opacity($foreground)), $background);
 }
 

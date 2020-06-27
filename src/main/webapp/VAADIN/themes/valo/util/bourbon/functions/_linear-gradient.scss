@@ -3,7 +3,7 @@
   $pos-type: type-of(nth($pos, 1));
 
   // if $pos doesn't exist, fix $gradient
-  @if ($pos-type == color) or (nth($pos, 1) == "transparent")  {
+  @if ($pos-type == color) or (nth($pos, 1) == "transparent") {
     $gradients: zip($pos $gradients);
     $pos: false;
   }

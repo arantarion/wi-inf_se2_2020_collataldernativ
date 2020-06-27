@@ -49,7 +49,7 @@ $_valo-slider-base-margin-horizontal: round($v-slider-handle-width/2);
  *
  * @group slider
  */
-@mixin valo-slider ($primary-stylename: v-slider, $include-additional-styles: contains($v-included-additional-styles, slider)) {
+@mixin valo-slider($primary-stylename: v-slider, $include-additional-styles: contains($v-included-additional-styles, slider)) {
 
   // Round to an even number
   $v-slider-track-size: $v-slider-track-size + $v-slider-track-size%2;
@@ -145,9 +145,7 @@ $_valo-slider-base-margin-horizontal: round($v-slider-handle-width/2);
   }
 
 
-
   // Vertical
-
 
 
   .#{$primary-stylename}-vertical {
@@ -206,7 +204,6 @@ $_valo-slider-base-margin-horizontal: round($v-slider-handle-width/2);
 }
 
 
-
 /**
  *
  *
@@ -215,7 +212,7 @@ $_valo-slider-base-margin-horizontal: round($v-slider-handle-width/2);
  *
  * @group slider
  */
-@mixin valo-slider-track-style ($primary-stylename: v-slider, $background-color: $v-background-color) {
+@mixin valo-slider-track-style($primary-stylename: v-slider, $background-color: $v-background-color) {
   .#{$primary-stylename}-base {
     @include valo-progressbar-track-style($background-color: $background-color);
     height: $v-slider-track-size;
@@ -238,10 +235,10 @@ $_valo-slider-base-margin-horizontal: round($v-slider-handle-width/2);
  *
  * @group slider
  */
-@mixin valo-slider-indicator-style ($primary-stylename: v-slider, $background-color: $v-selection-color, $border: $v-border) {
+@mixin valo-slider-indicator-style($primary-stylename: v-slider, $background-color: $v-selection-color, $border: $v-border) {
   .#{$primary-stylename}-base {
     &:before {
-        border-color: first-color(valo-border($border: $border, $color: $background-color, $context: $v-app-background-color));
+      border-color: first-color(valo-border($border: $border, $color: $background-color, $context: $v-app-background-color));
     }
 
     &:after {
@@ -266,7 +263,7 @@ $_valo-slider-base-margin-horizontal: round($v-slider-handle-width/2);
  *
  * @group slider
  */
-@mixin valo-slider-no-indicator ($primary-stylename: v-slider) {
+@mixin valo-slider-no-indicator($primary-stylename: v-slider) {
   .#{$primary-stylename}-base:before,
   .#{$primary-stylename}-base:after {
     display: none;
@@ -282,7 +279,7 @@ $_valo-slider-base-margin-horizontal: round($v-slider-handle-width/2);
  *
  * @group slider
  */
-@mixin valo-slider-handle-style ($primary-stylename: v-slider, $background-color: $v-background-color) {
+@mixin valo-slider-handle-style($primary-stylename: v-slider, $background-color: $v-background-color) {
   .#{$primary-stylename}-handle {
     &:before {
       @include valo-button-style($background-color: $background-color, $unit-size: null, $border-radius: null);
@@ -304,7 +301,7 @@ $_valo-slider-base-margin-horizontal: round($v-slider-handle-width/2);
  *
  * @group slider
  */
-@mixin valo-slider-ticks ($primary-stylename: v-slider, $tick-count: 5) {
+@mixin valo-slider-ticks($primary-stylename: v-slider, $tick-count: 5) {
   $tick-size: max(1px, first-number($v-border));
   $tick-color: first-color(valo-border($strength: 0.7));
 

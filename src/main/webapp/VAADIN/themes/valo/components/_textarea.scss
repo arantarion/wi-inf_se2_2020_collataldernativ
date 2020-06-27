@@ -6,7 +6,7 @@
  *
  * @group textarea
  */
-@mixin valo-textarea ($primary-stylename: v-textarea, $include-additional-styles: contains($v-included-additional-styles, textarea)) {
+@mixin valo-textarea($primary-stylename: v-textarea, $include-additional-styles: contains($v-included-additional-styles, textarea)) {
 
   .#{$primary-stylename} {
     @include valo-textarea-style;
@@ -76,37 +76,34 @@
  *
  * @group textfield
  */
-@mixin valo-textarea-style (
-    $unit-size        : $v-unit-size,
-    $padding          : round($v-unit-size/6),
+@mixin valo-textarea-style(
+  $unit-size        : $v-unit-size,
+  $padding          : round($v-unit-size/6),
 
-    $font-color       : null,
-    $font-weight      : max(400, $v-font-weight),
-    $font-size        : null,
+  $font-color       : null,
+  $font-weight      : max(400, $v-font-weight),
+  $font-size        : null,
 
-    $background-color : $v-textfield-background-color,
-    $border           : $v-textfield-border,
-    $border-radius    : $v-textfield-border-radius,
+  $background-color : $v-textfield-background-color,
+  $border           : $v-textfield-border,
+  $border-radius    : $v-textfield-border-radius,
 
-    $bevel            : $v-textfield-bevel,
-    $shadow           : $v-textfield-shadow,
+  $bevel            : $v-textfield-bevel,
+  $shadow           : $v-textfield-shadow,
 
-    $states           : (normal, focus, disabled)
-  ) {
+  $states           : (normal, focus, disabled)
+) {
 
   @include valo-textfield-style($unit-size: $unit-size, $padding: $padding,
-                                $font-color: $font-color,
-                                $font-weight: $font-weight,
-                                $font-size: $font-size,
-
-                                $background-color: $background-color,
-                                $border: $border,
-                                $border-radius: $border-radius,
-
-                                $bevel: $bevel,
-                                $shadow: $shadow,
-
-                                $states: $states);
+  $font-color: $font-color,
+  $font-weight: $font-weight,
+  $font-size: $font-size,
+  $background-color: $background-color,
+  $border: $border,
+  $border-radius: $border-radius,
+  $bevel: $bevel,
+  $shadow: $shadow,
+  $states: $states);
   height: auto;
   resize: none;
   white-space: pre-wrap; // Restore default, because .v-widget sets it to normal

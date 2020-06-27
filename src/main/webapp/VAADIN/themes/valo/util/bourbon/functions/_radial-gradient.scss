@@ -8,8 +8,8 @@
                           $shape-size: null) {
 
   $data: _radial-arg-parser($G1, $G2, $pos, $shape-size);
-  $G1:  nth($data, 1);
-  $G2:  nth($data, 2);
+  $G1: nth($data, 1);
+  $G2: nth($data, 2);
   $pos: nth($data, 3);
   $shape-size: nth($data, 4);
 

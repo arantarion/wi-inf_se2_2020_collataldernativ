@@ -5,6 +5,7 @@ import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
+import javax.xml.crypto.Data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -37,6 +38,21 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             throw new DatabaseException("retrieve(int id) failed");
         }
         Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit der userID: " + id + " wurde abgerufen.");
+        return result.get(0);
+    }
+
+    public Company retrieveCompany(int companyID) throws DatabaseException{
+        //language=PostgreSQL
+        String sql =
+                "SELECT * FROM \"collDB\".company " +
+                        "WHERE company.\"companyID\" = '" + companyID + "'";
+
+        List<Company> result = execute(sql);
+        if (result.size() < 1) {
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "retrieve(int companyid) failed.");
+            throw new DatabaseException("retrieve(int companyid) failed");
+        }
+        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit der companyID: " + companyID + " wurde abgerufen.");
         return result.get(0);
     }
 
@@ -129,7 +145,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             //dto.setAdresse(address);
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + dto + " konnte erfolgreich gespeichert werden.");
         } catch (SQLException e) {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in CompanyDAO failed",e);
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in CompanyDAO failed", e);
             //throw new DatabaseException("create(ResultSet resultSet) in CompanyDAO failed");
         }
         return dto;

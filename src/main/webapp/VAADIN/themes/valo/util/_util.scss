@@ -7,7 +7,7 @@
  * 
  * @group util
  */
-@mixin valo-vertical-align-guide ($to-align: (), $align: middle, $pseudo-element: after) {
+@mixin valo-vertical-align-guide($to-align: (), $align: middle, $pseudo-element: after) {
   &:#{$pseudo-element} {
     content: "";
     display: inline-block;
@@ -32,10 +32,10 @@
  * @group util
  */
 @mixin valo-tappable {
-  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   -webkit-touch-callout: none;
   cursor: pointer;
- }
+}
 
 
 /**

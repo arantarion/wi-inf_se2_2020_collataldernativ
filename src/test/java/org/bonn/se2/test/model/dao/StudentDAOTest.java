@@ -4,11 +4,11 @@ import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Student;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
- * @version 0.1a
  * @author Coll@Aldernativ
+ * @version 0.1a
  * @Programmer Henry Weckermann
  */
 

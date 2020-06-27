@@ -53,7 +53,6 @@ $v-table-header-font-size: round($v-font-size * 0.86) !default;
 $v-table-background-color: null !default;
 
 
-
 /**
  *
  *
@@ -61,7 +60,7 @@ $v-table-background-color: null !default;
  *
  * @group table
  */
-@mixin valo-table-global ($primary-stylename: v-table) {
+@mixin valo-table-global($primary-stylename: v-table) {
 
   .#{$primary-stylename}-header table,
   .#{$primary-stylename}-footer table,
@@ -100,8 +99,6 @@ $v-table-background-color: null !default;
 }
 
 
-
-
 /**
  *
  *
@@ -127,7 +124,7 @@ $v-table-background-color: null !default;
  *
  * @group table
  */
-@mixin valo-table ($primary-stylename: v-table, $include-additional-styles: contains($v-included-additional-styles, table)) {
+@mixin valo-table($primary-stylename: v-table, $include-additional-styles: contains($v-included-additional-styles, table)) {
 
   $background-color: $v-table-background-color or valo-table-background-color();
   $border-color: $v-table-border-color or first-color(valo-border($color: $background-color, $strength: 0.8));
@@ -259,6 +256,7 @@ $v-table-background-color: null !default;
       &.v-select-optiongroup {
         margin: 0;
       }
+
       &.v-progressbar {
         margin-left: 0;
         margin-right: 0;
@@ -422,9 +420,11 @@ $v-table-background-color: null !default;
       bottom: 0;
       left: 0;
     }
+
     &:active:after {
       @include valo-button-active-style;
     }
+
     &:before {
       @include valo-table-column-selector-icon-style;
     }
@@ -442,12 +442,13 @@ $v-table-background-color: null !default;
       font-size: 0.9em;
       margin-right: round($v-unit-size/6);
     }
+
     div {
       display: inline;
     }
 
     &.v-disabled {
-        @include opacity($v-disabled-opacity);
+      @include opacity($v-disabled-opacity);
     }
   }
   .v-off:before {
@@ -489,9 +490,6 @@ $v-table-background-color: null !default;
     margin: round($v-unit-size/-2) 0 0 !important;
     text-align: center;
   }
-
-
-
 
 
   // Drag'n'drop styles
@@ -538,8 +536,6 @@ $v-table-background-color: null !default;
   }
 
 
-
-
   @if $include-additional-styles {
     .#{$primary-stylename}-no-stripes {
       @include valo-table-no-stripes-style;
@@ -576,8 +572,6 @@ $v-table-background-color: null !default;
   }
 
 }
-
-
 
 
 /**
@@ -625,8 +619,6 @@ $v-table-background-color: null !default;
 }
 
 
-
-
 /**
  *
  *
@@ -634,7 +626,7 @@ $v-table-background-color: null !default;
  *
  * @group table
  */
-@mixin valo-table-no-stripes-style ($primary-stylename: v-table) {
+@mixin valo-table-no-stripes-style($primary-stylename: v-table) {
   .#{$primary-stylename}-row,
   .#{$primary-stylename}-row-odd {
     background: transparent;
@@ -649,7 +641,7 @@ $v-table-background-color: null !default;
  *
  * @group table
  */
-@mixin valo-table-no-vertical-lines-style ($primary-stylename: v-table) {
+@mixin valo-table-no-vertical-lines-style($primary-stylename: v-table) {
   .#{$primary-stylename}-cell-content {
     border-left: none;
     padding-left: $v-table-border-width;
@@ -670,7 +662,7 @@ $v-table-background-color: null !default;
  *
  * @group table
  */
-@mixin valo-table-no-horizontal-lines-style ($primary-stylename: v-table) {
+@mixin valo-table-no-horizontal-lines-style($primary-stylename: v-table) {
   .#{$primary-stylename}-cell-content {
     border-top: none;
     border-bottom: none;
@@ -690,7 +682,7 @@ $v-table-background-color: null !default;
  *
  * @group table
  */
-@mixin valo-table-no-header-style ($primary-stylename: v-table) {
+@mixin valo-table-no-header-style($primary-stylename: v-table) {
   .#{$primary-stylename}-header-wrap {
     display: none;
   }
@@ -704,7 +696,7 @@ $v-table-background-color: null !default;
  *
  * @group table
  */
-@mixin valo-table-borderless-style ($primary-stylename: v-table) {
+@mixin valo-table-borderless-style($primary-stylename: v-table) {
   .#{$primary-stylename}-header-wrap,
   .#{$primary-stylename}-footer-wrap,
   .#{$primary-stylename}-header-drag,
@@ -726,12 +718,12 @@ $v-table-background-color: null !default;
 }
 
 
-@mixin valo-table-spacing-style (
-    $primary-stylename: v-table,
-    $row-height: $v-table-row-height,
-    $header-font-size: $v-table-header-font-size,
-    $cell-padding-horizontal: $v-table-cell-padding-horizontal
-  ) {
+@mixin valo-table-spacing-style(
+  $primary-stylename: v-table,
+  $row-height: $v-table-row-height,
+  $header-font-size: $v-table-header-font-size,
+  $cell-padding-horizontal: $v-table-cell-padding-horizontal
+) {
 
   $vertical-padding: round(($row-height - $header-font-size)/2);
 
@@ -777,6 +769,7 @@ $v-table-background-color: null !default;
       &.v-select-optiongroup {
         margin: 0;
       }
+
       &.v-progressbar {
         margin-left: 0;
         margin-right: 0;

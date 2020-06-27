@@ -5,7 +5,7 @@
  * 
  * @group drag-n-drop
  */
-@mixin valo-dragwrapper ($primary-stylename: v-ddwrapper) {
+@mixin valo-dragwrapper($primary-stylename: v-ddwrapper) {
 
   [draggable=true] {
     -khtml-user-drag: element;
@@ -55,6 +55,7 @@
       &:before {
         border-top-width: 0;
       }
+
       &:after {
         @include valo-ddwrapper-box-hint-style;
       }
@@ -65,6 +66,7 @@
       &:before {
         border-bottom-width: 0;
       }
+
       &:after {
         @include valo-ddwrapper-box-hint-style;
       }
@@ -77,6 +79,7 @@
       &:before {
         border-left-width: 0;
       }
+
       &:after {
         @include valo-ddwrapper-box-hint-style;
       }
@@ -87,6 +90,7 @@
       &:before {
         border-right-width: 0;
       }
+
       &:after {
         @include valo-ddwrapper-box-hint-style;
       }

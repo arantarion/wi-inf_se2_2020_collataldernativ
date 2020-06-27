@@ -21,7 +21,7 @@
 
   .#{$primaryStyleName}-scroller-vertical {
     right: 0;
-    top: 0;    // this will be overridden by code, but it's a good default behavior
+    top: 0; // this will be overridden by code, but it's a good default behavior
     bottom: 0; // this will be overridden by code, but it's a good default behavior
     overflow-x: hidden;
     -ms-overflow-x: hidden;
@@ -113,9 +113,9 @@
     box-sizing: border-box;
     overflow: hidden;
 
-     // Because Vaadin changes the font size after the initial render, we
-     // need to mention the font size here explicitly, otherwise automatic
-     // row height detection gets broken.
+    // Because Vaadin changes the font size after the initial render, we
+    // need to mention the font size here explicitly, otherwise automatic
+    // row height detection gets broken.
 
     font-size: $v-font-size;
   }

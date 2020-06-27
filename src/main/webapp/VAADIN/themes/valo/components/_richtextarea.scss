@@ -11,7 +11,7 @@ $valo-richtextarea-use-valo-icons: true !default;
  *
  * @group richtextarea
  */
-@mixin valo-richtextarea ($primary-stylename: v-richtextarea) {
+@mixin valo-richtextarea($primary-stylename: v-richtextarea) {
   .#{$primary-stylename} {
     @include valo-textfield-style($states: normal, $padding: 0);
     height: auto;
@@ -48,24 +48,24 @@ $valo-richtextarea-use-valo-icons: true !default;
   @if $valo-richtextarea-use-valo-icons {
 
     // List of title attribute values and Valo Icons for the formatting buttons
-    $icons:  "Toggle Bold" "\f032",
-              "Toggle Italic" "\f033",
-              "Toggle Underline" "\f0cd",
-              "Toggle Subscript" "\f12c",
-              "Toggle Superscript" "\f12b",
-              "Left Justify" "\f036",
-              "Center" "\f037",
-              "Right Justify" "\f038",
-              "Toggle Strikethrough" "\f0cc",
-              "Indent Right" "\f03c",
-              "Indent Left" "\f03b",
-              "Insert Horizontal Rule" "\2014",
-              "Insert Ordered List" "\f0cb",
-              "Insert Unordered List" "\f0ca",
-              "Insert Image" "\f03e",
-              "Create Link" "\f0c1",
-              "Remove Link" "\f127",
-              "Remove Formatting" "\f12d";
+    $icons: "Toggle Bold" "\f032",
+    "Toggle Italic" "\f033",
+    "Toggle Underline" "\f0cd",
+    "Toggle Subscript" "\f12c",
+    "Toggle Superscript" "\f12b",
+    "Left Justify" "\f036",
+    "Center" "\f037",
+    "Right Justify" "\f038",
+    "Toggle Strikethrough" "\f0cc",
+    "Indent Right" "\f03c",
+    "Indent Left" "\f03b",
+    "Insert Horizontal Rule" "\2014",
+    "Insert Ordered List" "\f0cb",
+    "Insert Unordered List" "\f0ca",
+    "Insert Image" "\f03e",
+    "Create Link" "\f0c1",
+    "Remove Link" "\f127",
+    "Remove Formatting" "\f12d";
 
     .#{$primary-stylename} .gwt-RichTextToolbar-top {
       img {
@@ -84,7 +84,8 @@ $valo-richtextarea-use-valo-icons: true !default;
         }
       }
     }
-  } // Use ThemeIcons
+  }
+  // Use ThemeIcons
 
   .#{$primary-stylename} .gwt-RichTextToolbar-bottom {
     font-size: round($v-font-size * 0.8);
@@ -96,8 +97,8 @@ $valo-richtextarea-use-valo-icons: true !default;
   }
 
   .#{$primary-stylename} .gwt-RichTextArea {
-  	background: #fff;
-  	border: none;
+    background: #fff;
+    border: none;
     display: block;
   }
 

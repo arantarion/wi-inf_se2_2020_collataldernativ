@@ -5,7 +5,7 @@
  *
  * @group treetable
  */
-@mixin valo-treetable ($primary-stylename: v-treetable) {
+@mixin valo-treetable($primary-stylename: v-treetable) {
   .#{$primary-stylename} {
     [class*="caption-container"],
     [class*="footer-container"],
@@ -14,7 +14,7 @@
       padding-left: 0;
       padding-right: 0;
     }
-    
+
     [class*="caption-container"],
     [class*="footer-container"] {
       $vertical-padding: round(($v-table-row-height - $v-table-header-font-size)/2);

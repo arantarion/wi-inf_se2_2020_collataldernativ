@@ -90,6 +90,11 @@ public class Address implements Serializable {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(getID(), getStrasse(), getHausnummer(), getPlz(), getStadt(), getLand());
+    }
+
+    @Override
     public String toString() {
         return "Address{" +
                 "strasse='" + strasse + '\'' +

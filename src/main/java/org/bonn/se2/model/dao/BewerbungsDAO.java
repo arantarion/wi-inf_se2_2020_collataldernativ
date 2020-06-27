@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  * @Programmer Anton Drees
  */
 
-public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterface<Bewerbung>{
+public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterface<Bewerbung> {
 
     public BewerbungsDAO() throws DatabaseException {
     }
@@ -36,7 +36,8 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         if (result.size() < 1) {
             throw new InvalidCredentialsException();
         }
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Das Bewerbungs-Objekt mit der bewerbungsID: " + bewerbungsid + " wurde abgerufen.");
+        String loggerMsg = "Das Bewerbungs-Objekt mit der bewerbungsID: " + bewerbungsid + " wurde abgerufen.";
+        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, loggerMsg);
         return result.get(0);
     }
 
@@ -44,7 +45,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
-        String insert = "SELECT * FROM \"collDB\".bewerbung WHERE \"companyID\" = '" + companyid + "' AND \"jobofferID\" = '" +jobofferid + "' ";
+        final String insert = "SELECT * FROM \"collDB\".bewerbung WHERE \"companyID\" = '" + companyid + "' AND \"jobofferID\" = '" + jobofferid + "' ";
         resultSet = statement.executeQuery(insert);
         List<Bewerbung> liste = new ArrayList<>();
         Bewerbung offer = null;
@@ -59,10 +60,10 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
                 offer.setNotes(resultSet.getString("notes"));
                 liste.add(offer);
             }
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " und der jobofferid: " + jobofferid +  "wurden abgerufen");
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " und der jobofferid: " + jobofferid + "wurden abgerufen");
         } catch (Exception e) {
-            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int companyid, int jobofferid) in JobOfferDAO failed", e);
+            String loggerMsg = "retrieveCompanyOffers(int companyid, int jobofferid) in JobOfferDAO failed";
+            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, loggerMsg, e);
         }
         return liste;
     }
@@ -71,7 +72,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
-        String insert = "SELECT * " +
+        final String insert = "SELECT * " +
                 "FROM \"collDB\".bewerbung " +
                 "WHERE \"companyID\" = '" + companyid + "' ";
         resultSet = statement.executeQuery(insert);
@@ -91,7 +92,6 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " wurden abgerufen");
         } catch (Exception e) {
-            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
         }
         return liste;
@@ -111,7 +111,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
 
     @Override
     public Bewerbung create(Bewerbung bewerbung) throws Exception {
-        String insertQuery2 = "INSERT INTO \"collDB\".bewerbung ( \"jobofferID\", \"companyID\", \"studentID\", bewerbungsdatum, notes) " +
+        final String insertQuery2 = "INSERT INTO \"collDB\".bewerbung ( \"jobofferID\", \"companyID\", \"studentID\", bewerbungsdatum, notes) " +
                 "VALUES ('" + bewerbung.getJobofferID() +
                 "','" + bewerbung.getCompanyID() + "', '" + bewerbung.getStudentID() +
                 "', '" + bewerbung.getBewerbungsdatum() + "', '" + bewerbung.getNotes() + "') " +
@@ -137,7 +137,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
     @Override
     protected Bewerbung create(ResultSet resultSet) throws DatabaseException {
         Bewerbung dto = new Bewerbung();
-        try{
+        try {
             dto.setBewerbungsID(resultSet.getInt("bewerbungsID"));
             dto.setJobofferID(resultSet.getInt("jobofferID"));
             dto.setCompanyID(resultSet.getInt("companyID"));
@@ -145,7 +145,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             dto.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
             dto.setNotes(resultSet.getString("notes"));
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Bewerbungs-Objekt: " + dto + "wurde erfolgreich gespeichert.");
-        }catch (Exception e){
+        } catch (Exception e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultSet) in BewerbungsDAO failed", e);
         }
         return dto;
@@ -170,11 +170,11 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         return result.get(0);
     }
 
-    public Bewerbung delete(int bewerbungsID) throws Exception{
+    public Bewerbung delete(int bewerbungsID) throws Exception {
         //language=PostgreSQL
         final String deleteQuery = "DELETE FROM \"collDB\".bewerbung WHERE \"bewerbungsID\" = " + bewerbungsID + " RETURNING *";
         List<Bewerbung> result = execute(deleteQuery);
-        if (result.size() < 1){
+        if (result.size() < 1) {
             throw new DatabaseException("delete(int bewerbungsID) failed");
         }
         return result.get(0);

@@ -22,7 +22,7 @@ $v-calendar-event-colors: #00ace0, #2d9f19, #d18100, #ce3812, #2d55cd !default;
  *
  * @group calendar
  */
-@mixin valo-calendar-global ($primary-stylename: v-calendar) {
+@mixin valo-calendar-global($primary-stylename: v-calendar) {
   .#{$primary-stylename}-month-day-scrollable {
     overflow-y: scroll;
   }
@@ -131,7 +131,7 @@ $v-calendar-event-colors: #00ace0, #2d9f19, #d18100, #ce3812, #2d55cd !default;
  *
  * @group calendar
  */
-@mixin valo-calendar ($primary-stylename: v-calendar) {
+@mixin valo-calendar($primary-stylename: v-calendar) {
 
 
   .#{$primary-stylename}-header-day {
@@ -173,12 +173,6 @@ $v-calendar-event-colors: #00ace0, #2d9f19, #d18100, #ce3812, #2d55cd !default;
   .#{$primary-stylename}-header-week .#{$primary-stylename}-next {
     @include valo-calendar-next-style;
   }
-
-
-
-
-
-
 
 
   // Month grid
@@ -263,21 +257,12 @@ $v-calendar-event-colors: #00ace0, #2d9f19, #d18100, #ce3812, #2d55cd !default;
   }
 
   .#{$primary-stylename}-month-day-dragemphasis {
-      background-color: #a8a8a8;
+    background-color: #a8a8a8;
   }
 
   .#{$primary-stylename}-month-day-scrollable {
     overflow-y: scroll;
   }
-
-
-
-
-
-
-
-
-
 
 
   // Week/day view
@@ -388,8 +373,6 @@ $v-calendar-event-colors: #00ace0, #2d9f19, #d18100, #ce3812, #2d55cd !default;
       }
     }
   }
-
-
 
 
   // Event styles
@@ -504,11 +487,6 @@ $v-calendar-event-colors: #00ace0, #2d9f19, #d18100, #ce3812, #2d55cd !default;
   }
 
 
-
-
-
-
-
   // Custom event colors
 
   @for $i from 1 through length($v-calendar-event-colors) {
@@ -537,7 +515,6 @@ $v-calendar-event-colors: #00ace0, #2d9f19, #d18100, #ce3812, #2d55cd !default;
       }
     }
   }
-
 
 
   .#{$primary-stylename}.v-disabled * {

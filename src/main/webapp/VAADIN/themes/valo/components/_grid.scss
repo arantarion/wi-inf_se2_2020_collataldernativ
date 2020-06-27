@@ -100,6 +100,7 @@ $v-grid-details-border-bottom-stripe: 1px solid darken($v-grid-row-background-co
 
     .#{$primaryStyleName}-header {
       position: absolute;
+
       > .#{$primaryStyleName}-cell {
         border: $v-grid-border;
         margin-top: -10px;
@@ -212,9 +213,9 @@ $v-grid-details-border-bottom-stripe: 1px solid darken($v-grid-row-background-co
     }
 
     &.frozen {
-      @include box-shadow(1px 0 2px rgba(0,0,0,.1));
+      @include box-shadow(1px 0 2px rgba(0, 0, 0, .1));
       border-right: $v-grid-cell-vertical-border;
-      position:relative;
+      position: relative;
       z-index: 11;
 
       @if $v-grid-cell-vertical-border and $v-grid-cell-vertical-border != none {
@@ -227,8 +228,8 @@ $v-grid-details-border-bottom-stripe: 1px solid darken($v-grid-row-background-co
 
     // Style for ComponentRenderer wrap
     div.component-wrap {
-        width: 100%;
-      }
+      width: 100%;
+    }
   }
 
   // Rows
@@ -244,7 +245,7 @@ $v-grid-details-border-bottom-stripe: 1px solid darken($v-grid-row-background-co
   }
 
   .#{$primaryStyleName}-editor-cells.frozen > div {
-    @include box-shadow(1px 0 2px rgba(0,0,0,.1));
+    @include box-shadow(1px 0 2px rgba(0, 0, 0, .1));
     border-right: $v-grid-cell-vertical-border;
     border-left: none;
   }
@@ -426,7 +427,7 @@ $v-grid-details-border-bottom-stripe: 1px solid darken($v-grid-row-background-co
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     margin-top: nth($v-grid-border, 1) * -1;
-    @include box-shadow(0 0 9px rgba(0,0,0,.2));
+    @include box-shadow(0 0 9px rgba(0, 0, 0, .2));
 
     // Unbuffered footer needs to be 100% width to display correctly
     &.unbuffered {
@@ -613,7 +614,7 @@ $v-grid-drag-indicator-color: $v-focus-color;
  *
  * @group grid
  */
-@mixin valo-grid ($primary-stylename: v-grid) {
+@mixin valo-grid($primary-stylename: v-grid) {
 
   @include base-grid($primary-stylename);
 
@@ -633,12 +634,12 @@ $v-grid-drag-indicator-color: $v-focus-color;
 
   .#{$primary-stylename}-header .#{$primary-stylename}-cell.dragged {
     @include opacity(0.5, false);
-    @include transition (opacity .3s ease-in-out);
-   }
+    @include transition(opacity .3s ease-in-out);
+  }
 
-   .#{$primary-stylename}-header .#{$primary-stylename}-cell.dragged-column-header {
+  .#{$primary-stylename}-header .#{$primary-stylename}-cell.dragged-column-header {
     margin-top: round($v-grid-row-height/-2);
-   }
+  }
 
   .#{$primary-stylename}-footer .#{$primary-stylename}-cell {
     @include valo-gradient($v-grid-footer-background-color);
@@ -736,7 +737,7 @@ $v-grid-drag-indicator-color: $v-focus-color;
     }
 
     input[type="text"].v-datefield-textfield {
-    	padding-left: $v-unit-size * 1.2;
+      padding-left: $v-unit-size * 1.2;
     }
 
     .v-textfield-focus,
@@ -753,8 +754,8 @@ $v-grid-drag-indicator-color: $v-focus-color;
     .v-checkbox {
       margin: 0 round($v-grid-cell-padding-horizontal / 2) 0 $v-grid-cell-padding-horizontal;
 
-	  > input[type="checkbox"] {
-      	margin-left: 0;
+      > input[type="checkbox"] {
+        margin-left: 0;
       }
 
       > label {
@@ -810,7 +811,7 @@ $v-grid-drag-indicator-color: $v-focus-color;
     &::-webkit-scrollbar-thumb {
       border-radius: 10px;
       border: 4px solid transparent;
-      background: if(is-dark-color($v-grid-header-background-color), rgba(255,255,255,.3), rgba(0,0,0,.3));
+      background: if(is-dark-color($v-grid-header-background-color), rgba(255, 255, 255, .3), rgba(0, 0, 0, .3));
       -webkit-background-clip: content-box;
       background-clip: content-box;
     }
