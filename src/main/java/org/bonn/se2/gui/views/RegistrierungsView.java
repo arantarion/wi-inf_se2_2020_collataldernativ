@@ -42,9 +42,9 @@ public class RegistrierungsView extends VerticalLayout implements View {
     private final Panel studentCreationPanel = new Panel("Schritt 3: Geben Sie Ihre persönlichen Daten an");
     private final Panel companyCreationPanel = new Panel("Geben Sie Daten Ihres Unternehmens ein");
     private final Binder<User> binder = new Binder<>();
-    private final Binder<Student> StudentBinder = new Binder<>();
-    private final Binder<Address> AddressBinder = new Binder<>();
-    private final Binder<Company> CompanyBinder = new Binder<>();
+    private final Binder<Student> studentBinder = new Binder<>();
+    private final Binder<Address> addressBinder = new Binder<>();
+    private final Binder<Company> companyBinder = new Binder<>();
     boolean isStudent;
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -110,9 +110,9 @@ public class RegistrierungsView extends VerticalLayout implements View {
             setUpStep2();
         });
 
-        backButton.addClickListener(event -> {
-            UIFunctions.gotoLogin();
-        });
+        backButton.addClickListener(event ->
+            UIFunctions.gotoLogin()
+        );
 
     }
 
@@ -177,10 +177,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
             try {
                 binder.writeBean(myUser);
             } catch (ValidationException exception) {
-                Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
-                notification.setPosition(Position.BOTTOM_CENTER);
-                notification.setDelayMsec(4000);
-                notification.show(Page.getCurrent());
+                showError();
                 return;
             }
 
@@ -213,13 +210,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         TextField vorname = new TextField("Vorname:");
         vorname.setRequiredIndicatorVisible(true);
-        StudentBinder.forField(vorname).asRequired("Bitte geben Sie Ihren Vornamen an")
+        studentBinder.forField(vorname).asRequired("Bitte geben Sie Ihren Vornamen an")
                 .bind(Student::getVorname, Student::setVorname);
         vorname.setSizeFull();
 
         TextField nachname = new TextField("Nachname");
         nachname.setRequiredIndicatorVisible(true);
-        StudentBinder.forField(nachname).asRequired("Bitte geben Sie Ihren Nachnamen an")
+        studentBinder.forField(nachname).asRequired("Bitte geben Sie Ihren Nachnamen an")
                 .bind(Student::getNachname, Student::setNachname);
         nachname.setSizeFull();
 
@@ -229,7 +226,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         geburtstag.setDateFormat("dd.MM.yyyy");
         geburtstag.setPlaceholder("dd.mm.yyyy");
         geburtstag.setParseErrorMessage("Bitte Datum im richtigen Format angeben");
-        StudentBinder.forField(geburtstag).asRequired("Bitte geben Sie Ihr Geburtsdatum an")
+        studentBinder.forField(geburtstag).asRequired("Bitte geben Sie Ihr Geburtsdatum an")
                 .bind(Student::getGeburtstag, Student::setGeburtstag);
         geburtstag.setSizeFull();
 
@@ -242,7 +239,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         Button backButton2 = list.get(0);
         Button completeButton = list.get(1);
 
-        backButton2.addClickListener(ClickEvent -> {
+        backButton2.addClickListener(clickEvent -> {
             studentCreationPanel.setVisible(false);
             setUpStep2();
         });
@@ -254,13 +251,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
             Address address = new Address();
 
             try {
-                AddressBinder.writeBean(address);
+                addressBinder.writeBean(address);
             } catch (ValidationException e) {
                 isValidEntry = false;
             }
 
             try {
-                StudentBinder.writeBean(student);
+                studentBinder.writeBean(student);
                 student.setAdresse(address);
                 StudentDAO studentDAO = new StudentDAO();
                 studentDAO.create(student);
@@ -273,10 +270,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
             }
 
             if (!isValidEntry) {
-                Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
-                notification.setPosition(Position.BOTTOM_CENTER);
-                notification.setDelayMsec(4000);
-                notification.show(Page.getCurrent());
+                showError();
             }
         });
 
@@ -291,7 +285,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         companyCreationPanel.setWidth("900px");
 
         TextField unternehmensName = new TextField("Name Ihres Unternehmens:");
-        CompanyBinder.forField(unternehmensName)
+        companyBinder.forField(unternehmensName)
                 .asRequired("Bitte geben Sie den Namen Ihres Unternehmens an.")
                 .bind(Company::getName, Company::setName);
         unternehmensName.setSizeFull();
@@ -299,14 +293,14 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         RichTextArea beschreibung = new RichTextArea("Beschreibung Ihres Unternehmens:");
         beschreibung.setSizeFull();
-        CompanyBinder.forField(beschreibung)
+        companyBinder.forField(beschreibung)
                 .asRequired("Bitte geben Sie eine kurze Beschreibung Ihres Unternehmens an.")
                 .bind(Company::getBeschreibung, Company::setBeschreibung);
         layout.addComponent(beschreibung);
 
         TextField webURL = new TextField("Website ihres Unternehmens");
         webURL.setSizeFull();
-        CompanyBinder.forField(webURL)
+        companyBinder.forField(webURL)
                 .bind(Company::getWebURL, Company::setWebURL);
         layout.addComponent(webURL);
 
@@ -316,7 +310,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         Button backButton3 = list.get(0);
         Button completeButton = list.get(1);
 
-        backButton3.addClickListener(ClickEvent -> {
+        backButton3.addClickListener(clickEvent -> {
             companyCreationPanel.setVisible(false);
             setUpStep2();
         });
@@ -328,13 +322,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
             Address address = new Address();
 
             try {
-                AddressBinder.writeBean(address);
+                addressBinder.writeBean(address);
             } catch (ValidationException e) {
                 isValidEntry = false;
             }
 
             try {
-                CompanyBinder.writeBean(company);
+                companyBinder.writeBean(company);
                 company.setAdresse(address);
 
                 CompanyDAO companyDAO = new CompanyDAO();
@@ -348,10 +342,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
             }
 
             if (!isValidEntry) {
-                Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
-                notification.setPosition(Position.BOTTOM_CENTER);
-                notification.setDelayMsec(4000);
-                notification.show(Page.getCurrent());
+                showError();
             }
 
         });
@@ -373,7 +364,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         layout.addComponent(addressLayout1);
 
         TextField strasse = new TextField("Straße:");
-        AddressBinder.forField(strasse)
+        addressBinder.forField(strasse)
                 .asRequired("Bitte geben Sie die Straße an.")
                 .bind(Address::getStrasse, Address::setStrasse);
         addressLayout1.addComponent(strasse);
@@ -383,7 +374,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         TextField hausnummer = new TextField("Hausnummer");
         addressLayout1.addComponent(hausnummer);
         hausnummer.setMaxLength(4);
-        AddressBinder.forField(hausnummer)
+        addressBinder.forField(hausnummer)
                 .asRequired("Bitte geben Sie die Hausnummer an.")
                 .bind(Address::getHausnummer, Address::setHausnummer);
         hausnummer.setSizeFull();
@@ -398,7 +389,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         TextField plz = new TextField("Postleitzahl:");
         plz.setMaxLength(5);
         addressLayout2.addComponent(plz);
-        AddressBinder.forField(plz)
+        addressBinder.forField(plz)
                 .asRequired("Bitte geben Sie die Postleitzahl an!")
                 .bind(Address::getPlz, Address::setPlz);
         plz.setSizeFull();
@@ -406,7 +397,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         TextField stadt = new TextField("Ort:");
         addressLayout2.addComponent(stadt);
-        AddressBinder.forField(stadt)
+        addressBinder.forField(stadt)
                 .asRequired("Bitte geben Sie Ihre Stadt an.")
                 .bind(Address::getStadt, Address::setStadt);
         stadt.setSizeFull();
@@ -414,7 +405,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
 
         TextField land = new TextField("Land:");
         addressLayout2.addComponent(land);
-        AddressBinder.forField(land)
+        addressBinder.forField(land)
                 .asRequired("Bitte geben Sie das Land an.")
                 .bind(Address::getLand, Address::setLand);
         land.setSizeFull();
@@ -445,9 +436,9 @@ public class RegistrierungsView extends VerticalLayout implements View {
         Image logo = new Image(null, themeResource);
         logo.setWidth("750px");
         logo.addStyleName("logo");
-        logo.addClickListener((MouseEvents.ClickListener) event -> {
-            UIFunctions.gotoLogin();
-        });
+        logo.addClickListener((MouseEvents.ClickListener) event ->
+            UIFunctions.gotoLogin()
+        );
 
         Label platzhalterLabel = new Label("&nbsp", ContentMode.HTML);
 
@@ -463,6 +454,13 @@ public class RegistrierungsView extends VerticalLayout implements View {
         this.setComponentAlignment(logo, Alignment.MIDDLE_CENTER);
         this.setComponentAlignment(labelText, Alignment.MIDDLE_CENTER);
 
+    }
+
+    public void showError() {
+        Notification notification = new Notification("Ein oder mehrere Felder sind ungültig", Notification.Type.ERROR_MESSAGE);
+        notification.setPosition(Position.BOTTOM_CENTER);
+        notification.setDelayMsec(4000);
+        notification.show(Page.getCurrent());
     }
 
 }
