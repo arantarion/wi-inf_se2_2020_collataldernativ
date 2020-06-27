@@ -41,8 +41,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         return result.get(0);
     }
 
-    @Override
-    public Student retrieve(String attribute) throws DatabaseException {
+    public List<Student> retrieveStudents(String attribute) throws DatabaseException {
         //language=PostgreSQL
         final String sql =
                 "SELECT * FROM \"collDB\".user " +
@@ -58,7 +57,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             throw new DatabaseException("retrieve(String attribute) did not return a DTO");
         }
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Der Student mit dem Attribut: " + attribute + " wurde erfolgreich abgerufen.");
-        return result.get(0);
+        return result;
     }
 
     @Override
@@ -208,4 +207,10 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "Studen mit der ID: " + ID + " wurde erfolgreich gelöscht.");
         return result.get(0);
     }
+
+	@Override
+	public Student retrieve(String attribute) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -59,11 +59,11 @@ public class MainView extends VerticalLayout implements View {
         HorizontalLayout horizontalLayoutCompany = new HorizontalLayout();
         HorizontalLayout h2 = new HorizontalLayout();
         HorizontalLayout h3 = new HorizontalLayout();
+        HorizontalLayout studentLayout = new HorizontalLayout();
 
         //Erzeugung der Variablen
         Button suche = new Button("Suchen", VaadinIcons.SEARCH);
         TextField name = new TextField();
-        TextField sucheStudent = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
         //Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
         //Label role = new Label(SessionFunctions.getCurrentRole());
@@ -228,32 +228,45 @@ public class MainView extends VerticalLayout implements View {
             addComponent(bewerbenJetzt);
         }
 
-
-        Grid<Student> gridStudent = new Grid<>();
-        List<Student> listeStudent = null;
-        try {
-            listeStudent = new StudentDAO().retrieveAll();
-        } catch (Exception e) {
-            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-        }
-        gridStudent.setItems(listeStudent);
-        gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
-        gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
-        gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
-        gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
-        gridStudent.addColumn(Student::getJob).setCaption("Rolle");
-        gridStudent.setSizeFull();
-        gridStudent.setHeightMode(HeightMode.UNDEFINED);
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
+        	Button sucheStudent = new Button("Suchen", VaadinIcons.SEARCH);
+            TextField textStudent = new TextField();
+            Label labelStudent = new Label("Bitte geben Sie ein Stichwort ein:");
+            
+            addComponent(studentLayout);
+            setComponentAlignment(studentLayout, Alignment.MIDDLE_CENTER);
+            studentLayout.addComponent(labelStudent);
+            studentLayout.addComponent(textStudent);
+            studentLayout.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
+            studentLayout.addComponent(sucheStudent);
+            		
+        	Grid<Student> gridStudent = new Grid<>();
+        	List<Student> listeStudent = null;
+        	try {
+        		listeStudent = new StudentDAO().retrieveAll();
+        	} catch (Exception e) {
+        		Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+        				new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+        	}
+        	gridStudent.setItems(listeStudent);
+        	gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
+        	gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+        	gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
+        	gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
+        	gridStudent.addColumn(Student::getJob).setCaption("Rolle");
+        	gridStudent.setSizeFull();
+        	gridStudent.setHeightMode(HeightMode.UNDEFINED);
+        	addComponent(gridStudent);
         
-/*
-        sucheStudent.addValueChangeListener(d -> {
-            if (!sucheStudent.getValue().equals("")) {
-                String attribute = sucheStudent.getValue();
+        
+
+        textStudent.addValueChangeListener(d -> {
+            if (!textStudent.getValue().equals("")) {
+                String attribute = textStudent.getValue();
                 gridStudent.removeAllColumns();
                 List<Student> listeStudent2 = null;
                 try {
-                	listeStudent2 = (List<Student>) new StudentDAO().retrieve(attribute);
+                	listeStudent2 = (List<Student>) new StudentDAO().retrieveStudents(attribute);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -281,11 +294,12 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
                 gridStudent.addColumn(Student::getJob).setCaption("Rolle");
             }
-        });*/
-
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
-            addComponent(gridStudent);
+        });
+        
         }
+
+        
+            
         //Rechts oben
         //horizontalLayout.addComponent(role);
         //horizontalLayout.addComponent(username);
