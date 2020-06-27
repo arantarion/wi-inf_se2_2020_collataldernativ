@@ -211,12 +211,12 @@ public class EditStudentWindow extends Window {
         Label lDocument = new Label("Lebenslauf");
         grid.addComponent(lDocument, 0, 10);
 
-        Upload upload_doc = new Upload("", receiver);
-        upload_doc.setButtonCaption("Hochladen");
-        upload_doc.addSucceededListener(receiver);
-        upload_doc.setAcceptMimeTypes("application/pdf");
-        grid.addComponent(upload_doc, 1, 11);
-        grid.setComponentAlignment(upload_doc, Alignment.MIDDLE_LEFT);
+        Upload uploadDocument = new Upload("", receiver);
+        uploadDocument.setButtonCaption("Hochladen");
+        uploadDocument.addSucceededListener(receiver);
+        uploadDocument.setAcceptMimeTypes("application/pdf");
+        grid.addComponent(uploadDocument, 1, 11);
+        grid.setComponentAlignment(uploadDocument, Alignment.MIDDLE_LEFT);
 
         Label lDocNotice = new Label("Nur PDF Dateien möglich");
         grid.addComponent(lDocNotice, 0, 11);

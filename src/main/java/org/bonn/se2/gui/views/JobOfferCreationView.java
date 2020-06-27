@@ -20,7 +20,7 @@ import java.util.logging.Logger;
  * @Programmer Anton Drees
  */
 
-public class jobOfferCreationView extends VerticalLayout implements View {
+public class JobOfferCreationView extends VerticalLayout implements View {
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         try {
@@ -46,7 +46,7 @@ public class jobOfferCreationView extends VerticalLayout implements View {
         DateField beginDate = new DateField("Start Datum:");
 
         Company liste = new CompanyDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID());
-        int ID = liste.getcompanyID();
+        int id = liste.getcompanyID();
 
         Panel panel = new Panel("Stellenangebot Einstellen");
         panel.setSizeUndefined();
@@ -75,7 +75,7 @@ public class jobOfferCreationView extends VerticalLayout implements View {
             try {
                 if ((!bereich.getValue().equals("")) && !kontakt.getValue().equals("") && !beschreibung.getValue().equals("")) {
                     JobOffer dto = new JobOffer(bereich.getValue(), kontakt.getValue(), beschreibung.getValue(), name.getValue(), gehalt.getValue(), beginDate.getValue());
-                    dto.setCompanyID(ID);
+                    dto.setCompanyID(id);
                     UI.getCurrent().getNavigator().navigateTo(Configuration.Views.PROFIL);
                     UI.getCurrent().getPage().reload();
                     new OfferDAO().create(dto);
