@@ -1,14 +1,13 @@
 
 package org.bonn.se2.model.dao;
 
+import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,23 +61,38 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         return result.get(0);
     }
     
-    public List<Student> retrieveStudents(String attribute) throws DatabaseException {
+    public List<Student> retrieveStudents(String attribute) throws DatabaseException, SQLException {
+        Statement statement = this.getStatement();
+        ResultSet resultSet = null;
         //language=PostgreSQL
         final String sql =
-                "SELECT * FROM \"collDB\".user " +
-                        "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\" " +
-                        //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
-                        // LEFT OUTER JOIN ... etc
-                        "WHERE username = ? " +
-                        "OR email = ?;";
+                "SELECT * FROM \"collDB\".student " +
+                        "WHERE studienfach LIKE '%" + attribute + "%' OR arbeitgeber LIKE '%" + attribute + "%' OR job LIKE '%" + attribute + "%' " +
+                        "OR vorname LIKE '%" + attribute + "%' OR nachname LIKE '%" + attribute + "%';";
 
-        List<Student> result = executePrepared(sql, attribute, attribute);
-        if (result.size() < 1) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "retrieve(String attribute) did not return a DTO.");
-            throw new DatabaseException("retrieve(String attribute) did not return a DTO");
+        resultSet = statement.executeQuery(sql);
+        List<Student> liste = new ArrayList<>();
+        Student dto = null;
+        try {
+            while (resultSet.next()) {
+                dto = new Student();
+                dto.setStudienfach(resultSet.getString("studienfach"));
+                dto.setVorname(resultSet.getString("vorname"));
+                dto.setNachname(resultSet.getString("nachname"));
+                dto.setGeburtstag(new java.sql.Date(resultSet.getDate("geburtstag").getTime()).toLocalDate());
+                dto.setStudentID(resultSet.getInt("studentID"));
+                dto.setJob(resultSet.getString("job"));
+                dto.setArbeitgeber(resultSet.getString("Arbeitgeber")); //creationDate
+                dto.setFachsemester(resultSet.getInt("fachsemester"));
+                dto.setUserID(resultSet.getInt("userID"));
+                liste.add(dto);
+            }
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Alle Students mit Attribut: " + attribute + " wurden abgerufen");
+        } catch (Exception e) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "retrieveStudents(String attribute) in StudentDAO failed", e);
+            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Der Student mit dem Attribut: " + attribute + " wurde erfolgreich abgerufen.");
-        return result;
+        return liste;
     }
 
     @Override
