@@ -240,7 +240,7 @@ public class AccountOverviewBody extends VerticalLayout {
         } else {
             panel = new Panel("Dokumente");
 
-            if (filename != null || !filename.equals("")) {
+            if (filename != null && !filename.isEmpty()) {
                 Link link = new Link(filename + ".pdf", file);
                 layout.addComponent(link);
             } else {
