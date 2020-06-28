@@ -11,6 +11,7 @@ import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
+import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
 import org.bonn.se2.process.control.LoginControl;
@@ -40,7 +41,7 @@ public class LoginView extends VerticalLayout implements View {
 
     private void setUp() {
         //TODO TOGGLE
-    	/*
+    	
     	RadioButtonGroup<String> toggle = new RadioButtonGroup<>("Bewerbungen zulassen");
         toggle.setItems("Ja", "Nein");
         ToggleDAO dao = null;
@@ -76,20 +77,18 @@ public class LoginView extends VerticalLayout implements View {
         	} else if (item.getValue() == "Nein") {
 				try {
 					ToggleDAO dao2 = new ToggleDAO();
-					dao2.updateToggle(true);
+					dao2.updateToggle(false);
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-        		
-        	} else {
         		
         	}
         		
         });
         	
         
-        this.addComponent(toggle);*/
+        this.addComponent(toggle);
 
         //this.setSizeFull();
 

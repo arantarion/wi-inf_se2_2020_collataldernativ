@@ -16,10 +16,6 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
 
     public Boolean retrieve() throws DatabaseException {
 
-//        final String sql =
-//                "SELECT 'erlaubeBewerbung' FROM \"collDB\".Toggle " +
-//                "';";
-        //language=PostgreSQL
         final String sql = "SELECT * FROM \"collDB\".toggle";
 
         List<Boolean> result = execute(sql);
@@ -29,17 +25,17 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
             throw new DatabaseException("retrieve(int id) did not return a DTO");
         }
         Logger.getLogger(ToggleDAO.class.getName()).log(Level.INFO, "Der Wahrheitswert für die Togglebar wurde erfolgreich abgerufen.");
-        return result.get(1);
+        return result.get(0);
     }
 
     public void updateToggle(Boolean updatedItem) throws Exception {
 
         //language=PostgreSQL
-        String queryStudent = "UPDATE \"collDB\".Toggle " +
+        String queryToggle = "UPDATE \"collDB\".Toggle " +
                 "SET \"erlaubeBewerbung\" = " + updatedItem + ";";
         try {
-            PreparedStatement pst = this.getPreparedStatement(queryStudent);
-            pst.setBoolean(1, updatedItem);
+            PreparedStatement pst = this.getPreparedStatement(queryToggle);
+            //pst.setBoolean(0, updatedItem); geht nicht, da keine spalten vorhanden!
             pst.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "failed to update Toggledata", e);
@@ -92,8 +88,12 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
 
     @Override
     protected Boolean create(ResultSet resultSet) throws DatabaseException {
-        System.out.println("create rrs");
-        return null;
+        try {
+			return resultSet.getBoolean("erlaubeBewerbung");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
     }
 
 }

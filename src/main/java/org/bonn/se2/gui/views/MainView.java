@@ -14,6 +14,7 @@ import org.bonn.se2.gui.windows.WatchCanditureWindow;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
+import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
@@ -91,6 +92,7 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayoutCompany.addComponent(suche);
 
         final Button bewerbenJetzt = new Button("Direkt zur Bewerbung");
+        final Button bewerbenNein = new Button("Bewerbung deaktiviert!");
         final Button bewerbenSehen = new Button("Direkt zu den Bewerbungen");
         bewerbenSehen.setEnabled(false);
         bewerbenJetzt.setEnabled(false);
@@ -198,6 +200,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
             }
         });
+       
 
         grid.addSelectionListener(event -> {
             if (event.getFirstSelectedItem().isPresent()) {
@@ -221,12 +224,34 @@ public class MainView extends VerticalLayout implements View {
             }
 
         });
+        
         if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
             addComponent(bewerbenSehen);
         }
         if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT) {
-            addComponent(bewerbenJetzt);
+        	ToggleDAO dao = null;
+    		try {
+    			dao = new ToggleDAO();
+    		} catch (DatabaseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+            try {
+    			if( dao.retrieve() == true) {
+    				addComponent(bewerbenJetzt);
+    			} else if (dao.retrieve() == false) {
+    				addComponent(bewerbenNein);
+    				bewerbenNein.setEnabled(false);
+    			} else {
+    				System.out.println("Nix geladen");
+    			}
+    		} catch (DatabaseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+            
         }
+        
 
         if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
         	Button sucheStudent = new Button("Suchen", VaadinIcons.SEARCH);
