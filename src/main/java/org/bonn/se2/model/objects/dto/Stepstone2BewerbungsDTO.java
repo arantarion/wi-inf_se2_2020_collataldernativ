@@ -1,7 +1,6 @@
 package org.bonn.se2.model.objects.dto;
 
-import org.json.JSONObject;
-
+//import org.json.JSONObject;
 import java.time.LocalDate;
 
 public class Stepstone2BewerbungsDTO extends StepstoneBewerbung {
@@ -9,10 +8,10 @@ public class Stepstone2BewerbungsDTO extends StepstoneBewerbung {
     Stepstone2BewerbungsDTO() {
     }
 
-    @Override
-    public String toString() {
-        return toJSON().toString();
-    }
+//    @Override
+//    public String toString() {
+//        return toJSON().toString();
+//    }
 
     @Override
     public boolean equals(Object obj) {
@@ -49,16 +48,16 @@ public class Stepstone2BewerbungsDTO extends StepstoneBewerbung {
         super.setBewerbungsdatum(bewerbungsdatum);
     }
 
-    @Override
-    public JSONObject toJSON() {
-        JSONObject obj = new JSONObject();
-        obj.put("student", getStudent() != null ? getStudent().toJSON() : "");
-        obj.put("vacancy", getOffer() != null ? getOffer().toJSON() : "");
-        obj.put("company", getCompany() != null ? getCompany().toJSON() : "");
-        obj.put("coverletter", getNotes());
-        obj.put("candidatureDate", getBewerbungsdatum() != null ? getBewerbungsdatum() : "");
-        return obj;
-    }
+//    @Override
+//    public JSONObject toJSON() {
+//        JSONObject obj = new JSONObject();
+//        obj.put("Student", getStudent() != null ? getStudent().toJSON() : "");
+//        obj.put("Offer", getOffer() != null ? getOffer().toJSON() : "");
+//        obj.put("Company", getCompany() != null ? getCompany().toJSON() : "");
+//        obj.put("Notes", getNotes());
+//        obj.put("Bewerbungsdatum", getBewerbungsdatum() != null ? getBewerbungsdatum() : "");
+//        return obj;
+//    }
 
     @Override
     public int hashCode() {
