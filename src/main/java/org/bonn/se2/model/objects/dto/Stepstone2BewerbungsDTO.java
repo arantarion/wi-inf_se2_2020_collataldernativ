@@ -1,5 +1,7 @@
 package org.bonn.se2.model.objects.dto;
 
+import org.json.JSONObject;
+
 import java.time.LocalDate;
 
 public class Stepstone2BewerbungsDTO extends StepstoneBewerbung {

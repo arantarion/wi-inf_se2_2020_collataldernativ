@@ -10,7 +10,7 @@ public class StepstoneBewerbung extends Bewerbung {
     private String notes;
     private LocalDate bewerbungsdatum;
 
-    public StepstoneBewerbung(){
+    public StepstoneBewerbung() {
 
     }
 
@@ -64,4 +64,5 @@ public class StepstoneBewerbung extends Bewerbung {
                 ", bewerbungsdatum=" + bewerbungsdatum +
                 '}';
     }
+
 }
