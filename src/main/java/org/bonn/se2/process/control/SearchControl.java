@@ -13,15 +13,15 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.SessionFunctions;
 
-public class SearchControl {
+public class SearchControl implements SearchControlInterface {
 	
 private SearchControl() {
 		
 	}
 	
-	public static SearchControl  search = null;
+	protected static SearchControl  search = null;
 	
-	public static SearchControl getInstance() {
+	protected static SearchControl getInstance() {
 		if (search == null) {
 			search = new SearchControl();
 		}
