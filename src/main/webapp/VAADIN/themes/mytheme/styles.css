@@ -1928,7 +1928,7 @@ div.v-layout.v-horizontal.v-widget {
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
 	backface-visibility: hidden;
-	padding: 3px 0;
+	padding: 4px 0;
 }
 
 .mytheme .v-contextmenu[class*="animate-in"] {
@@ -3245,7 +3245,7 @@ div.v-layout.v-horizontal.v-widget {
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
 	backface-visibility: hidden;
-	padding: 3px 0;
+	padding: 4px 0;
 	box-sizing: content-box;
 	position: relative;
 	z-index: 1;
@@ -7624,7 +7624,7 @@ div.v-layout.v-horizontal.v-widget {
 	-moz-backface-visibility: hidden;
 	-ms-backface-visibility: hidden;
 	backface-visibility: hidden;
-	padding: 3px 0;
+	padding: 4px 0;
 	margin: 4px 0 0 1px !important;
 }
 
@@ -7699,7 +7699,7 @@ div.v-layout.v-horizontal.v-widget {
 
 .mytheme .v-menubar-popup .v-menubar-separator {
 	display: block;
-	margin: 3px 0;
+	margin: 4px 0;
 	height: 0;
 	overflow: hidden;
 	border-bottom: 1px solid #d4dae4;
