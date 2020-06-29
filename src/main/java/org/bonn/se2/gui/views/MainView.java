@@ -14,6 +14,7 @@ import org.bonn.se2.gui.windows.WatchCanditureWindow;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
+import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
@@ -59,11 +60,11 @@ public class MainView extends VerticalLayout implements View {
         HorizontalLayout horizontalLayoutCompany = new HorizontalLayout();
         HorizontalLayout h2 = new HorizontalLayout();
         HorizontalLayout h3 = new HorizontalLayout();
+        HorizontalLayout studentLayout = new HorizontalLayout();
 
         //Erzeugung der Variablen
         Button suche = new Button("Suchen", VaadinIcons.SEARCH);
         TextField name = new TextField();
-        TextField sucheStudent = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
         //Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
         //Label role = new Label(SessionFunctions.getCurrentRole());
@@ -91,6 +92,7 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayoutCompany.addComponent(suche);
 
         final Button bewerbenJetzt = new Button("Direkt zur Bewerbung");
+        final Button bewerbenNein = new Button("Bewerbung deaktiviert!");
         final Button bewerbenSehen = new Button("Direkt zu den Bewerbungen");
         bewerbenSehen.setEnabled(false);
         bewerbenJetzt.setEnabled(false);
@@ -146,6 +148,16 @@ public class MainView extends VerticalLayout implements View {
         }
         grid.setItems(liste);
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
+        grid.addComponentColumn(JobOffer -> {
+            Button button = null;
+            try {
+                button = new Button((new CompanyDAO().retrieveCompany(JobOffer.getCompanyID())).getName());
+            } catch (DatabaseException e) {
+                e.printStackTrace();
+            }
+            button.addClickListener(click -> Notification.show(JobOffer.toString()));
+           return button;
+        }).setCaption("Unternehmen");
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
         grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
@@ -198,6 +210,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
             }
         });
+       
 
         grid.addSelectionListener(event -> {
             if (event.getFirstSelectedItem().isPresent()) {
@@ -221,39 +234,74 @@ public class MainView extends VerticalLayout implements View {
             }
 
         });
+        
         if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
             addComponent(bewerbenSehen);
         }
         if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT) {
-            addComponent(bewerbenJetzt);
+        	ToggleDAO dao = null;
+    		try {
+    			dao = new ToggleDAO();
+    		} catch (DatabaseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+            try {
+    			if( dao.retrieve() == true) {
+    				addComponent(bewerbenJetzt);
+    			} else if (dao.retrieve() == false) {
+    				addComponent(bewerbenNein);
+    				bewerbenNein.setEnabled(false);
+    			} else {
+    				System.out.println("Nix geladen");
+    			}
+    		} catch (DatabaseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+            
         }
-
-
-        Grid<Student> gridStudent = new Grid<>();
-        List<Student> listeStudent = null;
-        try {
-            listeStudent = new StudentDAO().retrieveAll();
-        } catch (Exception e) {
-            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-        }
-        gridStudent.setItems(listeStudent);
-        gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
-        gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
-        gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
-        gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
-        gridStudent.addColumn(Student::getJob).setCaption("Rolle");
-        gridStudent.setSizeFull();
-        gridStudent.setHeightMode(HeightMode.UNDEFINED);
         
-/*
-        sucheStudent.addValueChangeListener(d -> {
-            if (!sucheStudent.getValue().equals("")) {
-                String attribute = sucheStudent.getValue();
+
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
+        	Button sucheStudent = new Button("Suchen", VaadinIcons.SEARCH);
+            TextField textStudent = new TextField();
+            Label labelStudent = new Label("Bitte geben Sie ein Stichwort ein:");
+            
+            addComponent(studentLayout);
+            setComponentAlignment(studentLayout, Alignment.MIDDLE_CENTER);
+            studentLayout.addComponent(labelStudent);
+            studentLayout.addComponent(textStudent);
+            studentLayout.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
+            studentLayout.addComponent(sucheStudent);
+            		
+        	Grid<Student> gridStudent = new Grid<>();
+        	List<Student> listeStudent = null;
+        	try {
+        		listeStudent = new StudentDAO().retrieveAll();
+        	} catch (Exception e) {
+        		Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+        				new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+        	}
+        	gridStudent.setItems(listeStudent);
+        	gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
+        	gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+        	gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
+        	gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
+        	gridStudent.addColumn(Student::getJob).setCaption("Rolle");
+        	gridStudent.setSizeFull();
+        	gridStudent.setHeightMode(HeightMode.UNDEFINED);
+        	addComponent(gridStudent);
+        
+        
+
+        textStudent.addValueChangeListener(d -> {
+            if (!textStudent.getValue().equals("")) {
+                String attribute = textStudent.getValue();
                 gridStudent.removeAllColumns();
                 List<Student> listeStudent2 = null;
                 try {
-                	listeStudent2 = (List<Student>) new StudentDAO().retrieve(attribute);
+                	listeStudent2 = (List<Student>) new StudentDAO().retrieveStudents(attribute);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -281,11 +329,12 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
                 gridStudent.addColumn(Student::getJob).setCaption("Rolle");
             }
-        });*/
-
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
-            addComponent(gridStudent);
+        });
+        
         }
+
+        
+            
         //Rechts oben
         //horizontalLayout.addComponent(role);
         //horizontalLayout.addComponent(username);

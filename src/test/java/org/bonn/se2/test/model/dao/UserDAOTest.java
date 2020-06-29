@@ -4,6 +4,7 @@ import org.bonn.se2.model.dao.UserDAO;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
+import org.bonn.se2.services.util.CryptoFunctions;
 import org.bonn.se2.test.builder.UserBuilder;
 import org.junit.jupiter.api.*;
 
@@ -41,7 +42,7 @@ public class UserDAOTest {
         assertNotEquals(0, user.getUserID());
         assertEquals("SuperMuster", user.getUsername());
         assertEquals("test@test.de", user.getEmail());
-        assertEquals("123456", user.getPasswort());
+        assertEquals(CryptoFunctions.hash("123456"), user.getPasswort());
     }
 
     @BeforeEach
@@ -58,6 +59,7 @@ public class UserDAOTest {
         try {
             users = userDAO.retrieveAll();
         } catch (Exception e) {
+            e.printStackTrace();
             fail();
         }
         assertTrue(users.size() > 0);
@@ -88,26 +90,26 @@ public class UserDAOTest {
         }
     }
 
-//    @Test
-//    @Order(4)
-//    void update() {
-//        try {
-//            testUser = userDAO.retrieve(testUserID);
-//            testUser.setUsername("mein ganz ganz toller test user");
-//            testUser.setEmail("blablabla@bla.de");
-//            updateUser = userDAO.update(testUser);
-//
-//            assertEquals(testUserID, updateUser.getUserID());
-//            assertEquals("mein ganz ganz toller test user", updateUser.getUsername());
-//            assertEquals("blablabla@bla.de", updateUser.getEmail());
-//
-//        } catch (Exception e) {
-//            fail();
-//        }
-//    }
-
     @Test
     @Order(4)
+    void update() {
+        try {
+            testUser = userDAO.retrieve(testUserID);
+            testUser.setUsername("mein ganz ganz toller test user");
+            testUser.setEmail("blablabla@bla.de");
+            updateUser = userDAO.update(testUser);
+
+            assertEquals(testUserID, updateUser.getUserID());
+            assertEquals("mein ganz ganz toller test user", updateUser.getUsername());
+            assertEquals("blablabla@bla.de", updateUser.getEmail());
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    @Order(5)
     public void delete() {
         try {
             testUser = userDAO.retrieve(testUserID);

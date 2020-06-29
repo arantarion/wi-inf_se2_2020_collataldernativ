@@ -1,13 +1,13 @@
+
 package org.bonn.se2.model.dao;
 
+import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,6 +59,40 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         }
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Der Student mit dem Attribut: " + attribute + " wurde erfolgreich abgerufen.");
         return result.get(0);
+    }
+    
+    public List<Student> retrieveStudents(String attribute) throws DatabaseException, SQLException {
+        Statement statement = this.getStatement();
+        ResultSet resultSet = null;
+        //language=PostgreSQL
+        final String sql =
+                "SELECT * FROM \"collDB\".student " +
+                        "WHERE studienfach LIKE '%" + attribute + "%' OR arbeitgeber LIKE '%" + attribute + "%' OR job LIKE '%" + attribute + "%' " +
+                        "OR vorname LIKE '%" + attribute + "%' OR nachname LIKE '%" + attribute + "%';";
+
+        resultSet = statement.executeQuery(sql);
+        List<Student> liste = new ArrayList<>();
+        Student dto = null;
+        try {
+            while (resultSet.next()) {
+                dto = new Student();
+                dto.setStudienfach(resultSet.getString("studienfach"));
+                dto.setVorname(resultSet.getString("vorname"));
+                dto.setNachname(resultSet.getString("nachname"));
+                dto.setGeburtstag(new java.sql.Date(resultSet.getDate("geburtstag").getTime()).toLocalDate());
+                dto.setStudentID(resultSet.getInt("studentID"));
+                dto.setJob(resultSet.getString("job"));
+                dto.setArbeitgeber(resultSet.getString("Arbeitgeber")); //creationDate
+                dto.setFachsemester(resultSet.getInt("fachsemester"));
+                dto.setUserID(resultSet.getInt("userID"));
+                liste.add(dto);
+            }
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Alle Students mit Attribut: " + attribute + " wurden abgerufen");
+        } catch (Exception e) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "retrieveStudents(String attribute) in StudentDAO failed", e);
+            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
+        }
+        return liste;
     }
 
     @Override
@@ -180,11 +214,11 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     public Student delete(Student student) throws Exception {
         //language=PostgreSQL
         final String deleteQuery =
-                "DELETE FROM \"collDB\".user\n" +
-                        "WHERE username = ?\n" +
+                "DELETE FROM \"collDB\".user " +
+                        "WHERE \"userID\" = ? " +
                         "RETURNING *;";
 
-        List<Student> result = executePrepared(deleteQuery, student.getUsername());
+        List<Student> result = executePrepared(deleteQuery, student.getStudentID());
         if (result.size() < 1) {
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "delete(Student student) in StudentDAO failed");
             throw new DatabaseException("delete(Student student) failed");
@@ -196,8 +230,8 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     public Student delete(int ID) throws Exception {
         //language=PostgreSQL
         final String deleteQuery =
-                "DELETE FROM \"collDB\".student\n" +
-                        "WHERE \"userID\" = ?\n" +
+                "DELETE FROM \"collDB\".student " +
+                        "WHERE \"studentID\" = ? " +
                         "RETURNING *;";
 
         List<Student> result = executePrepared(deleteQuery, ID);

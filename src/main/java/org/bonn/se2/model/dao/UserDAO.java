@@ -54,16 +54,15 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     }
 
     @Override
-    public List<User> retrieveAll() throws Exception {
+    public List<User> retrieveAll() throws DatabaseException {
         //language=PostgreSQL
-        final String sql =
-                "SELECT * FROM \"collDB\".user ";// +
+        final String sql = "SELECT * FROM \"collDB\".user";
         // "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
         return execute(sql);
     }
 
     @Override
-    public User create(User user) throws Exception {
+    public User create(User user) throws DatabaseException {
         //language=PostgreSQL
         final String insertQuery = "INSERT INTO \"collDB\".user (username, email, passwort, \"registrationsDatum\") " +
                 "VALUES (?, ?, ?, ?) " +
@@ -117,10 +116,10 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".user " +
-                        "WHERE username = ? " +
+                        "WHERE \"userID\" = ? " +
                         "RETURNING *;";
 
-        List<User> result = executePrepared(deleteQuery, user.getUsername());
+        List<User> result = executePrepared(deleteQuery, user.getUserID());
         if (result.size() < 1) {
             throw new DatabaseException("delete(User user) failed");
         }

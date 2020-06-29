@@ -11,6 +11,7 @@ import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
+import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
 import org.bonn.se2.process.control.LoginControl;
@@ -39,62 +40,6 @@ public class LoginView extends VerticalLayout implements View {
     }
 
     private void setUp() {
-        //TODO TOGGLE
-    	/*
-    	RadioButtonGroup<String> toggle = new RadioButtonGroup<>("Bewerbungen zulassen");
-        toggle.setItems("Ja", "Nein");
-        ToggleDAO dao = null;
-		try {
-			dao = new ToggleDAO();
-		} catch (DatabaseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        try {
-			if( dao.retrieve() == true) {
-				toggle.setSelectedItem("Ja"); 
-			} else if (dao.retrieve() == false) {
-				toggle.setSelectedItem("Nein"); 
-			} else {
-				System.out.println("Nix geladen");
-			}
-		} catch (DatabaseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-        toggle.addSelectionListener(item -> {
-        	if(item == null) {
-        		System.out.println("Nix gewählt");
-        	} else if (item.getValue() == "Ja"){
-        		try {
-        			ToggleDAO dao2 = new ToggleDAO();
-					dao2.updateToggle(true);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-        	} else if (item.getValue() == "Nein") {
-				try {
-					ToggleDAO dao2 = new ToggleDAO();
-					dao2.updateToggle(true);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-        		
-        	} else {
-        		
-        	}
-        		
-        });
-        	
-        
-        this.addComponent(toggle);*/
-
-        //this.setSizeFull();
-
-        //
-
         ThemeResource themeResource = new ThemeResource("images/logo_hd_3.png");
         Image logo = new Image(null, themeResource);
         logo.setWidth("750px");
@@ -120,17 +65,14 @@ public class LoginView extends VerticalLayout implements View {
         final TextField userLogin = new TextField();
         userLogin.setCaption("UserID:");
         userLogin.setPlaceholder("E-Mail oder Username");
-        //userLogin.setWidth("250px");
         userLogin.setSizeFull();
 
         final PasswordField passwd = new PasswordField();
         passwd.setCaption("Passwort:");
         passwd.setPlaceholder("Passwort");
-        //passwd.setWidth("250px");
         passwd.setSizeFull();
 
         VerticalLayout layout = new VerticalLayout();
-        //layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
         layout.addComponents(userLogin, passwd);
 
 
@@ -154,7 +96,7 @@ public class LoginView extends VerticalLayout implements View {
         layout.setComponentAlignment(registrierungsButton, Alignment.MIDDLE_CENTER);
 
         panel.setSizeUndefined();
-        panel.setWidth("300px");
+        panel.setWidth("350px");
 
         loginButton.addClickListener(e -> {
             String login = userLogin.getValue();

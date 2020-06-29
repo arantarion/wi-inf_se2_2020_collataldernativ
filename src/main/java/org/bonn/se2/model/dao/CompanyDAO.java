@@ -5,7 +5,6 @@ import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
-import javax.xml.crypto.Data;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,7 +40,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         return result.get(0);
     }
 
-    public Company retrieveCompany(int companyID) throws DatabaseException{
+    public Company retrieveCompany(int companyID) throws DatabaseException {
         //language=PostgreSQL
         String sql =
                 "SELECT * FROM \"collDB\".company " +
@@ -98,13 +97,27 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
                 "RETURNING *";
         PreparedStatement pst = this.getPreparedStatement(query);
         ResultSet set = pst.executeQuery();
+
+
+        /*ResultSetMetaData rsmd = set.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+        while (set.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1) System.out.print(",  ");
+                String columnValue = set.getString(i);
+                System.out.print(columnValue + " " + rsmd.getColumnName(i));
+            }
+            System.out.println("");
+        }*/
+
+
         if (set.next()) {
             Company company2 = new Company();
-            company2.setUserID(set.getInt(1));
+            //company2.setUserID(set.getInt(1));
             company2.setName(set.getString("name"));
             company2.setBeschreibung(set.getString("beschreibung"));
             company2.setUserID(set.getInt("userID"));
-            company2.setcompanyID(set.getInt("companyID"));
+            company2.setcompanyID(set.getInt(1));
             company2.setWebURL(set.getString("webURL"));
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company + " konnte erfoglreich gespeichert werden.");
             return company;
@@ -136,8 +149,6 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             dto.setcompanyID(resultSet.getInt("companyID"));
             dto.setWebURL(resultSet.getString("webURL"));
             dto.setUserID(resultSet.getInt("userID"));
-            dto.setUsername(resultSet.getString("username"));
-            dto.setEmail(resultSet.getString("email"));
             dto.setAnsprechpartner(resultSet.getString("ansprechpartner"));
             dto.setBranche(resultSet.getString("branche"));
             dto.setBewertung(resultSet.getInt("bewertung"));

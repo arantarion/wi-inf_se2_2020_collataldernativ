@@ -7,9 +7,22 @@ import com.vaadin.ui.Alignment;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Image;
 import com.vaadin.ui.MenuBar;
+import com.vaadin.ui.Notification;
+import com.vaadin.ui.UI;
+import com.vaadin.ui.Window;
+import com.vaadin.ui.Button.ClickEvent;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.bonn.se2.gui.views.MainView;
 import org.bonn.se2.gui.views.ProfilView;
+import org.bonn.se2.gui.windows.ToggleFeatureWindow;
+import org.bonn.se2.gui.windows.WatchCanditureWindow;
+import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.ProfilControl;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
@@ -41,6 +54,9 @@ public class NavigationBar extends HorizontalLayout {
             ProfilView.setMyProfile(true);
             ProfilControl.companyProfile();
         };
+        if (SessionFunctions.getCurrentUser().getUserID() == 200) {
+        	MenuBar.MenuItem toggle = menuBar.addItem("ToggleFeature", clickEvent -> toggle());
+        }
 
         if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT)) {
             MenuBar.MenuItem profile = menuBar.addItem("Mein Profil verwalten", userProfile);
@@ -62,7 +78,17 @@ public class NavigationBar extends HorizontalLayout {
         this.setComponentAlignment(menuBar, Alignment.MIDDLE_RIGHT);
     }
 
-    private Image createImage() {
+    private void toggle() {
+    	try {
+    		Window swap = new ToggleFeatureWindow();
+    		UI.getCurrent().addWindow(swap);
+    	} catch (IllegalArgumentException | NullPointerException e) {
+    		Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+    		new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+    	}
+    }
+
+	private Image createImage() {
         ThemeResource themeResource = new ThemeResource("images/logo_hd_3.png");
         Image logo = new Image(null, themeResource);
         logo.setWidth("230px");
