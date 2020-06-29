@@ -65,17 +65,14 @@ public class LoginView extends VerticalLayout implements View {
         final TextField userLogin = new TextField();
         userLogin.setCaption("UserID:");
         userLogin.setPlaceholder("E-Mail oder Username");
-        //userLogin.setWidth("250px");
         userLogin.setSizeFull();
 
         final PasswordField passwd = new PasswordField();
         passwd.setCaption("Passwort:");
         passwd.setPlaceholder("Passwort");
-        //passwd.setWidth("250px");
         passwd.setSizeFull();
 
         VerticalLayout layout = new VerticalLayout();
-        //layout.addComponents(new Label ("&nbsp" , ContentMode.HTML));
         layout.addComponents(userLogin, passwd);
 
 
@@ -99,7 +96,7 @@ public class LoginView extends VerticalLayout implements View {
         layout.setComponentAlignment(registrierungsButton, Alignment.MIDDLE_CENTER);
 
         panel.setSizeUndefined();
-        panel.setWidth("300px");
+        panel.setWidth("350px");
 
         loginButton.addClickListener(e -> {
             String login = userLogin.getValue();
