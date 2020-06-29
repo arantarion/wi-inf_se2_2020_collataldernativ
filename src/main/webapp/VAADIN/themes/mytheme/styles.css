@@ -15267,3 +15267,9 @@ div.v-layout.v-horizontal.v-widget {
 .mytheme .gridPadding {
 	padding: 20px;
 }
+
+.mytheme .v-Notification.mystyle {
+	background: #5462a8;
+	border: 2px solid #32373a;
+	color: black;
+}

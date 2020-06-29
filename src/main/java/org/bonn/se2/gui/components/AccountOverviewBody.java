@@ -1,6 +1,7 @@
 package org.bonn.se2.gui.components;
 
 import com.vaadin.icons.VaadinIcons;
+import com.vaadin.server.Page;
 import com.vaadin.server.StreamResource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
@@ -164,10 +165,13 @@ public class AccountOverviewBody extends VerticalLayout {
             layout.addComponent(grid);
 
             selectionModel.addMultiSelectionListener(e -> {
-                Notification.show(e.getAddedSelection().size()
+                Notification notification = new Notification(e.getAddedSelection().size()
                         + " items added, "
                         + e.getRemovedSelection().size()
-                        + " removed.");
+                        + " removed.",
+                        Notification.Type.HUMANIZED_MESSAGE);
+                notification.setStyleName("mystyle");
+                notification.show(Page.getCurrent());
 
                 offerDeletionButton.setEnabled(e.getNewSelection().size() > 0);
                 offerDeletionButton.addClickListener(d -> {

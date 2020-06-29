@@ -354,6 +354,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         notification.setPosition(Position.MIDDLE_CENTER);
         notification.setDelayMsec(2000);
         notification.show(Page.getCurrent());
+        notification.setStyleName("mystyle");
         UIFunctions.gotoLogin();
     }
 
