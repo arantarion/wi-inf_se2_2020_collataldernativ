@@ -289,7 +289,7 @@ public class MainView extends VerticalLayout implements View {
         	}
         	gridStudent.setItems(listeStudent);
         	gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
-        	gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+        	gridStudent.addColumn(Student::getVollstName).setCaption("Name");
         	gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
         	gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
         	gridStudent.addColumn(Student::getJob).setCaption("Rolle");
@@ -312,7 +312,7 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.setItems(listeStudent2);
                 System.out.println(listeStudent2);
                 MultiSelectionModel<Student> selectionModel2 = (MultiSelectionModel<Student>) gridStudent.setSelectionMode(Grid.SelectionMode.MULTI);
-                gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+                gridStudent.addColumn(Student::getVollstName).setCaption("Name");
                 gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
                 gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
                 gridStudent.addColumn(Student::getJob).setCaption("Rolle");
@@ -328,7 +328,7 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.setItems(listeStudent3);
                 System.out.println(listeStudent3);
                 MultiSelectionModel<Student> selectionModel3 = (MultiSelectionModel<Student>) gridStudent.setSelectionMode(Grid.SelectionMode.MULTI);
-                gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+                gridStudent.addColumn(Student::getVollstName).setCaption("Name");
                 gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
                 gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
                 gridStudent.addColumn(Student::getJob).setCaption("Rolle");
