@@ -59,6 +59,7 @@ public class UserDAOTest {
         try {
             users = userDAO.retrieveAll();
         } catch (Exception e) {
+            e.printStackTrace();
             fail();
         }
         assertTrue(users.size() > 0);
@@ -89,31 +90,31 @@ public class UserDAOTest {
         }
     }
 
-//    @Test
-//    @Order(4)
-//    void update() {
-//        try {
-//            testUser = userDAO.retrieve(testUserID);
-//            testUser.setUsername("mein ganz ganz toller test user");
-//            testUser.setEmail("blablabla@bla.de");
-//            updateUser = userDAO.update(testUser);
-//
-//            assertEquals(testUserID, updateUser.getUserID());
-//            assertEquals("mein ganz ganz toller test user", updateUser.getUsername());
-//            assertEquals("blablabla@bla.de", updateUser.getEmail());
-//
-//        } catch (Exception e) {
-//            fail();
-//        }
-//    }
-
     @Test
     @Order(4)
+    void update() {
+        try {
+            testUser = userDAO.retrieve(testUserID);
+            testUser.setUsername("mein ganz ganz toller test user");
+            testUser.setEmail("blablabla@bla.de");
+            updateUser = userDAO.update(testUser);
+
+            assertEquals(testUserID, updateUser.getUserID());
+            assertEquals("mein ganz ganz toller test user", updateUser.getUsername());
+            assertEquals("blablabla@bla.de", updateUser.getEmail());
+
+        } catch (Exception e) {
+            fail();
+        }
+    }
+
+    @Test
+    @Order(5)
     public void delete() {
         try {
             testUser = userDAO.retrieve(testUserID);
             userDAO.delete(testUser);
-            assertThrows(DatabaseException.class, () -> userDAO.retrieve(testUserID));
+            assertThrows(InvalidCredentialsException.class, () -> userDAO.retrieve(testUserID));
 
         } catch (Exception e) {
             e.printStackTrace();

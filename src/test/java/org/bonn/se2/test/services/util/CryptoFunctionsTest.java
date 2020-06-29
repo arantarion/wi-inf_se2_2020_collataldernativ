@@ -1,4 +1,4 @@
-package org.bonn.se2.test.services;
+package org.bonn.se2.test.services.util;
 
 import org.bonn.se2.services.util.CryptoFunctions;
 import org.junit.jupiter.api.Test;

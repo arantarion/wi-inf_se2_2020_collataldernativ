@@ -176,7 +176,7 @@ public class AccountOverviewBody extends VerticalLayout {
                     //for (int i = 0; i < s.size(); i++) { old version
                     for (JobOffer jobOffer : s) {
                         try {
-                            new OfferDAO().delete(jobOffer.getJobofferID());
+                            new OfferDAO().delete(jobOffer); //vormals id
                         } catch (Exception exception) {
                             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                                     new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);

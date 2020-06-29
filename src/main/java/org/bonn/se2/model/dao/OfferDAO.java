@@ -102,7 +102,6 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit Attribut: " + attribute + " wurden abgerufen");
         } catch (Exception e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
-            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
         }
         return liste;
     }
@@ -185,7 +184,8 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         //language=PostgreSQL
         final String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\", \"creationDate\", \"beginDate\", gehalt) " +
                 "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + java.sql.Date.valueOf(LocalDate.now()) + "', '" + dto.getBeginDate() + "', '" + dto.getGehalt() + "') " +
-                "RETURNING \"jobofferID\"";
+                "RETURNING *"; //"RETURNING *"; ()
+
         PreparedStatement pst = this.getPreparedStatement(insertQuery2);
         ResultSet resultSet = pst.executeQuery();
         if (resultSet.next()) {
@@ -230,16 +230,16 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         return result.get(0);
     }
 
-    public void delete(int id) throws Exception {
-        //language=PostgreSQL
-        final String deleteQuery =
-                "DELETE FROM \"collDB\".joboffer " +
-                        "WHERE \"jobofferID\" = ? " +
-                        "RETURNING *;";
-
-        List<JobOffer> result = executePrepared(deleteQuery, id);
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "CompanyOffer mit der jobOfferID: " + id + "wurde gelöscht.");
-    }
+//    public void delete(int id) throws Exception {
+//        //language=PostgreSQL
+//        final String deleteQuery =
+//                "DELETE FROM \"collDB\".joboffer " +
+//                        "WHERE \"jobofferID\" = ? " +
+//                        "RETURNING *;";
+//
+//        List<JobOffer> result = executePrepared(deleteQuery, id);
+//        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "CompanyOffer mit der jobOfferID: " + id + "wurde gelöscht.");
+//    }
 
     public List<JobOffer> deleteCompanyOffers(int ID) throws Exception {
         //language=PostgreSQL

@@ -112,4 +112,16 @@ public class Bewerbung {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    @Override
+    public String toString() {
+        return "Bewerbung{" +
+                "bewerbungsID=" + bewerbungsID +
+                ", jobofferID=" + jobofferID +
+                ", companyID=" + companyID +
+                ", studentID=" + studentID +
+                ", bewerbungsdatum=" + bewerbungsdatum +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
 }
