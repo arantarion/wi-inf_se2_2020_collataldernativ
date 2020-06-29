@@ -121,7 +121,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         userCreationPanel.setVisible(true);
         this.addComponent(userCreationPanel);
         this.setComponentAlignment(userCreationPanel, Alignment.MIDDLE_CENTER);
-        userCreationPanel.setWidth("500px");
+        userCreationPanel.setWidth("550px");
 
         Button weiterButton1 = new Button("Fortfahren", VaadinIcons.ARROW_RIGHT);
         weiterButton1.setClickShortcut(ShortcutAction.KeyCode.ENTER);
