@@ -73,6 +73,13 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
         } catch (FileNotFoundException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+        }finally {
+            try {
+                fis.close();
+            } catch (IOException e) {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+            }
         }
 
         if (this.mimeType.contains("pdf")) {
@@ -97,13 +104,20 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
             }
         } else if (this.mimeType.contains("image")) {
             try {
-                SessionFunctions.getCurrentUser().setImage(toByteArray(fis));
-                notification.setDescription("Profilbild hochgeladen. Bitte speichern nicht vergessen.");
-                notification.setDelayMsec(3000);
+                if(fis == null){
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", "FileInputStream is null!");
+                    notification.setDescription("Fehler");
+                }else {
+                    SessionFunctions.getCurrentUser().setImage(toByteArray(fis));
+                    notification.setDescription("Profilbild hochgeladen. Bitte speichern nicht vergessen.");
+                    notification.setDelayMsec(3000);
 
-                if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT)) {
-                    EditStudentWindow.refreshProfilePic(convertToImage(SessionFunctions.getCurrentUser().getImage()));
+                    if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT)) {
+                        EditStudentWindow.refreshProfilePic(convertToImage(SessionFunctions.getCurrentUser().getImage()));
+                    }
                 }
+
 
             } catch (IOException e) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
