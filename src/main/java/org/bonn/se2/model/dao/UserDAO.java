@@ -116,10 +116,10 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".user " +
-                        "WHERE username = ? " +
+                        "WHERE \"userID\" = ? " +
                         "RETURNING *;";
 
-        List<User> result = executePrepared(deleteQuery, user.getUsername());
+        List<User> result = executePrepared(deleteQuery, user.getUserID());
         if (result.size() < 1) {
             throw new DatabaseException("delete(User user) failed");
         }
