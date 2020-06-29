@@ -149,8 +149,6 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             dto.setcompanyID(resultSet.getInt("companyID"));
             dto.setWebURL(resultSet.getString("webURL"));
             dto.setUserID(resultSet.getInt("userID"));
-            dto.setUsername(resultSet.getString("username"));
-            dto.setEmail(resultSet.getString("email"));
             dto.setAnsprechpartner(resultSet.getString("ansprechpartner"));
             dto.setBranche(resultSet.getString("branche"));
             dto.setBewertung(resultSet.getInt("bewertung"));

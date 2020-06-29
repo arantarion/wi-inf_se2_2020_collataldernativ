@@ -148,6 +148,16 @@ public class MainView extends VerticalLayout implements View {
         }
         grid.setItems(liste);
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
+        grid.addComponentColumn(JobOffer -> {
+            Button button = null;
+            try {
+                button = new Button((new CompanyDAO().retrieveCompany(JobOffer.getCompanyID())).getName());
+            } catch (DatabaseException e) {
+                e.printStackTrace();
+            }
+            button.addClickListener(click -> Notification.show(JobOffer.toString()));
+           return button;
+        });
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
         grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
