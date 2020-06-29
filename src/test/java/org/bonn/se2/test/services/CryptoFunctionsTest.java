@@ -1,9 +1,10 @@
 package org.bonn.se2.test.services;
 
 import org.bonn.se2.services.util.CryptoFunctions;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 
 /**
  * @author Coll@Aldernativ

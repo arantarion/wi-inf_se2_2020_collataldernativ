@@ -4,6 +4,7 @@ import org.bonn.se2.model.dao.UserDAO;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
+import org.bonn.se2.services.util.CryptoFunctions;
 import org.bonn.se2.test.builder.UserBuilder;
 import org.junit.jupiter.api.*;
 
@@ -41,7 +42,7 @@ public class UserDAOTest {
         assertNotEquals(0, user.getUserID());
         assertEquals("SuperMuster", user.getUsername());
         assertEquals("test@test.de", user.getEmail());
-        assertEquals("123456", user.getPasswort());
+        assertEquals(CryptoFunctions.hash("123456"), user.getPasswort());
     }
 
     @BeforeEach

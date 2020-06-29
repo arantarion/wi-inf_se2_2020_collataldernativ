@@ -33,19 +33,19 @@ public class PasswordValidator extends StringLengthValidator {
         return result;
     }
 
-    private boolean hasDigit(String pwd) {
+    public boolean hasDigit(String pwd) {
         return pwd.chars().anyMatch(Character::isDigit);
     }
 
-    private boolean hasLetter(String pwd) {
+    public boolean hasLetter(String pwd) {
         return pwd.chars().anyMatch(Character::isLetter);
     }
 
-    private boolean hasLowercase(String pwd) {
-        return !pwd.equals(pwd.toLowerCase());
-    }
+    public boolean hasLowercase(String pwd) {
+        return pwd.equals(pwd.toLowerCase());
+    }       //TEST1234 == test1234 -> False
 
-    private boolean hasUpperCase(String pwd) {
-        return !pwd.equals(pwd.toUpperCase());
+    public boolean hasUpperCase(String pwd) {
+        return pwd.equals(pwd.toUpperCase());
     }
 }

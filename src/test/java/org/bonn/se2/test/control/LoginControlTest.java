@@ -7,9 +7,7 @@ import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
