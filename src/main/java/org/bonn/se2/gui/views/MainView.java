@@ -19,6 +19,7 @@ import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.SearchControl;
+import org.bonn.se2.process.control.SearchControlProxy;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
@@ -108,7 +109,7 @@ public class MainView extends VerticalLayout implements View {
                     return;
                 } else {
                     try {
-                        if (MainView.this.selectedJobOffer.getCompanyID() == SearchControl.getInstance().getCompanyID()) {
+                        if (MainView.this.selectedJobOffer.getCompanyID() == SearchControlProxy.getInstance().getCompanyID()) {
                             Window swap = new WatchCanditureWindow(selectedJobOffer);
                             UI.getCurrent().addWindow(swap);
                         } else {
@@ -143,7 +144,7 @@ public class MainView extends VerticalLayout implements View {
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste = null;
         try {
-            liste = SearchControl.getInstance().getAllOffers();
+            liste = SearchControlProxy.getInstance().getAllOffers();
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
@@ -152,7 +153,7 @@ public class MainView extends VerticalLayout implements View {
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid.addComponentColumn(JobOffer -> {
             Button button = null;
-            button = new Button(SearchControl.getInstance().getCompanyName(JobOffer.getCompanyID()));
+            button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
             button.addClickListener(click -> {
                 Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
                 UI.getCurrent().addWindow(rate);
@@ -176,7 +177,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste2 = null;
                 try {
-                    liste2 = SearchControl.getInstance().getOffersInput(attribute);
+                    liste2 = SearchControlProxy.getInstance().getOffersInput(attribute);
                 } catch (Exception ex) {
                     Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                             new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
@@ -195,7 +196,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste3 = null;
                 try {
-                    liste3 = SearchControl.getInstance().getAllOffers();
+                    liste3 = SearchControlProxy.getInstance().getAllOffers();
                 } catch (Exception ex) {
                     Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                             new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
@@ -216,7 +217,7 @@ public class MainView extends VerticalLayout implements View {
         grid.addSelectionListener(event -> {
             if (event.getFirstSelectedItem().isPresent()) {
                 selectedJobOffer = (event.getFirstSelectedItem().get());
-                if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == SearchControl.getInstance().getCompanyID())) {
+                if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == SearchControlProxy.getInstance().getCompanyID())) {
 				    bewerbenSehen.setEnabled(true);
 				} else {
 				    bewerbenSehen.setEnabled(false);
@@ -274,7 +275,7 @@ public class MainView extends VerticalLayout implements View {
         	Grid<Student> gridStudent = new Grid<>();
         	List<Student> listeStudent = null;
         	try {
-        		listeStudent = SearchControl.getInstance().getAllStudents();
+        		listeStudent = SearchControlProxy.getInstance().getAllStudents();
         	} catch (Exception e) {
         		Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
         				new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
@@ -297,7 +298,7 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.removeAllColumns();
                 List<Student> listeStudent2 = null;
                 try {
-                	listeStudent2 = SearchControl.getInstance().getStudentsInput(attribute);
+                	listeStudent2 = SearchControlProxy.getInstance().getStudentsInput(attribute);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -313,7 +314,7 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.removeAllColumns();
                 List<Student> listeStudent3 = null;
                 try {
-                	listeStudent3 =  SearchControl.getInstance().getAllStudents();
+                	listeStudent3 =  SearchControlProxy.getInstance().getAllStudents();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
