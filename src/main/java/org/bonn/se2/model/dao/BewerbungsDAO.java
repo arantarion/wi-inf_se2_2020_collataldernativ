@@ -115,7 +115,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
                 "VALUES ('" + bewerbung.getJobofferID() +
                 "','" + bewerbung.getCompanyID() + "', '" + bewerbung.getStudentID() +
                 "', '" + bewerbung.getBewerbungsdatum() + "', '" + bewerbung.getNotes() + "') " +
-                "RETURNING \"bewerbungsID\"";
+                "RETURNING *";
         PreparedStatement pst = this.getPreparedStatement(insertQuery2);
         ResultSet resultSet = pst.executeQuery();
         if (resultSet.next()) {

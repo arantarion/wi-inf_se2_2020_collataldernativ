@@ -114,7 +114,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         final String query =
                 "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\")\n" +
                         "VALUES (?,?,?,?) " +
-                        "RETURNING \"studentID\"";
+                        "RETURNING *";
 
         PreparedStatement preparedStatement = this.getPreparedStatement(query);
         preparedStatement.setString(1, student.getVorname());

@@ -57,7 +57,7 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
                 "VALUES ('" + file.getDocumentID() + "','" + file.getTitle() +
                 "','" + file.getUserID() + "', '" + file.getDate() +
                 "', '" + file.getFile() + "', '" + file.getDesc() + "') " +
-                "RETURNING \"fileID\"";
+                "RETURNING *";
         PreparedStatement pst = this.getPreparedStatement(sql);
         ResultSet resultSet = pst.executeQuery();
         if (resultSet.next()) {
