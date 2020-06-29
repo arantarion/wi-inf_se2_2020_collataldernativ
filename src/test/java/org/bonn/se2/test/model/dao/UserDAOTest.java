@@ -113,7 +113,7 @@ public class UserDAOTest {
         try {
             testUser = userDAO.retrieve(testUserID);
             userDAO.delete(testUser);
-            assertThrows(InvalidCredentialsException.class, () -> userDAO.retrieve(testUserID));
+            assertThrows(DatabaseException.class, () -> userDAO.retrieve(testUserID));
 
         } catch (Exception e) {
             e.printStackTrace();

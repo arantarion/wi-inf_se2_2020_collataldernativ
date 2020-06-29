@@ -30,15 +30,16 @@ class PasswordValidatorTest {
     }
 
     @Test
-    public void casePositive() {
-        assertTrue(pwv.hasLowercase("Test12345"));
-        assertTrue(pwv.hasUpperCase("Test12345"));
+    public void isPasswordPositive() {
+        assertTrue(pwv.isPassword("Test12345"));
     }
 
     @Test
-    public void caseNegative() {
-        assertFalse(pwv.hasUpperCase("test"));
-        assertFalse(pwv.hasLowercase("TEST"));
+    public void isPasswordNegative() {
+        assertFalse(pwv.isPassword("test1234"));
+        assertFalse(pwv.isPassword("TEST1234"));
+        assertFalse(pwv.isPassword("123456"));
+        assertFalse(pwv.isPassword("Test"));
     }
 
 
