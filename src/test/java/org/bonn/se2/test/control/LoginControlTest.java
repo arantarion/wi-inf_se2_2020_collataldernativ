@@ -7,12 +7,16 @@ import org.bonn.se2.process.control.LoginControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.bonn.se2.services.util.Configuration;
-
+import org.bonn.se2.services.util.CryptoFunctions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.exceptions.base.MockitoException;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 //import org.junit.jupiter.api.Test;
@@ -23,8 +27,30 @@ import static org.mockito.Mockito.when;
  * @Programmer Henry Weckermann
  */
 
-//@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class LoginControlTest {
+
+//    @Mock
+//    private UI myui;
+//
+//    @Mock
+//    private VaadinSession session;
+//
+//
+//    @BeforeAll
+//    public void setUp() {
+//        UI.setCurrent(myui);
+//        when(myui.getSession()).thenReturn(session);
+//        myui.getNavigator().navigateTo(Configuration.Views.LOGIN);
+//    }
+//
+//    @Test
+//    public void testLogin() throws InvalidCredentialsException, DatabaseException {
+//        UserAtLogin testUser = new UserAtLogin("kpierz2s", "Test1234");
+//        LoginControl.checkAuthentication(testUser);
+//
+//        //assertEquals(LoginControl.getRole(testUser), Configuration.Roles.STUDENT);
+//    }
 
     /*@Mock
     private UI myui; // erzeuge und injiziere ein „UI-Objekt“
