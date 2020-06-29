@@ -16,6 +16,8 @@ import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.Utils;
 
+import java.util.Arrays;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
@@ -44,6 +46,7 @@ public class AccountOverviewHead extends VerticalLayout {
         accountOverviewHeadLayout.setWidth("80%");
 
         Image profilbild;
+
         if (dto.getImage() != null && dto.getImage().length > 0) {
             profilbild = Utils.convertToImg(dto.getImage());
         } else {

@@ -113,7 +113,7 @@ public class AccountOverviewBody extends VerticalLayout {
             layout.addComponent(fachsemester, 1, 1);
 
             Panel job;
-            if (student.getFachsemester() != null) {
+            if (student.getJob() != null) {
                 job = createPanel(student.getJob(), "Job");
             } else {
                 job = createPanel("Job");
@@ -123,7 +123,7 @@ public class AccountOverviewBody extends VerticalLayout {
             layout.addComponent(job, 0, 2);
 
             Panel arbeitgeber;
-            if (student.getFachsemester() != null) {
+            if (student.getArbeitgeber() != null) {
                 arbeitgeber = createPanel(student.getArbeitgeber(), "Arbeitgeber");
             } else {
                 arbeitgeber = createPanel("Arbeitgeber");

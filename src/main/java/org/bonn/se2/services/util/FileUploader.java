@@ -42,8 +42,8 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
     }
 
     public static Image convertToImage(final byte[] imageData) {
-        StreamResource.StreamSource streamSource = (StreamResource.StreamSource) () -> (imageData == null) ? null : new ByteArrayInputStream(
-                imageData);
+        StreamResource.StreamSource streamSource = (StreamResource.StreamSource) () ->
+                (imageData == null) ? null : new ByteArrayInputStream(imageData);
         return new Image(null, new StreamResource(streamSource, "streamedSourceFromByteArray"));
     }
 
@@ -73,13 +73,6 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
         } catch (FileNotFoundException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-        }finally {
-            try {
-                fis.close();
-            } catch (IOException e) {
-                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-            }
         }
 
         if (this.mimeType.contains("pdf")) {
@@ -122,7 +115,7 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
             } catch (IOException e) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                         new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-                notification.setDescription("Fehler");
+                notification.setDescription("Fehler - 2");
             }
         } else {
             notification.setDescription("Dieser Datentyp wird nicht akzeptiert.");
