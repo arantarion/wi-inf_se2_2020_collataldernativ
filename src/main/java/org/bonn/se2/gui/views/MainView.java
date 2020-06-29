@@ -10,6 +10,7 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.gui.windows.SendCanditureWindow;
+import org.bonn.se2.gui.windows.VisitCompanyWindow;
 import org.bonn.se2.gui.windows.WatchCanditureWindow;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
@@ -155,7 +156,10 @@ public class MainView extends VerticalLayout implements View {
             } catch (DatabaseException e) {
                 e.printStackTrace();
             }
-            button.addClickListener(click -> Notification.show(JobOffer.toString()));
+            button.addClickListener(click -> {
+                Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                UI.getCurrent().addWindow(rate);
+            });
            return button;
         }).setCaption("Unternehmen");
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
