@@ -14,6 +14,9 @@ import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.*;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
@@ -208,12 +211,12 @@ public class EditStudentWindow extends Window {
         Label lDocument = new Label("Lebenslauf");
         grid.addComponent(lDocument, 0, 10);
 
-        Upload upload_doc = new Upload("", receiver);
-        upload_doc.setButtonCaption("Hochladen");
-        upload_doc.addSucceededListener(receiver);
-        upload_doc.setAcceptMimeTypes("application/pdf");
-        grid.addComponent(upload_doc, 1, 11);
-        grid.setComponentAlignment(upload_doc, Alignment.MIDDLE_LEFT);
+        Upload uploadDocument = new Upload("", receiver);
+        uploadDocument.setButtonCaption("Hochladen");
+        uploadDocument.addSucceededListener(receiver);
+        uploadDocument.setAcceptMimeTypes("application/pdf");
+        grid.addComponent(uploadDocument, 1, 11);
+        grid.setComponentAlignment(uploadDocument, Alignment.MIDDLE_LEFT);
 
         Label lDocNotice = new Label("Nur PDF Dateien möglich");
         grid.addComponent(lDocNotice, 0, 11);
@@ -303,7 +306,8 @@ public class EditStudentWindow extends Window {
             } catch (ValidationException e) {
                 isValid = false;
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }
 
             if (!isValid) {

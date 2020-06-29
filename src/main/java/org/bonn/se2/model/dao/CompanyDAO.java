@@ -40,6 +40,21 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         return result.get(0);
     }
 
+    public Company retrieveCompany(int companyID) throws DatabaseException {
+        //language=PostgreSQL
+        String sql =
+                "SELECT * FROM \"collDB\".company " +
+                        "WHERE company.\"companyID\" = '" + companyID + "'";
+
+        List<Company> result = execute(sql);
+        if (result.size() < 1) {
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "retrieve(int companyid) failed.");
+            throw new DatabaseException("retrieve(int companyid) failed");
+        }
+        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit der companyID: " + companyID + " wurde abgerufen.");
+        return result.get(0);
+    }
+
     @Override
     public Company retrieve(String attribute) throws DatabaseException {
         //language=PostgreSQL
@@ -82,13 +97,27 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
                 "RETURNING *";
         PreparedStatement pst = this.getPreparedStatement(query);
         ResultSet set = pst.executeQuery();
+
+
+        /*ResultSetMetaData rsmd = set.getMetaData();
+        int columnsNumber = rsmd.getColumnCount();
+        while (set.next()) {
+            for (int i = 1; i <= columnsNumber; i++) {
+                if (i > 1) System.out.print(",  ");
+                String columnValue = set.getString(i);
+                System.out.print(columnValue + " " + rsmd.getColumnName(i));
+            }
+            System.out.println("");
+        }*/
+
+
         if (set.next()) {
             Company company2 = new Company();
-            company2.setUserID(set.getInt(1));
+            //company2.setUserID(set.getInt(1));
             company2.setName(set.getString("name"));
             company2.setBeschreibung(set.getString("beschreibung"));
             company2.setUserID(set.getInt("userID"));
-            company2.setcompanyID(set.getInt("companyID"));
+            company2.setcompanyID(set.getInt(1));
             company2.setWebURL(set.getString("webURL"));
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company + " konnte erfoglreich gespeichert werden.");
             return company;
@@ -129,7 +158,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             //dto.setAdresse(address);
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + dto + " konnte erfolgreich gespeichert werden.");
         } catch (SQLException e) {
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in CompanyDAO failed",e);
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in CompanyDAO failed", e);
             //throw new DatabaseException("create(ResultSet resultSet) in CompanyDAO failed");
         }
         return dto;

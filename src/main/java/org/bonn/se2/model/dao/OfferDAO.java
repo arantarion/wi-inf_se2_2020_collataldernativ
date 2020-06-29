@@ -1,7 +1,6 @@
 package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.JobOffer;
-import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
@@ -45,7 +44,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
-        String insert = "SELECT * " +
+        final String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
                 "WHERE \"companyID\" = '" + id + "' ";
         resultSet = statement.executeQuery(insert);
@@ -78,7 +77,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
-        String insert = "SELECT * " +
+        final String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
                 "WHERE bereich LIKE '%" + attribute + "%' OR kontakt LIKE '%" + attribute + "%' OR beschreibung LIKE '%" + attribute + "%' " +
                 "OR name LIKE '%" + attribute + "%' OR gehalt LIKE '%" + attribute + "%'";
@@ -107,13 +106,13 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         }
         return liste;
     }
-    
+
     //TODO
     public List<JobOffer> retrieveCompanyOffersbyID(String attribute, int ID) throws DatabaseException, SQLException {
-    	Statement statement = this.getStatement();
+        Statement statement = this.getStatement();
         ResultSet resultSet = null;
         //language=PostgreSQL
-        String insert = "SELECT * " +
+        final String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
                 "WHERE bereich LIKE '%" + attribute + "%' OR kontakt LIKE '%" + attribute + "%' OR beschreibung LIKE '%" + attribute + "%' " +
                 "OR name LIKE '%" + attribute + "%' OR gehalt LIKE '%" + attribute + "%' AND joboffer.\"jobofferID\" = '" + ID + "';";
@@ -142,7 +141,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         }
         return liste;
     }
-    
+
 
     @Override
     public JobOffer retrieve(String attribute) throws Exception {
@@ -152,7 +151,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     @Override
     public List<JobOffer> retrieveAll() throws Exception {
         //language=PostgreSQL
-        String insert = "SELECT * " +
+        final String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
                 "JOIN \"collDB\".company ON joboffer.\"companyID\" = company.\"companyID\"";
         Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle Joboffer wurden abgerufen.");
@@ -160,7 +159,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     }
 
     @Override
-    protected JobOffer create(ResultSet resultSet) throws DatabaseException {
+    protected JobOffer create(ResultSet resultSet) {
         JobOffer dto = new JobOffer();
 
         try {
@@ -177,7 +176,6 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
 
         } catch (Exception e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultSet) in JobOfferDAO failed", e);
-            //throw new DatabaseException("create(ResultSet resultSet) in JobOfferDAO failed");
         }
         return dto;
     }
@@ -185,7 +183,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     @Override
     public JobOffer create(JobOffer dto) throws Exception {
         //language=PostgreSQL
-        String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\", \"creationDate\", \"beginDate\", gehalt) " +
+        final String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\", \"creationDate\", \"beginDate\", gehalt) " +
                 "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + java.sql.Date.valueOf(LocalDate.now()) + "', '" + dto.getBeginDate() + "', '" + dto.getGehalt() + "') " +
                 "RETURNING \"jobofferID\"";
         PreparedStatement pst = this.getPreparedStatement(insertQuery2);
@@ -251,9 +249,6 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                         "RETURNING *;";
 
         List<JobOffer> result = executePrepared(deleteQuery, ID);
-//        if (result.size() < 1) {
-//            throw new DatabaseException("delete(User user) failed");
-//        }
         Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "CompanyOffers mit der companyID: " + ID + "wurden gelöscht.");
         return result;
     }

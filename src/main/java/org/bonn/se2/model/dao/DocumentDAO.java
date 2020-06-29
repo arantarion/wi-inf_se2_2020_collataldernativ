@@ -17,9 +17,9 @@ import java.util.logging.Logger;
  * @Programmer Anton Drees
  */
 
-public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<Document>{
+public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<Document> {
 
-    protected DocumentDAO() throws DatabaseException {
+    public DocumentDAO() throws DatabaseException {
     }
 
     @Override
@@ -79,7 +79,7 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
     @Override
     protected Document create(ResultSet resultSet) throws DatabaseException {
         Document file = new Document();
-        try{
+        try {
             file.setDocumentID(resultSet.getInt("fileID"));
             file.setTitle(resultSet.getString("title"));
             file.setUserID(resultSet.getInt("userID"));
@@ -87,7 +87,7 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
             file.setFile(resultSet.getBytes("file"));
             file.setDesc(resultSet.getString("desc"));
             Logger.getLogger(DocumentDAO.class.getName()).log(Level.INFO, "Document-Objekt: " + file + "wurde erfolgreich gespeichert.");
-        }catch (Exception e){
+        } catch (Exception e) {
             Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultSet) in DocumentDAO failed", e);
         }
         return file;
@@ -109,11 +109,11 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
         return result.get(0);
     }
 
-    public Document delete(int fileID) throws Exception{
+    public Document delete(int fileID) throws Exception {
         //language=PostgreSQL
         final String deleteQuery = "DELETE FROM \"collDB\".file WHERE \"fileID\" = " + fileID + " RETURNING *";
         List<Document> result = execute(deleteQuery);
-        if (result.size() < 1){
+        if (result.size() < 1) {
             throw new DatabaseException("delete(int fileID) failed");
         }
         return result.get(0);

@@ -46,7 +46,7 @@ public class JDBCConnection implements JDBCConnectionInterface {
         try {
             Properties probs = new Properties();
             probs.setProperty("user", Configuration.DB_Credentials.USERNAME);
-            probs.setProperty("password", Configuration.DB_Credentials.PASSWORD);
+            probs.setProperty("password", Configuration.DB_Credentials.USERNAME);
 
             String URL = Configuration.DB_Credentials.URL;
             this.conn = DriverManager.getConnection(URL, probs);

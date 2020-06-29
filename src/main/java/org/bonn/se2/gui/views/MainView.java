@@ -1,8 +1,8 @@
 package org.bonn.se2.gui.views;
 
+import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
-import com.vaadin.server.FontAwesome;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
@@ -14,7 +14,7 @@ import org.bonn.se2.gui.windows.WatchCanditureWindow;
 import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.dao.StudentDAO;
-import org.bonn.se2.model.objects.dto.Company;
+import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
@@ -22,6 +22,8 @@ import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Coll@Aldernativ
@@ -30,8 +32,8 @@ import java.util.List;
  */
 
 public class MainView extends VerticalLayout implements View {
-	
-	protected JobOffer selectedJobOffer = null;
+
+    protected JobOffer selectedJobOffer = null;
 
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
@@ -42,7 +44,8 @@ public class MainView extends VerticalLayout implements View {
             try {
                 this.setUp();
             } catch (Exception e) {
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }
         }
     }
@@ -57,11 +60,11 @@ public class MainView extends VerticalLayout implements View {
         HorizontalLayout horizontalLayoutCompany = new HorizontalLayout();
         HorizontalLayout h2 = new HorizontalLayout();
         HorizontalLayout h3 = new HorizontalLayout();
+        HorizontalLayout studentLayout = new HorizontalLayout();
 
         //Erzeugung der Variablen
-        Button suche = new Button("Suchen", FontAwesome.SEARCH);
+        Button suche = new Button("Suchen", VaadinIcons.SEARCH);
         TextField name = new TextField();
-        TextField sucheStudent = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
         //Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
         //Label role = new Label(SessionFunctions.getCurrentRole());
@@ -87,68 +90,61 @@ public class MainView extends VerticalLayout implements View {
         horizontalLayoutCompany.addComponent(name);
         horizontalLayoutCompany.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
         horizontalLayoutCompany.addComponent(suche);
-        
+
         final Button bewerbenJetzt = new Button("Direkt zur Bewerbung");
+        final Button bewerbenNein = new Button("Bewerbung deaktiviert!");
         final Button bewerbenSehen = new Button("Direkt zu den Bewerbungen");
         bewerbenSehen.setEnabled(false);
         bewerbenJetzt.setEnabled(false);
-        
+
         bewerbenSehen.addClickListener(new Button.ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				
-		        
-				
-				if (MainView.this.selectedJobOffer == null) {
-	        		return;
-	        	} else {
-	        		try {
-						if (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID()) {
-							Window swap = new WatchCanditureWindow(selectedJobOffer);
-							UI.getCurrent().addWindow(swap);
-						} else {
-							Notification notification = new Notification("Funktion nur für eigene Jobangebote verfügbar.");
-						}
-					} catch (DatabaseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IllegalArgumentException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (NullPointerException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	            	
-	        	}
-				
-			}
-		});
-        
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+
+                if (MainView.this.selectedJobOffer == null) {
+                    return;
+                } else {
+                    try {
+                        if (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID()) {
+                            Window swap = new WatchCanditureWindow(selectedJobOffer);
+                            UI.getCurrent().addWindow(swap);
+                        } else {
+                            Notification notification = new Notification("Funktion nur für eigene Jobangebote verfügbar.");
+                        }
+                    } catch (DatabaseException | IllegalArgumentException | NullPointerException e) {
+                        Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                                new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+                    }
+
+                }
+
+            }
+        });
+
         bewerbenJetzt.addClickListener(new Button.ClickListener() {
-			
-			@Override
-			public void buttonClick(ClickEvent event) {
-				
-		        
-				
-				if (MainView.this.selectedJobOffer == null) {
-	        		return;
-	        	} else {
-	            	Window swap = new SendCanditureWindow(selectedJobOffer);
-	            	UI.getCurrent().addWindow(swap);
-	        	}
-				
-			}
-		});
+
+            @Override
+            public void buttonClick(ClickEvent event) {
+
+
+                if (MainView.this.selectedJobOffer == null) {
+                    return;
+                } else {
+                    Window swap = new SendCanditureWindow(selectedJobOffer);
+                    UI.getCurrent().addWindow(swap);
+                }
+
+            }
+        });
 
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste = null;
         try {
             liste = new OfferDAO().retrieveAll();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         grid.setItems(liste);
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
@@ -169,9 +165,10 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste2 = null;
                 try {
-            	liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
+                    liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
                 }
                 grid.setItems(liste2);
                 MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -189,7 +186,8 @@ public class MainView extends VerticalLayout implements View {
                 try {
                     liste3 = new OfferDAO().retrieveAll();
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
                 }
                 grid.setItems(liste3);
                 MultiSelectionModel<JobOffer> selectionModel3 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
@@ -202,62 +200,98 @@ public class MainView extends VerticalLayout implements View {
                 grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
             }
         });
-        
+       
+
         grid.addSelectionListener(event -> {
-        	if (event.getFirstSelectedItem().isPresent()) {
-        		selectedJobOffer = (event.getFirstSelectedItem().get());
-        		try {
-					if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID())){
-						bewerbenSehen.setEnabled(true);
-					} else {
-						bewerbenSehen.setEnabled(false);
-						bewerbenJetzt.setEnabled(true);
-					}
-				} catch (DatabaseException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-        		
-        		
-        	} else {
-        		return;
-        		
-        	}
-        	
+            if (event.getFirstSelectedItem().isPresent()) {
+                selectedJobOffer = (event.getFirstSelectedItem().get());
+                try {
+                    if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID())) {
+                        bewerbenSehen.setEnabled(true);
+                    } else {
+                        bewerbenSehen.setEnabled(false);
+                        bewerbenJetzt.setEnabled(true);
+                    }
+                } catch (DatabaseException e) {
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+                }
+
+
+            } else {
+                return;
+
+            }
+
         });
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
-        	addComponent(bewerbenSehen);
+        
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
+            addComponent(bewerbenSehen);
         }
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT){
-        	addComponent(bewerbenJetzt);
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT) {
+        	ToggleDAO dao = null;
+    		try {
+    			dao = new ToggleDAO();
+    		} catch (DatabaseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+            try {
+    			if( dao.retrieve() == true) {
+    				addComponent(bewerbenJetzt);
+    			} else if (dao.retrieve() == false) {
+    				addComponent(bewerbenNein);
+    				bewerbenNein.setEnabled(false);
+    			} else {
+    				System.out.println("Nix geladen");
+    			}
+    		} catch (DatabaseException e1) {
+    			// TODO Auto-generated catch block
+    			e1.printStackTrace();
+    		}
+            
         }
         
+
+        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
+        	Button sucheStudent = new Button("Suchen", VaadinIcons.SEARCH);
+            TextField textStudent = new TextField();
+            Label labelStudent = new Label("Bitte geben Sie ein Stichwort ein:");
+            
+            addComponent(studentLayout);
+            setComponentAlignment(studentLayout, Alignment.MIDDLE_CENTER);
+            studentLayout.addComponent(labelStudent);
+            studentLayout.addComponent(textStudent);
+            studentLayout.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
+            studentLayout.addComponent(sucheStudent);
+            		
+        	Grid<Student> gridStudent = new Grid<>();
+        	List<Student> listeStudent = null;
+        	try {
+        		listeStudent = new StudentDAO().retrieveAll();
+        	} catch (Exception e) {
+        		Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+        				new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+        	}
+        	gridStudent.setItems(listeStudent);
+        	gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
+        	gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+        	gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
+        	gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
+        	gridStudent.addColumn(Student::getJob).setCaption("Rolle");
+        	gridStudent.setSizeFull();
+        	gridStudent.setHeightMode(HeightMode.UNDEFINED);
+        	addComponent(gridStudent);
         
-        Grid<Student> gridStudent = new Grid<>();
-        List<Student> listeStudent = null;
-        try {
-        	listeStudent = new StudentDAO().retrieveAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        gridStudent.setItems(listeStudent);
-        System.out.println(listeStudent);
-        gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
-        gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
-        gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
-        gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
-        gridStudent.addColumn(Student::getJob).setCaption("Rolle");
-        gridStudent.setSizeFull();
-        gridStudent.setHeightMode(HeightMode.UNDEFINED);
         
-/*
-        sucheStudent.addValueChangeListener(d -> {
-            if (!sucheStudent.getValue().equals("")) {
-                String attribute = sucheStudent.getValue();
+
+        textStudent.addValueChangeListener(d -> {
+            if (!textStudent.getValue().equals("")) {
+                String attribute = textStudent.getValue();
                 gridStudent.removeAllColumns();
                 List<Student> listeStudent2 = null;
                 try {
-                	listeStudent2 = (List<Student>) new StudentDAO().retrieve(attribute);
+                	listeStudent2 = (List<Student>) new StudentDAO().retrieveStudents(attribute);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -285,11 +319,12 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
                 gridStudent.addColumn(Student::getJob).setCaption("Rolle");
             }
-        });*/
+        });
         
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY){
-        	addComponent(gridStudent);
         }
+
+        
+            
         //Rechts oben
         //horizontalLayout.addComponent(role);
         //horizontalLayout.addComponent(username);
@@ -297,12 +332,8 @@ public class MainView extends VerticalLayout implements View {
         //Mitte rechts
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
-        
-        
-       
-        
-        
-        
+
+
         //h3.addComponent(sample);
     }
 

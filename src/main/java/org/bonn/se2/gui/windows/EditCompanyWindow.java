@@ -19,6 +19,9 @@ import org.bonn.se2.services.util.FileUploader;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
@@ -201,7 +204,8 @@ public class EditCompanyWindow extends Window {
                 Company returnValue = companyDAO.update(tmp);
             } catch (Exception e) {
                 correct = false;
-                e.printStackTrace();
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }
 
             if (correct) {
