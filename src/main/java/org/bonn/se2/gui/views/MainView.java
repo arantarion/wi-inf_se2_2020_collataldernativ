@@ -157,7 +157,7 @@ public class MainView extends VerticalLayout implements View {
             }
             button.addClickListener(click -> Notification.show(JobOffer.toString()));
            return button;
-        });
+        }).setCaption("Unternehmen");
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
         grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
