@@ -242,4 +242,11 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "Studen mit der ID: " + ID + " wurde erfolgreich gelöscht.");
         return result.get(0);
     }
+    
+    public static StudentDAO getInstance() throws DatabaseException {
+		if (dao == null) {
+			return new StudentDAO();
+		}
+		return null;
+    }	
 }

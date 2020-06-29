@@ -18,6 +18,7 @@ import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.process.control.SearchControl;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
@@ -107,13 +108,13 @@ public class MainView extends VerticalLayout implements View {
                     return;
                 } else {
                     try {
-                        if (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID()) {
+                        if (MainView.this.selectedJobOffer.getCompanyID() == SearchControl.getInstance().getCompanyID()) {
                             Window swap = new WatchCanditureWindow(selectedJobOffer);
                             UI.getCurrent().addWindow(swap);
                         } else {
                             Notification notification = new Notification("Funktion nur für eigene Jobangebote verfügbar.");
                         }
-                    } catch (DatabaseException | IllegalArgumentException | NullPointerException e) {
+                    } catch (IllegalArgumentException | NullPointerException e) {
                         Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                                 new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
                     }
@@ -142,7 +143,7 @@ public class MainView extends VerticalLayout implements View {
         Grid<JobOffer> grid = new Grid<>();
         List<JobOffer> liste = null;
         try {
-            liste = new OfferDAO().retrieveAll();
+            liste = SearchControl.getInstance().getAllOffers();
         } catch (Exception e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
@@ -151,11 +152,7 @@ public class MainView extends VerticalLayout implements View {
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
         grid.addComponentColumn(JobOffer -> {
             Button button = null;
-            try {
-                button = new Button((new CompanyDAO().retrieveCompany(JobOffer.getCompanyID())).getName());
-            } catch (DatabaseException e) {
-                e.printStackTrace();
-            }
+            button = new Button(SearchControl.getInstance().getCompanyName(JobOffer.getCompanyID()));
             button.addClickListener(click -> {
                 Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
                 UI.getCurrent().addWindow(rate);
@@ -179,7 +176,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste2 = null;
                 try {
-                    liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
+                    liste2 = SearchControl.getInstance().getOffersInput(attribute);
                 } catch (Exception ex) {
                     Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                             new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
@@ -198,7 +195,7 @@ public class MainView extends VerticalLayout implements View {
                 grid.removeAllColumns();
                 List<JobOffer> liste3 = null;
                 try {
-                    liste3 = new OfferDAO().retrieveAll();
+                    liste3 = SearchControl.getInstance().getAllOffers();
                 } catch (Exception ex) {
                     Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                             new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
@@ -219,17 +216,12 @@ public class MainView extends VerticalLayout implements View {
         grid.addSelectionListener(event -> {
             if (event.getFirstSelectedItem().isPresent()) {
                 selectedJobOffer = (event.getFirstSelectedItem().get());
-                try {
-                    if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID())) {
-                        bewerbenSehen.setEnabled(true);
-                    } else {
-                        bewerbenSehen.setEnabled(false);
-                        bewerbenJetzt.setEnabled(true);
-                    }
-                } catch (DatabaseException e) {
-                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                            new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-                }
+                if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == SearchControl.getInstance().getCompanyID())) {
+				    bewerbenSehen.setEnabled(true);
+				} else {
+				    bewerbenSehen.setEnabled(false);
+				    bewerbenJetzt.setEnabled(true);
+				}
 
 
             } else {
@@ -282,7 +274,7 @@ public class MainView extends VerticalLayout implements View {
         	Grid<Student> gridStudent = new Grid<>();
         	List<Student> listeStudent = null;
         	try {
-        		listeStudent = new StudentDAO().retrieveAll();
+        		listeStudent = SearchControl.getInstance().getAllStudents();
         	} catch (Exception e) {
         		Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
         				new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
@@ -305,7 +297,7 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.removeAllColumns();
                 List<Student> listeStudent2 = null;
                 try {
-                	listeStudent2 = (List<Student>) new StudentDAO().retrieveStudents(attribute);
+                	listeStudent2 = SearchControl.getInstance().getStudentsInput(attribute);
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
@@ -321,7 +313,7 @@ public class MainView extends VerticalLayout implements View {
                 gridStudent.removeAllColumns();
                 List<Student> listeStudent3 = null;
                 try {
-                	listeStudent3 = new StudentDAO().retrieveAll();
+                	listeStudent3 =  SearchControl.getInstance().getAllStudents();
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
