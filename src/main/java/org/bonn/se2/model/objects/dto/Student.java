@@ -33,7 +33,7 @@ public class Student extends User implements Serializable {
 
     public Student(String vorname, String nachname, String studienfach,
                    String job, String arbeitgeber, LocalDate bday,
-                   Integer fachsemester, Integer ID) {
+                   Integer fachsemester) {
 
         this.vorname = vorname;
         this.nachname = nachname;
@@ -42,7 +42,22 @@ public class Student extends User implements Serializable {
         this.arbeitgeber = arbeitgeber;
         this.geburtstag = bday;
         this.fachsemester = fachsemester;
-        this.studentID = ID;
+        //this.studentID = ID;
+
+    }
+
+    public Student(String vorname, String nachname, String studienfach,
+                   String job, String arbeitgeber, LocalDate bday,
+                   Integer fachsemester, Integer id) {
+
+        this.vorname = vorname;
+        this.nachname = nachname;
+        this.studienfach = studienfach;
+        this.job = job;
+        this.arbeitgeber = arbeitgeber;
+        this.geburtstag = bday;
+        this.fachsemester = fachsemester;
+        this.studentID = id;
 
     }
 
