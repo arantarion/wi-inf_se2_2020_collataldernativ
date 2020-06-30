@@ -20,10 +20,12 @@ import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.PasswordValidator;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.UIFunctions;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -262,11 +264,10 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 StudentDAO studentDAO = new StudentDAO();
                 studentDAO.create(student);
                 setUpStep4();
-            } catch (ValidationException e1) {
+            } catch (ValidationException | DatabaseException | SQLException e1) {
                 isValidEntry = false;
-            } catch (Exception e2) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e2);
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e1);
             }
 
             if (!isValidEntry) {
@@ -334,11 +335,10 @@ public class RegistrierungsView extends VerticalLayout implements View {
                 CompanyDAO companyDAO = new CompanyDAO();
                 companyDAO.create(company);
                 setUpStep4();
-            } catch (ValidationException e1) {
+            } catch (ValidationException | DatabaseException | SQLException e1) {
                 isValidEntry = false;
-            } catch (Exception e2) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e2);
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e1);
             }
 
             if (!isValidEntry) {
