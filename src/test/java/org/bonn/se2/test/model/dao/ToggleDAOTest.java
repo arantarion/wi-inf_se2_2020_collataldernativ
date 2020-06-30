@@ -26,7 +26,6 @@ class ToggleDAOTest {
 			dao = new ToggleDAO();
 			dao.updateToggle(boo[i++%4]);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			fail();
 		}
 	}
@@ -38,7 +37,6 @@ class ToggleDAOTest {
 			assertFalse(!dao.retrieve());
 			assertNotEquals(dao, false);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			fail();
 		}
 	}
@@ -50,7 +48,6 @@ class ToggleDAOTest {
 			assertFalse(dao.retrieve());
 			assertNotEquals(dao, true);
 		} catch (DatabaseException e) {
-			// TODO Auto-generated catch block
 			fail();
 		}
 	}

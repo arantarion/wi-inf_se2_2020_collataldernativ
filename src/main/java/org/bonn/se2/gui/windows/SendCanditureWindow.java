@@ -96,7 +96,7 @@ public class SendCanditureWindow extends Window {
         lebenslaufLayout.addComponent(upload_lebenslauf, 0, 0);
         lebenslaufLayout.setComponentAlignment(upload_lebenslauf, Alignment.TOP_CENTER);
         
-        //TODO if Doa Lebelslauf findet einen Lebenslauf {
+        // if Doa Lebelslauf findet einen Lebenslauf {
         
         //lebenslaufLayout.addComponent(use_lebenslauf, 1, 0);
         //lebenslaufLayout.setComponentAlignment(use_lebenslauf, Alignment.MIDDLE_CENTER);
