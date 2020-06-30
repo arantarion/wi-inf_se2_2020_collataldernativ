@@ -135,23 +135,8 @@ public class MainView extends VerticalLayout implements View {
         grid.setItems(liste);
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
 
-        grid.addComponentColumn(jobOffer -> {
-            Button button;
-            button = new Button(SearchControlProxy.getInstance().getCompanyName(jobOffer.getCompanyID()));
-            button.addClickListener(click -> {
-                Window rate = new VisitCompanyWindow(jobOffer.getCompanyID());
-                UI.getCurrent().addWindow(rate);
-            });
-            return button;
-        }).setCaption("Unternehmen");
+        addComponents(grid);
 
-        grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
-        grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
-        grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
-        grid.addColumn(JobOffer::getName).setCaption("Name");
-        grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
-        grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
-        grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
         grid.setSizeFull();
         grid.setHeightMode(HeightMode.UNDEFINED);
         addComponent(grid);
@@ -165,16 +150,6 @@ public class MainView extends VerticalLayout implements View {
                 liste2 = SearchControlProxy.getInstance().getOffersInput(attribute);
 
                 grid.setItems(liste2);
-                MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
-                grid.addComponentColumn(jobOffer -> {
-                    Button button;
-                    button = new Button(SearchControlProxy.getInstance().getCompanyName(jobOffer.getCompanyID()));
-                    button.addClickListener(click -> {
-                        Window rate = new VisitCompanyWindow(jobOffer.getCompanyID());
-                        UI.getCurrent().addWindow(rate);
-                    });
-                    return button;
-                }).setCaption("Unternehmen");
 
             } else {
                 grid.removeAllColumns();
@@ -183,24 +158,9 @@ public class MainView extends VerticalLayout implements View {
                 liste3 = SearchControlProxy.getInstance().getAllOffers();
 
                 grid.setItems(liste3);
-                MultiSelectionModel<JobOffer> selectionModel3 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
-                grid.addComponentColumn(jobOffer -> {
-                    Button button;
-                    button = new Button(SearchControlProxy.getInstance().getCompanyName(jobOffer.getCompanyID()));
-                    button.addClickListener(click -> {
-                        Window rate = new VisitCompanyWindow(jobOffer.getCompanyID());
-                        UI.getCurrent().addWindow(rate);
-                    });
-                    return button;
-                }).setCaption("Unternehmen");
             }
-            grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
-            grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
-            grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
-            grid.addColumn(JobOffer::getName).setCaption("Name");
-            grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
-            grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
-            grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+            MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
+            addComponents(grid);
         });
 
 
@@ -307,6 +267,25 @@ public class MainView extends VerticalLayout implements View {
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
 
+    }
+
+    private void addComponents(Grid<JobOffer> grid) {
+        grid.addComponentColumn(jobOffer -> {
+            Button button;
+            button = new Button(SearchControlProxy.getInstance().getCompanyName(jobOffer.getCompanyID()));
+            button.addClickListener(click -> {
+                Window rate = new VisitCompanyWindow(jobOffer.getCompanyID());
+                UI.getCurrent().addWindow(rate);
+            });
+            return button;
+        }).setCaption("Unternehmen");
+        grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+        grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+        grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+        grid.addColumn(JobOffer::getName).setCaption("Name");
+        grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+        grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+        grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
     }
 
 }
