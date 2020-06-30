@@ -2,6 +2,7 @@ package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.Bewerbung;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.DontUseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
 import java.sql.PreparedStatement;
@@ -24,9 +25,8 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
     public BewerbungsDAO() throws DatabaseException {
     }
 
-
     @Override
-    public Bewerbung retrieve(int bewerbungsid) throws Exception {
+    public Bewerbung retrieve(int bewerbungsid) throws DatabaseException, InvalidCredentialsException {
         //language=PostgreSQL
         final String sql =
                 "SELECT * FROM \"collDB\".bewerbung " +
@@ -43,12 +43,15 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
 
     public List<Bewerbung> retrieveCompanyBewerbungJobOffer(int companyid, int jobofferid) throws DatabaseException, SQLException {
         Statement statement = this.getStatement();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
+
         //language=PostgreSQL
         final String insert = "SELECT * FROM \"collDB\".bewerbung WHERE \"companyID\" = '" + companyid + "' AND \"jobofferID\" = '" + jobofferid + "' ";
+
         resultSet = statement.executeQuery(insert);
         List<Bewerbung> liste = new ArrayList<>();
-        Bewerbung offer = null;
+        Bewerbung offer;
+
         try {
             while (resultSet.next()) {
                 offer = new Bewerbung();
@@ -61,7 +64,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
                 liste.add(offer);
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " und der jobofferid: " + jobofferid + "wurden abgerufen");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             String loggerMsg = "retrieveCompanyOffers(int companyid, int jobofferid) in JobOfferDAO failed";
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, loggerMsg, e);
         }
@@ -70,14 +73,14 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
 
     public List<Bewerbung> retrieveCompanyBewerbung(int companyid) throws DatabaseException, SQLException {
         Statement statement = this.getStatement();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         //language=PostgreSQL
         final String insert = "SELECT * " +
                 "FROM \"collDB\".bewerbung " +
                 "WHERE \"companyID\" = '" + companyid + "' ";
         resultSet = statement.executeQuery(insert);
         List<Bewerbung> liste = new ArrayList<>();
-        Bewerbung offer = null;
+        Bewerbung offer;
 
         try {
             while (resultSet.next()) {
@@ -91,26 +94,26 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
                 liste.add(offer);
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " wurden abgerufen");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
         }
         return liste;
     }
 
     @Override
-    public Bewerbung retrieve(String attribute) throws Exception {
-        return null;
+    public Bewerbung retrieve(String attribute) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public List<Bewerbung> retrieveAll() throws Exception {
+    public List<Bewerbung> retrieveAll() throws DatabaseException {
         final String sql = "SELECT * FROM \"collDB\".bewerbung";
         Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle Bewerbungen wurden abgerufen.");
         return execute(sql);
     }
 
     @Override
-    public Bewerbung create(Bewerbung bewerbung) throws Exception {
+    public Bewerbung create(Bewerbung bewerbung) throws DatabaseException, SQLException {
         final String insertQuery2 = "INSERT INTO \"collDB\".bewerbung ( \"jobofferID\", \"companyID\", \"studentID\", bewerbungsdatum, notes) " +
                 "VALUES ('" + bewerbung.getJobofferID() +
                 "','" + bewerbung.getCompanyID() + "', '" + bewerbung.getStudentID() +
@@ -135,7 +138,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
     }
 
     @Override
-    protected Bewerbung create(ResultSet resultSet) throws DatabaseException {
+    protected Bewerbung create(ResultSet resultSet) {
         Bewerbung dto = new Bewerbung();
         try {
             dto.setBewerbungsID(resultSet.getInt("bewerbungsID"));
@@ -145,19 +148,19 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
             dto.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
             dto.setNotes(resultSet.getString("notes"));
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Bewerbungs-Objekt: " + dto + "wurde erfolgreich gespeichert.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultSet) in BewerbungsDAO failed", e);
         }
         return dto;
     }
 
     @Override
-    public Bewerbung update(Bewerbung bewerbung) throws Exception {
-        return null;
+    public Bewerbung update(Bewerbung bewerbung) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public Bewerbung delete(Bewerbung bewerbung) throws Exception {
+    public Bewerbung delete(Bewerbung bewerbung) throws DatabaseException {
 
         //language=PostgreSQL
         final String deleteQuery = " DELETE FROM \"collDB\".bewerbung WHERE \"bewerbungsID\" = " + bewerbung.getBewerbungsID() + " RETURNING * ";
@@ -170,7 +173,7 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
         return result.get(0);
     }
 
-    public Bewerbung delete(int bewerbungsID) throws Exception {
+    public Bewerbung delete(int bewerbungsID) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery = "DELETE FROM \"collDB\".bewerbung WHERE \"bewerbungsID\" = " + bewerbungsID + " RETURNING *";
         List<Bewerbung> result = execute(deleteQuery);

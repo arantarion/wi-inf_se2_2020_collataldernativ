@@ -34,7 +34,7 @@ public abstract class AbstractDAO<T> {
     protected List<T> execute(String sql) throws DatabaseException {
         List<T> results = new ArrayList<>();
         Statement statement = this.getStatement();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
 
         try {
             resultSet = statement.executeQuery(sql);
@@ -54,7 +54,7 @@ public abstract class AbstractDAO<T> {
         }
     }
 
-    //TODO could be better
+
     protected List<T> executePrepared(String sql, Object... values) throws DatabaseException {
         List<T> results = new ArrayList<>();
         PreparedStatement preparedStatement = this.getPreparedStatement(sql);
