@@ -11,6 +11,7 @@ import org.bonn.se2.model.dao.BewerbungsDAO;
 import org.bonn.se2.model.objects.dto.Bewerbung;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /*
@@ -47,6 +48,15 @@ class BewerbungDAOTest {
 		}
 		
 		
+	}
+	
+	@BeforeEach
+	void beforeEach() {
+		try {
+			size = dao.retrieveAll().size();
+		} catch (Exception e) {
+			fail();
+		}
 	}
 
 	@Test
@@ -201,7 +211,7 @@ class BewerbungDAOTest {
 		//TODO jeder 2. fall fehlerhaft
 		bewerbung = new Bewerbung();
 		try {
-			bewerbung.setBewerbungsID(dao.retrieveAll().size());
+			bewerbung.setBewerbungsID(dao.retrieveAll().get(size-1).getBewerbungsID());
 			listeBewerbung = dao.retrieveAll();
 			dao.delete(bewerbung);
 			listeBewerbung2 = dao.retrieveAll();
@@ -218,7 +228,8 @@ class BewerbungDAOTest {
 	@Test
 	void Testdelete2() {
 		try {
-			bewerbungID = dao.retrieveAll().size();
+			bewerbungID = dao.retrieveAll().get(size-1).getBewerbungsID();
+			System.out.println(bewerbungID);
 			listeBewerbung = dao.retrieveAll();
 			dao.delete(bewerbungID);
 			listeBewerbung2 = dao.retrieveAll();
