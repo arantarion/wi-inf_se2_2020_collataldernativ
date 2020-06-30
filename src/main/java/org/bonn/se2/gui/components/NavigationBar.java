@@ -54,11 +54,6 @@ public class NavigationBar extends HorizontalLayout {
             profile.setIcon(VaadinIcons.USER);
         }
 
-//        MenuBar menuBar = new MenuBar();
-//        MenuBar.MenuItem verwaltung = menuBar.addItem("Profil verwalten", clickEvent ->
-//                ProfilControl.studentProfile());
-//        verwaltung.setIcon(VaadinIcons.PENCIL);
-
         MenuBar.MenuItem logout = menuBar.addItem("Logout", clickEvent -> LoginControl.logoutUser());
         logout.setIcon(VaadinIcons.SIGN_OUT);
 

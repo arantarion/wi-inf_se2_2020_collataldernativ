@@ -33,33 +33,33 @@ public class AccountOverviewBody extends VerticalLayout {
     public AccountOverviewBody(Student student) {
         try {
             setUp(student);
-        } catch (Exception e) {
+        } catch (DatabaseException | SQLException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
 
 
-    public AccountOverviewBody(Company company) throws Exception {
+    public AccountOverviewBody(Company company) {
         try {
             setUp(company);
-        } catch (Exception e) {
+        } catch (DatabaseException | SQLException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
 
-    public AccountOverviewBody(Admin admin) throws Exception {
+    public AccountOverviewBody(Admin admin) {
         try {
             setUp(admin);
-        } catch (Exception e) {
+        } catch (DatabaseException | SQLException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
 
 
-    private <T extends User> void setUp(T dto) throws Exception {
+    private <T extends User> void setUp(T dto) throws DatabaseException, SQLException {
         this.setSizeFull();
 
         if (dto instanceof Admin) {
@@ -133,11 +133,6 @@ public class AccountOverviewBody extends VerticalLayout {
             arbeitgeber.setIcon(VaadinIcons.CALENDAR);
             layout.addComponent(arbeitgeber, 1, 2);
 
-//        StreamResource doc = Utils.convertToPdf(student.getDoc().getFile(), student.getDoc().getDocTitle());
-//        Panel documents = createPanel(doc, student.getDoc().getDocTitle());
-//        documents.setSizeFull();
-//        documents.setIcon(VaadinIcons.FILE);
-//        layout.addComponent(documents,0,3);
         } else {
             HorizontalLayout layout = new HorizontalLayout();
             layout.setWidth("100%");
@@ -177,13 +172,13 @@ public class AccountOverviewBody extends VerticalLayout {
                 offerDeletionButton.addClickListener(d -> {
                     Set<JobOffer> list = e.getAllSelectedItems();
                     List<JobOffer> s = new ArrayList<>(list);
-                    //for (int i = 0; i < s.size(); i++) { old version
+
                     for (JobOffer jobOffer : s) {
                         try {
-                            new OfferDAO().delete(jobOffer); //vormals id
-                        } catch (Exception exception) {
+                            new OfferDAO().delete(jobOffer);
+                        } catch (DatabaseException e1) {
                             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                                    new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
+                                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e1);
                         }
                     }
                     grid.removeAllColumns();

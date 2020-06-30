@@ -55,7 +55,7 @@ public class AccountOverviewHead extends VerticalLayout {
 
         Address address;
         Label nameLabel;
-        Label ortLabel = null;
+        Label ortLabel;
 
         if (dto instanceof Student) {
             Student student = (Student) dto;
@@ -100,20 +100,14 @@ public class AccountOverviewHead extends VerticalLayout {
 
         } else {
             Company company = (Company) dto;
-            address = company.getAdresse();
 
             Link webURL = new Link("Zu unserer Website", new ExternalResource("https://" + company.getWebURL()));
             webURL.setTargetName("_blank");
             webURL.setIcon(VaadinIcons.GLOBE_WIRE);
 
-            //Label beschreibungLabel = new Label(VaadinIcons.INFO_CIRCLE_O.getHtml() + " " + company.getBeschreibung());
             Label beschreibungLabel = new Label(company.getBeschreibung());
             nameLabel = new Label(company.getName());
-//            if (address != null) {
-//                ortLabel = new Label(VaadinIcons.MAP_MARKER.getHtml() + " " + address.getStadt() + ", " + address.getLand());
-//            }
 
-            //accountOverviewHeadLayout.addComponent(ortLabel, 1,2);
             accountOverviewHeadLayout.addComponent(webURL, 1, 3);
             accountOverviewHeadLayout.addComponent(beschreibungLabel, 1, 4, 3, 4);
 
