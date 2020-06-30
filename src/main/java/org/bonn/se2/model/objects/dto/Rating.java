@@ -3,17 +3,18 @@ package org.bonn.se2.model.objects.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Anton Drees
+ */
 
 public class Rating implements Serializable {
 
     private Integer userId;
-
     private Integer companyId;
-
     private Integer rating;
-
     private String comment;
-
     private Date date;
 
     public Rating() {

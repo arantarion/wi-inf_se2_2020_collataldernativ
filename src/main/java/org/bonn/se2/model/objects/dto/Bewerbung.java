@@ -22,22 +22,6 @@ public class Bewerbung {
 
     }
 
-    public Bewerbung(int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum, String notes) {
-        this.jobofferID = jobofferID;
-        this.companyID = companyID;
-        this.studentID = studentID;
-        this.bewerbungsdatum = bewerbungsdatum;
-        this.notes = notes;
-    }
-
-    public Bewerbung(int bewerbungsID, int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum) {
-        this.bewerbungsID = bewerbungsID;
-        this.jobofferID = jobofferID;
-        this.companyID = companyID;
-        this.studentID = studentID;
-        this.bewerbungsdatum = bewerbungsdatum;
-    }
-
     public Bewerbung(int bewerbungsID, int jobofferID, int companyID, int studentID, LocalDate bewerbungsdatum, String notes) {
         this.bewerbungsID = bewerbungsID;
         this.jobofferID = jobofferID;
@@ -58,11 +42,6 @@ public class Bewerbung {
                 studentID == bewerbung1.studentID &&
                 Objects.equals(bewerbungsdatum, bewerbung1.bewerbungsdatum) &&
                 notes.equals(bewerbung1.notes);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(bewerbungsID, jobofferID, companyID, studentID, bewerbungsdatum, notes);
     }
 
     public int getBewerbungsID() {
@@ -111,6 +90,11 @@ public class Bewerbung {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(bewerbungsID, jobofferID, companyID, studentID, bewerbungsdatum, notes);
     }
 
     @Override
