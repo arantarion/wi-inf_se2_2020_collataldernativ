@@ -3,8 +3,12 @@ package org.bonn.se2.model.dao;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -66,7 +70,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
     public List<Student> retrieveStudents(String attribute) throws DatabaseException, SQLException {
         Statement statement = this.getStatement();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
         //language=PostgreSQL
         final String sql =
                 "SELECT * FROM \"collDB\".student " +
@@ -75,7 +79,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
         resultSet = statement.executeQuery(sql);
         List<Student> liste = new ArrayList<>();
-        Student dto = null;
+        Student dto;
         try {
             while (resultSet.next()) {
                 dto = new Student();
@@ -91,9 +95,8 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
                 liste.add(dto);
             }
             Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Alle Students mit Attribut: " + attribute + " wurden abgerufen");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "retrieveStudents(String attribute) in StudentDAO failed", e);
-            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
         }
         return liste;
     }
@@ -104,59 +107,37 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         String sql =
                 "SELECT * FROM \"collDB\".user " +
                         "JOIN \"collDB\".student ON \"user\".\"userID\" = student.\"userID\"";
-        // LEFT OUTER JOIN ...
+
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Alle Studenten wurden abgerufen.");
         return execute(sql);
     }
 
     @Override
-    public Student create(Student student) throws Exception {
+    public Student create(Student student) throws DatabaseException, SQLException {
         User user = new UserDAO().create(student);
 
         //language=PostgreSQL
         final String query =
                 "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\")\n" +
-                        "VALUES (?,?,?,?) " +
+                        "VALUES ('" + student.getVorname() + "', '" + student.getNachname() + "', '" + student.getGeburtstag() + "', '" + user.getUserID() + "') " +
                         "RETURNING *";
 
         PreparedStatement preparedStatement = this.getPreparedStatement(query);
-        preparedStatement.setString(1, student.getVorname());
-        preparedStatement.setString(2, student.getNachname());
-        preparedStatement.setDate(3, Date.valueOf(student.getGeburtstag()));
-        preparedStatement.setInt(4, user.getUserID());
-        ResultSet resultSet = preparedStatement.executeQuery();
 
-        if (!resultSet.next()) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "create(Student student) in StudentDAO failed");
-            throw new DatabaseException("create(Student student) in StudentDAO failed");
+        ResultSet set = preparedStatement.executeQuery();
+
+        if (set.next()) {
+            Student student1 = new Student();
+            student1.setVorname(set.getString("vorname"));
+            student1.setNachname(set.getString("nachname"));
+            student1.setGeburtstag(set.getDate("geburtstag").toLocalDate());
+            student1.setUserID(set.getInt("userID"));
+            student1.setStudentID(set.getInt("studentID"));
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Der Student : " + student1 + " konnte erfoglreich gespeichert werden.");
+            return student1;
+        } else {
+            return null;
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Student: " + student + " wurde erfolgreich erstellt.");
-        return retrieve(resultSet.getInt(1));
-
-//        User user = new UserDAO().create(student);
-//
-//        final String insertQuery = "INSERT INTO \"collDB\".student (studienfach, vorname, nachname, geburtstag, job, arbeitgeber, fachsemester, \"userID\") " +
-//                "VALUES (?,?,?,?,?,?,?,?) " +
-//                "RETURNING \"studentID\"";
-//
-//        //language=PostgreSQL
-//        final String que = "INSERT INTO \"collDB\".student (vorname, nachname, geburtstag, \"userID\") " +
-//                "VALUES (?,?,?,?) " +
-//                "RETURNING \"studentID\"";
-//
-////        List<Student> result = executePrepared(insertQuery, student.getStudienfach(),
-////                student.getVorname(), student.getNachname(),
-////                student.getGeburtstag(), student.getJob(),
-////                student.getArbeitgeber(), student.getFachsemester(),
-////                student.getStudentID());
-//
-//        List<Student> result = executePrepared(que, student.getVorname(), student.getNachname(), Date.valueOf(student.getGeburtstag()), user.getUserID());
-//
-//        if (result.size() < 1) {
-//            throw new DatabaseException("create(Student student) did not return a DTO");
-//        }
-//        return result.get(0);
-
     }
 
     @Override
@@ -178,19 +159,17 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             dto.setUsername(user.getUsername());
             dto.setPwHash(user.getPasswort());
 
-            //Address address = new AddressDAO().retrieve(user.getUserID());
-            //dto.setAdresse(address);
-
-        } catch (Exception e) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in StudentDAO failed");
+        } catch (SQLException | InvalidCredentialsException e) {
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultSet) in StudentDAO failed");
             throw new DatabaseException("create(ResultSet resultSet) in StudentDAO failed");
         }
+
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Student: " + dto + " wurde erfolgreich gespeichert.");
         return dto;
     }
 
     @Override
-    public Student update(Student updatedItem) throws Exception {
+    public Student update(Student updatedItem) throws DatabaseException {
         UserDAO userDAO = new UserDAO();
 
         userDAO.update(new User(updatedItem.getUsername(), updatedItem.getEmail(), updatedItem.getPasswort(), updatedItem.getImage(), updatedItem.getUserID()));
@@ -205,8 +184,8 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
             pst.setInt(2, updatedItem.getFachsemester());
             pst.executeUpdate();
         } catch (SQLException e) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "failed to update studentdata", e);
-            throw new DatabaseException("failed to udpate studentdata");
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "failed to update studentData", e);
+            throw new DatabaseException("failed to update studentData");
         }
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Student wurde erfolgreich geändert.");
         return this.retrieve(updatedItem.getEmail());
@@ -214,7 +193,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
     }
 
     @Override
-    public Student delete(Student student) throws Exception {
+    public Student delete(Student student) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".user " +
@@ -230,7 +209,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         return result.get(0);
     }
 
-    public Student delete(int ID) throws Exception {
+    public Student delete(int ID) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".student " +
@@ -239,10 +218,10 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
 
         List<Student> result = executePrepared(deleteQuery, ID);
         if (result.size() < 1) {
-            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "delelte(int ID) in StudentDAO failed");
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "delete(int ID) in StudentDAO failed");
             throw new DatabaseException("delete(int ID) failed");
         }
-        Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "Studen mit der ID: " + ID + " wurde erfolgreich gelöscht.");
+        Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "Student mit der ID: " + ID + " wurde erfolgreich gelöscht.");
         return result.get(0);
     }
 }
