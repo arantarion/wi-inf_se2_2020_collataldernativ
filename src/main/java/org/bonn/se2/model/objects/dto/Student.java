@@ -10,7 +10,7 @@ import java.util.Objects;
  * @Programmer Henry Weckermann
  */
 
-// prolly later Comparable for function
+
 public class Student extends User implements Serializable {
 
     private String vorname;
@@ -42,7 +42,6 @@ public class Student extends User implements Serializable {
         this.arbeitgeber = arbeitgeber;
         this.geburtstag = bday;
         this.fachsemester = fachsemester;
-        //this.studentID = ID;
 
     }
 

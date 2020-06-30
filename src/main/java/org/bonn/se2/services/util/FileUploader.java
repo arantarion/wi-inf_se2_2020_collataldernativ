@@ -19,6 +19,8 @@ import org.bonn.se2.model.dao.DocumentDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Document;
 import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.DontUseException;
 
 import java.io.*;
 import java.util.Objects;
@@ -42,8 +44,8 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
     }
 
     public static Image convertToImage(final byte[] imageData) {
-        StreamResource.StreamSource streamSource = (StreamResource.StreamSource) () -> (imageData == null) ? null : new ByteArrayInputStream(
-                imageData);
+        StreamResource.StreamSource streamSource = (StreamResource.StreamSource) () ->
+                (imageData == null) ? null : new ByteArrayInputStream(imageData);
         return new Image(null, new StreamResource(streamSource, "streamedSourceFromByteArray"));
     }
 
@@ -73,19 +75,11 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
         } catch (FileNotFoundException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-        }finally {
-            try {
-                fis.close();
-            } catch (IOException e) {
-                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-            }
         }
 
         if (this.mimeType.contains("pdf")) {
             try {
                 Student st = new StudentDAO().retrieve(Objects.requireNonNull(SessionFunctions.getCurrentUser()).getUsername());
-                //Student st = new StudentDAO().retrieve(SessionFunctions.getCurrentUser().getUsername());
                 if (st != null) {
                     Document doc = new Document();
                     assert fis != null;
@@ -98,17 +92,18 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
 
                     notification.setDescription("Dokument erfolgreich hochgeladen");
                 }
-            } catch (Exception e) {
+            } catch (IOException | DontUseException | DatabaseException e) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                         new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }
+
         } else if (this.mimeType.contains("image")) {
             try {
-                if(fis == null){
+                if (fis == null) {
                     Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                             new Throwable().getStackTrace()[0].getMethodName() + " failed", "FileInputStream is null!");
                     notification.setDescription("Fehler");
-                }else {
+                } else {
                     SessionFunctions.getCurrentUser().setImage(toByteArray(fis));
                     notification.setDescription("Profilbild hochgeladen. Bitte speichern nicht vergessen.");
                     notification.setDelayMsec(3000);
@@ -122,7 +117,7 @@ public class FileUploader implements Upload.Receiver, Upload.SucceededListener {
             } catch (IOException e) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                         new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-                notification.setDescription("Fehler");
+                notification.setDescription("Fehler - 2");
             }
         } else {
             notification.setDescription("Dieser Datentyp wird nicht akzeptiert.");

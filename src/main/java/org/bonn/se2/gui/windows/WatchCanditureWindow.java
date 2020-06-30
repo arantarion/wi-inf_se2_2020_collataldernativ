@@ -3,9 +3,12 @@ package org.bonn.se2.gui.windows;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.BewerbungsDAO;
+import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Bewerbung;
 import org.bonn.se2.model.objects.dto.JobOffer;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,14 +46,25 @@ public class WatchCanditureWindow extends Window {
         List<Bewerbung> liste = null;
         try {
             liste = new BewerbungsDAO().retrieveCompanyBewerbungJobOffer(selectedJobOffer.getCompanyID(), selectedJobOffer.getJobofferID());
-        } catch (Exception e) {
+        } catch (DatabaseException | SQLException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         gridBewerbung.setItems(liste);
         gridBewerbung.setSelectionMode(Grid.SelectionMode.SINGLE);
         gridBewerbung.addColumn(Bewerbung::getBewerbungsID).setCaption("BewerbungsID");
-        gridBewerbung.addColumn(Bewerbung::getStudentID).setCaption("StudentID");
+
+        gridBewerbung.addComponentColumn(Bewerbung -> {
+            Label label = null;
+            try {
+                label = new Label((new StudentDAO().retrieve(Bewerbung.getStudentID())).getUsername());
+            } catch (DatabaseException e) {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+            }
+            return label;
+        }).setCaption("Student");
+
         gridBewerbung.addColumn(Bewerbung::getNotes).setCaption("Motivationsschreiben");
         gridBewerbung.addColumn(Bewerbung::getBewerbungsdatum).setCaption("Bewerbungsdatum");
         gridBewerbung.setSizeFull();
@@ -59,11 +73,7 @@ public class WatchCanditureWindow extends Window {
         gridBewerbung.addSelectionListener(event -> {
             if (event.getFirstSelectedItem().isPresent()) {
                 selectedBewerbung = (event.getFirstSelectedItem().get());
-                //TODO
-            } else {
-                //TODO
             }
-
         });
 
         grid.addComponent(gridBewerbung);
@@ -72,16 +82,10 @@ public class WatchCanditureWindow extends Window {
         Button back = new Button("Zurück zur Hauptseite");
 
         back.addClickListener(event -> UI.getCurrent().removeWindow(this));
-        //submit.addClickListener((Button.ClickListener) event -> this.setVisible(false));
-
-        submit.addClickListener(clickEvent -> {
-            //TODO
-        });
 
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.addComponent(submit);
         buttons.addComponent(back);
-        //grid.addComponent(buttons);
         buttons.setComponentAlignment(back, Alignment.MIDDLE_RIGHT);
         buttons.setComponentAlignment(submit, Alignment.MIDDLE_RIGHT);
 

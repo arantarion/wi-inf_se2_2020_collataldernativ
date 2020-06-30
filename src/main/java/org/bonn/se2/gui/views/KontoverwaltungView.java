@@ -24,12 +24,7 @@ import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 public class KontoverwaltungView extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        try {
-            this.setUp();
-        } catch (Exception e) {
-            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-        }
+        this.setUp();
     }
 
     public void setUp() {
@@ -38,11 +33,8 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         this.addComponent(navigationBar);
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
 
-        //Button startseiteButton = new Button("Startseite", VaadinIcons.ARROW_CIRCLE_RIGHT);
-        //Button log = new Button("Logout", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button konto = new Button("Konto löschen", VaadinIcons.ARROW_CIRCLE_RIGHT);
         Button s = new Button("Speichern", VaadinIcons.ARROW_CIRCLE_RIGHT);
-
 
         PasswordField pwAlt = new PasswordField("Altes Passwort:");
         PasswordField pwNeu = new PasswordField("Neues Passwort:");
@@ -57,7 +49,6 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         addComponent(h);
         setComponentAlignment(h, Alignment.TOP_LEFT);
-        //h.addComponent(startseiteButton);
 
         addComponent(h1);
         setComponentAlignment(h1, Alignment.MIDDLE_LEFT);
@@ -96,7 +87,6 @@ public class KontoverwaltungView extends VerticalLayout implements View {
             }
             if ((!pwAlt.getValue().equals("")) && (!pwNeu.getValue().equals("")) && (!pwNeu2.getValue().equals("")) && pwNeu.getValue().equals(pwNeu2.getValue()) && hash(pwAlt.getValue()).equals(passwort)) {
                 addComponent(new Label("Das Passwort wurde erfolgreich geändert."));
-                //addComponent(startseiteButton);
             } else {
                 addComponent(new Label("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe"));
             }
@@ -106,9 +96,5 @@ public class KontoverwaltungView extends VerticalLayout implements View {
         konto.addClickListener(e -> {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
         });
-
-//        startseiteButton.addClickListener(e ->{
-//            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.MAIN);
-//        });
     }
 }

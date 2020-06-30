@@ -3,6 +3,8 @@ package org.bonn.se2.gui.views;
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener;
+import com.vaadin.server.Page;
+import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
@@ -10,13 +12,12 @@ import com.vaadin.ui.Button.ClickEvent;
 import com.vaadin.ui.components.grid.MultiSelectionModel;
 import org.bonn.se2.gui.components.NavigationBar;
 import org.bonn.se2.gui.windows.SendCanditureWindow;
+import org.bonn.se2.gui.windows.VisitCompanyWindow;
 import org.bonn.se2.gui.windows.WatchCanditureWindow;
-import org.bonn.se2.model.dao.CompanyDAO;
-import org.bonn.se2.model.dao.OfferDAO;
-import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.process.control.SearchControlProxy;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
@@ -41,12 +42,7 @@ public class MainView extends VerticalLayout implements View {
         if (!SessionFunctions.isLoggedIn()) {
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.LOGIN);
         } else {
-            try {
-                this.setUp();
-            } catch (Exception e) {
-                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-            }
+            this.setUp();
         }
     }
 
@@ -62,28 +58,21 @@ public class MainView extends VerticalLayout implements View {
         HorizontalLayout h3 = new HorizontalLayout();
         HorizontalLayout studentLayout = new HorizontalLayout();
 
-        //Erzeugung der Variablen
         Button suche = new Button("Suchen", VaadinIcons.SEARCH);
         TextField name = new TextField();
         Label label = new Label("Bitte geben Sie ein Stichwort ein:");
-        //Label username = new Label((SessionFunctions.getCurrentUser()).getUsername());
-        //Label role = new Label(SessionFunctions.getCurrentRole());
-
 
         Label labelText = new Label("Willkommen auf Coll@Aldernativ! der zentralen Schnittstelle zwischen Studenten & Unternehmen."
                 + " Hier findet jeder seinen Traumjob.");
-
 
         addComponent(labelText);
         setComponentAlignment(labelText, Alignment.MIDDLE_CENTER);
         addComponent(horizontalLayout);
         setComponentAlignment(horizontalLayout, Alignment.TOP_RIGHT);
 
-        //Links oben
         addComponent(h2);
         setComponentAlignment(h2, Alignment.TOP_LEFT);
 
-        //Mitte
         addComponent(horizontalLayoutCompany);
         setComponentAlignment(horizontalLayoutCompany, Alignment.MIDDLE_CENTER);
         horizontalLayoutCompany.addComponent(label);
@@ -103,61 +92,59 @@ public class MainView extends VerticalLayout implements View {
             public void buttonClick(ClickEvent event) {
 
                 if (MainView.this.selectedJobOffer == null) {
-                    return;
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            "MainView.this.selectedJobOffer == null");
                 } else {
                     try {
-                        if (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID()) {
+                        if (MainView.this.selectedJobOffer.getCompanyID() == SearchControlProxy.getInstance().getCompanyID()) {
                             Window swap = new WatchCanditureWindow(selectedJobOffer);
                             UI.getCurrent().addWindow(swap);
                         } else {
                             Notification notification = new Notification("Funktion nur für eigene Jobangebote verfügbar.");
+                            notification.setPosition(Position.BOTTOM_CENTER);
+                            notification.setDelayMsec(4000);
+                            notification.show(Page.getCurrent());
                         }
-                    } catch (DatabaseException | IllegalArgumentException | NullPointerException e) {
+
+                    } catch (IllegalArgumentException | NullPointerException e) {
                         Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                                 new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
                     }
-
                 }
-
             }
         });
 
-        bewerbenJetzt.addClickListener(new Button.ClickListener() {
 
-            @Override
-            public void buttonClick(ClickEvent event) {
+        bewerbenJetzt.addClickListener((Button.ClickListener) event -> {
 
-
-                if (MainView.this.selectedJobOffer == null) {
-                    return;
-                } else {
-                    Window swap = new SendCanditureWindow(selectedJobOffer);
-                    UI.getCurrent().addWindow(swap);
-                }
-
+            if (MainView.this.selectedJobOffer == null) {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        "MainView.this.selectedJobOffer == null");
+            } else {
+                Window swap = new SendCanditureWindow(selectedJobOffer);
+                UI.getCurrent().addWindow(swap);
             }
+
         });
 
         Grid<JobOffer> grid = new Grid<>();
-        List<JobOffer> liste = null;
-        try {
-            liste = new OfferDAO().retrieveAll();
-        } catch (Exception e) {
-            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-        }
+        List<JobOffer> liste;
+
+        liste = SearchControlProxy.getInstance().getAllOffers();
+
         grid.setItems(liste);
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
+
         grid.addComponentColumn(JobOffer -> {
-            Button button = null;
-            try {
-                button = new Button((new CompanyDAO().retrieveCompany(JobOffer.getCompanyID())).getName());
-            } catch (DatabaseException e) {
-                e.printStackTrace();
-            }
-            button.addClickListener(click -> Notification.show(JobOffer.toString()));
-           return button;
+            Button button;
+            button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
+            button.addClickListener(click -> {
+                Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                UI.getCurrent().addWindow(rate);
+            });
+            return button;
         }).setCaption("Unternehmen");
+
         grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
         grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
         grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
@@ -173,178 +160,153 @@ public class MainView extends VerticalLayout implements View {
             if (!name.getValue().equals("")) {
                 String attribute = name.getValue();
                 grid.removeAllColumns();
-                List<JobOffer> liste2 = null;
-                try {
-                    liste2 = new OfferDAO().retrieveCompanyOffers(attribute);
-                } catch (Exception ex) {
-                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                            new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
-                }
+                List<JobOffer> liste2;
+
+                liste2 = SearchControlProxy.getInstance().getOffersInput(attribute);
+
                 grid.setItems(liste2);
                 MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
-                grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
-                grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
-                grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
-                grid.addColumn(JobOffer::getName).setCaption("Name");
-                grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
-                grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
-                grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
-                //addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
+                grid.addComponentColumn(JobOffer -> {
+                    Button button;
+                    button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
+                    button.addClickListener(click -> {
+                        Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                        UI.getCurrent().addWindow(rate);
+                    });
+                    return button;
+                }).setCaption("Unternehmen");
+
             } else {
                 grid.removeAllColumns();
-                List<JobOffer> liste3 = null;
-                try {
-                    liste3 = new OfferDAO().retrieveAll();
-                } catch (Exception ex) {
-                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                            new Throwable().getStackTrace()[0].getMethodName() + " failed", ex);
-                }
+                List<JobOffer> liste3;
+
+                liste3 = SearchControlProxy.getInstance().getAllOffers();
+
                 grid.setItems(liste3);
                 MultiSelectionModel<JobOffer> selectionModel3 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
-                grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
-                grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
-                grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
-                grid.addColumn(JobOffer::getName).setCaption("Name");
-                grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
-                grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
-                grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
+                grid.addComponentColumn(JobOffer -> {
+                    Button button;
+                    button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
+                    button.addClickListener(click -> {
+                        Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                        UI.getCurrent().addWindow(rate);
+                    });
+                    return button;
+                }).setCaption("Unternehmen");
             }
+            grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
+            grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
+            grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
+            grid.addColumn(JobOffer::getName).setCaption("Name");
+            grid.addColumn(JobOffer::getCreationDate).setCaption("Erstellungs Datum");
+            grid.addColumn(JobOffer::getBeginDate).setCaption("Anfangs Datum");
+            grid.addColumn(JobOffer::getGehalt).setCaption("Gehalt");
         });
-       
+
 
         grid.addSelectionListener(event -> {
             if (event.getFirstSelectedItem().isPresent()) {
                 selectedJobOffer = (event.getFirstSelectedItem().get());
-                try {
-                    if ((SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) && (MainView.this.selectedJobOffer.getCompanyID() == new CompanyDAO().retrieve(SessionFunctions.getCurrentUser().getUsername()).getcompanyID())) {
-                        bewerbenSehen.setEnabled(true);
-                    } else {
-                        bewerbenSehen.setEnabled(false);
-                        bewerbenJetzt.setEnabled(true);
-                    }
-                } catch (DatabaseException e) {
-                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                            new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+                if ((SessionFunctions.getCurrentRole().equals(Configuration.Roles.COMPANY)) &&
+                        (MainView.this.selectedJobOffer.getCompanyID() == SearchControlProxy.getInstance().getCompanyID())) {
+                    bewerbenSehen.setEnabled(true);
+                } else {
+                    bewerbenSehen.setEnabled(false);
+                    bewerbenJetzt.setEnabled(true);
                 }
-
-
-            } else {
-                return;
-
             }
-
         });
-        
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
+
+        if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.COMPANY)) {
             addComponent(bewerbenSehen);
         }
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.STUDENT) {
-        	ToggleDAO dao = null;
-    		try {
-    			dao = new ToggleDAO();
-    		} catch (DatabaseException e1) {
-    			// TODO Auto-generated catch block
-    			e1.printStackTrace();
-    		}
-            try {
-    			if( dao.retrieve() == true) {
-    				addComponent(bewerbenJetzt);
-    			} else if (dao.retrieve() == false) {
-    				addComponent(bewerbenNein);
-    				bewerbenNein.setEnabled(false);
-    			} else {
-    				System.out.println("Nix geladen");
-    			}
-    		} catch (DatabaseException e1) {
-    			// TODO Auto-generated catch block
-    			e1.printStackTrace();
-    		}
-            
-        }
-        
 
-        if (SessionFunctions.getCurrentRole() == Configuration.Roles.COMPANY) {
-        	Button sucheStudent = new Button("Suchen", VaadinIcons.SEARCH);
+        if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.STUDENT)) {
+            ToggleDAO dao = null;
+            try {
+                dao = new ToggleDAO();
+            } catch (DatabaseException e) {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+            }
+            try {
+                if (dao.retrieve()) {
+                    addComponent(bewerbenJetzt);
+                } else if (!dao.retrieve()) {
+                    addComponent(bewerbenNein);
+                    bewerbenNein.setEnabled(false);
+                } else {
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            "Es wurde nichts geladen");
+                }
+
+            } catch (DatabaseException e) {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
+            }
+        }
+
+
+        if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.COMPANY)) {
+            Button sucheStudent = new Button("Suchen", VaadinIcons.SEARCH);
             TextField textStudent = new TextField();
             Label labelStudent = new Label("Bitte geben Sie ein Stichwort ein:");
-            
+
             addComponent(studentLayout);
             setComponentAlignment(studentLayout, Alignment.MIDDLE_CENTER);
             studentLayout.addComponent(labelStudent);
             studentLayout.addComponent(textStudent);
-            studentLayout.addComponent(new Label("&nbsp", ContentMode.HTML)); // Label erstellt, um textfeld und Button zu trennen (Abstand größer ist)
+            studentLayout.addComponent(new Label("&nbsp", ContentMode.HTML));
             studentLayout.addComponent(sucheStudent);
-            		
-        	Grid<Student> gridStudent = new Grid<>();
-        	List<Student> listeStudent = null;
-        	try {
-        		listeStudent = new StudentDAO().retrieveAll();
-        	} catch (Exception e) {
-        		Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-        				new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-        	}
-        	gridStudent.setItems(listeStudent);
-        	gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
-        	gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
-        	gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
-        	gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
-        	gridStudent.addColumn(Student::getJob).setCaption("Rolle");
-        	gridStudent.setSizeFull();
-        	gridStudent.setHeightMode(HeightMode.UNDEFINED);
-        	addComponent(gridStudent);
-        
-        
 
-        textStudent.addValueChangeListener(d -> {
-            if (!textStudent.getValue().equals("")) {
-                String attribute = textStudent.getValue();
-                gridStudent.removeAllColumns();
-                List<Student> listeStudent2 = null;
-                try {
-                	listeStudent2 = (List<Student>) new StudentDAO().retrieveStudents(attribute);
-                } catch (Exception ex) {
-                    ex.printStackTrace();
+            Grid<Student> gridStudent = new Grid<>();
+            List<Student> listeStudent;
+
+            listeStudent = SearchControlProxy.getInstance().getAllStudents();
+
+            gridStudent.setItems(listeStudent);
+            gridStudent.setSelectionMode(Grid.SelectionMode.SINGLE);
+            gridStudent.addColumn(Student::getVollstName).setCaption("Name");
+            gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
+            gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
+            gridStudent.addColumn(Student::getJob).setCaption("Rolle");
+            gridStudent.setSizeFull();
+            gridStudent.setHeightMode(HeightMode.UNDEFINED);
+            addComponent(gridStudent);
+
+
+            textStudent.addValueChangeListener(d -> {
+                if (!textStudent.getValue().equals("")) {
+                    String attribute = textStudent.getValue();
+                    gridStudent.removeAllColumns();
+                    List<Student> listeStudent2;
+
+                    listeStudent2 = SearchControlProxy.getInstance().getStudentsInput(attribute);
+
+                    gridStudent.setItems(listeStudent2);
+
+
+                } else {
+                    gridStudent.removeAllColumns();
+                    List<Student> listeStudent3;
+
+                    listeStudent3 = SearchControlProxy.getInstance().getAllStudents();
+
+                    gridStudent.setItems(listeStudent3);
+
                 }
-                gridStudent.setItems(listeStudent2);
-                System.out.println(listeStudent2);
                 MultiSelectionModel<Student> selectionModel2 = (MultiSelectionModel<Student>) gridStudent.setSelectionMode(Grid.SelectionMode.MULTI);
-                gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
+                gridStudent.addColumn(Student::getVollstName).setCaption("Name");
                 gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
                 gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
                 gridStudent.addColumn(Student::getJob).setCaption("Rolle");
-                //addComponent(new Label(" erfolgreiche Eingabe! Suche wird gestartet"));
-            } else {
-                gridStudent.removeAllColumns();
-                List<Student> listeStudent3 = null;
-                try {
-                	listeStudent3 = new StudentDAO().retrieveAll();
-                } catch (Exception ex) {
-                    ex.printStackTrace();
-                }
-                gridStudent.setItems(listeStudent3);
-                System.out.println(listeStudent3);
-                MultiSelectionModel<Student> selectionModel3 = (MultiSelectionModel<Student>) gridStudent.setSelectionMode(Grid.SelectionMode.MULTI);
-                gridStudent.addColumn(Student::getStudentID).setCaption("Nummer");
-                gridStudent.addColumn(Student::getStudienfach).setCaption("Bereich");
-                gridStudent.addColumn(Student::getArbeitgeber).setCaption("Arbeitgeber");
-                gridStudent.addColumn(Student::getJob).setCaption("Rolle");
-            }
-        });
-        
+            });
+
         }
 
-        
-            
-        //Rechts oben
-        //horizontalLayout.addComponent(role);
-        //horizontalLayout.addComponent(username);
-
-        //Mitte rechts
         addComponent(h3);
         setComponentAlignment(h3, Alignment.MIDDLE_RIGHT);
 
-
-        //h3.addComponent(sample);
     }
 
 }

@@ -87,12 +87,12 @@ public class AddressDAO extends AbstractDAO<Address> implements DAOInterface<Add
 
 
     @Override
-    public Address update(Address item) throws Exception {
+    public Address update(Address item) {
         return null;
     }
 
     @Override
-    public Address delete(Address address) throws Exception {
+    public Address delete(Address address) throws DatabaseException {
         //language=PostgreSQL
         final String sql =
                 "DELETE FROM \"collDB\".address " +

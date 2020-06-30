@@ -4,17 +4,14 @@ import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 public class JobOfferBuilder {
 
+    private static JobOfferBuilder instance = null;
     private String title, description;
     private Company company;
     private int vacancyId;
     private LocalDate date;
-
-    private static JobOfferBuilder instance = null;
 
     private JobOfferBuilder() {
     }
@@ -57,7 +54,7 @@ public class JobOfferBuilder {
         this.date = date;
         return this;
     }
-    
+
     public JobOfferBuilder withoutTitle() {
         return withTitle("");
     }
@@ -78,7 +75,7 @@ public class JobOfferBuilder {
         return withDate(null);
     }
 
-    
+
     public JobOffer get() {
         return done();
     }

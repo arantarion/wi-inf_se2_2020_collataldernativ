@@ -3,10 +3,12 @@ package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.Document;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.DontUseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -23,7 +25,7 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
     }
 
     @Override
-    public Document retrieve(int fileID) throws Exception {
+    public Document retrieve(int fileID) throws DatabaseException, InvalidCredentialsException {
         //language=PostgreSQL
         final String sql =
                 "SELECT * FROM \"collDB\".file " +
@@ -38,12 +40,12 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
     }
 
     @Override
-    public Document retrieve(String attribute) throws Exception {
-        return null;
+    public Document retrieve(String attribute) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public List<Document> retrieveAll() throws Exception {
+    public List<Document> retrieveAll() throws DatabaseException {
         //language=PostgreSQL
         final String sql = "SELECT * FROM \"collDB\".file";
         Logger.getLogger(DocumentDAO.class.getName()).log(Level.INFO, "Alle Documents wurden abgerufen.");
@@ -51,15 +53,16 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
     }
 
     @Override
-    public Document create(Document file) throws Exception {
+    public Document create(Document file) throws DatabaseException, SQLException {
         //language=PostgreSQL
         String sql = "INSERT INTO \"collDB\".file (\"fileID\", title, \"userID\", \"uploadDatum\", file, \"desc\") " +
                 "VALUES ('" + file.getDocumentID() + "','" + file.getTitle() +
                 "','" + file.getUserID() + "', '" + file.getDate() +
                 "', '" + file.getFile() + "', '" + file.getDesc() + "') " +
-                "RETURNING \"fileID\"";
+                "RETURNING *";
         PreparedStatement pst = this.getPreparedStatement(sql);
         ResultSet resultSet = pst.executeQuery();
+
         if (resultSet.next()) {
             Document dto = new Document();
             dto.setDocumentID(resultSet.getInt("fileID"));
@@ -77,7 +80,7 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
     }
 
     @Override
-    protected Document create(ResultSet resultSet) throws DatabaseException {
+    protected Document create(ResultSet resultSet) {
         Document file = new Document();
         try {
             file.setDocumentID(resultSet.getInt("fileID"));
@@ -87,19 +90,19 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
             file.setFile(resultSet.getBytes("file"));
             file.setDesc(resultSet.getString("desc"));
             Logger.getLogger(DocumentDAO.class.getName()).log(Level.INFO, "Document-Objekt: " + file + "wurde erfolgreich gespeichert.");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Logger.getLogger(DocumentDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultSet) in DocumentDAO failed", e);
         }
         return file;
     }
 
     @Override
-    public Document update(Document item) throws Exception {
-        return null;
+    public Document update(Document item) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public Document delete(Document file) throws Exception {
+    public Document delete(Document file) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery = " DELETE FROM \"collDB\".file WHERE \"fileID\" = " + file.getDocumentID() + " RETURNING * ";
         List<Document> result = execute(deleteQuery);
@@ -109,7 +112,7 @@ public class DocumentDAO extends AbstractDAO<Document> implements DAOInterface<D
         return result.get(0);
     }
 
-    public Document delete(int fileID) throws Exception {
+    public Document delete(int fileID) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery = "DELETE FROM \"collDB\".file WHERE \"fileID\" = " + fileID + " RETURNING *";
         List<Document> result = execute(deleteQuery);

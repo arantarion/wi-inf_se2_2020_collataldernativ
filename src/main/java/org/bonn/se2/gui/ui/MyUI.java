@@ -22,10 +22,9 @@ import javax.servlet.annotation.WebServlet;
  * @author Coll@Aldernativ
  * @version 0.1a
  * @Programmer generic class
- * @Theme specifies the CSS theme
- * @Title specifies the tab name of the application.
- * @PreservOnRefresh saves the session when the website is refreshed
  */
+
+
 @Theme("mytheme")
 @Title("Coll@Aldernativ Webapp")
 @PreserveOnRefresh
@@ -46,9 +45,6 @@ public class MyUI extends UI {
 
         Navigator navi = new Navigator(this, this);
 
-        /*
-         * Please add new views to the Configuration -> Views class and use them from there
-         */
         navi.addView(Configuration.Views.MAIN, MainView.class);
         navi.addView(Configuration.Views.LOGIN, LoginView.class);
         navi.addView(Configuration.Views.REGIST, RegistrierungsView.class);

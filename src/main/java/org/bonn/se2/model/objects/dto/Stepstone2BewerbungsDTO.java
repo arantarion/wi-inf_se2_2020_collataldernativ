@@ -1,17 +1,18 @@
 package org.bonn.se2.model.objects.dto;
 
-//import org.json.JSONObject;
 import java.time.LocalDate;
+
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Anton Drees
+ */
 
 public class Stepstone2BewerbungsDTO extends StepstoneBewerbung {
 
     Stepstone2BewerbungsDTO() {
     }
 
-//    @Override
-//    public String toString() {
-//        return toJSON().toString();
-//    }
 
     @Override
     public boolean equals(Object obj) {
@@ -47,17 +48,6 @@ public class Stepstone2BewerbungsDTO extends StepstoneBewerbung {
     public void setBewerbungsdatum(LocalDate bewerbungsdatum) {
         super.setBewerbungsdatum(bewerbungsdatum);
     }
-
-//    @Override
-//    public JSONObject toJSON() {
-//        JSONObject obj = new JSONObject();
-//        obj.put("Student", getStudent() != null ? getStudent().toJSON() : "");
-//        obj.put("Offer", getOffer() != null ? getOffer().toJSON() : "");
-//        obj.put("Company", getCompany() != null ? getCompany().toJSON() : "");
-//        obj.put("Notes", getNotes());
-//        obj.put("Bewerbungsdatum", getBewerbungsdatum() != null ? getBewerbungsdatum() : "");
-//        return obj;
-//    }
 
     @Override
     public int hashCode() {

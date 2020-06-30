@@ -24,8 +24,12 @@ import java.util.logging.Logger;
 
 public class ProfilControl {
 
+    public static User getCurrentUser() {
+        return SessionFunctions.getCurrentUser();
+    }
+
     public static void companyProfile() {
-        User user = SessionFunctions.getCurrentUser();
+        User user = getCurrentUser();
 
         if (user == null) {
             Notification notification = new Notification("User nicht gefunden", Notification.Type.ERROR_MESSAGE);
@@ -56,7 +60,7 @@ public class ProfilControl {
     }
 
     public static void studentProfile() {
-        User user = SessionFunctions.getCurrentUser();
+        User user = getCurrentUser();
         if (user == null) {
             Notification notification = new Notification("User nicht gefunden", Notification.Type.ERROR_MESSAGE);
             notification.setPosition(Position.BOTTOM_CENTER);
@@ -74,7 +78,7 @@ public class ProfilControl {
                 ProfilView.setStudent(student);
             }
             UIFunctions.gotoProfile();
-        } catch (Exception e) {
+        } catch (DatabaseException e) {
             Logger.getLogger(String.valueOf(ProfilControl.class)).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             Notification notification = new Notification("Student nicht gefunden", Notification.Type.ERROR_MESSAGE);

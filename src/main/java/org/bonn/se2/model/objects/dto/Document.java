@@ -21,17 +21,9 @@ public class Document implements Serializable {
     private LocalDate date;
     private byte[] file;
 
+
     public Document() {
 
-    }
-
-    public Document(Integer documentID, Integer userID, String title, String desc, LocalDate date, byte[] file) {
-        this.documentID = documentID;
-        this.userID = userID;
-        this.title = title;
-        this.desc = desc;
-        this.date = date;
-        this.file = file;
     }
 
     public Integer getDocumentID() {

@@ -39,9 +39,7 @@ public class RecoveryView extends VerticalLayout implements View {
         addComponent(h2);
         setComponentAlignment(h2, Alignment.MIDDLE_CENTER);
 
-
         FormLayout content = new FormLayout();
-        //content.addComponent(h2);
         content.addComponent(email);
         h2.addComponent(abbrechen);
         content.addComponent(h2);
@@ -51,5 +49,4 @@ public class RecoveryView extends VerticalLayout implements View {
         panel.setContent(content);
 
     }
-
 }

@@ -15267,3 +15267,32 @@ div.v-layout.v-horizontal.v-widget {
 .mytheme .gridPadding {
 	padding: 20px;
 }
+
+.mytheme .v-Notification.mystyle {
+	background: #5462a8;
+	border: 2px solid #32373a;
+	color: black;
+}
+
+.mytheme .rating-ly {
+	padding-left: 0;
+	width: 100%;
+}
+
+.mytheme .rating-container {
+	border-top: solid 1px;
+	width: 100%;
+}
+
+.mytheme .v-button-rating-btn-not-fill {
+	border: none;
+	background-color: #1e6b15;
+	background: url("https://maps.gstatic.com/places-api/reviews-widget/images/ic_star_outlined_1x_2.png");
+	background-repeat: no-repeat;
+}
+
+.mytheme .v-button-rating-btn-fill {
+	border: none;
+	background: url("https://maps.gstatic.com/places-api/reviews-widget/images/ic_star_orange_1x_2.png");
+	background-repeat: no-repeat;
+}

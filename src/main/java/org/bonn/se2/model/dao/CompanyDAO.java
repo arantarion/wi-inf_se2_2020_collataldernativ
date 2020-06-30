@@ -23,6 +23,13 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     public CompanyDAO() throws DatabaseException {
     }
 
+    public static CompanyDAO getInstance() throws DatabaseException {
+        if (dao == null) {
+            return new CompanyDAO();
+        }
+        return null;
+    }
+
     @Override
     public Company retrieve(int id) throws DatabaseException {
         //language=PostgreSQL
@@ -61,7 +68,6 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         String query =
                 "SELECT * FROM \"collDB\".company\n" +
                         "JOIN \"collDB\".user ON company.\"userID\" = \"user\".\"userID\" " +
-                        //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\" " +
                         "WHERE username = '" + attribute + "' " +
                         "OR email = '" + attribute + "' " +
                         "OR name = '" + attribute + "';";
@@ -81,13 +87,12 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         String query =
                 "SELECT * FROM \"collDB\".company " +
                         "JOIN \"collDB\".\"user\" ON company.\"userID\" = \"user\".\"userID\" "; //+
-        //"JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
         Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Es wurden alle Companys abgerufen.");
         return execute(query);
     }
 
     @Override
-    public Company create(Company company) throws Exception {
+    public Company create(Company company) throws DatabaseException, SQLException {
 
         User user = new UserDAO().create(company);
 
@@ -98,48 +103,24 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         PreparedStatement pst = this.getPreparedStatement(query);
         ResultSet set = pst.executeQuery();
 
-
-        /*ResultSetMetaData rsmd = set.getMetaData();
-        int columnsNumber = rsmd.getColumnCount();
-        while (set.next()) {
-            for (int i = 1; i <= columnsNumber; i++) {
-                if (i > 1) System.out.print(",  ");
-                String columnValue = set.getString(i);
-                System.out.print(columnValue + " " + rsmd.getColumnName(i));
-            }
-            System.out.println("");
-        }*/
-
-
         if (set.next()) {
             Company company2 = new Company();
-            //company2.setUserID(set.getInt(1));
             company2.setName(set.getString("name"));
             company2.setBeschreibung(set.getString("beschreibung"));
             company2.setUserID(set.getInt("userID"));
-            company2.setcompanyID(set.getInt(1));
+            company2.setcompanyID(set.getInt("companyID"));
             company2.setWebURL(set.getString("webURL"));
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company + " konnte erfoglreich gespeichert werden.");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company2 + " konnte erfoglreich gespeichert werden.");
             return company;
+
         } else {
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "Company-Objekt " + company + " konnte nicht richtig gespeichert werden!");
             return null;
         }
-
-
-//        final String insertQuery2 = "INSERT INTO \"collDB\".company (name, \"webURL\", beschreibung, branche, ansprechpartner, \"userID\", bewertung) " +
-//                "VALUES (?,?,?,?,?,?,?) " +
-//                "RETURNING \"companyID\"";
-//
-//        List<Company> result = executePrepared(insertQuery2, company.getName(),company.getWebURL(),company.getBeschreibung(),company.getBranche(),company.getAnsprechpartner(),company.getcompanyID(),company.getBewertung());
-//        if (result.size() < 1) {
-//            throw new DatabaseException("create(Company company) did not return a DTO");
-//        }
-//        return result.get(0);
     }
 
     @Override
-    protected Company create(ResultSet resultSet) throws DatabaseException {
+    protected Company create(ResultSet resultSet) {
 
         Company dto = new Company();
 
@@ -152,18 +133,16 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             dto.setAnsprechpartner(resultSet.getString("ansprechpartner"));
             dto.setBranche(resultSet.getString("branche"));
             dto.setBewertung(resultSet.getInt("bewertung"));
-            //Address address = new AddressDAO().retrieve(resultSet.getInt("addressid"));
-            //dto.setAdresse(address);
+
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + dto + " konnte erfolgreich gespeichert werden.");
         } catch (SQLException e) {
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultset) in CompanyDAO failed", e);
-            //throw new DatabaseException("create(ResultSet resultSet) in CompanyDAO failed");
         }
         return dto;
     }
 
     @Override
-    public Company update(Company updatedItem) throws Exception {
+    public Company update(Company updatedItem) throws DatabaseException {
         Company companyNewDto = new Company();
         Address address = updatedItem.getAdresse();
         companyNewDto.setAdresse(address);
@@ -185,6 +164,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             } catch (SQLException e) {
                 throw new DatabaseException();
             }
+
         } else {
             //language=PostgreSQL
             query = "UPDATE \"collDB\".\"user\" " +
@@ -242,7 +222,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         return result.get(0);
     }
 
-    public Company delete(int ID) throws Exception {
+    public Company delete(int ID) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".company\n" +

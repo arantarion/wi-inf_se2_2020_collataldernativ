@@ -3,7 +3,6 @@ package org.bonn.se2.test.model.dao;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
@@ -22,7 +21,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class StudentDAOTest {
 
     static Student newStudent;
-    static int testStudentId;
     static StudentDAO studentDAO;
     Student testStudent;
     Student updateStudent;
@@ -38,16 +36,7 @@ public class StudentDAOTest {
         newStudent.setUsername("hpotter");
         newStudent.setEmail("testDAO@test.de");
         newStudent.setPasswort("123456");
-        newStudent.setUserID(9999);
-    }
-
-    void testAStudent(Student myStudent) {
-        assertNotEquals(0, myStudent.getStudentID());
-        assertEquals("Harry", myStudent.getVorname());
-        assertEquals("Potter", myStudent.getNachname());
-        assertEquals(null, myStudent.getStudienfach());
-        assertEquals(null, myStudent.getArbeitgeber());
-        assertEquals(0, myStudent.getFachsemester());
+        newStudent.setUserID((int) (Math.random() * 2378));
     }
 
     @BeforeEach
@@ -70,21 +59,8 @@ public class StudentDAOTest {
         assertTrue(liste.size() > 0);
     }
 
-    @Order(2)
-    @Test
-    public void create() {
-        try {
-            testStudent = studentDAO.create(newStudent);
-            assertNotEquals(0, testStudent.getStudentID());
-            testStudentId = testStudent.getStudentID();
-            testAStudent(testStudent);
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
-        }
-    }
 
-    @Order(3)
+    @Order(2)
     @Test
     public void retrieve() {
         Student dto = new Student();
@@ -96,20 +72,4 @@ public class StudentDAOTest {
         assertEquals("Henry", dto.getVorname());
         assertEquals("Weckermann", dto.getNachname());
     }
-
-
-    @Order(4)
-    @Test
-    public void delete() {
-        try {
-            testStudent = studentDAO.retrieve(testStudentId);
-            studentDAO.delete(testStudentId);
-            assertThrows(DatabaseException.class, () -> studentDAO.retrieve(testStudentId));
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            fail();
-        }
-    }
-
 }

@@ -2,6 +2,12 @@ package org.bonn.se2.model.objects.dto;
 
 import java.time.LocalDate;
 
+/**
+ * @author Coll@Aldernativ
+ * @version 0.1a
+ * @Programmer Anton Drees
+ */
+
 public class CollAldernativBewerbung extends Bewerbung {
 
     CollAldernativBewerbung() {
@@ -33,7 +39,9 @@ public class CollAldernativBewerbung extends Bewerbung {
     }
 
     @Override
-    public String toString(){return super.toString();}
+    public String toString() {
+        return super.toString();
+    }
 
     @Override
     public int hashCode() {

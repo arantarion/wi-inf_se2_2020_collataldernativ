@@ -11,7 +11,6 @@ import com.vaadin.shared.Position;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.ui.MyUI;
-import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.model.objects.dto.UserAtLogin;
 import org.bonn.se2.process.control.LoginControl;
@@ -118,9 +117,7 @@ public class LoginView extends VerticalLayout implements View {
 
         });
 
-
         registrierungsButton.addClickListener(e -> UI.getCurrent().getNavigator().navigateTo(Configuration.Views.REGIST));
-
 
     }
 

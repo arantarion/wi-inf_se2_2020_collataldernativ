@@ -2,6 +2,7 @@ package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.DontUseException;
 import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 
 import java.sql.PreparedStatement;
@@ -26,7 +27,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     }
 
     @Override
-    public JobOffer retrieve(int id) throws Exception {
+    public JobOffer retrieve(int id) throws DatabaseException, InvalidCredentialsException {
         //language=PostgreSQL
         final String sql =
                 "SELECT * FROM \"collDB\".joboffer " +
@@ -66,7 +67,7 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 liste.add(dto);
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + id + " wurden abgerufen");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
             throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
         }
@@ -75,7 +76,8 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
 
     public List<JobOffer> retrieveCompanyOffers(String attribute) throws DatabaseException, SQLException {
         Statement statement = this.getStatement();
-        ResultSet resultSet = null;
+        ResultSet resultSet;
+
         //language=PostgreSQL
         final String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
@@ -100,55 +102,19 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 liste.add(dto);
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit Attribut: " + attribute + " wurden abgerufen");
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
         }
         return liste;
     }
 
-    //TODO
-    public List<JobOffer> retrieveCompanyOffersbyID(String attribute, int ID) throws DatabaseException, SQLException {
-        Statement statement = this.getStatement();
-        ResultSet resultSet = null;
-        //language=PostgreSQL
-        final String insert = "SELECT * " +
-                "FROM \"collDB\".joboffer " +
-                "WHERE bereich LIKE '%" + attribute + "%' OR kontakt LIKE '%" + attribute + "%' OR beschreibung LIKE '%" + attribute + "%' " +
-                "OR name LIKE '%" + attribute + "%' OR gehalt LIKE '%" + attribute + "%' AND joboffer.\"jobofferID\" = '" + ID + "';";
-        resultSet = statement.executeQuery(insert);
-        List<JobOffer> liste = new ArrayList<>();
-        JobOffer dto = null;
-
-        try {
-            while (resultSet.next()) {
-                dto = new JobOffer();
-                dto.setBereich(resultSet.getString("bereich"));
-                dto.setKontakt(resultSet.getString("kontakt"));
-                dto.setBeschreibung(resultSet.getString("beschreibung"));
-                dto.setJobofferID(resultSet.getInt("jobofferID"));
-                dto.setName(resultSet.getString("name"));
-                dto.setCompanyID(resultSet.getInt("companyID"));
-                dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate()); //creationDate
-                dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
-                dto.setGehalt(resultSet.getString("gehalt"));
-                liste.add(dto);
-            }
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit Attribut: " + attribute + " wurden abgerufen");
-        } catch (Exception e) {
-            Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "retrieveCompanyOffers(int id) in JobOfferDAO failed", e);
-            //throw new DatabaseException("retrieveCompanyOffers(int id) in JobOfferDAO failed");
-        }
-        return liste;
-    }
-
-
     @Override
-    public JobOffer retrieve(String attribute) throws Exception {
-        return null;
+    public JobOffer retrieve(String attribute) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public List<JobOffer> retrieveAll() throws Exception {
+    public List<JobOffer> retrieveAll() throws DatabaseException {
         //language=PostgreSQL
         final String insert = "SELECT * " +
                 "FROM \"collDB\".joboffer " +
@@ -173,18 +139,18 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             dto.setGehalt(resultSet.getString("gehalt"));
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Joboffer-Objekt: " + dto + " wurde erfolgreich erstellt.");
 
-        } catch (Exception e) {
+        } catch (SQLException e) {
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "create(ResultSet resultSet) in JobOfferDAO failed", e);
         }
         return dto;
     }
 
     @Override
-    public JobOffer create(JobOffer dto) throws Exception {
+    public JobOffer create(JobOffer dto) throws DatabaseException, SQLException {
         //language=PostgreSQL
         final String insertQuery2 = "INSERT INTO \"collDB\".joboffer (bereich, kontakt, beschreibung, name, \"companyID\", \"creationDate\", \"beginDate\", gehalt) " +
                 "VALUES ('" + dto.getBereich() + "','" + dto.getKontakt() + "','" + dto.getBeschreibung() + "', '" + dto.getName() + "', '" + dto.getCompanyID() + "', '" + java.sql.Date.valueOf(LocalDate.now()) + "', '" + dto.getBeginDate() + "', '" + dto.getGehalt() + "') " +
-                "RETURNING *"; //"RETURNING *"; ()
+                "RETURNING *";
 
         PreparedStatement pst = this.getPreparedStatement(insertQuery2);
         ResultSet resultSet = pst.executeQuery();
@@ -205,16 +171,15 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
             Logger.getLogger(OfferDAO.class.getName()).log(Level.SEVERE, "Joboffer-Objekt: " + dto + "konnte nicht richtig gespeichert werden.");
             return null;
         }
-
     }
 
     @Override
-    public JobOffer update(JobOffer offer) throws Exception {
-        return null;
+    public JobOffer update(JobOffer offer) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public JobOffer delete(JobOffer offer) throws Exception {
+    public JobOffer delete(JobOffer offer) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".joboffer " +
@@ -230,26 +195,15 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
         return result.get(0);
     }
 
-//    public void delete(int id) throws Exception {
-//        //language=PostgreSQL
-//        final String deleteQuery =
-//                "DELETE FROM \"collDB\".joboffer " +
-//                        "WHERE \"jobofferID\" = ? " +
-//                        "RETURNING *;";
-//
-//        List<JobOffer> result = executePrepared(deleteQuery, id);
-//        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "CompanyOffer mit der jobOfferID: " + id + "wurde gelöscht.");
-//    }
 
-    public List<JobOffer> deleteCompanyOffers(int ID) throws Exception {
+    public void deleteCompanyOffers(int ID) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".joboffer " +
                         "WHERE \"companyID\" = ? " +
                         "RETURNING *;";
 
-        List<JobOffer> result = executePrepared(deleteQuery, ID);
+        executePrepared(deleteQuery, ID);
         Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "CompanyOffers mit der companyID: " + ID + "wurden gelöscht.");
-        return result;
     }
 }

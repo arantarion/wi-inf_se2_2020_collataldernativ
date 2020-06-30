@@ -31,7 +31,7 @@ public class PasswordValidator extends StringLengthValidator {
         ValidationResult result = super.apply(value, context);
         if (result.isError()) {
             return ValidationResult.error("Ihr Passwort muss min. 8 Zeichen lang sein");
-        } else if (!hasDigit(value) || !hasLetter(value) || !isPassword(value)) { //|| !hasLowercase(value) || !hasUpperCase(value) ||
+        } else if (!hasDigit(value) || !hasLetter(value) || !isPassword(value)) {
             return ValidationResult.error("Das Passwort muss mind. eine Zahl, einen großen und einen kleinen Buchstaben haben");
         }
         return result;
@@ -49,11 +49,4 @@ public class PasswordValidator extends StringLengthValidator {
         return pwd.chars().anyMatch(Character::isLetter);
     }
 
-    private boolean hasLowercase(String pwd) {
-        return pwd.equals(pwd.toLowerCase());
-    }
-
-    private boolean hasUpperCase(String pwd) {
-        return pwd.equals(pwd.toUpperCase());
-    }
 }

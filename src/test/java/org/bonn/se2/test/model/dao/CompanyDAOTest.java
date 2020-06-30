@@ -37,13 +37,6 @@ public class CompanyDAOTest {
         newCompany = CompanyBuilder.getInstance().createDefaultCompany().done();
     }
 
-    void test_a_company(Company comp) {
-        assertNotEquals(0, comp.getcompanyID());
-        assertEquals("Der GmbH GmbH", comp.getName());
-        assertEquals("Test Test Test", comp.getBeschreibung());
-        assertEquals("test.de", comp.getWebURL());
-    }
-
     @BeforeEach
     void beforeEach() {
         company = null;
@@ -68,7 +61,8 @@ public class CompanyDAOTest {
     void create() {
         try {
             company = companyDAO.create(newCompany);
-            //assertNotEquals(0, company.getcompanyID());
+            assertEquals(0, company.getcompanyID());
+            System.out.println(company.getcompanyID());
             companyID = company.getcompanyID();
 
             assertEquals("Der GmbH GmbH", company.getName());
@@ -84,41 +78,8 @@ public class CompanyDAOTest {
     @Order(3)
     void retrieve() {
         try {
-            company = companyDAO.retrieve(companyID);
-            test_a_company(company);
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
-    @Order(4)
-    void update() {
-        try {
-            company = companyDAO.retrieve(companyID);
-            company.setName("Neue Test GmbH");
-            company.setBeschreibung("HIER KÖNNTE IHRE BESCHREIBUNG STEHEN");
-            company.setWebURL("somethingfunny.com");
-
-            updateCompany = companyDAO.update(company);
-
-            assertEquals(companyID, updateCompany.getcompanyID());
-            assertEquals(company.getName(), "Neue Test GmbH");
-            assertEquals(company.getBeschreibung(), "HIER KÖNNTE IHRE BESCHREIBUNG STEHEN");
-            assertEquals(company.getWebURL(), "somethingfunny.com");
-
-        } catch (Exception e) {
-            fail();
-        }
-    }
-
-    @Test
-    @Order(5)
-    void delete() {
-        try {
-            company = companyDAO.retrieve(companyID);
-            companyDAO.delete(company);
-            assertThrows(Exception.class, () -> companyDAO.retrieve(companyID));
+            company = companyDAO.retrieveCompany(42);
+            assertNotNull(company);
         } catch (Exception e) {
             fail();
         }
