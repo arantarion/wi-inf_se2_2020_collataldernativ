@@ -4,6 +4,9 @@ import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.ToggleDAO;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * @author Coll@Aldernativ
  * @version 0.1a
@@ -32,48 +35,53 @@ public class ToggleFeatureWindow extends Window {
         RadioButtonGroup<String> toggle = new RadioButtonGroup<>("Bewerbungen zulassen");
         toggle.setItems("Ja", "Nein");
         ToggleDAO dao = null;
+
         try {
             dao = new ToggleDAO();
-        } catch (DatabaseException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+        } catch (DatabaseException e) {
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
+
         try {
-            if (dao.retrieve() == true) {
+            if (dao.retrieve()) {
                 toggle.setSelectedItem("Ja");
-            } else if (dao.retrieve() == false) {
+            } else if (!dao.retrieve()) {
                 toggle.setSelectedItem("Nein");
             } else {
                 System.out.println("Nix geladen");
             }
-        } catch (DatabaseException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
+        } catch (DatabaseException e) {
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
+
         toggle.addSelectionListener(item -> {
             if (item == null) {
-                System.out.println("Nix gewählt");
-            } else if (item.getValue() == "Ja") {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        "Nichts ausgewählt");
+
+            } else if (item.getValue().equals("Ja")) {
+
                 try {
                     ToggleDAO dao2 = new ToggleDAO();
                     dao2.updateToggle(true);
-                } catch (Exception e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                } catch (DatabaseException e) {
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
                 }
-            } else if (item.getValue() == "Nein") {
+
+            } else if (item.getValue().equals("Nein")) {
+
                 try {
                     ToggleDAO dao2 = new ToggleDAO();
                     dao2.updateToggle(false);
-                } catch (Exception e1) {
-                    // TODO Auto-generated catch block
-                    e1.printStackTrace();
+                } catch (DatabaseException e) {
+                    Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                            new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
                 }
-
             }
-
         });
-
 
         grid.addComponent(toggle, 1, 2);
 

@@ -12,12 +12,14 @@ import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.SessionFunctions;
 
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class VisitCompanyWindow extends Window {
 
-    static Image profilbild = new Image("nichts ausgewählt");
     private VerticalLayout ratingsly;
     private Button ratingBtn;
     private Company company;
@@ -32,7 +34,8 @@ public class VisitCompanyWindow extends Window {
         try {
             company = new CompanyDAO().retrieveCompany(companyID);
         } catch (DatabaseException e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         ratingBtn = new Button("Bewerten");
         try {
@@ -42,9 +45,8 @@ public class VisitCompanyWindow extends Window {
                 ratingBtn.setEnabled(false);
             }
         } catch (DatabaseException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
 
         ratingBtn.addClickListener(clickEvent -> {
@@ -56,12 +58,11 @@ public class VisitCompanyWindow extends Window {
         ratingsly.setStyleName("rating-ly");
         VerticalLayout verticalLayout = new VerticalLayout();
         this.setContent(verticalLayout);
-        //this.setWidth("75%");
         this.center();
 
         GridLayout grid = new GridLayout(4, 32);
         verticalLayout.addComponent(grid);
-        //grid.setWidth("95%");
+
         grid.setColumnExpandRatio(0, 1);
         grid.setColumnExpandRatio(1, 2);
         grid.setColumnExpandRatio(2, 1);
@@ -114,10 +115,9 @@ public class VisitCompanyWindow extends Window {
                 ratingly.addComponent(comment);
                 ratingsly.addComponent(ratingly);
             }
-        } catch (DatabaseException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (DatabaseException | SQLException e) {
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
 
     }
