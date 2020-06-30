@@ -28,11 +28,11 @@ public class AddressBuilder {
     }
 
     public AddressBuilder createDefaultAddress() {
-        strasse = "Musterstraße";
-        hausnummer = "1AAA";
-        plz = "11111";
-        stadt = "Bonn";
-        land = "Deutschland";
+        this.strasse = "Musterstraße";
+        this.hausnummer = "1AAA";
+        this.plz = "11111";
+        this.stadt = "Bonn";
+        this.land = "Deutschland";
         return this;
     }
 
@@ -91,7 +91,7 @@ public class AddressBuilder {
         dto.setHausnummer(hausnummer);
         dto.setPlz(plz);
         dto.setStadt(stadt);
-        dto.setPlz(land);
+        dto.setLand(land);
         return dto;
     }
 
