@@ -13,8 +13,6 @@ import java.sql.Statement;
 
 public interface JDBCConnectionInterface {
 
-    // Implement as Singleton
-
     void initConnection() throws DatabaseException;
 
     void openConnection() throws DatabaseException;

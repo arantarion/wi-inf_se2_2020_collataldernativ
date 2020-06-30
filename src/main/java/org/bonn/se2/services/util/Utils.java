@@ -15,12 +15,6 @@ import java.io.ByteArrayInputStream;
 
 public class Utils {
 
-    public static StreamResource convertToPdf(byte[] bArray, String title) {
-        StreamResource.StreamSource streamSource = (StreamResource.StreamSource) () ->
-                (bArray == null) ? null : new ByteArrayInputStream(bArray);
-        return new StreamResource(streamSource, title + ".pdf");
-    }
-
     public static Image convertToImg(final byte[] imageData) {
         StreamResource.StreamSource streamSource = (StreamResource.StreamSource) () ->
                 (imageData == null) ? null : new ByteArrayInputStream(imageData);
