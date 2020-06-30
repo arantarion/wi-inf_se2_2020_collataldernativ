@@ -8,7 +8,8 @@ import java.time.LocalDate;
 public class JobOfferBuilder {
 
     private static JobOfferBuilder instance = null;
-    private String title, description;
+    private String title;
+    private String description;
     private Company company;
     private int vacancyId;
     private LocalDate date;

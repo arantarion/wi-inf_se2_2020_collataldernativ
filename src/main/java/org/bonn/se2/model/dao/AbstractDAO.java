@@ -16,7 +16,7 @@ import java.util.List;
 
 public abstract class AbstractDAO<T> {
 
-    public static AbstractDAO dao = null;
+    public static final AbstractDAO dao = null;
 
     protected JDBCConnection connection = JDBCConnection.getInstance();
 
