@@ -40,7 +40,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         ResultSet set = statement.executeQuery();
         List<Rating> ratings = new ArrayList<>();
         while (set.next()) {
-            System.out.println(set.getDate("date"));
+
             Rating rating = new Rating();
             rating.setUserId(set.getInt("userid"));
             rating.setCompanyId(set.getInt("companyid"));
@@ -59,7 +59,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         ResultSet set = statement.executeQuery();
         List<Rating> ratings = new ArrayList<>();
         while (set.next()) {
-            System.out.println(set.getDate("date"));
+
             Rating rating = new Rating();
             rating.setUserId(set.getInt("userid"));
             rating.setCompanyId(set.getInt("companyid"));
@@ -84,7 +84,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
                 "RETURNING *";
 
         Date today = new Date();
-        System.out.println(today);
+
         PreparedStatement statement = getPreparedStatement(insertQuery);
         statement.setInt(1, rating.getUserId());
         statement.setInt(2, rating.getCompanyId());

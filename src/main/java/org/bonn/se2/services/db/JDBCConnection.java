@@ -48,8 +48,8 @@ public class JDBCConnection implements JDBCConnectionInterface {
             probs.setProperty("user", Configuration.DB_Credentials.USERNAME);
             probs.setProperty("password", Configuration.DB_Credentials.USERNAME);
 
-            String URL = Configuration.DB_Credentials.URL;
-            this.conn = DriverManager.getConnection(URL, probs);
+            String url = Configuration.DB_Credentials.URL;
+            this.conn = DriverManager.getConnection(url, probs);
 
         } catch (SQLException ex) {
             Logger.getLogger(JDBCConnection.class.getName()).log(Level.SEVERE, null, ex);

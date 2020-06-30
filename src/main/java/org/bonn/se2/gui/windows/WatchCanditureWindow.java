@@ -54,10 +54,10 @@ public class WatchCanditureWindow extends Window {
         gridBewerbung.setSelectionMode(Grid.SelectionMode.SINGLE);
         gridBewerbung.addColumn(Bewerbung::getBewerbungsID).setCaption("BewerbungsID");
 
-        gridBewerbung.addComponentColumn(Bewerbung -> {
+        gridBewerbung.addComponentColumn(bewerbung -> {
             Label label = null;
             try {
-                label = new Label((new StudentDAO().retrieve(Bewerbung.getStudentID())).getUsername());
+                label = new Label((new StudentDAO().retrieve(bewerbung.getStudentID())).getUsername());
             } catch (DatabaseException e) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                         new Throwable().getStackTrace()[0].getMethodName() + " failed", e);

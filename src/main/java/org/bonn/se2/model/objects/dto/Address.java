@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class Address implements Serializable {
 
-    private Integer ID;
+    private Integer id;
     private String strasse;
     private String hausnummer;
     private String plz;
@@ -30,11 +30,11 @@ public class Address implements Serializable {
     }
 
     public Integer getID() {
-        return ID;
+        return id;
     }
 
-    public void setID(Integer ID) {
-        this.ID = ID;
+    public void setID(Integer id) {
+        this.id = id;
     }
 
     public String getStrasse() {

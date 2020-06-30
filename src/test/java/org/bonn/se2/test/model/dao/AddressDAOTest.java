@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -29,7 +31,8 @@ public class AddressDAOTest {
         try {
             dao = new AddressDAO();
         } catch (DatabaseException e) {
-            e.printStackTrace();
+            Logger.getLogger("AddressDAOTest").log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             fail();
         }
     }
@@ -41,7 +44,8 @@ public class AddressDAOTest {
         try {
             listAddress = dao.retrieveAll();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             fail();
         }
         assertTrue(listAddress.size() > 0);
@@ -54,7 +58,8 @@ public class AddressDAOTest {
         try {
             address = dao.retrieve(7);
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             fail();
         }
         assertEquals(address.getStrasse(), "Waldstr");

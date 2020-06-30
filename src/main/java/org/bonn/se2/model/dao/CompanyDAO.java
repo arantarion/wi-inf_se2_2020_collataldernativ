@@ -222,19 +222,19 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         return result.get(0);
     }
 
-    public Company delete(int ID) throws DatabaseException {
+    public Company delete(int id) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".company\n" +
                         "WHERE \"userID\" = ?\n" +
                         "RETURNING *;";
 
-        List<Company> result = executePrepared(deleteQuery, ID);
+        List<Company> result = executePrepared(deleteQuery, id);
         if (result.size() < 1) {
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "delete(int ID) failed");
             throw new DatabaseException("delete(int ID) failed");
         }
-        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit der userID: " + ID + " wurde erfoglreich gelöscht.");
+        Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit der userID: " + id + " wurde erfoglreich gelöscht.");
         return result.get(0);
     }
 

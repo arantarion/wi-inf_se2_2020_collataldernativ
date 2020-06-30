@@ -14,18 +14,18 @@ public class CollAldernativBewerbung extends Bewerbung {
     }
 
     @Override
-    public void setJobofferID(int JobofferID) {
-        super.setJobofferID(JobofferID);
+    public void setJobofferID(int jobOfferID) {
+        super.setJobofferID(jobOfferID);
     }
 
     @Override
-    public void setCompanyID(int CompanyID) {
-        super.setCompanyID(CompanyID);
+    public void setCompanyID(int companyID) {
+        super.setCompanyID(companyID);
     }
 
     @Override
-    public void setStudentID(int StudentID) {
-        super.setStudentID(StudentID);
+    public void setStudentID(int studentID) {
+        super.setStudentID(studentID);
     }
 
     @Override

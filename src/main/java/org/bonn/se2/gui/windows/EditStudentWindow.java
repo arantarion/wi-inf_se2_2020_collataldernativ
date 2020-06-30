@@ -8,7 +8,6 @@ import com.vaadin.shared.Position;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.views.ProfilView;
 import org.bonn.se2.model.dao.StudentDAO;
-import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
@@ -49,7 +48,6 @@ public class EditStudentWindow extends Window {
 
     private void setUp() {
 
-        Address address = this.student.getAdresse();
         GridLayout grid = new GridLayout(4, 21);
         grid.setWidth("100%");
         grid.setSpacing(true);
@@ -120,11 +118,11 @@ public class EditStudentWindow extends Window {
 
         FileUploader receiver;
         receiver = new FileUploader();
-        Label label_photo = new Label("Profilbild");
-        Upload upload_photo = new Upload("", receiver);
-        upload_photo.setButtonCaption("Hochladen");
-        upload_photo.addSucceededListener(receiver);
-        upload_photo.setAcceptMimeTypes("image/*");
+        Label labelPhoto = new Label("Profilbild");
+        Upload uploadPhoto = new Upload("", receiver);
+        uploadPhoto.setButtonCaption("Hochladen");
+        uploadPhoto.addSucceededListener(receiver);
+        uploadPhoto.setAcceptMimeTypes("image/*");
 
         if (student.getImage() != null && student.getImage().length > 0) {
             refreshProfilePic(Utils.convertToImg(student.getImage()));
@@ -135,12 +133,12 @@ public class EditStudentWindow extends Window {
         GridLayout picLayout = new GridLayout(1, 2);
         picLayout.setSpacing(false);
         picLayout.addComponent(profilBildPanel, 0, 0);
-        picLayout.addComponent(upload_photo, 0, 1);
-        picLayout.setComponentAlignment(upload_photo, Alignment.MIDDLE_RIGHT);
+        picLayout.addComponent(uploadPhoto, 0, 1);
+        picLayout.setComponentAlignment(uploadPhoto, Alignment.MIDDLE_RIGHT);
 
-        grid.addComponent(label_photo, 0, 5);
+        grid.addComponent(labelPhoto, 0, 5);
         grid.addComponent(picLayout, 1, 5);
-        grid.setComponentAlignment(label_photo, Alignment.MIDDLE_CENTER);
+        grid.setComponentAlignment(labelPhoto, Alignment.MIDDLE_CENTER);
         grid.setSpacing(true);
 
         Label lDocument = new Label("Lebenslauf");

@@ -49,7 +49,8 @@ public class ToggleFeatureWindow extends Window {
             } else if (!dao.retrieve()) {
                 toggle.setSelectedItem("Nein");
             } else {
-                System.out.println("Nix geladen");
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        "Nichts geladen");
             }
         } catch (DatabaseException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
@@ -87,9 +88,9 @@ public class ToggleFeatureWindow extends Window {
 
         Button back = new Button("ToggleFeature verlassen.");
 
-        back.addClickListener(event -> {
-            UI.getCurrent().removeWindow(this);
-        });
+        back.addClickListener(event ->
+                UI.getCurrent().removeWindow(this)
+        );
 
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.addComponent(back);

@@ -62,7 +62,6 @@ public class CompanyDAOTest {
         try {
             company = companyDAO.create(newCompany);
             assertEquals(0, company.getcompanyID());
-            System.out.println(company.getcompanyID());
             companyID = company.getcompanyID();
 
             assertEquals("Der GmbH GmbH", company.getName());

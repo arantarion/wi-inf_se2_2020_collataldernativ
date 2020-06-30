@@ -93,8 +93,8 @@ public class KontoverwaltungView extends VerticalLayout implements View {
 
         });
 
-        konto.addClickListener(e -> {
-            UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
-        });
+        konto.addClickListener(e ->
+                UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION)
+        );
     }
 }

@@ -135,11 +135,11 @@ public class MainView extends VerticalLayout implements View {
         grid.setItems(liste);
         grid.setSelectionMode(Grid.SelectionMode.SINGLE);
 
-        grid.addComponentColumn(JobOffer -> {
+        grid.addComponentColumn(jobOffer -> {
             Button button;
-            button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
+            button = new Button(SearchControlProxy.getInstance().getCompanyName(jobOffer.getCompanyID()));
             button.addClickListener(click -> {
-                Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                Window rate = new VisitCompanyWindow(jobOffer.getCompanyID());
                 UI.getCurrent().addWindow(rate);
             });
             return button;
@@ -166,11 +166,11 @@ public class MainView extends VerticalLayout implements View {
 
                 grid.setItems(liste2);
                 MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
-                grid.addComponentColumn(JobOffer -> {
+                grid.addComponentColumn(jobOffer -> {
                     Button button;
-                    button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
+                    button = new Button(SearchControlProxy.getInstance().getCompanyName(jobOffer.getCompanyID()));
                     button.addClickListener(click -> {
-                        Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                        Window rate = new VisitCompanyWindow(jobOffer.getCompanyID());
                         UI.getCurrent().addWindow(rate);
                     });
                     return button;
@@ -184,11 +184,11 @@ public class MainView extends VerticalLayout implements View {
 
                 grid.setItems(liste3);
                 MultiSelectionModel<JobOffer> selectionModel3 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
-                grid.addComponentColumn(JobOffer -> {
+                grid.addComponentColumn(jobOffer -> {
                     Button button;
-                    button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
+                    button = new Button(SearchControlProxy.getInstance().getCompanyName(jobOffer.getCompanyID()));
                     button.addClickListener(click -> {
-                        Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                        Window rate = new VisitCompanyWindow(jobOffer.getCompanyID());
                         UI.getCurrent().addWindow(rate);
                     });
                     return button;

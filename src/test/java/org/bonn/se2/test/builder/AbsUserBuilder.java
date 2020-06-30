@@ -13,7 +13,9 @@ import java.time.LocalDate;
 
 public abstract class AbsUserBuilder {
 
-    protected String username, email, password;
+    protected String username;
+    protected String email;
+    protected String password;
     protected int userid;
     protected byte[] image;
     protected Address address;

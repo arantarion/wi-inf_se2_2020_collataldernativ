@@ -26,12 +26,12 @@ public class User implements Serializable {
     public User() {
     }
 
-    public User(String username, String email, String passwort, Address adresse, Integer ID, LocalDate registrationsDatum, byte[] image) {
+    public User(String username, String email, String passwort, Address adresse, Integer id, LocalDate registrationsDatum, byte[] image) {
         this.username = username;
         this.email = email;
         this.passwort = passwort;
         this.adresse = adresse;
-        this.userID = ID;
+        this.userID = id;
         this.registrationsDatum = registrationsDatum;
         this.image = image.clone();
     }

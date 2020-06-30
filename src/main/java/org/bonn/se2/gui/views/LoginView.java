@@ -43,9 +43,9 @@ public class LoginView extends VerticalLayout implements View {
         Image logo = new Image(null, themeResource);
         logo.setWidth("750px");
         logo.addStyleName("logo");
-        logo.addClickListener((MouseEvents.ClickListener) event -> {
-            UIFunctions.gotoLogin();
-        });
+        logo.addClickListener((MouseEvents.ClickListener) event ->
+                UIFunctions.gotoLogin()
+        );
 
         Label platzhalterLabel = new Label("&nbsp", ContentMode.HTML);
 

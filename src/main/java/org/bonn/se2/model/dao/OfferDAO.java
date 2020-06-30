@@ -196,14 +196,14 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
     }
 
 
-    public void deleteCompanyOffers(int ID) throws DatabaseException {
+    public void deleteCompanyOffers(int id) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".joboffer " +
                         "WHERE \"companyID\" = ? " +
                         "RETURNING *;";
 
-        executePrepared(deleteQuery, ID);
-        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "CompanyOffers mit der companyID: " + ID + "wurden gelöscht.");
+        executePrepared(deleteQuery, id);
+        Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "CompanyOffers mit der companyID: " + id + "wurden gelöscht.");
     }
 }

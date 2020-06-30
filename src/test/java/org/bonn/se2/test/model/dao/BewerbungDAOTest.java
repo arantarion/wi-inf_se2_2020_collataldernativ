@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -165,7 +167,8 @@ class BewerbungDAOTest {
             dao.delete(bewerbung);
             listeBewerbung2 = dao.retrieveAll();
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         assertNotEquals(listeBewerbung.size(), listeBewerbung2.size());
         assertEquals(listeBewerbung.size(), listeBewerbung2.size() + 1);
@@ -176,13 +179,13 @@ class BewerbungDAOTest {
     void testDelete2() {
         try {
             bewerbungID = dao.retrieveAll().get(size - 1).getBewerbungsID();
-            System.out.println(bewerbungID);
             listeBewerbung = dao.retrieveAll();
             dao.delete(bewerbungID);
             listeBewerbung2 = dao.retrieveAll();
         } catch (Exception e) {
             fail();
-            e.printStackTrace();
+            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
         assertNotEquals(listeBewerbung.size(), listeBewerbung2.size());
         assertEquals(listeBewerbung.size(), listeBewerbung2.size() + 1);
