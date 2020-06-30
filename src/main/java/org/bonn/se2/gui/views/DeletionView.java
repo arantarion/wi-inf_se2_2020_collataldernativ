@@ -27,15 +27,10 @@ import static org.bonn.se2.services.util.CryptoFunctions.hash;
 
 public class DeletionView extends VerticalLayout implements View {
 
-    int ID;
+    int id;
 
     public void enter(ViewChangeListener.ViewChangeEvent event) {
-        try {
-            this.setUp();
-        } catch (Exception e) {
-            Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
-                    new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
-        }
+        this.setUp();
     }
 
     public void setUp() {
@@ -114,7 +109,7 @@ public class DeletionView extends VerticalLayout implements View {
                 }
                 if (hash(passwd.getValue()).equals(passwort)) {
                     try {
-                        ID = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getUserID();
+                        id = (new UserDAO().retrieve((SessionFunctions.getCurrentUser()).getUserID())).getUserID();
 
                     } catch (DatabaseException | InvalidCredentialsException ex) {
                         Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
@@ -122,9 +117,9 @@ public class DeletionView extends VerticalLayout implements View {
                     }
                     if (SessionFunctions.getCurrentRole().equals("student")) {
                         try {
-                            new StudentDAO().delete(ID);
-                            new UserDAO().delete(ID);
-                        } catch (Exception exception) {
+                            new StudentDAO().delete(id);
+                            new UserDAO().delete(id);
+                        } catch (DatabaseException exception) {
                             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                                     new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
                         }
@@ -138,7 +133,7 @@ public class DeletionView extends VerticalLayout implements View {
                             new OfferDAO().deleteCompanyOffers(compID);
                             new CompanyDAO().delete(id);
                             new UserDAO().delete(id);
-                        } catch (Exception exception) {
+                        } catch (DatabaseException exception) {
                             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                                     new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
                         }

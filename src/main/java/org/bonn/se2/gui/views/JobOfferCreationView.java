@@ -8,9 +8,11 @@ import org.bonn.se2.model.dao.CompanyDAO;
 import org.bonn.se2.model.dao.OfferDAO;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.JobOffer;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 
+import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,13 +27,13 @@ public class JobOfferCreationView extends VerticalLayout implements View {
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         try {
             this.setUp();
-        } catch (Exception e) {
+        } catch (DatabaseException e) {
             Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                     new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
         }
     }
 
-    public void setUp() throws Exception {
+    public void setUp() throws DatabaseException {
         NavigationBar navigationBar = new NavigationBar();
         this.addComponent(navigationBar);
         this.setComponentAlignment(navigationBar, Alignment.TOP_CENTER);
@@ -82,12 +84,11 @@ public class JobOfferCreationView extends VerticalLayout implements View {
                 } else {
                     addComponent(new Label("Ungültige Eingabe! Bitte überprüfen Sie Ihre Eingabe"));
                 }
-            } catch (Exception exception) {
+            } catch (DatabaseException | SQLException exception) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                         new Throwable().getStackTrace()[0].getMethodName() + " failed", exception);
             }
 
         });
-
     }
 }

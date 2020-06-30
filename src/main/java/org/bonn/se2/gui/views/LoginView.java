@@ -117,9 +117,7 @@ public class LoginView extends VerticalLayout implements View {
 
         });
 
-
         registrierungsButton.addClickListener(e -> UI.getCurrent().getNavigator().navigateTo(Configuration.Views.REGIST));
-
 
     }
 
