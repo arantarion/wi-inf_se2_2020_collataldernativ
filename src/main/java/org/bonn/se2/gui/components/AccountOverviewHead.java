@@ -8,17 +8,13 @@ import com.vaadin.ui.*;
 import org.bonn.se2.gui.views.ProfilView;
 import org.bonn.se2.gui.windows.EditCompanyWindow;
 import org.bonn.se2.gui.windows.EditStudentWindow;
-import org.bonn.se2.gui.windows.RatingWindow;
-import org.bonn.se2.model.dao.RatingDAO;
-import org.bonn.se2.model.objects.dto.*;
-import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.model.objects.dto.Address;
+import org.bonn.se2.model.objects.dto.Company;
+import org.bonn.se2.model.objects.dto.Student;
+import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.Utils;
-
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.List;
 
 /**
  * @author Coll@Aldernativ

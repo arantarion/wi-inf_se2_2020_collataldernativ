@@ -2,7 +2,6 @@ package org.bonn.se2.gui.windows;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.server.ExternalResource;
-import com.vaadin.server.ThemeResource;
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.CompanyDAO;
@@ -11,31 +10,25 @@ import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Rating;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.SessionFunctions;
-import org.bonn.se2.services.util.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class VisitCompanyWindow extends Window {
 
-    private VerticalLayout ratingsly;
-
-    private Button ratingBtn;
-
-    private Company company;
-
-    private RatingDAO dao;
-
     static Image profilbild = new Image("nichts ausgewählt");
+    private VerticalLayout ratingsly;
+    private Button ratingBtn;
+    private Company company;
+    private RatingDAO dao;
 
     public VisitCompanyWindow(int companyID) {
         this.setUp(companyID);
     }
 
     private void setUp(int companyID) {
-         company = null;
+        company = null;
         try {
             company = new CompanyDAO().retrieveCompany(companyID);
         } catch (DatabaseException e) {
@@ -45,7 +38,7 @@ public class VisitCompanyWindow extends Window {
         try {
             dao = new RatingDAO();
             User user = SessionFunctions.getCurrentUser();
-            if(dao.isExist(companyID, user.getUserID())){
+            if (dao.isExist(companyID, user.getUserID())) {
                 ratingBtn.setEnabled(false);
             }
         } catch (DatabaseException e) {
@@ -88,7 +81,7 @@ public class VisitCompanyWindow extends Window {
 
         grid.addComponent(webURL, 1, 3);
         grid.addComponent(ratingBtn, 3, 3);
-        grid.addComponent(beschreibungLabel,1,4);
+        grid.addComponent(beschreibungLabel, 1, 4);
         grid.addComponent(ratingsly, 1, 5);
         setRatings();
     }
@@ -99,7 +92,7 @@ public class VisitCompanyWindow extends Window {
             ratingsly.removeAllComponents();
             Label title = new Label("Bewertungen:");
             List<Rating> ratings = dao.retrieveAllByCompany(company.getcompanyID());
-            if(!ratings.isEmpty()){
+            if (!ratings.isEmpty()) {
                 ratingsly.addComponent(title);
             }
             String pattern = "dd-MM-yyyy";

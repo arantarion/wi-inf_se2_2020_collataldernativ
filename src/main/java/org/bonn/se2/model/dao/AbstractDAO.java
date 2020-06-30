@@ -3,7 +3,6 @@ package org.bonn.se2.model.dao;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.db.JDBCConnection;
 
-
 import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,8 +15,8 @@ import java.util.List;
  */
 
 public abstract class AbstractDAO<T> {
-	
-	public static AbstractDAO dao = null;
+
+    public static AbstractDAO dao = null;
 
     protected JDBCConnection connection = JDBCConnection.getInstance();
 

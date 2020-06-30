@@ -3,7 +3,6 @@ package org.bonn.se2.test.model.dao;
 import org.bonn.se2.model.dao.AddressDAO;
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.test.builder.AddressBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;

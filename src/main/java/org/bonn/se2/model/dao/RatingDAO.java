@@ -12,7 +12,6 @@ import java.util.List;
 public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Rating> {
 
 
-
     public RatingDAO() throws DatabaseException {
         super();
     }
@@ -38,7 +37,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         PreparedStatement statement = getPreparedStatement(sql);
         ResultSet set = statement.executeQuery();
         List<Rating> ratings = new ArrayList<>();
-        while (set.next()){
+        while (set.next()) {
             System.out.println(set.getDate("date"));
             Rating rating = new Rating();
             rating.setUserId(set.getInt("userid"));
@@ -57,7 +56,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         statement.setInt(1, companyId);
         ResultSet set = statement.executeQuery();
         List<Rating> ratings = new ArrayList<>();
-        while (set.next()){
+        while (set.next()) {
             System.out.println(set.getDate("date"));
             Rating rating = new Rating();
             rating.setUserId(set.getInt("userid"));
@@ -73,11 +72,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
     public boolean isExist(int companyId, int userId) throws Exception {
         final String sql = "SELECT * FROM \"collDB\".rating WHERE companyid = ? AND userid = ?";
         List<Rating> ratings = executePrepared(sql, companyId, userId);
-        if(ratings.isEmpty()){
-            return false;
-        }else {
-            return true;
-        }
+        return !ratings.isEmpty();
     }
 
     @Override
@@ -96,7 +91,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         statement.setDate(5, new java.sql.Date(today.getTime()));
         ResultSet set = statement.executeQuery();
         List<Rating> ratings = new ArrayList<>();
-        while (set.next()){
+        while (set.next()) {
             Rating savedRating = new Rating();
             savedRating.setUserId(set.getInt("userid"));
             savedRating.setCompanyId(set.getInt("companyid"));
@@ -105,9 +100,9 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
             savedRating.setDate(new Date(set.getDate("date").getTime()));
             ratings.add(rating);
         }
-        if (ratings.isEmpty()){
+        if (ratings.isEmpty()) {
             throw new DatabaseException("create(User user) did not return a DTO");
-        }else {
+        } else {
             return ratings.get(0);
         }
     }

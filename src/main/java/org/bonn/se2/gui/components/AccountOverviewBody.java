@@ -245,7 +245,7 @@ public class AccountOverviewBody extends VerticalLayout {
         } else {
             panel = new Panel("Dokumente");
 
-            if (Optional.of(filename).isPresent() &&  !filename.isEmpty()) {
+            if (Optional.of(filename).isPresent() && !filename.isEmpty()) {
                 Link link = new Link(filename + ".pdf", file);
                 layout.addComponent(link);
             } else {

@@ -3,7 +3,6 @@ package org.bonn.se2.test.model.dao;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
-import org.bonn.se2.process.control.exceptions.InvalidCredentialsException;
 import org.junit.jupiter.api.*;
 
 import java.time.LocalDate;
@@ -37,7 +36,7 @@ public class StudentDAOTest {
         newStudent.setUsername("hpotter");
         newStudent.setEmail("testDAO@test.de");
         newStudent.setPasswort("123456");
-        newStudent.setUserID((int) (Math.random()*2378));
+        newStudent.setUserID((int) (Math.random() * 2378));
     }
 
     @BeforeEach

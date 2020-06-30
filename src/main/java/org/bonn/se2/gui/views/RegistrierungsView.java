@@ -111,7 +111,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         });
 
         backButton.addClickListener(event ->
-            UIFunctions.gotoLogin()
+                UIFunctions.gotoLogin()
         );
 
     }
@@ -438,7 +438,7 @@ public class RegistrierungsView extends VerticalLayout implements View {
         logo.setWidth("750px");
         logo.addStyleName("logo");
         logo.addClickListener((MouseEvents.ClickListener) event ->
-            UIFunctions.gotoLogin()
+                UIFunctions.gotoLogin()
         );
 
         Label platzhalterLabel = new Label("&nbsp", ContentMode.HTML);

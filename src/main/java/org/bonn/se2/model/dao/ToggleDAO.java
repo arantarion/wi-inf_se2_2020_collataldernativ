@@ -89,11 +89,11 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
     @Override
     protected Boolean create(ResultSet resultSet) throws DatabaseException {
         try {
-			return resultSet.getBoolean("erlaubeBewerbung");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return null;
+            return resultSet.getBoolean("erlaubeBewerbung");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

@@ -16,7 +16,7 @@ public class Rating implements Serializable {
 
     private Date date;
 
-    public Rating(){
+    public Rating() {
 
     }
 

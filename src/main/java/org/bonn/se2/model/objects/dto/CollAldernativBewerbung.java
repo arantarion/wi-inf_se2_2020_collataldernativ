@@ -33,7 +33,9 @@ public class CollAldernativBewerbung extends Bewerbung {
     }
 
     @Override
-    public String toString(){return super.toString();}
+    public String toString() {
+        return super.toString();
+    }
 
     @Override
     public int hashCode() {

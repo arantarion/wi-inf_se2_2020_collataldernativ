@@ -1,7 +1,5 @@
-
 package org.bonn.se2.model.dao;
 
-import org.bonn.se2.model.objects.dto.JobOffer;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
@@ -21,6 +19,13 @@ import java.util.logging.Logger;
 public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Student> {
 
     public StudentDAO() throws DatabaseException {
+    }
+
+    public static StudentDAO getInstance() throws DatabaseException {
+        if (dao == null) {
+            return new StudentDAO();
+        }
+        return null;
     }
 
     @Override
@@ -58,7 +63,7 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         Logger.getLogger(StudentDAO.class.getName()).log(Level.INFO, "Der Student mit dem Attribut: " + attribute + " wurde erfolgreich abgerufen.");
         return result.get(0);
     }
-    
+
     public List<Student> retrieveStudents(String attribute) throws DatabaseException, SQLException {
         Statement statement = this.getStatement();
         ResultSet resultSet = null;
@@ -240,11 +245,4 @@ public class StudentDAO extends AbstractDAO<Student> implements DAOInterface<Stu
         Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "Studen mit der ID: " + ID + " wurde erfolgreich gelöscht.");
         return result.get(0);
     }
-    
-    public static StudentDAO getInstance() throws DatabaseException {
-		if (dao == null) {
-			return new StudentDAO();
-		}
-		return null;
-    }	
 }

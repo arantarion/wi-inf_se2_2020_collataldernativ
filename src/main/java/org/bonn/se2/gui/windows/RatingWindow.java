@@ -2,7 +2,6 @@ package org.bonn.se2.gui.windows;
 
 import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
-import org.bonn.se2.gui.components.AccountOverviewHead;
 import org.bonn.se2.model.dao.RatingDAO;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Rating;
@@ -16,18 +15,18 @@ public class RatingWindow extends Window implements Button.ClickListener {
 
     private final Company company;
 
-    private List<Button> stars;
+    private final List<Button> stars;
 
     private TextArea commentArea;
 
     private int numberOfStars;
 
-    private Button rateBtn;
+    private final Button rateBtn;
 
-    private VisitCompanyWindow head;
+    private final VisitCompanyWindow head;
 
 
-    public RatingWindow(Company company, Button rateBtn, VisitCompanyWindow head){
+    public RatingWindow(Company company, Button rateBtn, VisitCompanyWindow head) {
         this.company = company;
         this.rateBtn = rateBtn;
         this.head = head;
@@ -86,10 +85,10 @@ public class RatingWindow extends Window implements Button.ClickListener {
 
     }
 
-    private void save(){
-        if(numberOfStars == 0){
+    private void save() {
+        if (numberOfStars == 0) {
             Notification.show("Bitte wählen sie mind. 1 Stern.");
-        }else {
+        } else {
             try {
                 RatingDAO dao = new RatingDAO();
                 Rating rating = new Rating();
@@ -113,12 +112,12 @@ public class RatingWindow extends Window implements Button.ClickListener {
 
     }
 
-    private void cancel(){
+    private void cancel() {
         this.close();
     }
 
-    private void initStarElements(Layout layout){
-        for(int i = 1; i <= 5; ++i){
+    private void initStarElements(Layout layout) {
+        for (int i = 1; i <= 5; ++i) {
             Button star = new Button();
             star.setId(Integer.toString(i));
             star.setStyleName("rating-btn-not-fill");
@@ -129,7 +128,7 @@ public class RatingWindow extends Window implements Button.ClickListener {
 
     }
 
-    public void setDisable(){
+    public void setDisable() {
         rateBtn.setEnabled(false);
     }
 
@@ -138,19 +137,19 @@ public class RatingWindow extends Window implements Button.ClickListener {
         Button selectedStar = clickEvent.getButton();
         int id = Integer.parseInt(selectedStar.getId());
         numberOfStars = id;
-        for(int i = 0; i < id; ++i){
+        for (int i = 0; i < id; ++i) {
             Button star = stars.get(i);
             String style = star.getStyleName();
-            if (style.equals("rating-btn-not-fill")){
+            if (style.equals("rating-btn-not-fill")) {
                 star.removeStyleName("rating-btn-not-fill");
                 star.addStyleName("rating-btn-fill");
             }
         }
 
-        for(int i = stars.size() - 1; i >= id; --i){
+        for (int i = stars.size() - 1; i >= id; --i) {
             Button star = stars.get(i);
             String style = star.getStyleName();
-            if (style.equals("rating-btn-fill")){
+            if (style.equals("rating-btn-fill")) {
                 star.removeStyleName("rating-btn-fill");
                 star.addStyleName("rating-btn-not-fill");
             }

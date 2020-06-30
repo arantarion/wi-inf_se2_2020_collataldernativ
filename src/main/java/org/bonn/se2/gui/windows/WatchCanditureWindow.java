@@ -6,7 +6,6 @@ import org.bonn.se2.model.dao.BewerbungsDAO;
 import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Bewerbung;
 import org.bonn.se2.model.objects.dto.JobOffer;
-import org.bonn.se2.process.control.SearchControlProxy;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 
 import java.util.List;

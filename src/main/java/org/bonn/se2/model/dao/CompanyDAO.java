@@ -23,6 +23,13 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     public CompanyDAO() throws DatabaseException {
     }
 
+    public static CompanyDAO getInstance() throws DatabaseException {
+        if (dao == null) {
+            return new CompanyDAO();
+        }
+        return null;
+    }
+
     @Override
     public Company retrieve(int id) throws DatabaseException {
         //language=PostgreSQL
@@ -238,13 +245,6 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
         }
         Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company mit der userID: " + ID + " wurde erfoglreich gelöscht.");
         return result.get(0);
-    }
-
-    public static CompanyDAO getInstance() throws DatabaseException {
-		if (dao == null) {
-			return new CompanyDAO();
-		}
-		return null;
     }
 
 }
