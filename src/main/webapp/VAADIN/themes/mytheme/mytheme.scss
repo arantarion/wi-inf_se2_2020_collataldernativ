@@ -108,4 +108,27 @@ $mat-custom-color: #fff;
       color: black;
   }
 
+  .rating-ly {
+    padding-left: 0;
+    width: 100%;
+  }
+
+  .rating-container {
+    border-top: solid 1px;
+    width: 100%;
+  }
+
+  .v-button-rating-btn-not-fill {
+    border: none;
+    background-color: #1e6b15;
+    background: url("https://maps.gstatic.com/places-api/reviews-widget/images/ic_star_outlined_1x_2.png");
+    background-repeat: no-repeat;
+  }
+
+  .v-button-rating-btn-fill {
+    border: none;
+    background: url("https://maps.gstatic.com/places-api/reviews-widget/images/ic_star_orange_1x_2.png");
+    background-repeat: no-repeat;
+  }
+
 }
