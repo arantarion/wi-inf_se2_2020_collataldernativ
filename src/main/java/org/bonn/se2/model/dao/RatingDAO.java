@@ -2,9 +2,11 @@ package org.bonn.se2.model.dao;
 
 import org.bonn.se2.model.objects.dto.Rating;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.DontUseException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,22 +19,22 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
     }
 
     @Override
-    protected Rating create(ResultSet resultSet) throws DatabaseException {
+    protected Rating create(ResultSet resultSet) {
         return null;
     }
 
     @Override
-    public Rating retrieve(int id) throws Exception {
-        return null;
+    public Rating retrieve(int id) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public Rating retrieve(String attribute) throws Exception {
-        return null;
+    public Rating retrieve(String attribute) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public List<Rating> retrieveAll() throws Exception {
+    public List<Rating> retrieveAll() throws DatabaseException, SQLException {
         final String sql = "SELECT * FROM \"collDB\".rating";
         PreparedStatement statement = getPreparedStatement(sql);
         ResultSet set = statement.executeQuery();
@@ -50,7 +52,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         return ratings;
     }
 
-    public List<Rating> retrieveAllByCompany(Integer companyId) throws Exception {
+    public List<Rating> retrieveAllByCompany(Integer companyId) throws DatabaseException, SQLException {
         final String sql = "SELECT * FROM \"collDB\".rating WHERE companyid = ?";
         PreparedStatement statement = getPreparedStatement(sql);
         statement.setInt(1, companyId);
@@ -69,18 +71,18 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         return ratings;
     }
 
-    public boolean isExist(int companyId, int userId) throws Exception {
+    public boolean isExist(int companyId, int userId) throws DatabaseException {
         final String sql = "SELECT * FROM \"collDB\".rating WHERE companyid = ? AND userid = ?";
         List<Rating> ratings = executePrepared(sql, companyId, userId);
         return !ratings.isEmpty();
     }
 
     @Override
-    public Rating create(Rating rating) throws Exception {
+    public Rating create(Rating rating) throws DatabaseException, SQLException {
         final String insertQuery = "INSERT INTO \"collDB\".rating (userid, companyid, rating, comment, date) " +
                 "VALUES (?, ?, ?, ?, ?) " +
                 "RETURNING *";
-        // UweSteinbach2020
+
         Date today = new Date();
         System.out.println(today);
         PreparedStatement statement = getPreparedStatement(insertQuery);
@@ -91,6 +93,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         statement.setDate(5, new java.sql.Date(today.getTime()));
         ResultSet set = statement.executeQuery();
         List<Rating> ratings = new ArrayList<>();
+
         while (set.next()) {
             Rating savedRating = new Rating();
             savedRating.setUserId(set.getInt("userid"));
@@ -100,6 +103,7 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
             savedRating.setDate(new Date(set.getDate("date").getTime()));
             ratings.add(rating);
         }
+
         if (ratings.isEmpty()) {
             throw new DatabaseException("create(User user) did not return a DTO");
         } else {
@@ -108,12 +112,12 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
     }
 
     @Override
-    public Rating update(Rating item) throws Exception {
-        return null;
+    public Rating update(Rating item) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public Rating delete(Rating item) throws Exception {
-        return null;
+    public Rating delete(Rating item) throws DontUseException {
+        throw new DontUseException();
     }
 }

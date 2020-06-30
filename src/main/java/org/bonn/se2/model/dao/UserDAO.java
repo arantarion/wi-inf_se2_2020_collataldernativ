@@ -44,7 +44,6 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
                 "SELECT * FROM \"collDB\".user " +
                         "WHERE \"collDB\".user.username = '" + attribute + "' " +
                         "OR \"collDB\".user.email = '" + attribute + "'";
-        //"FULL OUTER JOIN \"collDB\".address ON \"user\".userID = address.userID\n" +
 
         List<User> result = execute(sql);
         if (result.size() < 1) {
@@ -57,7 +56,6 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     public List<User> retrieveAll() throws DatabaseException {
         //language=PostgreSQL
         final String sql = "SELECT * FROM \"collDB\".user";
-        // "JOIN \"collDB\".address ON \"user\".\"userID\" = address.\"userID\";";
         return execute(sql);
     }
 
@@ -84,17 +82,15 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
                     resultSet.getString("passwort"));
             dto.setUserID(resultSet.getInt("userID"));
             dto.setRegistrationsDatum(resultSet.getDate("registrationsDatum").toLocalDate());
-            //dto.setImage(resultSet.getBytes("bild"));
-            //Address address = new AddressDAO().getOne(dto.getAddressid());
-            //dto.setAddress(address);
+
             return dto;
         } catch (SQLException e) {
-            throw new DatabaseException("couldn't create UserDTO from resultset: " + e.getMessage());
+            throw new DatabaseException("couldn't create UserDTO from resultSet: " + e.getMessage());
         }
     }
 
     @Override
-    public User update(User user) throws Exception {
+    public User update(User user) throws DatabaseException {
         //language=PostgreSQL
         final String updateQuery = "UPDATE \"collDB\".user " +
                 "SET (username, email, passwort, bild) = " +
@@ -102,8 +98,6 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
                 "WHERE \"userID\" = " + user.getUserID() + " " +
                 "RETURNING *;";
 
-
-        //List<User> result = executePrepared(updateQuery, user.getUsername(), user.getEmail(), user.getPasswort(), user.getImage(), user.getUserID());
         List<User> result = execute(updateQuery);
         if (result.size() < 1) {
             throw new DatabaseException("[" + UserDAO.class.toString() + "] updateOne() did not return a DTO");
@@ -112,7 +106,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
     }
 
     @Override
-    public User delete(User user) throws Exception {
+    public User delete(User user) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".user " +
@@ -126,7 +120,7 @@ public class UserDAO extends AbstractDAO<User> implements DAOInterface<User> {
         return result.get(0);
     }
 
-    public User delete(int ID) throws Exception {
+    public User delete(int ID) throws DatabaseException {
         //language=PostgreSQL
         final String deleteQuery =
                 "DELETE FROM \"collDB\".user\n" +

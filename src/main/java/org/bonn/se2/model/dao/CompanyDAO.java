@@ -92,7 +92,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public Company create(Company company) throws Exception {
+    public Company create(Company company) throws DatabaseException, SQLException {
 
         User user = new UserDAO().create(company);
 
@@ -110,23 +110,13 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             company2.setUserID(set.getInt("userID"));
             company2.setcompanyID(set.getInt("companyID"));
             company2.setWebURL(set.getString("webURL"));
-            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company + " konnte erfoglreich gespeichert werden.");
+            Logger.getLogger(CompanyDAO.class.getName()).log(Level.INFO, "Die Company : " + company2 + " konnte erfoglreich gespeichert werden.");
             return company;
+
         } else {
             Logger.getLogger(CompanyDAO.class.getName()).log(Level.SEVERE, "Company-Objekt " + company + " konnte nicht richtig gespeichert werden!");
             return null;
         }
-
-
-//        final String insertQuery2 = "INSERT INTO \"collDB\".company (name, \"webURL\", beschreibung, branche, ansprechpartner, \"userID\", bewertung) " +
-//                "VALUES (?,?,?,?,?,?,?) " +
-//                "RETURNING \"companyID\"";
-//
-//        List<Company> result = executePrepared(insertQuery2, company.getName(),company.getWebURL(),company.getBeschreibung(),company.getBranche(),company.getAnsprechpartner(),company.getcompanyID(),company.getBewertung());
-//        if (result.size() < 1) {
-//            throw new DatabaseException("create(Company company) did not return a DTO");
-//        }
-//        return result.get(0);
     }
 
     @Override
@@ -152,7 +142,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
     }
 
     @Override
-    public Company update(Company updatedItem) throws Exception {
+    public Company update(Company updatedItem) throws DatabaseException {
         Company companyNewDto = new Company();
         Address address = updatedItem.getAdresse();
         companyNewDto.setAdresse(address);
@@ -174,6 +164,7 @@ public class CompanyDAO extends AbstractDAO<Company> implements DAOInterface<Com
             } catch (SQLException e) {
                 throw new DatabaseException();
             }
+
         } else {
             //language=PostgreSQL
             query = "UPDATE \"collDB\".\"user\" " +

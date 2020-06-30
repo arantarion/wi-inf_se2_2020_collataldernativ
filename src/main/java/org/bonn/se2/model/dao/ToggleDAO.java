@@ -1,6 +1,7 @@
 package org.bonn.se2.model.dao;
 
 import org.bonn.se2.process.control.exceptions.DatabaseException;
+import org.bonn.se2.process.control.exceptions.DontUseException;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,14 +29,13 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
         return result.get(0);
     }
 
-    public void updateToggle(Boolean updatedItem) throws Exception {
+    public void updateToggle(Boolean updatedItem) throws DatabaseException {
 
         //language=PostgreSQL
         String queryToggle = "UPDATE \"collDB\".Toggle " +
                 "SET \"erlaubeBewerbung\" = " + updatedItem + ";";
         try {
             PreparedStatement pst = this.getPreparedStatement(queryToggle);
-            //pst.setBoolean(0, updatedItem); geht nicht, da keine spalten vorhanden!
             pst.executeUpdate();
         } catch (SQLException e) {
             Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "failed to update Toggledata", e);
@@ -46,52 +46,41 @@ public class ToggleDAO extends AbstractDAO<Boolean> implements DAOInterface<Bool
     }
 
     @Override
-    public Boolean retrieve(int id) throws Exception {
-        System.out.println("retrieve int");
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean retrieve(int id) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public Boolean retrieve(String attribute) throws Exception {
-        System.out.println("retrieve string");
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean retrieve(String attribute) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public Boolean create(Boolean dto) throws Exception {
-        System.out.println("create boo");
-        return null;
+    public Boolean create(Boolean dto) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public Boolean update(Boolean item) throws Exception {
-        System.out.println("update boo");
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean update(Boolean item) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public Boolean delete(Boolean item) throws Exception {
-        System.out.println("delte");
-        // TODO Auto-generated method stub
-        return null;
+    public Boolean delete(Boolean item) throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    public List<Boolean> retrieveAll() throws Exception {
-        System.out.println("retrieve all");
-        // TODO Auto-generated method stub
-        return null;
+    public List<Boolean> retrieveAll() throws DontUseException {
+        throw new DontUseException();
     }
 
     @Override
-    protected Boolean create(ResultSet resultSet) throws DatabaseException {
+    protected Boolean create(ResultSet resultSet) {
         try {
             return resultSet.getBoolean("erlaubeBewerbung");
         } catch (SQLException e) {
-            e.printStackTrace();
+            Logger.getLogger(StudentDAO.class.getName()).log(Level.SEVERE, "create(ResultSet) failed!", e);
         }
         return null;
     }
