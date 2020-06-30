@@ -184,6 +184,15 @@ public class MainView extends VerticalLayout implements View {
                 }
                 grid.setItems(liste2);
                 MultiSelectionModel<JobOffer> selectionModel2 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
+                grid.addComponentColumn(JobOffer -> {
+                    Button button = null;
+                    button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
+                    button.addClickListener(click -> {
+                        Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                        UI.getCurrent().addWindow(rate);
+                    });
+                    return button;
+                }).setCaption("Unternehmen");
                 grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
                 grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
                 grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");
@@ -203,6 +212,15 @@ public class MainView extends VerticalLayout implements View {
                 }
                 grid.setItems(liste3);
                 MultiSelectionModel<JobOffer> selectionModel3 = (MultiSelectionModel<JobOffer>) grid.setSelectionMode(Grid.SelectionMode.MULTI);
+                grid.addComponentColumn(JobOffer -> {
+                    Button button = null;
+                    button = new Button(SearchControlProxy.getInstance().getCompanyName(JobOffer.getCompanyID()));
+                    button.addClickListener(click -> {
+                        Window rate = new VisitCompanyWindow(JobOffer.getCompanyID());
+                        UI.getCurrent().addWindow(rate);
+                    });
+                    return button;
+                }).setCaption("Unternehmen");
                 grid.addColumn(JobOffer::getBereich).setCaption("Bereich");
                 grid.addColumn(JobOffer::getKontakt).setCaption("Kontakt");
                 grid.addColumn(JobOffer::getBeschreibung).setCaption("Beschreibung");

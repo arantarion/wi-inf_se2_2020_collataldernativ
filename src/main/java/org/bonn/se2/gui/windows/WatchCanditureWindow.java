@@ -3,8 +3,11 @@ package org.bonn.se2.gui.windows;
 import com.vaadin.shared.ui.grid.HeightMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.model.dao.BewerbungsDAO;
+import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Bewerbung;
 import org.bonn.se2.model.objects.dto.JobOffer;
+import org.bonn.se2.process.control.SearchControlProxy;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 
 import java.util.List;
 import java.util.logging.Level;
@@ -50,7 +53,16 @@ public class WatchCanditureWindow extends Window {
         gridBewerbung.setItems(liste);
         gridBewerbung.setSelectionMode(Grid.SelectionMode.SINGLE);
         gridBewerbung.addColumn(Bewerbung::getBewerbungsID).setCaption("BewerbungsID");
-        gridBewerbung.addColumn(Bewerbung::getStudentID).setCaption("StudentID");
+        ///gridBewerbung.addColumn(Bewerbung::getStudentID).setCaption("StudentID");
+        gridBewerbung.addComponentColumn(Bewerbung -> {
+            Label label = null;
+            try {
+                label = new Label((new StudentDAO().retrieve(Bewerbung.getStudentID())).getUsername());
+            } catch (DatabaseException e) {
+                e.printStackTrace();
+            }
+            return label;
+        }).setCaption("Student");
         gridBewerbung.addColumn(Bewerbung::getNotes).setCaption("Motivationsschreiben");
         gridBewerbung.addColumn(Bewerbung::getBewerbungsdatum).setCaption("Bewerbungsdatum");
         gridBewerbung.setSizeFull();
