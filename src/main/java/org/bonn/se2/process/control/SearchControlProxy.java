@@ -5,43 +5,43 @@ import org.bonn.se2.model.objects.dto.Student;
 
 import java.util.List;
 
-public class SearchControlProxy implements SearchControl {
+public class SearchControlProxy implements SearchControlInterface {
 
-    private static SearchControl search;
+    private static SearchControlInterface search;
 
     private SearchControlProxy() {
     }
 
 
-    public static SearchControlReal getInstance() {
+    public static SearchControl getInstance() {
         if (search == null) {
-            search = new SearchControlReal();
+            search = new SearchControl();
         }
-        return (SearchControlReal) search;
+        return (SearchControl) search;
     }
 
     public List<Student> getAllStudents() {
-        return SearchControlReal.getInstance().getAllStudents();
+        return SearchControl.getInstance().getAllStudents();
     }
 
     public List<Student> getStudentsInput(String attribute) {
-        return SearchControlReal.getInstance().getStudentsInput(attribute);
+        return SearchControl.getInstance().getStudentsInput(attribute);
     }
 
     public List<JobOffer> getAllOffers() {
-        return SearchControlReal.getInstance().getAllOffers();
+        return SearchControl.getInstance().getAllOffers();
 
     }
 
     public List<JobOffer> getOffersInput(String attribute) {
-        return SearchControlReal.getInstance().getOffersInput(attribute);
+        return SearchControl.getInstance().getOffersInput(attribute);
     }
 
     public int getCompanyID() {
-        return SearchControlReal.getInstance().getCompanyID();
+        return SearchControl.getInstance().getCompanyID();
     }
 
     public String getCompanyName(int id) {
-        return SearchControlReal.getInstance().getCompanyName(id);
+        return SearchControl.getInstance().getCompanyName(id);
     }
 }
