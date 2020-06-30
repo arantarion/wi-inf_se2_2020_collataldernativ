@@ -8,23 +8,20 @@ import org.bonn.se2.model.objects.dto.Rating;
 import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.SessionFunctions;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class RatingWindow extends Window implements Button.ClickListener {
 
     private final Company company;
-
     private final List<Button> stars;
-
-    private TextArea commentArea;
-
-    private int numberOfStars;
-
     private final Button rateBtn;
-
     private final VisitCompanyWindow head;
-
+    private TextArea commentArea;
+    private int numberOfStars;
 
     public RatingWindow(Company company, Button rateBtn, VisitCompanyWindow head) {
         this.company = company;
@@ -46,20 +43,10 @@ public class RatingWindow extends Window implements Button.ClickListener {
         commentArea = new TextArea();
 
         Button cancel = new Button("Cancel");
-        cancel.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                RatingWindow.this.cancel();
-            }
-        });
+        cancel.addClickListener((Button.ClickListener) clickEvent -> RatingWindow.this.cancel());
 
         Button save = new Button("Save");
-        save.addClickListener(new Button.ClickListener() {
-            @Override
-            public void buttonClick(Button.ClickEvent clickEvent) {
-                RatingWindow.this.save();
-            }
-        });
+        save.addClickListener((Button.ClickListener) clickEvent -> RatingWindow.this.save());
 
         HorizontalLayout btnLayout = new HorizontalLayout();
 
@@ -101,15 +88,12 @@ public class RatingWindow extends Window implements Button.ClickListener {
                 this.cancel();
                 this.setDisable();
                 head.refreshRating();
-            } catch (DatabaseException e) {
-                e.printStackTrace();
-                Notification.show("ERROR", "Datenbank fehler!", Notification.Type.ERROR_MESSAGE);
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (SQLException | DatabaseException e) {
+                Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
+                        new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
                 Notification.show("ERROR", "Datenbank fehler!", Notification.Type.ERROR_MESSAGE);
             }
         }
-
     }
 
     private void cancel() {
@@ -121,7 +105,7 @@ public class RatingWindow extends Window implements Button.ClickListener {
             Button star = new Button();
             star.setId(Integer.toString(i));
             star.setStyleName("rating-btn-not-fill");
-            star.addClickListener(this::buttonClick);
+            star.addClickListener(this);
             layout.addComponent(star);
             stars.add(star);
         }
@@ -154,7 +138,5 @@ public class RatingWindow extends Window implements Button.ClickListener {
                 star.addStyleName("rating-btn-not-fill");
             }
         }
-
-
     }
 }

@@ -1,7 +1,6 @@
 package org.bonn.se2.gui.windows;
 
 import com.vaadin.data.Binder;
-import com.vaadin.data.ValidationException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.server.Page;
 import com.vaadin.server.ThemeResource;
@@ -12,6 +11,7 @@ import org.bonn.se2.model.dao.StudentDAO;
 import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.*;
 
 import java.util.logging.Level;
@@ -29,7 +29,6 @@ public class EditStudentWindow extends Window {
     private static final Panel profilBildPanel = new Panel();
     private static Image profilbild = new Image("Kein Bild ausgewählt", resource);
     private final Binder<User> binder = new Binder<>();
-    private final Binder<Address> addressBinder = new Binder<>();
     private final Student student;
 
     public EditStudentWindow(Student dto) {
@@ -144,70 +143,6 @@ public class EditStudentWindow extends Window {
         grid.setComponentAlignment(label_photo, Alignment.MIDDLE_CENTER);
         grid.setSpacing(true);
 
-//TODO
-//        Label laddress = new Label("Adresse");
-//        grid.addComponent(laddress, 0, 6);
-//        Label lstreet = new Label("Straße");
-//        TextField tfstreet = new TextField();
-//        addressBinder.forField(tfstreet)
-//                .asRequired("Bitte geben Sie Ihre Straße an.")
-//                .bind(Address::getStrasse, Address::setStrasse);
-//        tfstreet.setRequiredIndicatorVisible(false);
-//        tfstreet.setWidth("100%");
-//        tfstreet.setValue(address.getStrasse());
-//        grid.addComponent(lstreet, 0, 7);
-//        grid.addComponent(tfstreet, 1, 7, 1, 7);
-//        grid.setComponentAlignment(lstreet, Alignment.MIDDLE_CENTER);
-//
-//TODO
-//        Label lhousenumber = new Label("Hausnummer");
-//        TextField tfhousenumber = new TextField();
-//        addressBinder.forField(tfhousenumber)
-//                .asRequired("Bitte geben Sie Ihre Hausnummer an.")
-//                .bind(Address::getHausnummer, Address::setHausnummer);
-//        tfhousenumber.setRequiredIndicatorVisible(false);
-//        tfhousenumber.setValue(address.getHausnummer());
-//        grid.addComponent(lhousenumber, 2, 7);
-//        grid.addComponent(tfhousenumber, 3, 7);
-//        grid.setComponentAlignment(lhousenumber, Alignment.MIDDLE_CENTER);
-//
-//TODO
-//        Label lpostalcode = new Label("Postleitzahl");
-//        TextField tfpostalcode = new TextField();
-//        addressBinder.forField(tfpostalcode)
-//                .asRequired("Bitte geben Sie Ihre Straße an.")
-//                .bind(Address::getPlz, Address::setPlz);
-//        tfpostalcode.setRequiredIndicatorVisible(false);
-//        tfpostalcode.setValue(address.getPlz());
-//        grid.addComponent(lpostalcode, 0, 8);
-//        grid.addComponent(tfpostalcode, 1, 8);
-//        grid.setComponentAlignment(lpostalcode, Alignment.MIDDLE_CENTER);
-//
-//TODO
-//        Label lcity = new Label("Stadt");
-//        TextField tfcity = new TextField();
-//        addressBinder.forField(tfcity)
-//                .asRequired("Bitte geben Sie Ihre Stadt ein.")
-//                .bind(Address::getStadt, Address::setStadt);
-//        tfcity.setRequiredIndicatorVisible(false);
-//        tfcity.setValue(address.getStadt());
-//        grid.addComponent(lcity, 2, 8);
-//        grid.addComponent(tfcity, 3, 8);
-//        grid.setComponentAlignment(lcity, Alignment.MIDDLE_CENTER);
-//
-//TODO
-//        Label lcountry = new Label("Land");
-//        TextField tfcountry = new TextField();
-//        addressBinder.forField(tfcountry)
-//                .asRequired("Bitte geben Sie Ihr Land ein.")
-//                .bind(Address::getLand, Address::setLand);
-//        tfcountry.setRequiredIndicatorVisible(false);
-//        tfcountry.setValue(address.getLand());
-//        grid.addComponent(lcountry, 0, 9);
-//        grid.addComponent(tfcountry, 1, 9);
-//        grid.setComponentAlignment(lcountry, Alignment.MIDDLE_CENTER);
-
-
         Label lDocument = new Label("Lebenslauf");
         grid.addComponent(lDocument, 0, 10);
 
@@ -229,7 +164,7 @@ public class EditStudentWindow extends Window {
             UI.getCurrent().removeWindow(this);
             UI.getCurrent().getNavigator().navigateTo(Configuration.Views.DELETION);
         });
-        //submit.addClickListener((Button.ClickListener) event -> this.setVisible(false));
+
 
         submit.addClickListener(clickEvent -> {
             boolean isValid = true;
@@ -250,42 +185,10 @@ public class EditStudentWindow extends Window {
                 isValid = false;
             }
 
-
             studentDTO.setStudienfach(fachTf.getValue());
             studentDTO.setFachsemester(Integer.parseInt(fachsemesterTF.getValue()));
 
-
-//            Address a = new Address();
-//            if (!tfcity.getValue().equals("")) {
-//                a.setStadt(tfcity.getValue());
-//
-//            } else {
-//                isValid = false;
-//            }
-//            if (!tfcountry.getValue().equals("")) {
-//                a.setLand(tfcountry.getValue());
-//            } else {
-//                isValid = false;
-//            }
-//            if (!tfhousenumber.getValue().equals("")) {
-//                a.setHausnummer(tfhousenumber.getValue());
-//            } else {
-//                isValid = false;
-//            }
-//            if (!tfpostalcode.getValue().equals("")) {
-//                a.setPlz(tfpostalcode.getValue());
-//            } else {
-//                isValid = false;
-//            }
-//            if (!tfstreet.getValue().equals("")) {
-//                a.setStrasse(tfstreet.getValue());
-//            } else {
-//                isValid = false;
-//            }
-
-//            a.setAddressid(Session.getCurrentUser().getAddressid());
             studentDTO.setImage(SessionFunctions.getCurrentUser().getImage());
-//    studentDTO.setAddress(a);
 
             try {
                 if (isValid) {
@@ -294,7 +197,6 @@ public class EditStudentWindow extends Window {
                     SessionFunctions.setCurrentUser(dto);
                     ProfilView.setStudent(dto);
 
-                    //Page.getCurrent().reload();
                     this.close();
                     Notification notification = new Notification("Erfolgreich gespeichert");
                     notification.setPosition(Position.MIDDLE_CENTER);
@@ -303,9 +205,8 @@ public class EditStudentWindow extends Window {
                 }
 
 
-            } catch (ValidationException e) {
+            } catch (DatabaseException e) {
                 isValid = false;
-            } catch (Exception e) {
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                         new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
             }

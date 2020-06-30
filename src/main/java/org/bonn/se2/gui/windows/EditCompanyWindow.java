@@ -1,6 +1,7 @@
 package org.bonn.se2.gui.windows;
 
 import com.vaadin.data.Binder;
+import com.vaadin.data.ValidationException;
 import com.vaadin.data.validator.EmailValidator;
 import com.vaadin.data.validator.StringLengthValidator;
 import com.vaadin.icons.VaadinIcons;
@@ -11,9 +12,9 @@ import com.vaadin.shared.ui.ContentMode;
 import com.vaadin.ui.*;
 import org.bonn.se2.gui.views.ProfilView;
 import org.bonn.se2.model.dao.CompanyDAO;
-import org.bonn.se2.model.objects.dto.Address;
 import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.User;
+import org.bonn.se2.process.control.exceptions.DatabaseException;
 import org.bonn.se2.services.util.Configuration;
 import org.bonn.se2.services.util.FileUploader;
 import org.bonn.se2.services.util.SessionFunctions;
@@ -32,8 +33,6 @@ public class EditCompanyWindow extends Window {
 
     static Image profilbild = new Image("nichts ausgewählt");
     private final Company company;
-    private final Binder<User> userBinder = new Binder<>();
-    private final Binder<Address> addressBinder = new Binder<>();
     private final Binder<Company> companyBinder = new Binder<>();
 
     public EditCompanyWindow(Company company) {
@@ -46,7 +45,6 @@ public class EditCompanyWindow extends Window {
     }
 
     private void setUp() {
-        Address address = this.company.getAdresse();
 
         VerticalLayout verticalLayout = new VerticalLayout();
         this.setContent(verticalLayout);
@@ -134,9 +132,6 @@ public class EditCompanyWindow extends Window {
         grid.addComponent(addressLabel, 0, 14, 3, 14);
 
         grid.addComponent(new Label("&nbsp;", ContentMode.HTML), 0, 15);
-
-        //TODO
-
         grid.addComponent(new Label("&nbsp;", ContentMode.HTML), 0, 21);
 
         FileUploader receiver = new FileUploader();
@@ -186,14 +181,6 @@ public class EditCompanyWindow extends Window {
 
             tmp.setImage(SessionFunctions.getCurrentUser().getImage());
 
-            //TODO
-//            Address a = new Address();
-//            a.setStrasse(.getValue());
-//            a.setHausnummer(.getValue());
-//            a.setPlz(.getValue());
-//            a.setStadt(.getValue());
-//            a.setLand(.getValue());
-
             tmp.setName(nameField.getValue());
             tmp.setBeschreibung(compDesc.getValue());
             tmp.setWebURL(websiteField.getValue());
@@ -202,7 +189,7 @@ public class EditCompanyWindow extends Window {
                 companyBinder.writeBean(tmp);
                 CompanyDAO companyDAO = new CompanyDAO();
                 Company returnValue = companyDAO.update(tmp);
-            } catch (Exception e) {
+            } catch (ValidationException | DatabaseException e) {
                 correct = false;
                 Logger.getLogger(this.getClass().getSimpleName()).log(Level.SEVERE,
                         new Throwable().getStackTrace()[0].getMethodName() + " failed", e);
