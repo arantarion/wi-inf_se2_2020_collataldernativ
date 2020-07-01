@@ -65,7 +65,7 @@ Also wirklich etwas für Jedermann. Registrieren Sie sich noch heute und finden 
 <p><span style="font-weight: 400;">kevin.kazemali@smail.inf.h-brs.de</span></p>
 </td>
 <td>&nbsp;
-<p><span style="font-weight: 400;">Senior Programmer</span></p>
+<p><span style="font-weight: 400;">Senior Programmer / SW-Architekt</span></p>
 </td>
 </tr>
 <tr>
