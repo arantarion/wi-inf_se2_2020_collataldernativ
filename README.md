@@ -130,8 +130,8 @@ Also wirklich etwas für Jedermann. Registrieren Sie sich noch heute und finden 
 TODO - hier sollten Links zu allen Dokumenten / Artefakten im Git hin
 
 <h2>Nutzung</h2>
-1.    Einleitung - Was ist Coll@Aldernativ?
 
+1.    Einleitung - Was ist Coll@Aldernativ?
 Coll@Aldernativ bietet Studenten und Unternehmen eine zentrale Schnittstelle zur Jobvermittlung bzw. Mitarbeitersuche.
 Nach unserem Motto "Hier findet jeder seinen Traumjob" haben wir als Projektteam uns stehts bemüht mit unseren Werten und
 Vorstellungen jedem die Möglichkeit zu bieten mehr aus seinem Arbeitgeber bzw. Arbeitnehmer rauszuholen und diese perfekt 
@@ -143,7 +143,7 @@ Sollten Sie uns besuchen finden Sie auf unsere Homepage direkt zentral gelegen e
 Daten. Zur Erstellung eines neuen Accounts auf unsere Website benutzen Sie bitte den Button "Registrieren" und fahren Sie
 mit Schritt [2] fort. Sollten sie bereits einen Account haben so führen sie mit Punkt [3] fort.
 
-2.    Registrierung
+2.   Registrierung
 
 Nachdem Sie auf der Homapage den Button 'Registrieren' angeklickt haben, befinden Sie sich nun in einer Auswahl.
 Hier entscheiden Sie, ob sie als 'Student' später nach Jobangeboten suchen möchten, oder als 'Unternehmer' selbst Jobs 
