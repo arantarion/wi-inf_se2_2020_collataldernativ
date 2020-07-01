@@ -132,6 +132,7 @@ TODO - hier sollten Links zu allen Dokumenten / Artefakten im Git hin
 <h2>Nutzung</h2>
 
 1.    Einleitung - Was ist Coll@Aldernativ?
+
 Coll@Aldernativ bietet Studenten und Unternehmen eine zentrale Schnittstelle zur Jobvermittlung bzw. Mitarbeitersuche.
 Nach unserem Motto "Hier findet jeder seinen Traumjob" haben wir als Projektteam uns stehts bemüht mit unseren Werten und
 Vorstellungen jedem die Möglichkeit zu bieten mehr aus seinem Arbeitgeber bzw. Arbeitnehmer rauszuholen und diese perfekt 
