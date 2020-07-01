@@ -41,13 +41,13 @@ public class RatingDAO extends AbstractDAO<Rating> implements DAOInterface<Ratin
         List<Rating> ratings = new ArrayList<>();
         while (set.next()) {
 
-            Rating rating = new Rating();
-            rating.setUserId(set.getInt("userid"));
-            rating.setCompanyId(set.getInt("companyid"));
-            rating.setRating(set.getInt("rating"));
-            rating.setComment(set.getString("comment"));
-            rating.setDate(new Date(set.getDate("date").getTime()));
-            ratings.add(rating);
+            Rating bewertung = new Rating();
+            bewertung.setUserId(set.getInt("userid"));
+            bewertung.setCompanyId(set.getInt("companyid"));
+            bewertung.setRating(set.getInt("rating"));
+            bewertung.setComment(set.getString("comment"));
+            bewertung.setDate(new Date(set.getDate("date").getTime()));
+            ratings.add(bewertung);
         }
         return ratings;
     }

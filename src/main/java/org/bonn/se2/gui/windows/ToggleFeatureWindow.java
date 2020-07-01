@@ -20,17 +20,17 @@ public class ToggleFeatureWindow extends Window {
     }
 
     private void setUp() {
-        GridLayout grid = new GridLayout(4, 21);
-        grid.setWidth("100%");
-        grid.setSpacing(true);
-        grid.addStyleName("scrollable");
-        grid.addStyleName("gridPadding");
-        this.setContent(grid);
+        GridLayout grid1 = new GridLayout(4, 21);
+        grid1.setWidth("100%");
+        grid1.setSpacing(true);
+        grid1.addStyleName("scrollable");
+        grid1.addStyleName("gridPadding");
+        this.setContent(grid1);
         this.setWidth("75%");
         this.center();
 
         Label allgemein = new Label("Toggle Feature");
-        grid.addComponent(allgemein, 1, 0);
+        grid1.addComponent(allgemein, 1, 0);
 
         RadioButtonGroup<String> toggle = new RadioButtonGroup<>("Bewerbungen zulassen");
         toggle.setItems("Ja", "Nein");
@@ -84,7 +84,7 @@ public class ToggleFeatureWindow extends Window {
             }
         });
 
-        grid.addComponent(toggle, 1, 2);
+        grid1.addComponent(toggle, 1, 2);
 
         Button back = new Button("ToggleFeature verlassen.");
 
@@ -94,7 +94,7 @@ public class ToggleFeatureWindow extends Window {
 
         HorizontalLayout buttons = new HorizontalLayout();
         buttons.addComponent(back);
-        grid.addComponent(buttons, 3, 10);
+        grid1.addComponent(buttons, 3, 10);
         buttons.setComponentAlignment(back, Alignment.MIDDLE_RIGHT);
 
     }

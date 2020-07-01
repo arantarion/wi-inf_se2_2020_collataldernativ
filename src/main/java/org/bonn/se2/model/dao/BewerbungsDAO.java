@@ -50,18 +50,18 @@ public class BewerbungsDAO extends AbstractDAO<Bewerbung> implements DAOInterfac
 
         resultSet = statement.executeQuery(insert);
         List<Bewerbung> liste = new ArrayList<>();
-        Bewerbung offer;
+        Bewerbung bewerbung;
 
         try {
             while (resultSet.next()) {
-                offer = new Bewerbung();
-                offer.setBewerbungsID(resultSet.getInt("bewerbungsID"));
-                offer.setJobofferID(resultSet.getInt("jobofferID"));
-                offer.setCompanyID(resultSet.getInt("companyID"));
-                offer.setStudentID(resultSet.getInt("studentID"));
-                offer.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
-                offer.setNotes(resultSet.getString("notes"));
-                liste.add(offer);
+                bewerbung = new Bewerbung();
+                bewerbung.setBewerbungsID(resultSet.getInt("bewerbungsID"));
+                bewerbung.setJobofferID(resultSet.getInt("jobofferID"));
+                bewerbung.setCompanyID(resultSet.getInt("companyID"));
+                bewerbung.setStudentID(resultSet.getInt("studentID"));
+                bewerbung.setBewerbungsdatum(new java.sql.Date(resultSet.getDate("bewerbungsdatum").getTime()).toLocalDate());
+                bewerbung.setNotes(resultSet.getString("notes"));
+                liste.add(bewerbung);
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + companyid + " und der jobofferid: " + jobofferid + "wurden abgerufen");
         } catch (SQLException e) {
