@@ -115,9 +115,6 @@ public class AccountOverviewHead extends VerticalLayout {
                 buildEditButton(company);
             }
 
-            buildRateButton(company);
-
-
         }
 
         accountOverviewHeadLayout.addComponent(profilbild, 0, 0, 0, 4);
@@ -156,20 +153,4 @@ public class AccountOverviewHead extends VerticalLayout {
             }
         });
     }
-
-    private void buildRateButton(Company company) {
-        Button rateButton = new Button("Geben Sie eine Bewertung ab");
-        accountOverviewHeadLayout.addComponent(rateButton, 3, 1);
-        accountOverviewHeadLayout.setComponentAlignment(rateButton, Alignment.MIDDLE_CENTER);
-
-        if (SessionFunctions.getCurrentRole().equals(Configuration.Roles.COMPANY)) {
-            rateButton.setEnabled(false);
-        }
-
-        rateButton.addClickListener(clickEvent -> {
-            //rating window pops up etc.
-        });
-
-    }
-
 }
