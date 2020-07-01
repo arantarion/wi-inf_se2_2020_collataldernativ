@@ -17,7 +17,6 @@ import org.bonn.se2.services.util.SessionFunctions;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -240,7 +239,7 @@ public class AccountOverviewBody extends VerticalLayout {
         } else {
             panel = new Panel("Dokumente");
 
-            if (Optional.of(filename).isPresent() && !filename.isEmpty()) {
+            if (filename != null && !filename.isEmpty()) {
                 Link link = new Link(filename + ".pdf", file);
                 layout.addComponent(link);
             } else {

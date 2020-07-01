@@ -108,6 +108,6 @@ public abstract class AbstractDAO<T> {
         return results;
     }
 
-    abstract protected T create(ResultSet resultSet) throws DatabaseException;
+    protected abstract T create(ResultSet resultSet) throws DatabaseException;
 
 }

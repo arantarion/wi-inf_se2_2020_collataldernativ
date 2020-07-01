@@ -45,10 +45,10 @@ public class JDBCConnection implements JDBCConnectionInterface {
     public void openConnection() throws DatabaseException {
         try {
             Properties probs = new Properties();
-            probs.setProperty("user", Configuration.DB_Credentials.USERNAME);
-            probs.setProperty("password", Configuration.DB_Credentials.USERNAME);
+            probs.setProperty("user", Configuration.DBCredentials.USERNAME);
+            probs.setProperty("password", Configuration.DBCredentials.USERNAME);
 
-            String url = Configuration.DB_Credentials.URL;
+            String url = Configuration.DBCredentials.URL;
             this.conn = DriverManager.getConnection(url, probs);
 
         } catch (SQLException ex) {

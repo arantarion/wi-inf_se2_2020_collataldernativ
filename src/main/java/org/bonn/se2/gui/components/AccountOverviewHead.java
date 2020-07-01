@@ -13,7 +13,6 @@ import org.bonn.se2.model.objects.dto.Company;
 import org.bonn.se2.model.objects.dto.Student;
 import org.bonn.se2.model.objects.dto.User;
 import org.bonn.se2.services.util.Configuration;
-import org.bonn.se2.services.util.SessionFunctions;
 import org.bonn.se2.services.util.Utils;
 
 /**

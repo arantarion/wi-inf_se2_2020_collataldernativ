@@ -8,7 +8,7 @@ package org.bonn.se2.services.util;
 
 public class Configuration {
 
-    public static class DB_Credentials {
+    public static class DBCredentials {
         public static final String USERNAME = "jvetmi2s";
         public static final String URL = "jdbc:postgresql://dumbo.inf.h-brs.de/jvetmi2s";
     }

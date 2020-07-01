@@ -38,7 +38,7 @@ public class UserDAOTest {
         newUser = new UserBuilder().createDefaultUser().done();
     }
 
-    void test_a_User(User user) {
+    void testAUser(User user) {
         assertNotEquals(0, user.getUserID());
         assertEquals("SuperMuster", user.getUsername());
         assertEquals("test@test.de", user.getEmail());
@@ -73,7 +73,7 @@ public class UserDAOTest {
             testUser = userDAO.create(newUser);
             assertNotEquals(0, testUser.getUserID());
             testUserID = testUser.getUserID();
-            test_a_User(testUser);
+            testAUser(testUser);
         } catch (Exception e) {
             fail();
         }
@@ -84,7 +84,7 @@ public class UserDAOTest {
     public void retrieve() {
         try {
             testUser = userDAO.retrieve(testUserID);
-            test_a_User(testUser);
+            testAUser(testUser);
         } catch (Exception e) {
             fail();
         }
