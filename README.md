@@ -127,7 +127,7 @@ Also wirklich etwas für Jedermann. Registrieren Sie sich noch heute und finden 
 
 
 <h2>Dokumente</h2>
-TODO - hier sollten Links zu allen Dokumenten / Artefakten im Git hin
+Alle Dokumente befinden sich im Ordner "Documents".
 
 <h2>Nutzung</h2>
 
