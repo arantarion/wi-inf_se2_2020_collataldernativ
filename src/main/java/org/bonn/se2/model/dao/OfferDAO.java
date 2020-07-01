@@ -50,21 +50,21 @@ public class OfferDAO extends AbstractDAO<JobOffer> implements DAOInterface<JobO
                 "WHERE \"companyID\" = '" + id + "' ";
         resultSet = statement.executeQuery(insert);
         List<JobOffer> liste = new ArrayList<>();
-        JobOffer dto = null;
+        JobOffer offer = null;
 
         try {
             while (resultSet.next()) {
-                dto = new JobOffer();
-                dto.setBereich(resultSet.getString("bereich"));
-                dto.setKontakt(resultSet.getString("kontakt"));
-                dto.setBeschreibung(resultSet.getString("beschreibung"));
-                dto.setJobofferID(resultSet.getInt("jobofferID"));
-                dto.setName(resultSet.getString("name"));
-                dto.setCompanyID(resultSet.getInt("companyID"));
-                dto.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate()); //creationDate
-                dto.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
-                dto.setGehalt(resultSet.getString("gehalt"));
-                liste.add(dto);
+                offer = new JobOffer();
+                offer.setBereich(resultSet.getString("bereich"));
+                offer.setKontakt(resultSet.getString("kontakt"));
+                offer.setBeschreibung(resultSet.getString("beschreibung"));
+                offer.setJobofferID(resultSet.getInt("jobofferID"));
+                offer.setName(resultSet.getString("name"));
+                offer.setCompanyID(resultSet.getInt("companyID"));
+                offer.setCreationDate(new java.sql.Date(resultSet.getDate("creationDate").getTime()).toLocalDate()); //creationDate
+                offer.setBeginDate(new java.sql.Date(resultSet.getDate("beginDate").getTime()).toLocalDate());
+                offer.setGehalt(resultSet.getString("gehalt"));
+                liste.add(offer);
             }
             Logger.getLogger(OfferDAO.class.getName()).log(Level.INFO, "Alle offer mit der companyID: " + id + " wurden abgerufen");
         } catch (SQLException e) {
